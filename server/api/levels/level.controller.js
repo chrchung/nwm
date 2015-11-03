@@ -12,98 +12,60 @@ exports.index = function(req, res) {
 
 console.log("server initialized");
 
-
-/**
- * returns the models of this level
- * @param levelname the level to search
- * @param res
- */
-function findLevels(req)
+exports.getLevelInfo = function(req, res)
 {
   var Level = Parse.Object.extend("Levels");
   var query = new Parse.Query(Level);
 
-  query.equalTo("name", req.body.name);
+  query.equalTo("name", 1);
 
   query.find({
     success: function(level)
     {
-      console.log(level[0].get("model"));
+
       var models =  level[0].get("model");
-      return getmodels(models);
+      var listOfAliens = [];
+      models.query().find(
+        {
+          success: function (model) {
+            for (var i = 0; i < model.length; i++) {
+              var req =  {body :{
+                __type: "Pointer",
+                className: "Models",
+                objectId: model[i].id,
+                modelName: model[i].get("name")
+              }};
+
+              var Model = Parse.Object.extend("Model");
+              var query = new Parse.Query(Model);
+              query.equalTo("model", req.body);
+
+              query.find({
+                success: function(models) {
+                  var attributes = [];
+                  attributes.length = models.length- 1;
+
+                    for (var i = 0; i < models.length; ++i) {
+                    attributes[i] = {"Alien" : models[i].id,"attributes" :(models[i].get("attributes"))};
+                  }
+
+                  listOfAliens.push(attributes);
+                  console.log(listOfAliens);
+                  //res.json(listOfAliens);
+                },
+                error: function (object, error) {
+                  // The object was not retrieved successfully.
+                  // error is a Parse.Error with an error code and message.
+                }
+              });
+            }
+            //console.log(modelList);
+          }
+        })
     }
     }
   );
 }
 
-/**
- * returns an array of models.
- * @param models ParseRelation containing the models.
- */
-function getmodels(models)
-{
-  var modelList = [];
-  models.query().find(
-    {
-      success: function (model) {
-        for (var i = 0; i < model.length; i++) {
 
-          modelList.push(model[i].id);
-          var req =  {body :{
-            __type: "Pointer",
-            className: "Models",
-            objectId: model[i].id,
-            modelName: model[i].get("name")
-          }};
-
-          getModelsAttribute(req);
-
-        }
-        //console.log(modelList);
-        return {"model": modelList};
-      }
-    })
-}
-var req = {body: {"name": 1}};
-var p = findLevels(req);
-
-/**
- * returns the attributes of the given model.
- * @param modelname the model that requires to retivie its attribute
- * @param res
- */
-function getModelsAttribute(req, res)
-{
-  var Model = Parse.Object.extend("Model");
-  var query = new Parse.Query(Model);
-  query.equalTo("model", req.body);
-  var attributes = [];
-  query.find({
-    success: function(models) {
-      for (var i = 0; i < models.length; ++i) {
-        attributes.push(models[i].get("attributes"));
-
-       }
-      console.log(attributes);
-
-    },
-    error: function (object, error) {
-      // The object was not retrieved successfully.
-      // error is a Parse.Error with an error code and message.
-
-    }
-  });
-}
-
-var req =  {body :{
-            __type: "Pointer",
-            className: "Models",
-            objectId: "AbveglA6l9"
-          }};
-//var m = getModelsAttribute(req);
-
-
-exports.getLevelInfo = function(req, res) {
-  var level = Parse.Object.extend("Levels");
-  var query = Parse.Query(level);
-}
+var p = exports.getLevelInfo();

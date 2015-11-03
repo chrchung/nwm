@@ -18,5 +18,7 @@ module.exports = {
     }
   },
 
-  seedDB: true
+  seedDB: true,
+  PARSE_APPID: "WEe1kGJydUpoiLzaWE0MAx4q2DAUXqDSZDOFqgHm",
+  PARSE_JSKEY: "CkEhBsgLQdlWHMQBijVUcSYKqsNABCMuygTqP8vt"
 };
