@@ -17,7 +17,7 @@ exports.getLevelInfo = function(req, res) {
   query.find({
       success: function(level)
       {//returns the models associated to this level
-        res.toJSON(level[0].get("model"));
+        res.json(level[0].get("model"));
       }
     }
   );
