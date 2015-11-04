@@ -14,33 +14,53 @@ console.log("server initialized");
 
 exports.getLevelInfo = function(req, res)
 {
-// suppose we have a book object
-  var book = ...
+  var levelInfo = [];
+  var levelQuery = Parse.Query("Levels");
+  levelQuery.equalTo(name, 1);
 
-// create a relation based on the authors key
-  var relation = book.relation("authors");
+  levelQuery.find({
+    success: function(results) {
+      var level = results;
+      var modelRelation = level.relation("model");
+      var modelQuery = modelRelation.query();
 
-// generate a query based on that relation
-  var query = relation.query();
+      modelQuery.find({
+        success: function(results) {
+          var models = results;
 
-// now execute the query
+          var i;
+          for (i = 0; i < results.length; i++) {
+            var alienQuery = Parse.Query("Model");
+            alienQuery.equalTo(model, models[i]);
+            alienQuery.find({
+              success: function(results) {
+                levelInfo.push(results)
+
+                if (i == results.length - 1) {
+                  res.json(levelInfo);s
+                };
+
+              },
+              error: function(error) {
+                alert("Error: " + error.code + " " + error.message);
+              }
+            });
+          };
+        },
+        error: function(error) {
+          alert("Error: " + error.code + " " + error.message);
+        }
+      });
 
 
-  var Level = Parse.Object.extend("Levels");
-  var levelPointer = new Level();
 
 
 
-
-
-
-  var relation = Level.relation("model");
-
-  var query = relation.query();
-
-  query.equalTo("name", 1);
-
-
+    },
+    error: function(error) {
+      alert("Error: " + error.code + " " + error.message);
+    }
+  });
 
   //var Level = Parse.Object.extend("Levels");
   //var query = new Parse.Query(Level);
