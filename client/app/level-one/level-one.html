@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LEVEL 1</title>
+</head>
+<body>
+<div class="container" ng-app="myApp" ng-controller="LevelOneController">
+  <div ng-repeat="n in [] | range:15" ng-switch="$index%6">
+      <div class="col-sm-2"><a class="thumbnail"><img title={{$scope.models}} src="/backup_aliens/model1_1.png"  width="5%" height="5%"></a></div>
+      <div class="col-sm-2"><a class="thumbnail"><img title={{$scope.models}} src="/backup_aliens/model1_2.png"  width="5%" height="5%"></a></div>
+      <div class="col-sm-2"><a class="thumbnail"><img title={{$scope.models}} src="/backup_aliens/model1_3.png"  width="5%" height="5%"></a></div>
+      <div class="col-sm-2"><a class="thumbnail"><img title={{$scope.models}} src="/backup_aliens/model1_4.png"  width="5%" height="5%"></a></div>
+      <div class="col-sm-2"><a class="thumbnail"><img title={{$scope.models}} src="/backup_aliens/model1_5.png"  width="5%" height="5%"></a></div>
+      </div>
+    </div>
+</body>
+</html>

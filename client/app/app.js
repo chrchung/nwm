@@ -7,6 +7,7 @@ angular.module('nwmApp', [
   'ui.router',
   'ui.bootstrap'
 ])
+
   .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider
       .otherwise('/');

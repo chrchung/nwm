@@ -15,13 +15,37 @@
 
 .hero-unit {
   position: relative;
-  padding: 30px 15px;
-  color: #F5F5F5;
+  padding: 150px 45px 200px 55px;
+  color: #4F4D3F;
   text-align: center;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-  background: #4393B9;
+  background: #ffffff;
 }
 
 .navbar-text {
   margin-left: 15px;
 }
+
+.enter {
+  background-color: #CCFE96;
+  margin:40px auto;
+  overflow: hidden;
+  color: #4F4D40;
+  padding: 5px;
+  font-family: "Futura", sans-serif, serif, times;
+  list-style: none;
+  border: 30px;
+  border-radius: 5px;
+  font-size: 20px;
+  width: 140px;
+}
+
+.enter:hover{
+  color: white;
+}
+
+.enter:active {
+  color: white;
+  background-color: gray;
+}
+
