@@ -1,0 +1,34 @@
+.alien {
+  display: inline;
+}
+
+.container {
+  margin-top: 50px;
+}
+
+.model {
+  margin-bottom: 20px;
+}
+
+#img-container {
+  position: fixed;
+  top: 100px;
+  right: 100px;
+}
+
+#buckets {
+  position: fixed;
+  bottom: 0px;
+  background-color: #CCFE96;
+  width: 100%;
+  height: 170px;
+}
+
+.bucket {
+  position: fixed;
+  bottom: 0px;
+  background-color: #ffffff;
+  margin: 10px 10px 10px 10px;
+  width: 150px;
+  height: 150px;
+}

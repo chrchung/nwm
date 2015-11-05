@@ -6,7 +6,7 @@
 describe('Controller: LevelOneController', function() {
 
   // load the controller's module
-  beforeEach(module('nwmApp'));
+  beforeEach(module('levelOne'));
   beforeEach(module('stateMock'));
 
   var scope;
