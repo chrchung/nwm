@@ -8,9 +8,6 @@
     //$http.get('/api/levels').then(function(response) {
     //  self.awesomeThings = response.data;
     //});
-    $scope.redirect = function(){
-      $window.location.href = 'app/level-one/level-one.html';
-    }
 
   }
 

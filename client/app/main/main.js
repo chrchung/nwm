@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('nwmApp')
+var module = angular.module('nwmApp')
   .config(function($stateProvider) {
     $stateProvider
       .state('main', {
@@ -10,3 +10,6 @@ angular.module('nwmApp')
         controllerAs: 'main'
       });
   });
+
+
+
