@@ -1,72 +1,42 @@
 <html>
 <head>
-  <!--[if lt IE 9]>
-  <script src="/bower_components/es5-shim/es5-shim.js"></script>
-  <script src="/bower_components/json3/lib/json3.min.js"></script>
-  <![endif]-->
-  <!-- build:js({client,node_modules}) app/vendor.js -->
-  <!-- bower:js -->
-  <script src="/bower_components/jquery/dist/jquery.js"></script>
-  <script src="/bower_components/angular/angular.js"></script>
-  <script src="/bower_components/angular-resource/angular-resource.js"></script>
-  <script src="/bower_components/angular-cookies/angular-cookies.js"></script>
-  <script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
-  <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-  <script src="/bower_components/lodash/dist/lodash.compat.js"></script>
-  <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 
-  <script src="/app/app.js"></script>
-  <!-- injector:js -->
-  <script src="/app/level-one/level-one.controller.js"></script>
-  <script src="/app/level-one/level-one.js"></script>
-  <script src="/app/main/main.controller.js"></script>
-  <script src="/app/main/main.js"></script>
-  <script src="/components/footer/footer.directive.js"></script>
-  <script src="/components/modal/modal.service.js"></script>
-  <script src="/components/navbar/navbar.controller.js"></script>
-  <script src="/components/navbar/navbar.directive.js"></script>
-  <link rel="stylesheet" href="/app/app.css">
 
-  <script src="/app/app.js"></script>
-  <!-- injector:js -->
-  <script src="/components/footer/footer.directive.js"></script>
-  <script src="/components/modal/modal.service.js"></script>
-  <script src="/components/navbar/navbar.controller.js"></script>
-  <script src="/components/navbar/navbar.directive.js"></script>
 
-  <script src="level-one.js"></script>
-  <script src="level-one.controller.js"></script>
-  <script src="level-one.scss"></script>
 
-  <script>
-    $(document).ready(function() {
-      $(".alien img").mouseover(function () {
-        var alien_id = $(this).attr('id');
-        $("#img-container").html("<img width='200px' src='backup_aliens/" + alien_id + ".png' />");
-      })
-    });
-  </script>
+
+
 </head>
 
-<body ng-app="levelOne">
+<body>
 <div class="container">
   <div id="img-container"></div>
     <!--display aliens in grid-->
     <div class="main" ng-controller="LevelOneController">
-      <div class="model" ng-repeat="model_num in models">
-        <div class="alien" ng-repeat="alien_num in aliens">
-          <img id="model{{model_num}}_{{alien_num}}" src="backup_aliens/model{{model_num}}_{{alien_num}}.png" width="10%">
+
+        <div class="model" ng-repeat="model_num in models">
+          <div class="box" data-drop="true" data-jqyoui-options jqyoui-droppable>
+          <div class="alien" ng-repeat="alien_num in aliens" ng-model="alien" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{animate:true}">
+            <img ng-mouseover=selectedAlien(model_num,alien_num) id="model{{model_num}}_{{alien_num}}" ng-src="app/level-one/backup_aliens/model{{model_num}}_{{alien_num}}.png" width="15%">
+          </div>
         </div>
       </div>
+
+
       <br/>
+
 
       <!--buckets-->
     </div>
 </div>
+
 <div id="buckets">
   <div class="bucket">
 
+  <div class="actual-bucket" data-drop="true" data-jqyoui-options jqyoui-droppable>
+
   </div>
+</div>
 </div>
 </body>
 
