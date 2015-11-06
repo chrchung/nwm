@@ -3,6 +3,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   $scope.aliens = [];      // array of alien numbers in a model
   $scope.num_buckets = 0;  // number of added buckets
   $scope.alienData = {};   // mapping from an alien id to an array of (model#, alien#, bucket#)
+  $scope.buckets = [];
   var maxModels = 3;       // number of models
   var maxAliens = 5;       // number of aliens in a model
 
@@ -24,11 +25,22 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
 
   $scope.addBucket = function() {
     var newBucket = $("#bucket" + $scope.num_buckets).clone();
+    //var oldBucket = document.getElementById('appBusyIndicator');
+    //angular.copy()
     $scope.num_buckets++;
     newBucket.attr('id', 'bucket' + $scope.num_buckets);
     newBucket.droppable($('.actual-bucket').droppable());
+
     //newBucket.droppable($("#bucket" + $scope.num_buckets + " .actual-bucket").droppable('option'));
     $(newBucket).insertBefore("#add-bucket");
+  };
+
+  // Add the droppable bucket id to the alianData of the alien
+  $scope.onDrop = function(event, ui) {
+    var alienId = ui.draggable.attr('id');
+    var bucketId = $(event.target).parent().attr('id');
+    $scope.alienData[alienId][2] = bucketId;
+    alert($scope.alienData[alienId]);
   };
 }]);
 //
