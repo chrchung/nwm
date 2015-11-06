@@ -38,7 +38,52 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     var alienId = ui.draggable.attr('id');
     var bucketId = $(event.target).parent().attr('id');
     $scope.alienData[alienId][2] = bucketId;
-    alert($scope.alienData[alienId]);
+    //alert($scope.alienData[alienId]);
+  };
+
+  $scope.putBackAlien = function(model_num, alien_num) {
+    for (var k = 0; k <  Object.keys($scope.alienData).length; k++){
+      //alert(model_num);
+      var alien_id = Object.keys($scope.alienData)[k];
+      var bucket_id = $scope.alienData[alien_id][2];
+    }
+    if (!bucket_id) {
+      //alert(bucket_id);
+      // remove the alien
+      var deletedId = model_num + "_" + alien_num;
+      $('.model #' + deletedId).remove();
+      // add the alien back
+      $('.model #' + model_num).append("<img width='15%' src='app/level-one/backup_aliens/model" + deletedId + ".png'/>");
+    }
+  };
+
+  $scope.deleteBucket = function($event) {
+    //if($scope.num_buckets >= 1){
+      var id = $($event.target).parent().attr('id');
+      //alert(id);
+      var da_modelId, da_alienId;
+
+      $scope.num_buckets--;
+      for (var m = 0; m <  Object.keys($scope.alienData).length; m++){
+        var alien_id2 = Object.keys($scope.alienData)[m];
+        if ($scope.alienData[alien_id2][2] == id){
+          da_modelId = alien_id2.split('_')[0];
+          da_alienId = alien_id2.split('_')[1];
+          delete $scope.alienData[alien_id2][2];
+          // remove the alien
+          var deletedId2 = da_modelId + "_" + da_alienId;
+          $('.model #' + deletedId2).remove();
+          // add the alien back
+          $('.model #' + da_modelId).append("<img width='15%' src='app/level-one/backup_aliens/model" + deletedId2 + ".png'/>");
+        }
+
+      }
+      // Remove the bucket
+      $('#' + id).remove();
+    //} else{
+    //  alert("Can't delete bucket!");
+    //}
+
   };
 }]);
 //
