@@ -25,8 +25,6 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
 
   $scope.addBucket = function() {
     var newBucket = $("#bucket" + $scope.num_buckets).clone();
-    //var oldBucket = document.getElementById('appBusyIndicator');
-    //angular.copy()
     $scope.num_buckets++;
     newBucket.attr('id', 'bucket' + $scope.num_buckets);
     newBucket.droppable($('.actual-bucket').droppable());
