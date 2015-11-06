@@ -10,14 +10,16 @@
 
         <div class="model" ng-repeat="model_num in models">
           <div class="box"
+               id="{{model_num}}"
                data-drop="true"
                data-jqyoui-options
                jqyoui-droppable>
-              <img ng-mouseover=selectedAlien(model_num,alien_num)
+              <img ng-repeat="alien_num in aliens"
+                   ng-mouseover=selectedAlien(model_num,alien_num)
+                   ng-dblclick=putBackAlien(model_num,alien_num)
                    class="alien"
-                   ng-repeat="alien_num in aliens"
                    data-drag="true"
-                   data-jqyoui-options="{revert: 'invalid'}"
+                   data-jqyoui-options="{'revert': 'invalid'}"
                    jqyoui-draggable="{'animate': 'true'}"
                    id="{{model_num}}_{{alien_num}}"
                    ng-src="app/level-one/backup_aliens/model{{model_num}}_{{alien_num}}.png" width="15%"/>
@@ -38,7 +40,7 @@
          jqyoui-droppable="{onDrop: 'onDrop(event, ui)'}">
     </div>
 
-    <div class="remove_bucket">
+    <div class="remove_bucket"  ng-click=deleteBucket($event)>
       ×
     </div>
   </div>
