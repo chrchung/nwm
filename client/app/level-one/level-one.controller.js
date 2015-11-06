@@ -1,14 +1,20 @@
 angular.module('nwmApp').controller('LevelOneController', ['$scope', function($scope) {
-  $scope.models = [];
-  $scope.aliens = [];
-  $scope.num_buckets = 0;
-  var maxModels = 3;
-  var maxAliens = 5;
-  for (var i = 0; i < maxModels; i++) {
-    $scope.models.push(i + 1);
+  $scope.models = [];      // array of model numbers
+  $scope.aliens = [];      // array of alien numbers in a model
+  $scope.num_buckets = 0;  // number of added buckets
+  $scope.alienData = {};   // mapping from an alien id to an array of (model#, alien#, bucket#)
+  var maxModels = 3;       // number of models
+  var maxAliens = 5;       // number of aliens in a model
+
+  for (var i = 1; i <= maxModels; i++) {
+    $scope.models.push(i);
+    for (var j = 1; j <= maxAliens; j++) {
+      $scope.alienData[i + "_" + j] = [i, j, null];
+    };
   };
-  for (var j = 0; j < maxAliens; j++) {
-    $scope.aliens.push(j + 1);
+
+  for (var j = 1; j <= maxAliens; j++) {
+    $scope.aliens.push(j);
   };
 
   $scope.selectedAlien = function (model_num, alien_num) {
