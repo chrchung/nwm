@@ -1,8 +1,7 @@
 angular.module('nwmApp').controller('LevelOneController', ['$scope', function($scope) {
-  $scope.modelnum = 1;
-  $scope.aliennum = 1;
   $scope.models = [];
   $scope.aliens = [];
+  $scope.num_buckets = 0;
   var maxModels = 3;
   var maxAliens = 5;
   for (var i = 0; i < maxModels; i++) {
@@ -14,11 +13,18 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
 
   $scope.selectedAlien = function (model_num, alien_num) {
     var alien_id = 'model' + model_num + '_' + alien_num;
-    $("#img-container").html("<img width='200px' src='app/level-one/backup_aliens/" + alien_id + ".png' />");
+    $("#img-container").html("<img width='300px' src='app/level-one/backup_aliens/" + alien_id + ".png' />");
   };
-}])
-$scope.bucket = {};
-$scope.alien = {alien_id: 'model' + $scope.modelnum + '_' + $scope.aliennum };
+
+  $scope.addBucket = function() {
+    var newBucket = $("#bucket" + $scope.num_buckets).clone();
+    $scope.num_buckets++;
+    newBucket.attr('id', 'bucket' + $scope.num_buckets);
+    newBucket.droppable($('.actual-bucket').droppable());
+    //newBucket.droppable($("#bucket" + $scope.num_buckets + " .actual-bucket").droppable('option'));
+    $(newBucket).insertBefore("#add-bucket");
+  };
+}]);
 //
 ///**
 // * Created by elsieyang on 2015-11-04.
