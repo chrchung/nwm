@@ -1,11 +1,5 @@
 <html>
 <head>
-
-
-
-
-
-
 </head>
 
 <body>
@@ -15,29 +9,47 @@
     <div class="main" ng-controller="LevelOneController">
 
         <div class="model" ng-repeat="model_num in models">
-          <div class="box" data-drop="true" data-jqyoui-options jqyoui-droppable>
-          <div class="alien" ng-repeat="alien_num in aliens" ng-model="alien" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{animate:true}">
-            <img ng-mouseover=selectedAlien(model_num,alien_num) id="model{{model_num}}_{{alien_num}}" ng-src="app/level-one/backup_aliens/model{{model_num}}_{{alien_num}}.png" width="15%">
-          </div>
+          <div class="box"
+               data-drop="true"
+               data-jqyoui-options
+               jqyoui-droppable>
+            <div class="alien"
+                 ng-repeat="alien_num in aliens"
+                 data-drag="true"
+                 data-jqyoui-options="{revert: 'invalid'}"
+                 jqyoui-draggable="{'animate': 'true'}">
+              <img ng-mouseover=selectedAlien(model_num,alien_num)
+                   id="model{{model_num}}_{{alien_num}}"
+                   ng-src="app/level-one/backup_aliens/model{{model_num}}_{{alien_num}}.png" width="15%"/>
+            </div>
         </div>
       </div>
 
-
       <br/>
 
-
-      <!--buckets-->
     </div>
 </div>
 
+<!--buckets-->
 <div id="buckets">
-  <div class="bucket">
+  <div class="bucket" id="bucket0">
+    <div class="actual-bucket"
+         data-drop="true"
+         data-jqyoui-options
+         jqyoui-droppable>
+    </div>
 
-  <div class="actual-bucket" data-drop="true" data-jqyoui-options jqyoui-droppable>
+    <div class="remove_bucket">
+      ×
+    </div>
+  </div>
 
+  <div id="add-bucket" ng-click=addBucket()>
+    <p>+</p>
   </div>
 </div>
-</div>
+
+
 </body>
 
 </html>
