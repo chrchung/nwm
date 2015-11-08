@@ -1,29 +1,5 @@
-# nwm
+# nwm game
 
-This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 3.0.0-rc8.
+This is a project run by the Software Engineering Lab at University of Toronto, and is being developed by undergraduates. 
 
-## Getting Started
-
-### Prerequisites
-
-- [Git](https://git-scm.com/)
-- [Node.js and NPM](nodejs.org) >= v0.12.0
-- [Bower](bower.io) (`npm install --global bower`)
-- [Ruby](https://www.ruby-lang.org) and then `gem install sass`
-- [Grunt](http://gruntjs.com/) (`npm install --global grunt-cli`)
-
-### Developing
-
-1. Run `npm install` to install server dependencies.
-
-2. Run `bower install` to install front-end dependencies.
-
-3. Run `grunt serve` to start the development server. It should automatically open the client in your browser when ready.
-
-## Build & development
-
-Run `grunt build` for building and `grunt serve` for preview.
-
-## Testing
-
-Running `npm test` will run the unit tests with karma.
+N-way model merging (nwm) is the problem of merging sets of software models in one. The problem is NP hard, making it impossible to automate. Currently, the only algorithms available to solve nwm are heuristic, which don't always guarantee an optimal solution. We are creating a serious game to gauge how well humans can perform nwm--to possibly use human beings to merge software models in the future.
