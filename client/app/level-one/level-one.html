@@ -5,40 +5,37 @@
 <body>
 <div class="container">
   <div id="img-container"></div>
-    <!--display aliens in grid-->
-    <div class="main" ng-controller="LevelOneController">
-
-        <div class="model" ng-repeat="model_num in models">
-          <div class="box"
-               id="{{model_num}}"
-               data-drop="true"
-               data-jqyoui-options
-               jqyoui-droppable>
-              <img ng-repeat="alien_num in aliens"
-                   ng-mouseover=selectedAlien(model_num,alien_num)
-                   ng-dblclick=putBackAlien(model_num,alien_num)
-                   class="alien"
-                   data-drag="true"
-                   data-jqyoui-options="{'revert': 'invalid'}"
-                   jqyoui-draggable="{'animate': 'true'}"
-                   id="{{model_num}}_{{alien_num}}"
-                   ng-src="app/level-one/backup_aliens/model{{model_num}}_{{alien_num}}.png" width="15%"/>
-        </div>
+  <!--display aliens in grid-->
+  <div class="main">
+    <div class="model" ng-repeat="m in alienData">
+      <div ng-repeat="a in m.alien"
+           ng-mouseover=selectedAlien(m.model,a.alien)
+           ng-dblclick=putBackAlien(m.model,a.alien)
+           class="alien"
+           id="{{m.model}}_{{a.alien}}"
+           data-drag="true"
+           data-jqyoui-options="{'revert': 'invalid'}"
+           jqyoui-draggable="{'animate': 'true'}">
+        <img src={{a.img}} width="15%">
       </div>
-
-      <br/>
-
     </div>
+    <br/>
+
+  </div>
 </div>
+
+
 
 <!--buckets-->
 <div id="buckets">
-  <div class="bucket" id="bucket0">
+  <div ng-repeat="b in buckets" class="bucket" id="bucket_{{b.bucket}}">
     <div class="actual-bucket"
          data-drop="true"
          data-jqyoui-options
-         jqyoui-droppable="{onDrop: 'onDrop(event, ui)'}">
+         jqyoui-droppable="{onDrop:'onDrop'}"
+      >
     </div>
+
 
     <div class="remove_bucket"  ng-click=deleteBucket($event)>
       ×
@@ -59,22 +56,22 @@
 <!--<html lang="en">-->
 
 <!--<head>-->
-    <!--<meta charset="UTF-8">-->
-    <!--<title>LEVEL 1</title>-->
+<!--<meta charset="UTF-8">-->
+<!--<title>LEVEL 1</title>-->
 
-  <!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>-->
-  <!--<script src="level-one.js"></script>-->
-  <!--<script src="level-one.controller.js"></script>-->
+<!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>-->
+<!--<script src="level-one.js"></script>-->
+<!--<script src="level-one.controller.js"></script>-->
 <!--</head>-->
 
 <!--<body ng-app="levelOne">-->
 <!--<div class="container" ng-controller="LevelOneController">-->
-  <!--<div class="alien"><img src="./backup_aliens/model{{modelnum}}_{{aliennum}}.png" width="10%"></div>-->
-  <!--<div ng-repeat="model in models">-->
-    <!--<div ng-repeat="alien in aliens">-->
-      <!--<div class="alien"><img src="./backup_aliens/model{{$index}}_{{ aliennum }}.png" width="10%"></div>-->
-    <!--</div>-->
-  <!--</div>-->
+<!--<div class="alien"><img src="./backup_aliens/model{{modelnum}}_{{aliennum}}.png" width="10%"></div>-->
+<!--<div ng-repeat="model in models">-->
+<!--<div ng-repeat="alien in aliens">-->
+<!--<div class="alien"><img src="./backup_aliens/model{{$index}}_{{ aliennum }}.png" width="10%"></div>-->
+<!--</div>-->
+<!--</div>-->
 <!--</div>-->
 
 <!--</body>-->
