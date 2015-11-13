@@ -13,8 +13,8 @@
              class="alien"
              id="{{$index}}_{{m}}"
              data-drag="true"
-             data-jqyoui-options="{'revert': 'invalid'}"
-             jqyoui-draggable="{'animate': 'true'}">
+             data-jqyoui-options="{'revert': 'valid', 'revertDuration': 0}"
+             jqyoui-draggable>
           <img src={{alienData[$index].alien[m].img}} width="90px">
         </div>
       </div>
@@ -42,14 +42,14 @@
            class="bucket_alien"
            id="{{a.model}}_{{a.alien}}"
            data-drag="true"
-           data-jqyoui-options="{'revert': 'invalid'}"
-           jqyoui-draggable="{'animate': 'true'}">
-        <img src="level-one/backup_aliens/' + {{a.model}} + '_' + {{a.alien}} + '.img" width="90px">
+           data-jqyoui-options="{'revert': 'valid'}"
+           jqyoui-draggable="{'animate': 'false'}">
+        <img src="level-one/backup_aliens/' + {{a.model}} + '_' + {{a.alien}} + '.png" width="90px">
       </div>
     </div>
 
 
-    <div class="remove_bucket"  ng-click=deleteBucket($event)>
+    <div class="remove_bucket" ng-click=deleteBucket($event)>
       ×
     </div>
   </div>
