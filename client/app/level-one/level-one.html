@@ -24,7 +24,8 @@
       <br/>
     </div>
   <div class="allNextButton"
-       style="font-size: 20px">NEXT</div>
+       style="font-size: 20px"
+       ng-click=allNextAlien()>NEXT</div>
 
 </div>
 
@@ -37,8 +38,8 @@
          data-jqyoui-options
          jqyoui-droppable="{onDrop:'onDrop'}">
       <div ng-repeat="a in b.alien"
-           ng-mouseover=selectedAlien(a.alien)
-           ng-dblclick=putBackAlien(a.alien)
+           ng-mouseover=selectedAlien(a.model)
+           ng-dblclick=putBackAlien(a.model)
            class="bucket_alien"
            id="{{a.model}}_{{a.alien}}"
            data-drag="true"

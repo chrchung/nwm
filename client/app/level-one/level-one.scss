@@ -1,6 +1,10 @@
-.alien {
+.alien{
   display: inline;
   z-index: 2;
+}
+
+.bucket_alien{
+  z-index: 3;
 }
 
 .container {
@@ -86,11 +90,6 @@
   cursor:pointer;
 }
 
-.nextButton:active {
-   position:relative;
-   top:1px;
- }
-
 .allNextButton{
   width:70px;
   height: 30px;
@@ -112,12 +111,3 @@
   cursor:pointer;
 }
 
-.allNextButton:active {
-  position:relative;
-  top:1px;
-}
-
-.bukcet img {
-  layout: inline-block;
-  width: 10px;
-}
