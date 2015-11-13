@@ -31,6 +31,12 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     $scope.currentAliens[i] = $scope.presentAliens[i][rand_ind];
   };
 
+  $scope.allNextAlien = function () {
+    for(var i = 0; i < maxModels; i++){
+      $scope.getNextAlien(i);
+    }
+  };
+
   $scope.selectedAlien = function (model_num) {
     var alien_num = $scope.currentAliens[model_num];
     var alien_id = 'model' + model_num + '_' + alien_num;
@@ -59,13 +65,13 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     $scope.buckets[bucket].alien.push({model: model, alien: alien});
 
 
-    $("#" + bucketId + " .actual-bucket").append('<img width=50px src="app/level-one/backup_aliens/model' + model + '_' + alien + '.png"/>');
+    //$("#" + bucketId + " .actual-bucket").append('<img width=50px src="app/level-one/backup_aliens/model' + model + '_' + alien + '.png"/>');
 
     // remove the added alien id from presentAlien array
     var rm_ind = $scope.presentAliens[model].indexOf(alien); // find the position of the alien id in presentAliens array
     $scope.presentAliens[model].splice([rm_ind], 1); // remove it
 
-    alert($scope.presentAliens[model]);
+    //alert($scope.presentAliens[model]);
 
     // update current alien of the model
     $scope.getNextAlien(model);
