@@ -17,7 +17,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     var rand_ind = Math.floor(Math.random() * $scope.presentAliens[model_num].length());
     $scope.currentAliens[model_num] = $scope.presentAliens[model_num][rand_ind];
   };
-
+//waaa
   for (var i = 0; i < maxModels; i++) {
     $scope.presentAliens[i] = [];
     $scope.alienData.push({model: i, alien: []});
