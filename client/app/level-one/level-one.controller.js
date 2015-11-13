@@ -3,7 +3,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   $scope.buckets = [];
   $scope.num_buckets = 0;  // number of added buckets
   $scope.presentAliens = {}; // mapping from model_num -> array of present alien ids in the model
-  $scope.currentAliens = {}; // mapping from model_num -> current alien's id for the model
+  $scope.currentAliens = []; // mapping from model_num -> current alien's id for the model
   var maxModels = 3;       // number of models
   var maxAliens = 5;       // number of aliens in a model
 
@@ -14,10 +14,10 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
 
   $scope.getNextAlien = function (model_num) {
     // Generate a random id
-    var rand_ind = Math.floor(Math.random() * $scope.presentAliens[model_num].length());
+    var rand_ind = Math.floor(Math.random() * $scope.presentAliens[model_num].length);
     $scope.currentAliens[model_num] = $scope.presentAliens[model_num][rand_ind];
   };
-//waaa
+
   for (var i = 0; i < maxModels; i++) {
     $scope.presentAliens[i] = [];
     $scope.alienData.push({model: i, alien: []});
@@ -27,10 +27,12 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
 
     };
     // Generate a initial alien id for each model
-    $scope.getNextAlien(i);
-  };
+    var rand_ind = Math.floor(Math.random() * $scope.presentAliens[i].length);
+    $scope.currentAliens[i] = $scope.presentAliens[i][rand_ind];
+;  };
 
-  $scope.selectedAlien = function (model_num, alien_num) {
+  $scope.selectedAlien = function (model_num) {
+    var alien_num = $scope.currentAliens[model_num];
     var alien_id = 'model' + model_num + '_' + alien_num;
     $("#img-container").html("<img width='300px' src='app/level-one/backup_aliens/" + alien_id + ".png' />");
   };
@@ -64,8 +66,9 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     $scope.getNextAlien(model);
   };
 
-  $scope.putBackAlien = function(model_num, alien_num) {
+  $scope.putBackAlien = function(model_num) {
     // Add the alien id into presentAliens array
+    var alien_num = $scope.currentAliens[model_num];
     $scope.presentAliens[model_num].add(alien_num);
 
     //for(var m = 0; m < $scope.num_buckets; m++){
