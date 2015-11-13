@@ -64,3 +64,82 @@
   font-size: 50px;
   font-weight: bold;
 }
+
+.machineContainer{
+  position: absolute;
+  bottom: 370px;
+  right: 400px;
+  padding: 5px 1px 5px 1px;
+  height: 120px;
+}
+
+.slotMachine{
+  width: 20%;
+  border: 1px solid #000;
+  border-radius: 10px;
+  overflow: visible;
+  height: 108px;
+  padding: 0px;
+  display: inline-block;
+  text-align: center;
+  /*margin: 0px 5px;*/
+  /*border: 5px solid #000;*/
+  background-color: #ffffff;
+}
+
+.slotMachine .slot{
+  height:100px;
+  background-position-x: 55%;
+  background-repeat: no-repeat;
+}
+.slot1{
+  background-image: url("level-one/backup_aliens/model0_0.png");
+  background-size: 50%;
+}
+.slot2{
+  background-image: url("level-one/backup_aliens/model0_1.png");
+  background-size: 50%;
+}
+.slot3{
+  background-image: url("level-one/backup_aliens/model0_2.png");
+  background-size: 50%;
+}
+.slot4{
+  background-image: url("level-one/backup_aliens/model0_3.png");
+  background-size: 50%;
+}
+.slot5{
+  background-image: url("level-one/backup_aliens/model0_4.png");
+  background-size: 50%;
+}
+
+.button{
+  position: absolute;
+  bottom: 430px;
+  right: 270px;
+}
+
+.slotMachineButton{
+  width:80px;
+  height: 45px;
+  overflow: hidden;
+  display: inline-block;
+  text-align: center;
+  background-color:#CCFE96;
+  border-radius: 10px;
+  padding: 5px;
+  font-size:25px;
+  text-decoration:none;
+  text-align:center;
+  cursor:pointer;
+}
+
+.slotMachineButton:hover {
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fb9e25', endColorstr='#ffc477');
+  background-color:#CCFE96;
+}
+
+.slotMachineButton:active {
+   position:relative;
+   top:1px;
+ }
