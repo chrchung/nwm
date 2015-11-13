@@ -12,6 +12,12 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   $scope.buckets.push({bucket:0, alien:[]});
   $scope.num_buckets++;
 
+  $scope.getNextAlien = function (model_num) {
+    // Generate a random id
+    var rand_ind = Math.floor(Math.random() * $scope.presentAliens[model_num].length());
+    $scope.currentAliens[model_num] = $scope.presentAliens[model_num][rand_ind];
+  };
+
   for (var i = 0; i < maxModels; i++) {
     $scope.presentAliens[i] = [];
     $scope.alienData.push({model: i, alien: []});
@@ -22,12 +28,6 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     };
     // Generate a initial alien id for each model
     $scope.getNextAlien(i);
-  };
-
-  $scope.getNextAlien = function (model_num) {
-    // Generate a random id
-    var rand_ind = Math.floor(Math.random() * length($scope.presentAliens[model_num]));
-    $scope.currentAliens[i] = $scope.presentAliens[model_num][rand_ind];
   };
 
   $scope.selectedAlien = function (model_num, alien_num) {
@@ -65,22 +65,25 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   };
 
   $scope.putBackAlien = function(model_num, alien_num) {
-    for(var m = 0; m < $scope.num_buckets; m++){
-      //alert($scope.buckets[m].alien);
-      for(var n = 0; n < ($scope.buckets[m].alien).length; n++){
-        if($scope.buckets[m].alien[n].model == model_num && $scope.buckets[m].alien[n].alien == alien_num){
-          $scope.buckets[m].alien.splice(n, 1);
-          // Now loop over alienData to find the index of the alien we want to delete.
-          for(var p = 0; p < $scope.alienData[model_num].alien.length; p++){
-            if($scope.alienData[model_num].alien[p].alien == alien_num){
-              $scope.alienData[model_num].alien.splice(p, 1);
-              $scope.alienData[model_num].alien.push({alien:alien_num,
-                img: "app/level-one/backup_aliens/model" + model_num + "_" + alien_num + ".png"})
-            }
-          }
-        }
-      }
-    }
+    // Add the alien id into presentAliens array
+    $scope.presentAliens[model_num].add(alien_num);
+
+    //for(var m = 0; m < $scope.num_buckets; m++){
+    //  //alert($scope.buckets[m].alien);
+    //  for(var n = 0; n < ($scope.buckets[m].alien).length; n++){
+    //    if($scope.buckets[m].alien[n].model == model_num && $scope.buckets[m].alien[n].alien == alien_num){
+    //      $scope.buckets[m].alien.splice(n, 1);
+    //      // Now loop over alienData to find the index of the alien we want to delete.
+    //      for(var p = 0; p < $scope.alienData[model_num].alien.length; p++){
+    //        if($scope.alienData[model_num].alien[p].alien == alien_num){
+    //          $scope.alienData[model_num].alien.splice(p, 1);
+    //          $scope.alienData[model_num].alien.push({alien:alien_num,
+    //            img: "app/level-one/backup_aliens/model" + model_num + "_" + alien_num + ".png"})
+    //        }
+    //      }
+    //    }
+    //  }
+    //}
   };
 
   $scope.deleteBucket = function($event) {
