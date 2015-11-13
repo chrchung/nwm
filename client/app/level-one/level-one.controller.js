@@ -12,23 +12,25 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   $scope.num_buckets++;
 
   $scope.getNextAlien = function (model_num) {
-
-    // Generate a random id
-    var rand_ind = Math.floor(Math.random() * $scope.presentAliens[model_num].length);
-    $scope.currentAliens[model_num] = $scope.presentAliens[model_num][rand_ind];
-    $("#" + model_num + "_ img").attr("src", "app/level-one/backup_aliens/empty.png");
+    if($scope.presentAliens[model_num].length > 1){
+      // Generate a random id
+      var rand_ind = Math.floor(Math.random() * ($scope.presentAliens[model_num].length - 1));
+      $scope.currentAliens[model_num] = $scope.presentAliens[model_num][rand_ind];
+      //$("#" + model_num + "_ img").attr("src", "app/level-one/backup_aliens/empty.png");
+    }else{
+      $scope.currentAliens[model_num] = maxAliens;
+    }
   };
 
   for (var i = 0; i < maxModels; i++) {
     $scope.presentAliens[i] = [];
     $scope.alienData.push({model: i, alien: []});
-    for (var j = 0; j < maxAliens; j++) {
+    for (var j = 0; j < maxAliens + 1; j++) {
       $scope.alienData[i].alien.push({alien:j, img: "app/level-one/backup_aliens/model" + i + "_" + j + ".png"});
       $scope.presentAliens[i].push(j);
-
     };
     // Generate a initial alien id for each model
-    var rand_ind = Math.floor(Math.random() * $scope.presentAliens[i].length);
+    var rand_ind = Math.floor(Math.random() * ($scope.presentAliens[i].length - 1));
     $scope.currentAliens[i] = $scope.presentAliens[i][rand_ind];
   };
 
