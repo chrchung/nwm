@@ -6,21 +6,21 @@
 <div class="container">
   <div id="img-container"></div>
   <!--display aliens in grid-->
-    <div class="model" ng-repeat="m in alienData" id="model_{{m.model}}">
+    <div class="model" ng-repeat="m in currentAliens" id="model_{{m}}">
       <div class="group">
-        <div ng-mouseover=selectedAlien(m.model,"{{currentAliens[m.model]}}")
-             ng-dblclick=putBackAlien(m.model,m.alien[0].alien)
+        <div ng-mouseover=selectedAlien(m,currentAliens[m])
+             ng-dblclick=putBackAlien(m,currentAliens[m])
              class="alien"
-             id="{{m.model}}_{{m.alien[0].alien}}"
+             id="{{m}}_{{currentAliens[m]}}"
              data-drag="true"
              data-jqyoui-options="{'revert': 'invalid'}"
              jqyoui-draggable="{'animate': 'true'}">
-          <img src={{m.alien[0].img}} width="90px">
+          <img src={{alienData[m].alien[currentAliens[m]].img}} width="90px">
         </div>
       </div>
       <div class="nextButton"
            style="font-size: 20px"
-           ng-click=getNextAlien(m.model)>NEXT</div>
+           ng-click=getNextAlien(m)>NEXT</div>
       <br/>
     </div>
   <div class="allNextButton"
