@@ -36,7 +36,7 @@
          data-drop="true"
          data-jqyoui-options
          jqyoui-droppable="{onDrop:'onDrop'}">
-      <div ng-repeat="a in buckets.alien"
+      <div ng-repeat="a in b.alien"
            ng-mouseover=selectedAlien(a.alien)
            ng-dblclick=putBackAlien(a.alien)
            class="bucket_alien"
@@ -44,7 +44,8 @@
            data-drag="true"
            data-jqyoui-options="{'revert': 'valid'}"
            jqyoui-draggable="{'animate': 'false'}">
-        <img src="level-one/backup_aliens/' + {{a.model}} + '_' + {{a.alien}} + '.png" width="90px">
+        <img ng-src='app/level-one/backup_aliens/model{{a.model}}_{{a.alien}}.png'
+          width="40px">
       </div>
     </div>
 
