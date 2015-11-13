@@ -2,6 +2,8 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   $scope.alienData = [];   // mapping from an alien id to an array of (model#, alien#, bucket#)
   $scope.buckets = [];
   $scope.num_buckets = 0;  // number of added buckets
+  $scope.presentAliens = {}; // mapping from model_num -> array of present alien ids in the model
+  $scope.currentAliens = {}; // mapping from model_num -> current alien's id for the model
   var maxModels = 3;       // number of models
   var maxAliens = 5;       // number of aliens in a model
 
@@ -11,11 +13,21 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   $scope.num_buckets++;
 
   for (var i = 0; i < maxModels; i++) {
-    //$scope.models.push(i);
+    $scope.presentAliens[i] = [];
     $scope.alienData.push({model: i, alien: []});
     for (var j = 0; j < maxAliens; j++) {
       $scope.alienData[i].alien.push({alien:j, img: "app/level-one/backup_aliens/model" + i + "_" + j + ".png"});
+      $scope.presentAliens[i].push(j);
+
     };
+    // Generate a initial alien id for each model
+    $scope.getNextAlien(i);
+  };
+
+  $scope.getNextAlien = function (model_num) {
+    // Generate a random id
+    var rand_ind = Math.floor(Math.random() * length($scope.presentAliens[model_num]));
+    $scope.currentAliens[i] = $scope.presentAliens[model_num][rand_ind];
   };
 
   $scope.selectedAlien = function (model_num, alien_num) {
@@ -40,10 +52,16 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     var alienId = ui.draggable.attr('id');
     var bucketId = $(event.target).parent().attr('id');
     var bucket = bucketId.substring(bucketId.length-1, bucketId.length);
-    var model = alienId.substring(0, 1);
-    var alien = alienId.substring(2, 3);
+    var model = alienId.substring(0, 1); // fix
+    var alien = alienId.substring(2, 3); // fix
     $scope.buckets[bucket].alien.push({model: model, alien: alien});
 
+    // remove the added alien id from presentAlien array
+    var rm_ind = $scope.presentAliens[model].indexOf(alien); // find the position of the alien id in presentAliens array
+    delete $scope.presentAliens[model][rm_ind]; // remove it
+
+    // update current alien of the model
+    $scope.getNextAlien(model);
   };
 
   $scope.putBackAlien = function(model_num, alien_num) {
