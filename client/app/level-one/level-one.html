@@ -31,22 +31,20 @@
 
 <!--buckets-->
 <div id="buckets">
-  <div ng-repeat="b in buckets" class="bucket" id="bucket_{{b.bucket}}">
-    <div class="actual-bucket"
-         data-drop="true"
-         data-jqyoui-options
-         jqyoui-droppable="{onDrop:'onDrop'}">
+  <div ng-repeat="b in buckets" class="bucket" id="bucket_{{b.bucket}}"
+       class="actual-bucket"
+       data-drop="true"
+       data-jqyoui-options
+       jqyoui-droppable="{onDrop:'onDrop'}">
       <div ng-repeat="a in b.alien"
            ng-mouseover=bucketSelectedAlien(a.model,a.alien)
            ng-dblclick=putBackAlien(a.model,a.alien)
            class="bucket_alien"
-           id="{{a.model}}_{{a.alien}}"
-           data-drag="true"
-           data-jqyoui-options="{'revert': 'valid'}"
-           jqyoui-draggable="{'animate': 'false'}">
-        <img ng-src='app/level-one/backup_aliens/model{{a.model}}_{{a.alien}}.png'
-          width="40px">
-      </div>
+           id="{{a.model}}_{{a.alien}}">
+           <!--data-drag="true"-->
+           <!--data-jqyoui-options="{'revert': 'valid'}"-->
+           <!--jqyoui-draggable="{'animate': 'false'}">-->
+        <img ng-src='app/level-one/backup_aliens/model{{a.model}}_{{a.alien}}.png' />
     </div>
 
 

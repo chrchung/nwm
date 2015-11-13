@@ -7,15 +7,16 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   var maxModels = 3;       // number of models
   var maxAliens = 5;       // number of aliens in a model
 
-
   // Add the first bucket
   $scope.buckets.push({bucket:0, alien:[]});
   $scope.num_buckets++;
 
   $scope.getNextAlien = function (model_num) {
+
     // Generate a random id
     var rand_ind = Math.floor(Math.random() * $scope.presentAliens[model_num].length);
     $scope.currentAliens[model_num] = $scope.presentAliens[model_num][rand_ind];
+    $("#" + model_num + "_ img").attr("src", "app/level-one/backup_aliens/empty.png");
   };
 
   for (var i = 0; i < maxModels; i++) {
@@ -63,14 +64,11 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   //Add the droppable bucket id to the alienData of the alien
   $scope.onDrop = function(event, ui) {
     var alienId = ui.draggable.attr('id');
-    var bucketId = $(event.target).parent().attr('id');
+    var bucketId = $(event.target).attr('id');
     var bucket = bucketId.substring(bucketId.length-1, bucketId.length);
     var model = alienId.substring(0, 1); // fix
     var alien = alienId.substring(2, 3); // fix
     $scope.buckets[bucket].alien.push({model: model, alien: alien});
-
-
-    //$("#" + bucketId + " .actual-bucket").append('<img width=50px src="app/level-one/backup_aliens/model' + model + '_' + alien + '.png"/>');
 
     // remove the added alien id from presentAlien array
     for(var x = 0; x < $scope.presentAliens[model].length; x++){
@@ -79,9 +77,6 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
       }
     }
 
-    //alert($scope.presentAliens[model]);
-
-    // update current alien of the model
     $scope.getNextAlien(model);
   };
 
@@ -90,7 +85,6 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     //var alien_num = $scope.currentAliens[model_num];
     //alert(model_num);
     $scope.presentAliens[model_num].push(alien_num);
-    alert($scope.presentAliens[model_num]);
 
     for(var m = 0; m < $scope.num_buckets; m++){
       //alert($scope.buckets[m].alien);
