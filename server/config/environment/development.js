@@ -17,6 +17,10 @@ module.exports = {
       }
     }
   },
+  Parse: {
+    PARSE_APPID: "WEe1kGJydUpoiLzaWE0MAx4q2DAUXqDSZDOFqgHm",
+    PARSE_JSKEY: "CkEhBsgLQdlWHMQBijVUcSYKqsNABCMuygTqP8vt"
+  },
 
   seedDB: true
 };
