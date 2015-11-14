@@ -60,58 +60,6 @@ exports.getLevelInfo = function(req, res)
       alert("Error: " + error.code + " " + error.message);
     }
   });
-
-  //var Level = Parse.Object.extend("Levels");
-  //var query = new Parse.Query(Level);
-  //
-  //query.equalTo("name", 1);
-  //
-  //query.find({
-  //    success: function(level)
-  //    {
-  //
-  //      var models =  level[0].get("model");
-  //      var listOfAliens = [];
-  //      models.query().find(
-  //        {
-  //          success: function (model) {
-  //            for (var i = 0; i < model.length; i++) {
-  //              var reqParam =  {body :{
-  //                __type: "Pointer",
-  //                className: "Models",
-  //                objectId: model[i].id,
-  //                modelName: model[i].get("name")
-  //              }};
-  //
-  //              var Model = Parse.Object.extend("Model");
-  //              var query = new Parse.Query(Model);
-  //              query.equalTo("model", reqParam.body);
-  //
-  //              query.find({
-  //                success: function(models) {
-  //                  var attributes = [];
-  //                  attributes.length = models.length- 1;
-  //
-  //                  for (var i = 0; i < models.length; ++i) {
-  //                    attributes[i] = {"Alien" : models[i].Alien,"attributes" :(models[i].get("attributes"))};
-  //                  }
-  //
-  //                  listOfAliens.push(attributes);
-  //                  console.log(listOfAliens);
-  //                  //res.json(listOfAliens);
-  //                },
-  //                error: function (object, error) {
-  //                  // The object was not retrieved successfully.
-  //                  // error is a Parse.Error with an error code and message.
-  //                }
-  //              });
-  //            }
-  //            //console.log(modelList);
-  //          }
-  //        })
-  //    }
-  //  }
-  //);
 };
 
 
@@ -144,7 +92,6 @@ exports.getLevelInfo2 = function(req, res)
                                          className: "Models",
                                          objectId: model.id,
                                          modelName: model.get("name")
-
                                   };
                Modelquery.equalTo("model", ModelPointer);
                Modelquery.find(
@@ -159,7 +106,7 @@ exports.getLevelInfo2 = function(req, res)
                                         "attributes" : alien.get("attributes")};
                      }
                      alienList.push(attributes);
-                     console.log(attributes);
+                     console.log(alienList);
                    },
                  error: function(error)
                  {alert("Error: " + error.code + " " + error.message)}})
@@ -173,4 +120,66 @@ exports.getLevelInfo2 = function(req, res)
   })
 };
 
-var o = exports.getLevelInfo2();
+
+
+
+exports.getLevelInfo3 = function(req, res)
+{
+  var Levels = Parse.Object.extend("Levels");
+  var levelQuery = new Parse.Query(Levels);
+  levelQuery.equalTo("name", 1);
+  var alienList = [];
+
+  levelQuery.first().then(function(results)
+  {
+      var level = results;
+      var modelsRelation = level.relation("model");
+      var modelsQuery = modelsRelation.query();
+      //console.log(modelQuery);
+      return modelsQuery.find().then(function(results)
+      {
+        var promises = [];
+
+        for (var i = 0; i < results.length; i++) {
+          var model = results[i];
+          var Model = Parse.Object.extend("Model");
+          var Modelquery = new Parse.Query(Model);
+          var ModelPointer = {
+            __type: "Pointer",
+            className: "Models",
+            objectId: model.id,
+            modelName: model.get("name")
+
+          };
+          Modelquery.equalTo("model", ModelPointer);
+
+          promises.push(
+            Modelquery.find().then(function (results)
+            {
+              var attributes = [];
+                for (var i = 0; i < results.length; i++)
+                {
+                  var alien = results[i];
+                  attributes[i] = { "Alien": alien.get("Alien"),
+                                    "attributes": alien.get("attributes")
+                                  };
+                }
+             alienList.push(attributes);
+
+            }).then(function(){
+                    return alienList;},
+                    function(error)
+                    {alert("Error: " + error.code + " " + error.message)}))
+        }
+        return Parse.Promise.when(promises);
+
+      }, function(error)
+          {alert("Error: " + error.code + " " + error.message)})
+
+  }).then(function(){res.json(alienList)},
+          function(error)
+          {alert("Error: " + error.code + " " + error.message)})
+};
+var o = exports.getLevelInfo3();
+
+
