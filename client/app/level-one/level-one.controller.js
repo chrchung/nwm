@@ -86,7 +86,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     // Add the alien id into presentAliens array
     //var alien_num = $scope.currentAliens[model_num];
     //alert(model_num);
-    $scope.presentAliens[model_num].push(alien_num);
+    $scope.presentAliens[model_num].splice($scope.presentAliens[model_num].length - 1 ,0, alien_num);
 
     for(var m = 0; m < $scope.num_buckets; m++){
       //alert($scope.buckets[m].alien);
