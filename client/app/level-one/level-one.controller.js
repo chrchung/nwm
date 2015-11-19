@@ -115,12 +115,14 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
         var model = $scope.buckets[bucket].alien[m].model;
         var alien = $scope.buckets[bucket].alien[m].alien;
         //alert("model: " + model + "alien: " + alien);
-        for (var n = 0; n < $scope.alienData[model].alien.length; n++){
-          if($scope.alienData[model].alien[n].alien == alien){
-            $scope.alienData[model].alien.splice(n, 1);
-            $scope.alienData[model].alien.push({alien:alien, img: "app/level-one/backup_aliens/model" + model + "_" + alien + ".png"})
-          }
-        }
+        //for (var n = 0; n < $scope.alienData[model].alien.length; n++){
+        //  if($scope.alienData[model].alien[n].alien == alien){
+        //    $scope.alienData[model].alien.splice(n, 1);
+        //    $scope.alienData[model].alien.push({alien:alien, img: "app/level-one/backup_aliens/model" + model + "_" + alien + ".png"})
+        //  }
+        //}
+        $scope.presentAliens[model].splice($scope.presentAliens[model].length - 1 ,0, alien);
+        $scope.getNextAlien(model);
       }
       // Set alien list in buckets[bucket] back to empty.
       $scope.buckets[bucket].alien = [];
