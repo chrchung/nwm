@@ -7,7 +7,7 @@ var JavaScriptKey = "CkEhBsgLQdlWHMQBijVUcSYKqsNABCMuygTqP8vt";
 Parse.initialize(APP_ID, JavaScriptKey);
 // Get list of levels
 exports.index = function(req, res) {
-  res.json([]);
+  //res.json([]);
 };
 
 console.log("server initialized");
@@ -37,7 +37,7 @@ exports.getLevelInfo = function(req, res)
                 levelInfo.push(results)
 
                 if (i == results.length - 1) {
-                  res.json(levelInfo);
+                  //res.json(levelInfo);
                 };
 
               },
@@ -176,7 +176,7 @@ exports.getLevelInfo3 = function(req, res)
       }, function(error)
           {alert("Error: " + error.code + " " + error.message)})
 
-  }).then(function(){res.json(alienList)},
+  }).then(function(){},
           function(error)
           {alert("Error: " + error.code + " " + error.message)})
 };
