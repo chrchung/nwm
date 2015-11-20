@@ -6,6 +6,7 @@
 <div class="container">
   <div id="img-container"></div>
   <!--display aliens in grid-->
+  <h>{{score}}</h>
     <div class="model" ng-repeat="m in currentAliens | limitTo:quantity_model" id="model_{{m.model}}">
       <div ng-class="modelClass(m)">
         <div ng-repeat="a in m.alien"
