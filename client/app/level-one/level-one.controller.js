@@ -8,6 +8,93 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   var maxAliens = 5;       // number of aliens in a model
   $scope.quantity_model = 3;
   $scope.quantity_alien = 1;
+  $scope.score = 0;
+
+  // Attribute ids: mapping from alien id to
+  var properties = {
+    "0_0": ["_0", 45, 91, 11],
+    "0_1": ["_1", 45, 91, 41],
+    "0_2": ["_2", 14, 72, 12],
+    "0_3": ["_3", 14, 73, 41],
+    "0_4": ["_4", 1, 15, 11],
+
+    "1_0": ["_0", 45, 91, 11],
+    "1_1": ["_1", 45, 160, 41],
+    "1_2": ["_2", 45, 1, 12],
+    "1_3": ["_3", 14, 45, 41],
+    "1_4": ["_4", 16, 45, 11],
+
+    "2_0": ["_0", 64, 83, 41, 121, 103],
+    "2_1": ["_1", 14, 83, 41, 121, 103],
+    "2_2": ["_2", 14, 73, 12, 121, 103],
+    "2_3": ["_3", 14, 73, 41, 1, 130],
+    "2_4": ["_4", 91, 45, 11, 5, 162],
+
+    "3_0": ["_0", 39, 137, 13, 141, 67],
+    "3_1": ["_1", 39, 137, 13, 141, 33],
+    "3_2": ["_2", 39, 137, 13, 29, 31],
+    "3_3": ["_3", 39, 137, 113, 43, 6],
+    "3_4": ["_4", 39, 137, 13, 139, 110]
+  }
+
+  // Score calculator
+  var calculateScore = function() {
+    // Calculate points for each bucket
+    var total_score = 0;
+    for (var i = 0; i < $scope.buckets.length; i++) {
+      total_score += calculateScoreByBucket($scope.buckets[i].alien);
+    }
+    $scope.score = total_score;
+  }
+
+  // Calculate the score of the bucket that contains the
+  // aliens in alien_list
+  // alien_list: [{model, alien} ...]
+  var calculateScoreByBucket = function (alien_list) {
+    var num_dup  = {};   // a map from j -> number of properties that appear in j aliens in the bucket
+    var prop_list = [];  // a list of unique properties in the bucket
+    for (var i in alien_list) {
+      // a list of properties of the current alien
+      var cur_properties = $scope.alienData[alien_list[i].model].alien[alien_list[i].alien].prop;
+      for (var k in cur_properties) {
+        if (prop_list.indexOf(cur_properties[k]) == -1) {
+          // the property is not in prop_list yet
+          var compare_result = compare(cur_properties[k], alien_list);
+          if (compare_result >= 2) {
+            // the property appears in more than one alien in the bucket
+            if (num_dup[compare_result] == null) {
+              // value of 'j' is not in num_dup yet
+              num_dup[compare_result] = 1;
+            } else {
+              num_dup[compare_result]++;
+            }
+          }
+          prop_list.push(cur_properties[k]);
+        }
+      }
+    }
+
+    var score = 0;
+    for (var j in num_dup) {
+      score += Math.ceil((Math.pow(j, 2) * num_dup[j])/(Math.pow(maxModels, 2)*prop_list.length) * 10000);
+    }
+
+    return score;
+  }
+
+  // Returns the number of aliens in the given bucket
+  // that have the given attribute
+  var compare = function(prop_id, alien_list) {
+    var num_occurrence = 0;
+    for (var i in alien_list) {
+      var cur_properties = $scope.alienData[alien_list[i].model].alien[alien_list[i].alien].prop;
+      if (cur_properties.indexOf(prop_id) != -1) {
+        num_occurrence++;
+      }
+    }
+    return num_occurrence;
+  }
+
 
   // Add the first bucket
   $scope.buckets.push({bucket:0, alien:[]});
@@ -67,7 +154,9 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     $scope.alienData.push({model: i, alien: []});
     $scope.currentAliens.push({model: i, alien: []});
     for (var j = 0; j < maxAliens * 2; j++) {
-      $scope.alienData[i].alien.push({alien:j, img: "app/level-one/backup_aliens/model" + i + "_" + j + ".png"});
+      $scope.alienData[i].alien.push({alien:j,
+                                      img: "app/level-one/backup_aliens/model" + i + "_" + j + ".png",
+                                      prop: properties[i + "_" + j]});
     };
     for (var j = 0; j < maxAliens; j++) {
       $scope.presentAliens[i].push(j);
@@ -170,6 +259,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     }
     //alert($scope.presentAliens[model]);
     $scope.dropNextAlien(model, alien);
+    calculateScore();
   };
 
   $scope.putBackAlien = function(model_num, alien_num) {
@@ -194,6 +284,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
         }
       }
     }
+    calculateScore();
   };
 
   $scope.deleteBucket = function($event) {
@@ -223,6 +314,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
         $scope.buckets.splice(l,1);
       }
     }
+    calculateScore();
   };
 }]);
 //
