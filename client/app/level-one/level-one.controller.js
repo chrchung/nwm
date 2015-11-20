@@ -4,44 +4,80 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   $scope.num_buckets = 0;  // number of added buckets
   $scope.presentAliens = {}; // mapping from model_num -> array of present alien ids in the model
   $scope.currentAliens = []; // mapping from model_num -> current alien's id for the model
-  var maxModels = 3;       // number of models
+  var maxModels = 4;       // number of models
   var maxAliens = 5;       // number of aliens in a model
+  $scope.quantity = 3;
 
   // Add the first bucket
   $scope.buckets.push({bucket:0, alien:[]});
   $scope.num_buckets++;
 
+  $scope.modelClass = function(m){
+    return "model" + m.model;
+  };
+
   $scope.getNextAlien = function (model_num) {
     if($scope.presentAliens[model_num].length > 1){
       // Generate a random id
       var rand_ind = Math.floor(Math.random() * ($scope.presentAliens[model_num].length - 1));
-      $scope.currentAliens[model_num] = $scope.presentAliens[model_num][rand_ind];
-      //$("#" + model_num + "_ img").attr("src", "app/level-one/backup_aliens/empty.png");
+      for(var i = 0; i < $scope.currentAliens.length; i++){
+        if($scope.currentAliens[i].model == model_num){
+          $scope.currentAliens[i].alien = $scope.presentAliens[model_num][rand_ind];
+          break;
+        }
+      }
     }else{
-      $scope.currentAliens[model_num] = maxAliens;
+      for(var j = 0; j < $scope.currentAliens.length; j++){
+        if($scope.currentAliens[j].model == model_num){
+          $scope.currentAliens[j].alien = maxAliens;
+          break;
+        }
+      }
     }
   };
 
   for (var i = 0; i < maxModels; i++) {
     $scope.presentAliens[i] = [];
     $scope.alienData.push({model: i, alien: []});
+    $scope.currentAliens.push({model: i, alien: 0});
     for (var j = 0; j < maxAliens + 1; j++) {
       $scope.alienData[i].alien.push({alien:j, img: "app/level-one/backup_aliens/model" + i + "_" + j + ".png"});
       $scope.presentAliens[i].push(j);
     };
     // Generate a initial alien id for each model
     var rand_ind = Math.floor(Math.random() * ($scope.presentAliens[i].length - 1));
-    $scope.currentAliens[i] = $scope.presentAliens[i][rand_ind];
+    $scope.currentAliens[i].alien = $scope.presentAliens[i][rand_ind];
   };
 
-  $scope.allNextAlien = function () {
-    for(var i = 0; i < maxModels; i++){
-      $scope.getNextAlien(i);
+  //$scope.allNextAlien = function () {
+  //  for(var i = 0; i < maxModels; i++){
+  //    $scope.getNextAlien(i);
+  //  }
+  //};
+
+  $scope.shuffle = function(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex ;
+    // While there remain elements to shuffle
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
     }
-  };
+  }
 
   $scope.selectedAlien = function (model_num) {
-    var alien_num = $scope.currentAliens[model_num];
+    for(var j = 0; j < $scope.currentAliens.length; j++){
+      if($scope.currentAliens[j].model == model_num){
+        var alien_num = $scope.currentAliens[j].alien;
+        break;
+      }
+    }
     var alien_id = 'model' + model_num + '_' + alien_num;
     $("#img-container").html("<img width='300px' src='app/level-one/backup_aliens/" + alien_id + ".png' />");
   };
