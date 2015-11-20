@@ -1,6 +1,14 @@
+body {
+  margin-bottom: 200px;
+}
+
 .alien{
   display:inline-block;
-  z-index: 2;
+  z-index: -1;
+}
+
+.alien img {
+  width: 90px;
 }
 
 .bucket_alien img {
