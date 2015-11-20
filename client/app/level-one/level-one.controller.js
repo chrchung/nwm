@@ -105,7 +105,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   };
 
   $scope.getNextAlien = function (model_num) {
-    if($scope.presentAliens[model_num].length > $scope.quantity_alien){
+    if($scope.presentAliens[model_num].length >= $scope.quantity_alien){
       // Generate a random id
       var rand_ind = $scope.single_random_generator(model_num);
       for(var i = 0; i < $scope.currentAliens.length; i++){
@@ -127,7 +127,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
 
   // Another version of getNextAlien when the user drag a alien out of the window
   $scope.dropNextAlien = function (model_num, alien_num) {
-    if($scope.presentAliens[model_num].length > $scope.quantity_alien){
+    if($scope.presentAliens[model_num].length >= $scope.quantity_alien){
       // Generate a random id
       var rand_ind = $scope.single_random_generator(model_num);
       for(var i = 0; i < $scope.currentAliens.length; i++){
@@ -139,34 +139,31 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
           }
         }
       }
-    }else{
-      for(var j = 0; j < $scope.currentAliens.length; j++){
-        if($scope.currentAliens[j].model == model_num){
-          $scope.currentAliens[j].alien[alien_num] = maxAliens;
-          break;
-        }
-      }
-    }
+    }//else{
+    //  for(var j = 0; j < $scope.currentAliens.length; j++){
+    //    if($scope.currentAliens[j].model == model_num){
+    //      $scope.currentAliens[j].alien[alien_num] = maxAliens;
+    //      break;
+    //    }
+    //  }
+    //}
   };
 
   for (var i = 0; i < maxModels; i++) {
     $scope.presentAliens[i] = [];
     $scope.alienData.push({model: i, alien: []});
     $scope.currentAliens.push({model: i, alien: []});
-    for (var j = 0; j < maxAliens * 2; j++) {
+    for (var j = 0; j < maxAliens; j++) {
       $scope.alienData[i].alien.push({alien:j,
                                       img: "app/level-one/backup_aliens/model" + i + "_" + j + ".png",
                                       prop: properties[i + "_" + j]});
-    };
-    for (var j = 0; j < maxAliens; j++) {
       $scope.presentAliens[i].push(j);
     };
 
     // Generate a initial alien id for each model
-    for (var k = 0; k < $scope.quantity_alien; k++){
-      var rand_ind = Math.floor(Math.random() * ($scope.presentAliens[i].length - 1));
-      $scope.currentAliens[i].alien.push($scope.presentAliens[i][rand_ind]);
-    }
+    var rand_ind = Math.floor(Math.random() * ($scope.presentAliens[i].length));
+    $scope.currentAliens[i].alien.push($scope.presentAliens[i][rand_ind]);
+
   };
 
   $scope.resize = function () {
@@ -183,7 +180,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   $scope.random_generator = function (model, num){
     var arr = [];
     while(arr.length < num){
-      var randomnumber=Math.floor(Math.random() * ($scope.presentAliens[model].length - 1));
+      var randomnumber=Math.floor(Math.random() * ($scope.presentAliens[model].length));
       var found=false;
       for(var i=0;i<arr.length;i++){
         if(arr[i]==randomnumber){found=true;break}
@@ -198,7 +195,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     var found=false;
     //alert($scope.currentAliens[model].alien);
     while(!found){
-      var randomnumber=Math.floor(Math.random() * ($scope.presentAliens[model].length - 1));
+      var randomnumber=Math.floor(Math.random() * ($scope.presentAliens[model].length));
       //alert("rand" + rand_ind);
       if($scope.currentAliens[model].alien.indexOf($scope.presentAliens[model][randomnumber]) == -1){
         found=true;

@@ -31,7 +31,7 @@
     How Many Alien:
     <select
       ng-model="quantity_alien"
-      ng-options="a.alien as a.alien for a in alienData[0].alien.slice(1, alienData[0].alien.length/2+1)"
+      ng-options="(a.alien + 1) as (a.alien + 1) for a in alienData[0].alien.slice(0, alienData[0].alien.length)"
       ng-change="resize()">
     </select>
   </div>
