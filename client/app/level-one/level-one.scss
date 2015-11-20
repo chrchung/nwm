@@ -1,5 +1,5 @@
 .alien{
-  display: inline;
+  display:inline-block;
   z-index: 2;
 }
 
@@ -16,7 +16,6 @@
 
 .model0 {
   margin-bottom: 20px;
-  width: 9%;
   display:inline-block;
   border-radius: 10px;
   border: 1px solid blue;
@@ -24,7 +23,6 @@
 
 .model1 {
   margin-bottom: 20px;
-  width: 9%;
   display:inline-block;
   border-radius: 10px;
   border: 1px solid dimgray;
@@ -32,7 +30,6 @@
 
 .model2 {
   margin-bottom: 20px;
-  width: 9%;
   display:inline-block;
   border-radius: 10px;
   border: 1px solid red;
@@ -40,7 +37,6 @@
 
 .model3 {
   margin-bottom: 20px;
-  width: 9%;
   display:inline-block;
   border-radius: 10px;
   border: 1px solid yellow;
@@ -130,9 +126,15 @@
   cursor: pointer;
 }
 
-.quantity{
-  cursor:none;
+.quantity_model{
   position: absolute;
   bottom: 240px;
   left: 500px;
 }
+
+.quantity_alien{
+  position: absolute;
+  bottom: 270px;
+  left: 500px;
+}
+
