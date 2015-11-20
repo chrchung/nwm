@@ -6,26 +6,30 @@
 <div class="container">
   <div id="img-container"></div>
   <!--display aliens in grid-->
-    <div class="model" ng-repeat="m in currentAliens track by $index" id="model_{{$index}}">
-      <div class="group">
-        <div ng-mouseover=selectedAlien($index)
+    <div class="model" ng-repeat="m in currentAliens | limitTo:quantity" id="model_{{m.model}}">
+      <div ng-class="modelClass(m)">
+        <div ng-mouseover=selectedAlien(m.model)
              class="alien"
-             id="{{$index}}_{{m}}"
+             id="{{m.model}}_{{m.alien}}"
              data-drag="true"
              data-jqyoui-options="{'revert': 'valid', 'revertDuration': 0}"
              jqyoui-draggable>
-          <img src={{alienData[$index].alien[m].img}} width="90px">
+          <img src={{alienData[m.model].alien[m.alien].img}} width="90px">
         </div>
       </div>
       <div class="nextButton"
            style="font-size: 20px"
-           ng-click=getNextAlien($index)>NEXT</div>
+           ng-click=getNextAlien(m.model)>NEXT</div>
       <br/>
     </div>
   <div class="allNextButton"
        style="font-size: 20px"
-       ng-click=allNextAlien()>NEXT</div>
-
+       ng-click=shuffle(currentAliens)>SHUFFLE</div>
+  <div class="quantity">
+    How Many:
+    <select ng-model="quantity" ng-options="(m.model + 1) as (m.model + 1) for m in alienData">
+    </select>
+  </div>
 </div>
 
 

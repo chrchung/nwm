@@ -14,7 +14,15 @@
   margin-top: 50px;
 }
 
-.group {
+.model0 {
+  margin-bottom: 20px;
+  width: 9%;
+  display:inline-block;
+  border-radius: 10px;
+  border: 1px solid blue;
+}
+
+.model1 {
   margin-bottom: 20px;
   width: 9%;
   display:inline-block;
@@ -22,6 +30,21 @@
   border: 1px solid dimgray;
 }
 
+.model2 {
+  margin-bottom: 20px;
+  width: 9%;
+  display:inline-block;
+  border-radius: 10px;
+  border: 1px solid red;
+}
+
+.model3 {
+  margin-bottom: 20px;
+  width: 9%;
+  display:inline-block;
+  border-radius: 10px;
+  border: 1px solid yellow;
+}
 
 #img-container {
   position: fixed;
@@ -87,7 +110,7 @@
 }
 
 .allNextButton{
-  width:70px;
+  width:110px;
   height: 30px;
   position: absolute;
   bottom: 200px;
@@ -105,4 +128,11 @@
   text-decoration:none;
   text-shadow:1px 1px 0px gray;
   cursor: pointer;
+}
+
+.quantity{
+  cursor:none;
+  position: absolute;
+  bottom: 240px;
+  left: 500px;
 }
