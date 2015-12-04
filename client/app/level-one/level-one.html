@@ -4,10 +4,10 @@
 
 <body>
 <div class="container">
-  <div id="currentBucket">Current bucket is Bucket 0</div>
+  <div id="info_board">CURRENT BUCKET: {{current_bucket}}<br/>
+                        YOUR SCORE: {{score}}</div>
   <div id="img-container"></div>
   <!--display aliens in grid-->
-  <h>{{score}}</h>
     <div class="aliens">
         <div ng-repeat="alien in alienArray"
              ng-mouseover=selectedAlien(alien.id)
@@ -26,17 +26,18 @@
 
 
 <!--buckets-->
-<div id="buckets">
+<div id="buckets"  data-drop="true"
+     data-jqyoui-options
+     jqyoui-droppable="{onDrop:'return false;'}">
   <div ng-repeat="b in buckets track by $index" class="bucket" id="bucket_{{$index}}"
-       class="actual-bucket"
        ng-click="currentBucket($index)"
        data-drop="true"
        data-jqyoui-options
        jqyoui-droppable="{onDrop:'onDrop'}">
       <div ng-repeat="a in b.alien"
            ng-mouseover=selectedAlien(a)
-           ng-dblclick=putBackAlien(a)
-           class="model{{split_helper(a)}}"
+           ng-dblclick="putBackAlien($event, a)"
+           class="model{{get_model(a)}}"
            id="{{a}}">
         <img style="z-index: 3;
              width: 50px;
@@ -47,13 +48,9 @@
 
 
     <div class="remove_bucket" ng-if="ifNotLast($index)" ng-click="deleteBucket($event)">
-      x
+      ×
     </div>
   </div>
-
-  <!--<div id="add-bucket" ng-click=addBucket()>-->
-    <!--<p>+</p>-->
-  <!--</div>-->
 </div>
 
 
