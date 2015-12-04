@@ -3,9 +3,11 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   $scope.buckets = [];
   $scope.num_buckets = 0;  // number of added buckets
   $scope.alienArray = [];
+  $scope.aliensInBucket = []; //ids of aliens in buckets
   var maxModels = 4;       // number of models
   var maxAliens = 5;       // number of aliens in a model
   $scope.score = 0;
+  $scope.current_bucket = 0;
 
   // Attribute ids: mapping from alien id to
   var properties = {
@@ -77,7 +79,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     }
 
     return score;
-  }
+  };
 
   // Returns the number of aliens in the given bucket
   // that have the given attribute
@@ -90,10 +92,10 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
       }
     }
     return num_occurrence;
-  }
+  };
 
   // Add the first bucket
-  $scope.buckets.push({alien:[]});
+  $scope.buckets.push({alien:[], illegal_alien:[]});
   $scope.num_buckets++;
   $scope.currentBkt = 0; // This is actually the index of the current clicked bucket
 
@@ -103,15 +105,49 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
       $scope.alienData[i].alien.push({alien:j,
                                       prop: properties[i + "_" + j]});
       $scope.alienArray.push({id: i + "_" + j, model: "model" + i, alien: j});
-    };
+    }
 
     shuffleArray($scope.alienArray);
   };
 
-  $scope.split_helper = function(id){
+  var updateIllegalAlien = function(bucket){
+
+    $scope.buckets[bucket].illegal_alien = [];
+
+    // Array of models that are already in bucket
+    var models_in_bucket = [];
+    for (i in $scope.buckets[bucket].alien) {
+      var model_num = $scope.get_model($scope.buckets[bucket].alien[i]);
+      if (models_in_bucket.indexOf(model_num) == -1) {
+        models_in_bucket.push(model_num);
+      }
+    }
+
+    for (i in $scope.alienArray) {
+      var alien_id = $scope.alienArray[i].id;
+      model_num = $scope.get_model(alien_id);
+      if ($scope.aliensInBucket.indexOf(alien_id) != -1 ||
+          models_in_bucket.indexOf(model_num) != -1) {
+        $("#" + alien_id).attr('class', 'illegal_alien');
+        $("#" + alien_id).draggable('disable');
+        $scope.buckets[bucket].illegal_alien.push(alien_id);
+      }
+      else {
+        $("#" + alien_id).attr('class', "model" + model_num);
+        $("#" + alien_id).draggable('enable');
+      }
+    }
+  };
+
+  $scope.get_model = function(id){
     var modelNum = id.split("_")[0];
     return modelNum;
-  }
+  };
+  $scope.get_alien = function(id){
+    var alienNum = id.split("_")[1];
+    return alienNum;
+  };
+
 
   $scope.ifNotLast = function(id){
     if(id == $scope.num_buckets - 1){
@@ -119,16 +155,19 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     } else{
       return true;
     }
-  }
+  };
 
   $scope.currentBucket = function(bucket) {
-    var bucket_id = 'Bucket ' + bucket;
+    updateIllegalAlien(bucket);
+    $scope.current_bucket = bucket;
+    $("#bucket_" + bucket).addClass("current_bucket");
 
-    for (var x = 0; x < $scope.num_buckets; x++) {
-      $scope.currentBkt = x;
+    for (i in $scope.buckets) {
+      if (i != bucket) {
+        $("#bucket_" + i).removeClass("current_bucket");
+      }
     }
-    $("#currentBucket").html("Current bucket is " + bucket_id);
-  }
+  };
 
   function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -154,14 +193,14 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
     }
-  }
+  };
 
   $scope.selectedAlien = function (alien_id) {
     $("#img-container").html("<img width='300px' src='app/level-one/backup_aliens/model" + alien_id + ".png' />");
   };
 
   $scope.addBucket = function() {
-    $scope.buckets.push({alien:[]});
+    $scope.buckets.push({alien:[], illegal_alien:[]});
     $scope.num_buckets++;
   };
 
@@ -170,58 +209,62 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   $scope.onDrop = function(event, ui) {
     var alienId = ui.draggable.attr('id');
     var bucketId = $(event.target).attr('id');
-    var bucket = bucketId.substring(bucketId.length-1, bucketId.length);
+    var bucket = bucketId.split("_")[1];
+
+    if ($scope.buckets[bucket].illegal_alien.indexOf(alienId) != -1) {
+      alert("Illegal movement!");
+      return false;
+    }
+
+    $scope.aliensInBucket.push(alienId);
 
     $scope.buckets[bucket].alien.push(alienId);
     if(bucket == $scope.num_buckets - 1){
       $scope.addBucket();
     }
 
-    // remove the added alien id from alienArray
-    for (i in $scope.alienArray) {
-      if ($scope.alienArray[i].id == alienId) {
-        $scope.alienArray.splice(i, 1); // remove it
-      }
-    }
+    //// remove the added alien id from alienArray
+    //for (i in $scope.alienArray) {
+    //  if ($scope.alienArray[i].id == alienId) {
+    //    $scope.alienArray.splice(i, 1); // remove it
+    //  }
+    //}
 
+    updateIllegalAlien(bucket);
+    $scope.currentBucket(bucket);
     calculateScore();
   };
 
-  $scope.putBackAlien = function(alienId) {
-    // Add the alien id into presentAliens array
-    //var alien_num = $scope.currentAliens[model_num];
-    //alert(model_num);
-    var modelNum = alienId.split("_")[0];
-    var alienNum = alienId.split("_")[1];
+  $scope.putBackAlien = function($event, alienId) {
 
-    $scope.alienArray.push({id: alienId, model: "model" + modelNum, alien: alienNum});
+    var id = $($event.target).parent().parent().attr('id');
+    var bucket = id.split("_")[1];
+    var modelNum = $scope.get_model(alienId);
 
-    for(var m = 0; m < $scope.num_buckets; m++){
-      //alert($scope.buckets[m].alien);
-      for(var n = 0; n < ($scope.buckets[m].alien).length; n++){
-        if($scope.buckets[m].alien[n] == alienId){
-          $scope.buckets[m].alien.splice(n, 1);
-          if($scope.buckets[m].alien.length == 0) {
-            $scope.num_buckets--;
-            $scope.buckets.splice(m, 1);
-          }
-        }
-      }
+    $scope.aliensInBucket.splice($scope.aliensInBucket.indexOf(alienId), 1);
+    $scope.buckets[bucket].alien.splice($scope.buckets[bucket].alien.indexOf(alienId), 1);
+
+    if($scope.buckets[bucket].alien.length == 0) {
+      $scope.num_buckets--;
+      $scope.buckets.splice(bucket, 1);
     }
 
+    updateIllegalAlien(bucket);
     calculateScore();
   };
 
   $scope.deleteBucket = function($event) {
     var id = $($event.target).parent().attr('id');
-    var bucket = id.substring(id.length-1, id.length);
+    var bucket = id.split("_")[1];
 
     if($scope.buckets[bucket].alien.length>0){
       for (var m = 0; m <  $scope.buckets[bucket].alien.length; m++){
-        var modelNum = $scope.buckets[bucket].alien[m].split("_")[0];
-        var alienNum = $scope.buckets[bucket].alien[m].split("_")[1];
+        var alienId = $scope.buckets[bucket].alien[m];
+        var modelNum = $scope.get_model(alienId);
 
-        $scope.alienArray.push({id: modelNum + "_" + alienNum, model: "model" + modelNum, alien: alienNum});
+        $scope.aliensInBucket.splice($scope.aliensInBucket.indexOf(alienId), 1);
+        //$scope.alienArray.push({id: modelNum + "_" + alienNum, model: "model" + modelNum, alien: alienNum});
+        $("#" + alienId).attr('class', "model" + modelNum);
       }
     }
     // Remove the bucket
@@ -231,7 +274,6 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     calculateScore();
   };
 }]);
-//
 ///**
 // * Created by elsieyang on 2015-11-04.
 // */
