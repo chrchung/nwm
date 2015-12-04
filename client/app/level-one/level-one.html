@@ -7,39 +7,20 @@
   <div id="img-container"></div>
   <!--display aliens in grid-->
   <h>{{score}}</h>
-    <div class="model" ng-repeat="m in currentAliens | limitTo:quantity_model" id="model_{{m.model}}">
-      <div ng-class="modelClass(m)">
-        <div ng-repeat="a in m.alien"
-             ng-mouseover=selectedAlien(m.model,a)
-             class="alien"
-             id="{{m.model}}_{{a}}"
+    <div class="aliens">
+        <div ng-repeat="alien in alienArray"
+             ng-mouseover=selectedAlien(alien.id)
+             class="{{alien.model}}"
+             id="{{alien.id}}"
              data-drag="true"
              data-jqyoui-options="{'revert': 'valid', 'revertDuration': 0}"
-             jqyoui-draggable>
-          <img src={{alienData[m.model].alien[a].img}}>
+             jqyoui-draggable
+             style="display: inline-block;
+                    margin-right: 10px;
+                    margin-bottom: 10px;">
+          <img src="app/level-one/backup_aliens/model{{alien.id}}.png"/>
         </div>
-      </div>
-      <div class="nextButton"
-           style="font-size: 20px"
-           ng-click=getNextAlien(m.model)>NEXT</div>
-      <br/>
     </div>
-  <div class="allNextButton"
-       style="font-size: 20px"
-       ng-click=shuffle(currentAliens)>SHUFFLE</div>
-  <div class="quantity_alien">
-    How Many Alien:
-    <select
-      ng-model="quantity_alien"
-      ng-options="(a.alien + 1) as (a.alien + 1) for a in alienData[0].alien.slice(0, alienData[0].alien.length)"
-      ng-change="resize()">
-    </select>
-  </div>
-  <div class="quantity_model">
-    How Many Model:
-    <select ng-model="quantity_model" ng-options="(m.model + 1) as (m.model + 1) for m in alienData">
-    </select>
-  </div>
 </div>
 
 
@@ -51,14 +32,18 @@
        data-jqyoui-options
        jqyoui-droppable="{onDrop:'onDrop'}">
       <div ng-repeat="a in b.alien"
-           ng-mouseover=selectedAlien(a.model,a.alien)
-           ng-dblclick=putBackAlien(a.model,a.alien)
-           class="bucket_alien"
-           id="{{a.model}}_{{a.alien}}">
+           ng-mouseover=selectedAlien(a.id)
+           ng-dblclick=putBackAlien(a.id)
+           class="model{{a.model}}"
+           id="{{a.id}}">
            <!--data-drag="true"-->
            <!--data-jqyoui-options="{'revert': 'valid'}"-->
            <!--jqyoui-draggable="{'animate': 'false'}">-->
-        <img ng-src='app/level-one/backup_aliens/model{{a.model}}_{{a.alien}}.png' />
+        <img style="z-index: 3;
+                  width: 50px;
+                  display: inline-block;
+                  float: left;"
+             ng-src='app/level-one/backup_aliens/model{{a.id}}.png' />
     </div>
 
 
