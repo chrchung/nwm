@@ -52,7 +52,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     var prop_list = [];  // a list of unique properties in the bucket
     for (var i in alien_list) {
       // a list of properties of the current alien
-      var cur_properties = $scope.alienData[alien_list[i].model].alien[alien_list[i].alien].prop;
+      var cur_properties = $scope.alienData[alien_list[i].split("_")[0]].alien[alien_list[i].split("_")[1]].prop;
       for (var k in cur_properties) {
         if (prop_list.indexOf(cur_properties[k]) == -1) {
           // the property is not in prop_list yet
@@ -84,7 +84,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   var compare = function(prop_id, alien_list) {
     var num_occurrence = 0;
     for (var i in alien_list) {
-      var cur_properties = $scope.alienData[alien_list[i].model].alien[alien_list[i].alien].prop;
+      var cur_properties = $scope.alienData[alien_list[i].split("_")[0]].alien[alien_list[i].split("_")[1]].prop;
       if (cur_properties.indexOf(prop_id) != -1) {
         num_occurrence++;
       }
@@ -93,8 +93,9 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   }
 
   // Add the first bucket
-  $scope.buckets.push({bucket:0, alien:[]});
+  $scope.buckets.push({alien:[]});
   $scope.num_buckets++;
+  $scope.currentBkt = 0; // This is actually the index of the current clicked bucket
 
   for (var i = 0; i < maxModels; i++) {
     $scope.alienData.push({model: i, alien: []});
@@ -106,6 +107,28 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
 
     shuffleArray($scope.alienArray);
   };
+
+  $scope.split_helper = function(id){
+    var modelNum = id.split("_")[0];
+    return modelNum;
+  }
+
+  $scope.ifNotLast = function(id){
+    if(id == $scope.num_buckets - 1){
+      return false;
+    } else{
+      return true;
+    }
+  }
+
+  $scope.currentBucket = function(bucket) {
+    var bucket_id = 'Bucket ' + bucket;
+
+    for (var x = 0; x < $scope.num_buckets; x++) {
+      $scope.currentBkt = x;
+    }
+    $("#currentBucket").html("Current bucket is " + bucket_id);
+  }
 
   function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -138,7 +161,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   };
 
   $scope.addBucket = function() {
-    $scope.buckets.push({bucket:$scope.num_buckets, alien:[]});
+    $scope.buckets.push({alien:[]});
     $scope.num_buckets++;
   };
 
@@ -148,11 +171,13 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     var alienId = ui.draggable.attr('id');
     var bucketId = $(event.target).attr('id');
     var bucket = bucketId.substring(bucketId.length-1, bucketId.length);
-    var model = alienId.substring(0, 1); // fix
-    var alien = alienId.substring(2, 3); // fix
-    $scope.buckets[bucket].alien.push({id: alienId, model: model, alien: alien});
 
-    // remove the added alien id from presentAlien array
+    $scope.buckets[bucket].alien.push(alienId);
+    if(bucket == $scope.num_buckets - 1){
+      $scope.addBucket();
+    }
+
+    // remove the added alien id from alienArray
     for (i in $scope.alienArray) {
       if ($scope.alienArray[i].id == alienId) {
         $scope.alienArray.splice(i, 1); // remove it
@@ -162,7 +187,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     calculateScore();
   };
 
-  $scope.putBackAlien = function(alienId, modelNum, alienNum) {
+  $scope.putBackAlien = function(alienId) {
     // Add the alien id into presentAliens array
     //var alien_num = $scope.currentAliens[model_num];
     //alert(model_num);
@@ -174,34 +199,35 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     for(var m = 0; m < $scope.num_buckets; m++){
       //alert($scope.buckets[m].alien);
       for(var n = 0; n < ($scope.buckets[m].alien).length; n++){
-        if($scope.buckets[m].alien[n].model == modelNum && $scope.buckets[m].alien[n].alien == alienNum){
+        if($scope.buckets[m].alien[n] == alienId){
           $scope.buckets[m].alien.splice(n, 1);
+          if($scope.buckets[m].alien.length == 0) {
+            $scope.num_buckets--;
+            $scope.buckets.splice(m, 1);
+          }
         }
       }
     }
+
     calculateScore();
   };
 
   $scope.deleteBucket = function($event) {
     var id = $($event.target).parent().attr('id');
     var bucket = id.substring(id.length-1, id.length);
-    //alert($scope.num_buckets);
+
     if($scope.buckets[bucket].alien.length>0){
       for (var m = 0; m <  $scope.buckets[bucket].alien.length; m++){
-        var modelNum = $scope.buckets[bucket].alien[m].model;
-        var alienNum = $scope.buckets[bucket].alien[m].alien;
+        var modelNum = $scope.buckets[bucket].alien[m].split("_")[0];
+        var alienNum = $scope.buckets[bucket].alien[m].split("_")[1];
+
         $scope.alienArray.push({id: modelNum + "_" + alienNum, model: "model" + modelNum, alien: alienNum});
       }
-      // Set alien list in buckets[bucket] back to empty.
-      $scope.buckets[bucket].alien = [];
     }
     // Remove the bucket
-    for (var l = 0; l < $scope.num_buckets; l++){
-      if ($scope.buckets[l].bucket == id.substring(id.length-1, id.length)){
-        $scope.num_buckets--;
-        $scope.buckets.splice(l,1);
-      }
-    }
+    $scope.buckets.splice(id.substring(id.length-1, id.length),1);
+    $scope.num_buckets--;
+
     calculateScore();
   };
 }]);
