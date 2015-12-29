@@ -1,24 +1,8 @@
-'use strict';
-
-// Production specific configuration
-// =================================
 module.exports = {
-  // Server IP
-  ip:       process.env.OPENSHIFT_NODEJS_IP ||
-            process.env.IP ||
-            undefined,
-
-  // Server port
-  port:     process.env.OPENSHIFT_NODEJS_PORT ||
-            process.env.PORT ||
-            8080,
-
-  // MongoDB connection options
-  mongo: {
-    uri:    process.env.MONGOLAB_URI ||
-            process.env.MONGOHQ_URL ||
-            process.env.OPENSHIFT_MONGODB_DB_URL +
-            process.env.OPENSHIFT_APP_NAME ||
-            'mongodb://localhost/nwm'
-  }
+  PARSE_APPID: 'WEe1kGJydUpoiLzaWE0MAx4q2DAUXqDSZDOFqgHm',
+  PARSE_JSKEY: 'CkEhBsgLQdlWHMQBijVUcSYKqsNABCMuygTqP8vt',
+  //Sendwithus key?
+  SENDWITHUS: 'test_7e4531e75a0a9decee4f47feea2a19ae7e9119d2',
+  TEMPWD: 'temp123',
+  NOTIFICATION_EMAIL: ''
 };
