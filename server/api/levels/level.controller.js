@@ -13,7 +13,7 @@ Parse.initialize(config.PARSE_APPID, config.PARSE_JSKEY);
 
 
 // Returns a random game for the level specified
-exports.index = function(req, res) {
+exports.getLevelInfo = function(req, res) {
 
   async.waterfall([
     function (callback) {
