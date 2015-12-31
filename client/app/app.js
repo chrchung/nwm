@@ -6,7 +6,8 @@ angular.module('nwmApp', [
   'ngSanitize',
   'ui.router',
   'ui.bootstrap',
-  'ngDragDrop'
+  'ngDragDrop',
+  'restangular'
 ])
 
   .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
