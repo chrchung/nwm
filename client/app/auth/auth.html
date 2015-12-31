@@ -1,0 +1,23 @@
+<section id="login">
+  <div class="row">
+    <div class="col-xs-13">
+      <div class="form-wrap">
+        <h1>Match Aliens</h1>
+        <form name="loginForm" ng-submit="process()">
+          <div class="form-group">
+            <input id="name" type="text" placeholder="Email" ng-model="username" required="" autofocus="" class="form-control input-lg">
+          </div>
+          <div class="form-group">
+            <input id="pass" type="password" placeholder="Password" ng-model="password" required="" class="form-control input-lg">
+          </div>
+          <div class="form-group">
+            <input id="btn-login" type="submit" value="Continue" class="btn btn-login btn-lg btn-block">
+          </div>
+        </form>
+        <div class="forget">
+          <alert type="danger" ng-show="message">{{message}}</alert>Don&apos;t have an account?<a ui-sref="signup">Sign up!</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

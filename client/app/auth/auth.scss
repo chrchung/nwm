@@ -1,0 +1,84 @@
+$color_jungle_green_approx: #1fa67b;
+$color_celeste_approx: #ccc;
+$color_dove_gray_approx: #6d6d6d;
+$color_log_cabin_approx: #212121;
+$white: #fff;
+$color_red_damask_approx: #e55f49;
+$color_flamingo_approx: #ed5337;
+
+//fonts
+$font_0: Glyphicons Halflings;
+$font_1: Open Sans;
+$font_2: sans-serif;
+
+#login {
+  padding-top: 100px;
+  .form-wrap {
+    max-width: 390px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 20px;
+    text-align: center;
+    font-weight: normal;
+    padding-bottom: 25px;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .checkbox {
+    margin-bottom: 20px;
+    position: relative;
+    //Instead of the line below you could use @includeuser-select($select)
+    user-select: none;
+    .character-checkbox {
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      border: 1px solid $color_celeste_approx;
+      vertical-align: middle;
+      display: inline-block;
+    }
+    .label {
+      color: $color_dove_gray_approx;
+      font-size: 13px;
+      font-weight: normal;
+    }
+    &.show:before {
+      content: '\e013';
+      color: $color_jungle_green_approx;
+      font-size: 17px;
+      margin: 1px 0 0 3px;
+      position: absolute;
+      pointer-events: none;
+      font-family: $font_0;
+    }
+  }
+  .forget {
+    font-size: 15px;
+    text-align: center;
+    display: block;
+  }
+  .btn.btn-login {
+    font-size: 15px;
+    margin-bottom: 35px;
+  }
+}
+.form-control {
+  color: $color_log_cabin_approx;
+  font-size: 15px;
+  font-family: $font_1, $font_2;
+}
+.btn-login {
+  color: $white;
+  background-color: $color_red_damask_approx;
+  &:hover {
+    color: $white;
+    background-color: $color_flamingo_approx;
+  }
+  &:focus {
+    color: $white;
+    background-color: $color_flamingo_approx;
+  }
+}
+
