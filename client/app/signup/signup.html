@@ -13,6 +13,7 @@
           <div class="form-group">
             <input id="btn-login" type="submit" value="Continue" class="btn btn-login btn-lg btn-block">
           </div>
+          <alert type="danger" ng-show="taken">Unfortunately, this account name has already been taken. Please choose another one.</alert>
         </form>
         <div class="forget">
           <alert type="danger" ng-show="message">{{message}}</alert>Already have an account?<a ui-sref="auth"> Log in!</a>
