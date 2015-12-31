@@ -11,7 +11,6 @@ Parse.initialize(config.PARSE_APPID, config.PARSE_JSKEY);
 
 
 exports.activate = function (req, res) {
-  //TODO change some sort of a status
   var query = new Parse.Query(Parse.User);
   query.get(req.params.auth_token, {
     success: function (result) {
@@ -59,8 +58,6 @@ exports.logout = function(req, res) {
 
 
 exports.login = function (req, res) {
-
-  //TODO check validation
   var username = req.body.username;
   var password = req.body.pwd;
   Parse.User.logIn(username, password, {
