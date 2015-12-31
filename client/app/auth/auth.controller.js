@@ -20,7 +20,7 @@ angular.module('nwmApp')
     $scope.process = function () {
       return Restangular.all('api/auths/login').post({
         username: $scope.username,
-        pwd: $scope.password
+        password: $scope.password
       }).then((function (data) {
         $state.go('main');
       }), function (err) {

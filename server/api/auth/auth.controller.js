@@ -19,7 +19,7 @@ exports.logout = function(req, res) {
 
 exports.login = function (req, res) {
   var username = req.body.username;
-  var password = req.body.pwd;
+  var password = req.body.password;
   Parse.User.logIn(username, password, {
     success: function (user) {
       return res.json(user);
