@@ -16,12 +16,12 @@ exports.saveScore = function(req, res) {
   var level = req.params.level;
   var user = Parse.User.current();
 
-  var Scores = Parse.Object.extend("Scores");
+  var Scores = Parse.Object.extend('Scores');
   var newScore = new Scores();
-  newScore.set("game", game);
-  newScore.set("level", level);
-  newScore.set("user", user);
-  newScore.set("score", score);
+  newScore.set('game', game);
+  newScore.set('level', level);
+  newScore.set('user', user);
+  newScore.set('score', score);
 
   newScore.save(null, {
     success: function(gameScore) {
@@ -34,17 +34,18 @@ exports.saveScore = function(req, res) {
 };
 
 var updateOverallScore = function (user, game, level, score) {
-  var Scores = Parse.Object.extend("Scores");
+  var Scores = Parse.Object.extend('Scores');
   var scoreQuery = new Parse.Query(Scores);
-  scoreQuery.equalTo("game", game);
-  scoreQuery.equalTo("level", level);
-  scoreQuery.equalTo("user", user);
-  scoreQuery.descending("score");
+  var user = Parse.User.current();
+  scoreQuery.equalTo('game', game);
+  scoreQuery.equalTo('level', level);
+  scoreQuery.equalTo('user', user);
+  scoreQuery.descending('score');
 
   scoreQuery.first({
     success: function (curHighest) {
       if (curHighest.attributes.score > score) {
-        Parse.User.current().set("overallScore", Parse.User.current().attributes.overallScore -
+        Parse.User.current().set('overallScore', Parse.User.current().attributes.overallScore -
           curHighest.attributes.score + score);
         res.setStatus(200);
       } else {
@@ -58,9 +59,9 @@ var updateOverallScore = function (user, game, level, score) {
 };
 
 exports.getAllOverall = function(req, res) {
-  var User = Parse.Object.extend("User");
+  var User = Parse.Object.extend('User');
   var userQuery = new Parse.Query(User);
-  userQuery.descending("overallScore");
+  userQuery.descending('overallScore');
   userQuery.find({
     success: function (users) {
       res.json(users);
@@ -71,4 +72,59 @@ exports.getAllOverall = function(req, res) {
   });
 };
 
+exports.getGameScoreboard = function(req, res) {
+  var Scores = Parse.Object.extend('Scores');
+  var scoreQuery = new Parse.Query(Scores);
+  scoreQuery.equalTo('game', req.params.game);
+  scoreQuery.equalTo('level', req.params.level);
+  scoreQuery.descending('score');
+  scoreQuery.limit(10);
 
+  scoreQuery.find({
+    success: function (scores) {
+      res.json(scores);
+    },
+    error: function (error) {
+      res.setStatus(400);
+    }
+  });
+};
+
+exports.getCurUserGameScore = function(req, res) {
+  var Scores = Parse.Object.extend('Scores');
+  var scoreQuery = new Parse.Query(Scores);
+  var user = Parse.User.current();
+  scoreQuery.equalTo('user', user);
+  scoreQuery.equalTo('game', req.params.game);
+  scoreQuery.equalTo('level', req.params.level);
+  scoreQuery.limit(10);
+  scoreQuery.find({
+    success: function (scores) {
+      res.json(scores);
+    },
+    error: function (error) {
+      res.setStatus(400);
+    }
+  });
+};
+
+
+exports.getCurUserGameScoreBest = function(req, res) {
+  var Scores = Parse.Object.extend('Scores');
+  var scoreQuery = new Parse.Query(Scores);
+  var user = Parse.User.current();
+  scoreQuery.equalTo('user', user);
+  scoreQuery.equalTo('game', req.params.game);
+  scoreQuery.equalTo('level', req.params.level);
+  scoreQuery.descending('score');
+  scoreQuery.limit(1);
+
+  scoreQuery.find({
+    success: function (scores) {
+      res.json(scores);
+    },
+    error: function (error) {
+      res.setStatus(400);
+    }
+  });
+};
