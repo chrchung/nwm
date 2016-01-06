@@ -4,6 +4,13 @@
  */
 
 'use strict';
+var _ = require('lodash');
+var config = require('../../config/environment');
+var Parse = require('parse/node').Parse;
+var fs = require('fs');
+var async = require('async');
+Parse.initialize(config.PARSE_APPID, config.PARSE_JSKEY);
+
 
 // Gets a list of Scores
 exports.index = function(req, res) {
