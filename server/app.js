@@ -14,6 +14,9 @@ var server = http.createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
 
+var session = require('express-session');
+app.use(session({secret: 'ssshhhhh', resave: false, saveUninitialized: true}));
+
 // Start server
 function startServer() {
   server.listen(config.port, config.ip, function() {

@@ -18,5 +18,5 @@ angular.module('nwmApp')
       }), function (err) {
 
       });
-    };;
+    };
   });

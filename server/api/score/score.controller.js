@@ -69,6 +69,7 @@ exports.getAllOverall = function(req, res) {
   var User = Parse.Object.extend('User');
   var userQuery = new Parse.Query(User);
   userQuery.descending('overallScore');
+  userQuery.limit(10);
   userQuery.find({
     success: function (users) {
       res.json(users);
@@ -125,6 +126,23 @@ exports.getCurUserGameScoreBest = function(req, res) {
   scoreQuery.equalTo('level', req.params.level);
   scoreQuery.descending('score');
   scoreQuery.limit(1);
+
+  scoreQuery.find({
+    success: function (scores) {
+      res.json(scores);
+    },
+    error: function (error) {
+      res.setStatus(400);
+    }
+  });
+};
+
+exports.getCurUserRecentScores = function(req, res) {
+  var Scores = Parse.Object.extend('Scores');
+  var scoreQuery = new Parse.Query(Scores);
+  var user = Parse.User.current();
+  scoreQuery.equalTo('user', user);
+  scoreQuery.limit(10);
 
   scoreQuery.find({
     success: function (scores) {

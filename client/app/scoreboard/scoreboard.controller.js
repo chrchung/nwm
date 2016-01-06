@@ -8,5 +8,16 @@ angular.module('nwmApp')
       });
     };
 
+    $scope.getUserRecent = function (scores) {
+      Restangular.all('api/scores/cur_user_recent').getList().then(function (serverJson) {
+        $scope.userRecent = serverJson;
+      });
+    };
+
+    Restangular.all('api/users/').get('current_user').then(function (serverJson) {
+      $scope.userRecent = serverJson;
+    });
+
     $scope.getScores();
+    $scope.getUserRecent();
   });

@@ -13,21 +13,24 @@ Parse.initialize(config.PARSE_APPID, config.PARSE_JSKEY);
 
 exports.logout = function(req, res) {
   Parse.User.logOut();
+  req.session.user = null;
   res.json(200);
 };
 
 
 exports.login = function (req, res) {
+
+
   var username = req.body.username;
   var password = req.body.password;
   Parse.User.logIn(username, password, {
     success: function (user) {
-      return res.json(user);
+      req.session.user = user;
+      res.json(user);
     },
     error: function (user, error) {
       //track analytics
-      res.status(404).end();
+      res.status(400).end();
     }
   });
-
 };
