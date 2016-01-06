@@ -9,20 +9,6 @@ var config = require('../../config/environment');
 var Parse = require('parse/node').Parse;
 Parse.initialize(config.PARSE_APPID, config.PARSE_JSKEY);
 
-/**
- * Using Rails-like standard naming convention for endpoints.
- * GET     /api/users              ->  index
- */
-
-'use strict';
-
-var _ = require('lodash');
-var config = require('../../config/environment');
-var Parse = require('parse/node').Parse;
-var fs = require('fs');
-var async = require('async');
-Parse.initialize(config.PARSE_APPID, config.PARSE_JSKEY);
-
 
 exports.create = function(req, res) {
 
@@ -56,7 +42,7 @@ exports.create = function(req, res) {
 exports.current = function (req, res) {
   var currentUser = Parse.User.current();
   if (currentUser) {
-    res.json(currentUser).end();
+    res.json(currentUser);
   } else {
     res.status(404).end();
   }
