@@ -1,10 +1,24 @@
 <html>
 <head>
+  <script src='bower_components/ng-mobile-menu/dist/ng-mobile-menu.min.js'></script>
+  <link rel="stylesheet" href="ng-mobile-menu.min.css" />
 </head>
 
 <body>
-<div class="container">
-  <div id="info_board">CURRENT BUCKET: {{current_bucket}}<br/>
+
+<div id="sp-nav">
+<
+</div>
+
+<div id="sp-page">
+<!-- put your page content in here -->
+</div>
+
+<div class="container"
+     data-drop="true"
+     data-jqyoui-options
+     jqyoui-droppable="{onDrop:'return false;'}">
+  <div id="info_board">CURRENT BUCKET: {{1+current_bucket}}<br/>
                         YOUR SCORE: {{score}}</div>
   <div id="img-container"></div>
   <!--display aliens in grid-->
@@ -26,7 +40,8 @@
 
 
 <!--buckets-->
-<div id="buckets"  data-drop="true"
+<div id="buckets"
+     data-drop="true"
      data-jqyoui-options
      jqyoui-droppable="{onDrop:'return false;'}">
   <div ng-repeat="b in buckets track by $index" class="bucket" id="bucket_{{$index}}"
@@ -52,7 +67,6 @@
     </div>
   </div>
 </div>
-
 
 </body>
 
