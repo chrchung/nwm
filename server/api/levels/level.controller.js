@@ -14,6 +14,14 @@ Parse.initialize(config.PARSE_APPID, config.PARSE_JSKEY);
 
 // Returns a random game for the level specified
 exports.getLevelInfo = function(req, res) {
+  if (req.session.user) {
+    getLevel(req, res);
+  } else {
+    res.send(400).end();
+  };
+};
+
+var getLevel = function(req, res) {
 
   async.waterfall([
     function (callback) {
@@ -69,7 +77,23 @@ exports.getLevelInfo = function(req, res) {
       res.json(results);
     };
   });
+
 };
+
+//exports.login = function (req, res) {
+//  var username = req.body.username;
+//  var password = req.body.password;
+//  Parse.User.logIn('sihua', 'hi', {
+//    success: function (user) {
+//      return res.json([user]);
+//    },
+//    error: function (user, error) {
+//      //track analytics
+//      res.status(404).end();
+//    }
+//  });
+//};
+
 
 var randomize = function (arr, num) {
   for(var j, x, i = arr.length; i; j = Math.floor(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);

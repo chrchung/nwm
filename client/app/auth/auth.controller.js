@@ -12,9 +12,19 @@ angular.module('nwmApp')
         username: $scope.username,
         password: $scope.password
       }).then((function (data) {
-        $state.go('levelOne');
+        $state.go('scoreboard');
       }), function (err) {
         $scope.message = "Invalid email or password";
       });
+
+      //
+      //Restangular.all('api/levels/s/d').getList().then(function(serverJson) {
+      //  $scope.blogs = serverJson;
+      //  Restangular.all('api/levels/1').getList().then(function(serverJson) {
+      //    $scope.blogs = serverJson;
+      //
+      //  });
+      //
+      //});
     };
   });

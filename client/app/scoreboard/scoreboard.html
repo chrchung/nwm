@@ -7,36 +7,37 @@
   </div>
 
   <div class="col-xs-6">
-    <table class="table table-striped">
-      <tr>
-        <th>
-          Rank
-        </th>
-        <th>
-          Username
-        </th>
-        <th>
-          Score
-        </th>
-      </tr>
-      <tr ng-repeat="score in scores">
-        <td>
-          {{score.indexOf(score) + 1}}
-        </td>
-        <td>
-          {{score.username}}
-        </td>
-        <td>
-          {{score.overallScore}}
-        </td>
+    <div class="row">
+      <table class="table table-striped">
+        <tr>
+          <th>
+            Rank
+          </th>
+          <th>
+            Username
+          </th>
+          <th>
+            Score
+          </th>
+        </tr>
+        <tr ng-repeat="score in scores">
+          <td>
+            {{score.indexOf(score) + 1}}
+          </td>
+          <td>
+            {{score.username}}
+          </td>
+          <td>
+            {{score.overallScore}}
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="row">
 
-      </tr>
-
-
-    </table>
+    </div>
 
   </div>
-
   <div class="col-xs-3">
 
   </div>

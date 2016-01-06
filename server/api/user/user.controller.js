@@ -41,11 +41,11 @@ exports.create = function(req, res) {
 
 exports.current = function (req, res) {
   var currentUser = Parse.User.current();
-  if (currentUser) {
-    res.json(currentUser);
+  if (req.session.user) {
+    res.json(req.session.user);
   } else {
-    res.status(404).end();
-  }
+    res.status(400).end();
+  };
 };
 
 
