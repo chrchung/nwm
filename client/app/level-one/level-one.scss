@@ -1,5 +1,13 @@
+body {
+  // background-image: url("level-one/backup_aliens/background_img.png");
+  // background-size: cover;
+  // background-repeat: no-repeat;
+  background-color: black;
+}
+
 .aliens {
   width: 80%;
+  margin-bottom: 200px;
 }
 
 .aliens img {
@@ -17,12 +25,11 @@
 .container {
   margin-top: 20px;
   width: 100%;
-  margin-bottom: 200px;
 }
 
 .model0 img {
   border-radius: 50%;
-  background-color: rgba(0, 235, 255, 0.16);
+  background-color: rgba(0, 235, 255, 0.27);
 }
 
 .model1 img {
@@ -35,7 +42,7 @@
   background-color: rgba(173, 255, 171, 0.27);
 }
 
-.model3  img{
+.model3  img {
   border-radius: 50%;
   background-color: rgba(255, 194, 150, 0.27);
 }
@@ -47,6 +54,7 @@
 
 #info_board {
   position: fixed;
+  color: white;
   top: 20px;
   right: 20px;
 }
@@ -58,29 +66,31 @@
 }
 
 #buckets {
-  position: fixed;
+  position: sticky;
   bottom: 0px;
-  background-color: #CCFE96;
-  width: 100%;
+  min-width: 100%;
+  //background-color: #CCFE96;
   height: 170px;
-  overflow-x: scroll;
   white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  padding: 0px 5px 0px 5px;
 }
 
 .bucket {
   position: relative;
+  white-space: nowrap;
   display:inline-block;
-  float: left;
-  background-color: rgb(233, 255, 224);
+  background-color: rgba(255, 255, 255, 0.90);
   border-radius: 10px;
-  margin: 10px 0px 10px 10px;
+  margin: 10px 5px 10px 5px;
   width: 150px;
   height: 150px;
   z-index: 1;
 }
 
 .current_bucket {
-  background-color: #ffffff;
+  background-color: white;
 }
 
 .bucket .remove_bucket {
@@ -90,13 +100,3 @@
   color: dimgray;
   font-size: 20px;
 }
-
-#add-bucket {
-  display: inline-block;
-  position: inherit;
-  color: white;
-  margin-left: 10px;
-  font-size: 50px;
-  font-weight: bold;
-}
-
