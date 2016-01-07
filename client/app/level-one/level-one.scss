@@ -1,30 +1,77 @@
 body {
   // background-image: url("level-one/backup_aliens/background_img.png");
-  // background-size: cover;
+  // background-size: 100%;
   // background-repeat: no-repeat;
   background-color: black;
-}
-
-.aliens {
-  width: 80%;
-  margin-bottom: 200px;
-}
-
-.aliens img {
-  z-index: -1;
-  width: 90px;
-}
-
-.bucket_alien img {
-  z-index: 3;
-  width: 50px;
-  display: inline-block;
-  float: left;
+  color: white;
 }
 
 .container {
-  margin-top: 20px;
   width: 100%;
+}
+
+#menu_panel {
+    background-color: black;
+    height: 100%;
+    overflow: hidden;
+    transition: width 1s;
+    -webkit-transition: width 1s;
+}
+
+#menu_content {
+  text-align: right;
+  margin-right: 10px;
+}
+
+#top-right {
+  position: fixed;
+  width: 25%;
+  right: 0px;
+}
+
+#info-board {
+  text-align: right;
+  background-color: black;
+  width: auto;
+}
+
+#img-container {
+  text-align: center;
+}
+
+#img-container img {
+  width: 100%;
+}
+
+#aliens {
+  width: 75%;
+  margin-top: 20px;
+  margin-bottom: 200px;
+}
+
+#aliens img {
+  z-index: -1;
+  width: 100%;
+}
+
+.model0 {
+  width: 10%;
+}
+
+.model1 {
+  width: 10%;
+}
+
+.model2 {
+  width: 10%;
+}
+
+.model3 {
+  width: 10%;
+}
+
+.illegal_alien {
+  width: 10%;
 }
 
 .model0 img {
@@ -42,34 +89,20 @@ body {
   background-color: rgba(173, 255, 171, 0.27);
 }
 
-.model3  img {
+.model3 img {
   border-radius: 50%;
   background-color: rgba(255, 194, 150, 0.27);
 }
 
-.illegal_alien img{
+.illegal_alien img {
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.12);
-}
-
-#info_board {
-  position: fixed;
-  color: white;
-  top: 20px;
-  right: 20px;
-}
-
-#img-container {
-  position: fixed;
-  top: 50px;
-  right:0%;
 }
 
 #buckets {
   position: sticky;
   bottom: 0px;
   min-width: 100%;
-  //background-color: #CCFE96;
   height: 170px;
   white-space: nowrap;
   overflow-x: scroll;
@@ -84,7 +117,7 @@ body {
   background-color: rgba(255, 255, 255, 0.90);
   border-radius: 10px;
   margin: 10px 5px 10px 5px;
-  width: 150px;
+  width: 200px;
   height: 150px;
   z-index: 1;
 }
