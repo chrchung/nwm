@@ -22,7 +22,6 @@ exports.getLevelInfo = function(req, res) {
 };
 
 var getLevel = function(req, res) {
-
   async.waterfall([
     function (callback) {
       var Games = Parse.Object.extend('Games');
@@ -80,23 +79,29 @@ var getLevel = function(req, res) {
 
 };
 
-//exports.login = function (req, res) {
-//  var username = req.body.username;
-//  var password = req.body.password;
-//  Parse.User.logIn('sihua', 'hi', {
-//    success: function (user) {
-//      return res.json([user]);
-//    },
-//    error: function (user, error) {
-//      //track analytics
-//      res.status(404).end();
-//    }
-//  });
-//};
-
-
 var randomize = function (arr, num) {
   for(var j, x, i = arr.length; i; j = Math.floor(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);
   return arr.slice(0, num);
+};
+
+exports.lastUnlockedLevels = function (req, res) {
+  if (req.session.user) {
+    var Scores = Parse.Object.extend('Scores');
+    var scoreQuery = new Parse.Query(Scores);
+    scoreQuery.equalTo('user', req.session.user.username);
+    scoreQuery.descending('level');
+    scoreQuery.limit(1);
+
+    scoreQuery.find({
+      success: function (scores) {
+        res.json(scores[0].attributes.level);
+      },
+      error: function (error) {
+        res.status(400).end();
+      }
+    });
+  } else {
+    res.status(400).end();
+  };
 };
 
