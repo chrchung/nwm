@@ -50,7 +50,7 @@ var updateOverallScore = function (user, game, level, score) {
   if (req.session.user) {
     var Scores = Parse.Object.extend('Scores');
     var scoreQuery = new Parse.Query(Scores);
-    var user = Parse.User.current();
+    var user = req.session.user;
     scoreQuery.equalTo('game', game);
     scoreQuery.equalTo('level', level);
     scoreQuery.equalTo('user', user);
@@ -59,9 +59,9 @@ var updateOverallScore = function (user, game, level, score) {
     scoreQuery.first({
       success: function (curHighest) {
         if (curHighest.attributes.score > score) {
-          Parse.User.current().set('overallScore', Parse.User.current().attributes.overallScore -
+          req.session.user.set('overallScore', Parse.User.current().attributes.overallScore -
             curHighest.attributes.score + score);
-          res.setStatus(200);
+          res.status(200).end();
         } else {
           res.status(200).end();
         }
@@ -112,7 +112,7 @@ exports.getCurUserGameScore = function(req, res) {
   if (req.session.user) {
     var Scores = Parse.Object.extend('Scores');
     var scoreQuery = new Parse.Query(Scores);
-    var user = Parse.User.current();
+    var user = req.session.user;
     scoreQuery.equalTo('user', user);
     scoreQuery.equalTo('game', req.params.game);
     scoreQuery.equalTo('level', req.params.level);
@@ -135,7 +135,7 @@ exports.getCurUserGameScoreBest = function(req, res) {
   if (req.session.user) {
     var Scores = Parse.Object.extend('Scores');
     var scoreQuery = new Parse.Query(Scores);
-    var user = Parse.User.current();
+    var user = req.session.user;
     scoreQuery.equalTo('user', user);
     scoreQuery.equalTo('game', req.params.game);
     scoreQuery.equalTo('level', req.params.level);
@@ -157,17 +157,27 @@ exports.getCurUserGameScoreBest = function(req, res) {
 
 exports.getCurUserRecentScores = function(req, res) {
   if (req.session.user) {
-    var Scores = Parse.Object.extend('Scores');
-    var scoreQuery = new Parse.Query(Scores);
-    var user = Parse.User.current();
-    scoreQuery.equalTo('user', user);
-    scoreQuery.limit(10);
 
-    scoreQuery.find({
-      success: function (scores) {
-        res.json(scores);
+    var User = Parse.Object.extend('User');
+    var userQuery = new Parse.Query(User);
+    userQuery.equalTo('username', req.session.user.username);
+    userQuery.find({
+      success: function(user) {
+        var Scores = Parse.Object.extend('Scores');
+        var scoreQuery = new Parse.Query(Scores);
+        scoreQuery.equalTo('user', req.session.user.username);
+        scoreQuery.limit(10);
+
+        scoreQuery.find({
+          success: function (scores) {
+            res.json(scores);
+          },
+          error: function (error) {
+            res.status(400).end();
+          }
+        });
       },
-      error: function (error) {
+      error: function(error) {
         res.status(400).end();
       }
     });

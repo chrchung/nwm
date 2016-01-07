@@ -1,6 +1,8 @@
 <div class="row">
   <br>
 
+  <button class="btn btn-primary" ng-click="logout()">Logout</button>
+
   <h3 class="text-center">Scoreboard</h3>
   <br>
   <div class="col-xs-3">
@@ -35,6 +37,14 @@
     </div>
     <div class="row">
 
+    </div>
+    <div class="row">
+      <h3>Play</h3>
+      <button class="btn btn-primary" ui-sref="game({id:1})">Level 1</button>
+      <button class="btn btn-primary" ui-sref="game({id:2})">Level 2</button>
+      <button class="btn btn-primary" ui-sref="game({id:3})">Level 3</button>
+      <button class="btn btn-primary" ui-sref="game({id:4})">Level 4</button>
+      <button class="btn btn-primary" ui-sref="game({id:5})">Level 5</button>
     </div>
 
   </div>

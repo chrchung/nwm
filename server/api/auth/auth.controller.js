@@ -13,7 +13,6 @@ Parse.initialize(config.PARSE_APPID, config.PARSE_JSKEY);
 
 exports.logout = function(req, res) {
   if (req.session.user) {
-    Parse.User.logOut();
     req.session.user = null;
     res.json(200);
   } else {
