@@ -9,10 +9,10 @@ angular.module('nwmApp')
         password: $scope.password
       }).then((function (data) {
         $scope.taken =  false;
-        if (data == "taken") {
+        if (data == 'taken') {
           $scope.taken = true;
         } else {
-          $state.go("levelOne");
+          $state.go('scoreboard');
         };
 
       }), function (err) {

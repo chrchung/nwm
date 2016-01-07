@@ -94,7 +94,11 @@ exports.lastUnlockedLevels = function (req, res) {
 
     scoreQuery.find({
       success: function (scores) {
-        res.json(scores[0].attributes.level);
+        if (scores.length == 0) {
+          res.json('n/a');
+        } else {
+          res.json(scores[0].attributes.level);
+        };
       },
       error: function (error) {
         res.status(400).end();
