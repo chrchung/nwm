@@ -1,11 +1,9 @@
-angular.module('nwmApp').controller('LevelOneController', function($scope, Restangular, $stateParams) {
-  $scope.alienData = [];   // mapping from an alien id to an array of (model#, alien#, bucket#)
+angular.module('nwmApp').controller('LevelOneController', function($scope, Restangular, $stateParams, $state) {
+  $scope.alienData = [];
   $scope.buckets = [];
   $scope.num_buckets = 0;  // number of added buckets
   $scope.alienArray = [];
   $scope.aliensInBucket = []; //ids of aliens in buckets
-  var maxModels = 3;       // number of models
-  var maxAliens = 1;       // number of aliens in a model
   $scope.score = 0;
   $scope.current_bucket = 0;
   $scope.properties = {};
@@ -15,25 +13,49 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     $scope.checked = !$scope.checked;
   }
 
+  // Add the first bucket
+  $scope.buckets.push({alien:[], illegal_alien:[]});
+  $scope.num_buckets++;
+  $scope.currentBkt = 0; // This is actually the index of the current clicked bucket
+
+
   // Current level
-  var cur_level = $stateParams.id;
+  $scope.cur_level = $stateParams.id;
 
   // Request data from the server
-  Restangular.all('api/levels/level/1' + cur_level).getList().then((function (data) {
+  Restangular.all('api/levels/level/' + $scope.cur_level).getList().then((function (data) {
+    //alert(data);
+    $scope.maxModels = data.length;       // number of models
+    $scope.maxAliens = data[0].length;       // number of aliens in a model
     var parseData = function(model, alien){
-      for (var i = 0; i < maxModels; i++){
-        for (var j = 0; j < maxAliens; j++){
+      for (var i = 0; i < $scope.maxModels; i++){
+        for (var j = 0; j < $scope.maxAliens; j++){
+          // modelsName is a string in the form og=f 'level4b6_9'
+          if((data[i][j].modelsName).indexOf('a') >= 0){
+            $scope.cur_game = "a";
+          } else{
+            $scope.cur_game = "b";
+          }
+
           var split_id = data[i][j].modelsName.split(/a|b/)[1];
           if (split_id.split("_")[0] == model && split_id.split("_")[1] == alien){
             return data[i][j];
+          }
+        else{
+            continue;
           }}}}
-    for (var i = 0; i < maxModels; i++){
-      for (var j = 0; j < maxAliens; j++){
+    for (var i = 0; i < $scope.maxModels; i++){
+      $scope.alienData.push({model: i, alien: []});
+      for (var j = 0; j < $scope.maxAliens; j++){
         var parsed_data = parseData(i, j);
         $scope.properties[i + "_" + j] = ["_" + j].concat(parsed_data.attributes);
         $scope.alienArray.push({id: i + "_" + j, model: "model" + i, alien: j, url: parsed_data.Alien.url});
+        $scope.alienData[i].alien.push({alien:j,
+          prop: $scope.properties[i + "_" + j]});
       }
+      shuffleArray($scope.alienArray);
     }
+
     $scope.getUrl = function(model, alien){
       return parseData(model, alien).Alien.url;
     }
@@ -41,7 +63,6 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   }), function (err) {
     alert("Unexpected error occured");
   });
-
 
 
   // Attribute ids: mapping from alien id to
@@ -92,11 +113,23 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
     var score = 0;
     for (var j in num_dup) {
-      score += Math.ceil((Math.pow(j, 2) * num_dup[j])/(Math.pow(maxModels, 2)*prop_list.length) * 10000);
+      score += Math.ceil((Math.pow(j, 2) * num_dup[j])/(Math.pow($scope.maxModels, 2)*prop_list.length) * 10000);
     }
 
     return score;
   };
+
+  // Save the score to the database
+  $scope.saveScore = function () {
+    Restangular.all('/api/scores').post(
+      {"score":$scope.score, "game":$scope.cur_game, "level":$scope.cur_level}).then(
+      (function (data) {
+        $state.go('scoreboard');
+      }), function (err) {
+
+      });
+  };
+
 
   // Returns the number of aliens in the given bucket
   // that have the given attribute
@@ -111,20 +144,6 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     return num_occurrence;
   };
 
-  // Add the first bucket
-  $scope.buckets.push({alien:[], illegal_alien:[]});
-  $scope.num_buckets++;
-  $scope.currentBkt = 0; // This is actually the index of the current clicked bucket
-
-  for (var i = 0; i < maxModels; i++) {
-    $scope.alienData.push({model: i, alien: []});
-    for (var j = 0; j < maxAliens; j++) {
-      $scope.alienData[i].alien.push({alien:j,
-                                      prop: $scope.properties[i + "_" + j]});
-    }
-
-    shuffleArray($scope.alienArray);
-  };
 
   var updateIllegalAlien = function(bucket){
 

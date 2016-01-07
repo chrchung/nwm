@@ -23,6 +23,9 @@ module.exports = function(config) {
       'client/bower_components/jquery-ui/jquery-ui.js',
       'client/bower_components/angular-dragdrop/src/angular-dragdrop.js',
       'client/bower_components/jQuery-SlotMachine/dist/jquery.slotmachine.min.js',
+      'client/bower_components/async/lib/async.js',
+      'client/bower_components/restangular/dist/restangular.js',
+      'client/bower_components/angular-pageslide-directive/dist/angular-pageslide-directive.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'client/app/app.js',
@@ -36,7 +39,7 @@ module.exports = function(config) {
 
     preprocessors: {
       '**/*.jade': 'ng-jade2js',
-      '**/*.html': 'html2js',
+      '**/*.html': 'html2js'
     },
 
     ngHtml2JsPreprocessor: {
@@ -47,7 +50,7 @@ module.exports = function(config) {
       stripPrefix: 'client/'
     },
 
-    
+
 
     // list of files / patterns to exclude
     exclude: [],
@@ -85,6 +88,8 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false
+    singleRun: false,
+
+    plugins : ['karma-jasmine', 'karma-phantomjs-launcher']
   });
 };
