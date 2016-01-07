@@ -45,11 +45,14 @@
   </div>
 </div>
 
+<div>
+  <button id="" ng-click="saveScore()">I'm done</button>
+</div>
+
 <!--buckets-->
 <div id="buckets"
      data-drop="true"
-     data-jqyoui-options
-     jqyoui-droppable="{onDrop:'return false;'}">
+     data-jqyoui-options>
   <div ng-repeat="b in buckets track by $index" class="bucket" id="bucket_{{$index}}"
        ng-click="currentBucket($index)"
        data-drop="true"

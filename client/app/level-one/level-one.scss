@@ -2,7 +2,7 @@ body {
   // background-image: url("level-one/backup_aliens/background_img.png");
   // background-size: 100%;
   // background-repeat: no-repeat;
-  //background-color: green;
+  background-color: lightslategray;
   //color: white;
 }
 
@@ -70,6 +70,30 @@ body {
   width: 10%;
 }
 
+.model4 {
+  width: 10%;
+}
+
+.model5 {
+  width: 10%;
+}
+
+.model6 {
+  width: 10%;
+}
+
+.model7 {
+  width: 10%;
+}
+
+.model8 {
+  width: 10%;
+}
+
+.model9 {
+  width: 10%;
+}
+
 .illegal_alien {
   width: 10%;
 }
@@ -92,6 +116,36 @@ body {
 .model3 img {
   border-radius: 50%;
   background-color: rgba(255, 194, 150, 0.27);
+}
+
+.model4 img {
+  border-radius: 50%;
+  background-color: rgba(120, 100, 228, 0.27);
+}
+
+.model5 img {
+  border-radius: 50%;
+  background-color: rgba(235, 199, 0, 0.27);
+}
+
+.model6 img {
+  border-radius: 50%;
+  background-color: rgba(255, 0, 0, 0.27);
+}
+
+.model7 img {
+  border-radius: 50%;
+  background-color: rgba(0, 0, 150, 0.27);
+}
+
+.model8 img {
+  border-radius: 50%;
+  background-color: rgba(150, 44, 0, 0.27);
+}
+
+.model9 img {
+  border-radius: 50%;
+  background-color: rgba(0, 133, 0, 0.27);
 }
 
 .illegal_alien img {
