@@ -12,15 +12,17 @@ Parse.initialize(config.PARSE_APPID, config.PARSE_JSKEY);
 
 
 exports.logout = function(req, res) {
-  Parse.User.logOut();
-  req.session.user = null;
-  res.json(200);
+  if (req.session.user) {
+    Parse.User.logOut();
+    req.session.user = null;
+    res.json(200);
+  } else {
+    res.status(400).end();
+  };
 };
 
 
 exports.login = function (req, res) {
-
-
   var username = req.body.username;
   var password = req.body.password;
   Parse.User.logIn(username, password, {
