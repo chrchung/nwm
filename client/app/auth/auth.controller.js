@@ -12,7 +12,7 @@ angular.module('nwmApp')
         username: $scope.username,
         password: $scope.password
       }).then((function (data) {
-        $state.go('scoreboard');
+        $state.go('game');
       }), function (err) {
         $scope.message = "Invalid email or password";
       });
