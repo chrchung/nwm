@@ -23,6 +23,7 @@ exports.create = function(req, res) {
         var user = new Parse.User();
         user.set("username", req.body.username);
         user.set("password", req.body.password);
+        user.set("overallScore", 0);
         user.signUp(null, {
           success: function(user) {
             res.sendStatus(200);
@@ -40,7 +41,6 @@ exports.create = function(req, res) {
 };
 
 exports.current = function (req, res) {
-  var currentUser = Parse.User.current();
   if (req.session.user) {
     res.json(req.session.user);
   } else {
