@@ -33,7 +33,7 @@ exports.saveScore = function(req, res) {
 
     newScore.save(null, {
       success: function(gameScore) {
-        updateOverallScore(user, game, level, score);
+        updateOverallScore(user, game, level, score, req, res);
       },
       error: function(gameScore, error) {
         res.status(400).end();
@@ -46,7 +46,7 @@ exports.saveScore = function(req, res) {
 
 };
 
-var updateOverallScore = function (user, game, level, score) {
+var updateOverallScore = function (user, game, level, score, req, res) {
   if (req.session.user) {
     var Scores = Parse.Object.extend('Scores');
     var scoreQuery = new Parse.Query(Scores);
