@@ -24,13 +24,13 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
   // Request data from the server
   Restangular.all('api/levels/level/' + $scope.cur_level).getList().then((function (data) {
-    //alert(data);
+    alert(data);
     $scope.maxModels = data.length;       // number of models
     $scope.maxAliens = data[0].length;       // number of aliens in a model
     var parseData = function(model, alien){
       for (var i = 0; i < $scope.maxModels; i++){
         for (var j = 0; j < $scope.maxAliens; j++){
-          // modelsName is a string in the form og=f 'level4b6_9'
+          // modelsName is a string in the form of 'level4b6_9'
           if((data[i][j].modelsName).indexOf('a') >= 0){
             $scope.cur_game = "a";
           } else{
@@ -121,8 +121,11 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
   // Save the score to the database
   $scope.saveScore = function () {
-    Restangular.all('/api/scores').post(
-      {"score":$scope.score, "game":$scope.cur_game, "level":$scope.cur_level}).then(
+    alert($scope.score);
+    alert($scope.cur_game);
+    alert($scope.cur_level);
+    Restangular.all('/api/scores/').post(
+      {score:$scope.score, game:$scope.cur_game, level:$scope.cur_level}).then(
       (function (data) {
         $state.go('scoreboard');
       }), function (err) {
