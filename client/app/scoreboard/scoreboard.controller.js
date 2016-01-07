@@ -4,11 +4,17 @@ angular.module('nwmApp')
   .controller('ScoreboardCtrl', function ($scope, $state, Restangular) {
 
     $scope.logout = function (scores) {
-      return Restangular.all('api/auths/logout').post(
+      Restangular.all('api/auths/logout').post(
       ).then((function (data) {
         $state.go('main');
       }), function (err) {
 
+      });
+    };
+
+    $scope.unlockedLevels = function () {
+      Restangular.all('api/levels').get('last_unlocked_level').then(function (serverJson) {
+        $scope.lastLevel = serverJson;
       });
     };
 
@@ -20,14 +26,18 @@ angular.module('nwmApp')
 
     $scope.getUserRecent = function (scores) {
       Restangular.all('api/scores/cur_user_recent').getList().then(function (serverJson) {
-        $scope.userRecent = serverJson;
+        $scope.userRecent = serverJson.map(function(val) {
+          val.createdAt = val.createdAt.substring(0, 10);
+          return val;
+        });
       });
     };
 
-    Restangular.all('api/users/').get('current_user').then(function (serverJson) {
-      $scope.userRecent = serverJson;
-    });
+    //Restangular.all('api/users/').get('current_user').then(function (serverJson) {
+    //  $scope.userRecent = serverJson;
+    //});
 
     $scope.getScores();
     $scope.getUserRecent();
+    $scope.unlockedLevels();
   });

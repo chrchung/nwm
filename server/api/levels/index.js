@@ -7,6 +7,6 @@ var router = express.Router();
 
 //router.get('/', controller.index);
 router.get('/level/:id', controller.getLevelInfo);
-//router.get('/s/d', controller.login);
+router.get('/last_unlocked_level', controller.lastUnlockedLevels);
 
 module.exports = router;

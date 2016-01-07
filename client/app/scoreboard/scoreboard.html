@@ -1,56 +1,87 @@
 <div class="row">
-  <br>
-
-  <button class="btn btn-primary" ng-click="logout()">Logout</button>
-
-  <h3 class="text-center">Scoreboard</h3>
-  <br>
-  <div class="col-xs-3">
+  <div class="row">
+    <div class="col-xs-12">
+      <br>
+      <button class="btn btn-default" ng-click="logout()">Logout</button>
+    </div>
   </div>
 
-  <div class="col-xs-6">
-    <div class="row">
-      <table class="table table-striped">
-        <tr>
+  <div class="row text-center">
+    <h3>Pick a level to play:</h3>
+    <button class="btn btn-default btn-lg" ng-disabled="lastLevel < 0" ui-sref="game({id:1})">Level 1</button>
+    <button class="btn btn-default btn-lg" ng-disabled="lastLevel < 1" ui-sref="game({id:2})">Level 2</button>
+    <button class="btn btn-default btn-lg" ng-disabled="lastLevel < 2" ui-sref="game({id:3})">Level 3</button>
+    <button class="btn btn-default btn-lg" ng-disabled="lastLevel < 3" ui-sref="game({id:4})">Level 4</button>
+    <button class="btn btn-default btn-lg" ng-disabled="lastLevel < 4" ui-sref="game({id:5})">Level 5</button>
+  </div>
+  <br>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col-xs-3">
+    </div>
+
+    <div class="col-xs-6">
+      <div class="row">
+        <table class="table table-hover">
+          <caption>Player Rankings</caption>
+          <thead>
+            <th>
+              Rank
+            </th>
+            <th>
+              Username
+            </th>
+            <th>
+              Score
+            </th>
+          </thead>
+          <tr ng-repeat="score in scores">
+            <td>
+              {{score.indexOf(score) + 1}}
+            </td>
+            <td>
+              {{score.username}}
+            </td>
+            <td>
+              {{score.overallScore}}
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="row">
+        <table class="table table-hover">
+          <caption>Your Recent Playing History</caption>
           <th>
-            Rank
+            Date
           </th>
           <th>
-            Username
+            Level
           </th>
           <th>
             Score
           </th>
-        </tr>
-        <tr ng-repeat="score in scores">
-          <td>
-            {{score.indexOf(score) + 1}}
-          </td>
-          <td>
-            {{score.username}}
-          </td>
-          <td>
-            {{score.overallScore}}
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div class="row">
+          </thead>
+          <tr ng-repeat="score in userRecent">
+            <td>
+              {{score.createdAt}}
+            </td>
+            <td>
+              Level {{score.level}}, game {{score.game}}
+            </td>
+            <td>
+              {{score.score}}
+            </td>
+          </tr>
+        </table>
+      </div>
+
 
     </div>
-    <div class="row">
-      <h3>Play</h3>
-      <button class="btn btn-primary" ui-sref="game({id:1})">Level 1</button>
-      <button class="btn btn-primary" ui-sref="game({id:2})">Level 2</button>
-      <button class="btn btn-primary" ui-sref="game({id:3})">Level 3</button>
-      <button class="btn btn-primary" ui-sref="game({id:4})">Level 4</button>
-      <button class="btn btn-primary" ui-sref="game({id:5})">Level 5</button>
+    <div class="col-xs-3">
     </div>
-
   </div>
-  <div class="col-xs-3">
 
-  </div>
 
 
   <br>
