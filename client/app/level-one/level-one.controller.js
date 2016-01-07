@@ -1,40 +1,57 @@
-angular.module('nwmApp').controller('LevelOneController', ['$scope', function($scope) {
+angular.module('nwmApp').controller('LevelOneController', function($scope, Restangular, $stateParams) {
   $scope.alienData = [];   // mapping from an alien id to an array of (model#, alien#, bucket#)
   $scope.buckets = [];
   $scope.num_buckets = 0;  // number of added buckets
   $scope.alienArray = [];
   $scope.aliensInBucket = []; //ids of aliens in buckets
-  var maxModels = 4;       // number of models
-  var maxAliens = 5;       // number of aliens in a model
+  var maxModels = 3;       // number of models
+  var maxAliens = 1;       // number of aliens in a model
   $scope.score = 0;
   $scope.current_bucket = 0;
+  $scope.properties = {};
+
+  $scope.checked = false;
+  $scope.toggle = function() {
+    $scope.checked = !$scope.checked;
+  }
+
+  // Current level
+  var cur_level = $stateParams.id;
+
+  // Request data from the server
+  Restangular.all('api/levels/level/1' + cur_level).getList().then((function (data) {
+    var parseData = function(model, alien){
+      for (var i = 0; i < maxModels; i++){
+        for (var j = 0; j < maxAliens; j++){
+          var split_id = data[i][j].modelsName.split(/a|b/)[1];
+          if (split_id.split("_")[0] == model && split_id.split("_")[1] == alien){
+            return data[i][j];
+          }}}}
+    for (var i = 0; i < maxModels; i++){
+      for (var j = 0; j < maxAliens; j++){
+        var parsed_data = parseData(i, j);
+        $scope.properties[i + "_" + j] = ["_" + j].concat(parsed_data.attributes);
+        $scope.alienArray.push({id: i + "_" + j, model: "model" + i, alien: j, url: parsed_data.Alien.url});
+      }
+    }
+    $scope.getUrl = function(model, alien){
+      return parseData(model, alien).Alien.url;
+    }
+    //alert($scope.properties);
+  }), function (err) {
+    alert("Unexpected error occured");
+  });
+
+
 
   // Attribute ids: mapping from alien id to
-  var properties = {
-    "0_0": ["_0", 45, 91, 11],
-    "0_1": ["_1", 45, 91, 41],
-    "0_2": ["_2", 14, 72, 12],
-    "0_3": ["_3", 14, 73, 41],
-    "0_4": ["_4", 1, 15, 11],
-
-    "1_0": ["_0", 45, 91, 11],
-    "1_1": ["_1", 45, 160, 41],
-    "1_2": ["_2", 45, 1, 12],
-    "1_3": ["_3", 14, 45, 41],
-    "1_4": ["_4", 16, 45, 11],
-
-    "2_0": ["_0", 64, 83, 41, 121, 103],
-    "2_1": ["_1", 14, 83, 41, 121, 103],
-    "2_2": ["_2", 14, 73, 12, 121, 103],
-    "2_3": ["_3", 14, 73, 41, 1, 130],
-    "2_4": ["_4", 91, 45, 11, 5, 162],
-
-    "3_0": ["_0", 39, 137, 13, 141, 67],
-    "3_1": ["_1", 39, 137, 13, 141, 33],
-    "3_2": ["_2", 39, 137, 13, 29, 31],
-    "3_3": ["_3", 39, 137, 113, 43, 6],
-    "3_4": ["_4", 39, 137, 13, 139, 110]
-  }
+  //var properties = {
+  //  "0_0": ["_0", 45, 91, 11],
+  //
+  //  "1_0": ["_0", 45, 91, 11],
+  //
+  //  "2_0": ["_0", 64, 83, 41, 121, 103],
+  //}
 
   // Score calculator
   var calculateScore = function() {
@@ -103,8 +120,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
     $scope.alienData.push({model: i, alien: []});
     for (var j = 0; j < maxAliens; j++) {
       $scope.alienData[i].alien.push({alien:j,
-                                      prop: properties[i + "_" + j]});
-      $scope.alienArray.push({id: i + "_" + j, model: "model" + i, alien: j});
+                                      prop: $scope.properties[i + "_" + j]});
     }
 
     shuffleArray($scope.alienArray);
@@ -196,7 +212,8 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
   };
 
   $scope.selectedAlien = function (alien_id) {
-    $("#img-container").html("<img width='300px' src='app/level-one/backup_aliens/model" + alien_id + ".png' />");
+    var url = $scope.getUrl($scope.get_model(alien_id), $scope.get_alien(alien_id));
+    $("#img-container").html("<img width='300px' src='" + url + "' />");
   };
 
   $scope.addBucket = function() {
@@ -273,7 +290,7 @@ angular.module('nwmApp').controller('LevelOneController', ['$scope', function($s
 
     calculateScore();
   };
-}]);
+});
 ///**
 // * Created by elsieyang on 2015-11-04.
 // */
