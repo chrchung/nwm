@@ -17,7 +17,7 @@ exports.getLevelInfo = function(req, res) {
   if (req.session.user) {
     getLevel(req, res);
   } else {
-    res.send(400).end();
+    res.status(400).end();
   };
 };
 
@@ -95,7 +95,7 @@ exports.lastUnlockedLevels = function (req, res) {
     scoreQuery.find({
       success: function (scores) {
         if (scores.length == 0) {
-          res.json('n/a');
+          res.send('n/a');
         } else {
           res.json(scores[0].attributes.level);
         };
