@@ -1,43 +1,49 @@
 <html>
 <head>
-  <script src='bower_components/ng-mobile-menu/dist/ng-mobile-menu.min.js'></script>
-  <link rel="stylesheet" href="ng-mobile-menu.min.css" />
 </head>
 
 <body>
 
-<div id="sp-nav">
-<
+<!-- menu bar -->
+<div pageslide ps-open="checked" id="menu_panel">
+    <div id="menu_content">
+        <h2>Hello Pageslide</h2>
+        <p>Put here whatever you want</p>
+        <a ng-click="toggle()" class="button" >Close</a>
+    </div>
 </div>
 
-<div id="sp-page">
-<!-- put your page content in here -->
-</div>
-
+<!-- alien contents -->
 <div class="container"
      data-drop="true"
      data-jqyoui-options
      jqyoui-droppable="{onDrop:'return false;'}">
-  <div id="info_board">CURRENT BUCKET: {{1+current_bucket}}<br/>
-                        YOUR SCORE: {{score}}</div>
-  <div id="img-container"></div>
-  <!--display aliens in grid-->
-    <div class="aliens">
-        <div ng-repeat="alien in alienArray"
-             ng-mouseover=selectedAlien(alien.id)
-             class="{{alien.model}}"
-             id="{{alien.id}}"
-             data-drag="true"
-             data-jqyoui-options="{'revert': 'valid', 'revertDuration': 0}"
-             jqyoui-draggable
-             style="display: inline-block;
-                    margin-right: 10px;
-                    margin-bottom: 10px;">
-          <img src="app/level-one/backup_aliens/model{{alien.id}}.png"/>
-        </div>
-    </div>
-</div>
 
+  <div id="top-right">
+    <div id="info-board">
+      <a class="large button" href="" ng-click="toggle()">Open Demo</a> <br/>
+      SCORE: {{score}}
+    </div><br/>
+
+    <div id="img-container"></div>
+  </div>
+
+  <!--display aliens in grid-->
+  <div id="aliens">
+    <div ng-repeat="alien in alienArray"
+         ng-mouseover=selectedAlien(alien.id)
+         class="{{alien.model}}"
+         id="{{alien.id}}"
+         data-drag="true"
+         data-jqyoui-options="{'revert': 'valid', 'revertDuration': 0}"
+         jqyoui-draggable
+         style="display: inline-block;
+                margin-right: 10px;
+                margin-bottom: 10px;">
+      <img src="{{alien.url}}"/>
+    </div>
+  </div>
+</div>
 
 <!--buckets-->
 <div id="buckets"
@@ -53,12 +59,13 @@
            ng-mouseover=selectedAlien(a)
            ng-dblclick="putBackAlien($event, a)"
            class="model{{get_model(a)}}"
-           id="{{a}}">
-        <img style="z-index: 3;
-             width: 50px;
-             display: inline-block;
-             float: left;"
-             ng-src='app/level-one/backup_aliens/model{{a}}.png' />
+           id="{{a}}"
+           style="z-index: 3;
+                width: 25%;
+                display: inline-block;
+                float: left;">
+        <img style="width: 100%;"
+             ng-src="{{getUrl(get_model(a), get_alien(a))}}" />
     </div>
 
 
