@@ -28,7 +28,7 @@ exports.saveScore = function(req, res) {
     var newScore = new Scores();
     newScore.set('game', game);
     newScore.set('level', level);
-    newScore.set('user', user);
+    newScore.set('user', user.username);
     newScore.set('score', score);
 
     newScore.save(null, {
@@ -53,7 +53,7 @@ var updateOverallScore = function (user, game, level, score) {
     var user = req.session.user;
     scoreQuery.equalTo('game', game);
     scoreQuery.equalTo('level', level);
-    scoreQuery.equalTo('user', user);
+    scoreQuery.equalTo('user', user.username);
     scoreQuery.descending('score');
 
     scoreQuery.first({
@@ -112,7 +112,7 @@ exports.getCurUserGameScore = function(req, res) {
   if (req.session.user) {
     var Scores = Parse.Object.extend('Scores');
     var scoreQuery = new Parse.Query(Scores);
-    var user = req.session.user;
+    var user = req.session.user.username;
     scoreQuery.equalTo('user', user);
     scoreQuery.equalTo('game', req.params.game);
     scoreQuery.equalTo('level', req.params.level);
@@ -136,7 +136,7 @@ exports.getCurUserGameScoreBest = function(req, res) {
     var Scores = Parse.Object.extend('Scores');
     var scoreQuery = new Parse.Query(Scores);
     var user = req.session.user;
-    scoreQuery.equalTo('user', user);
+    scoreQuery.equalTo('user', req.session.user.username);
     scoreQuery.equalTo('game', req.params.game);
     scoreQuery.equalTo('level', req.params.level);
     scoreQuery.descending('score');
@@ -157,7 +157,6 @@ exports.getCurUserGameScoreBest = function(req, res) {
 
 exports.getCurUserRecentScores = function(req, res) {
   if (req.session.user) {
-
     var User = Parse.Object.extend('User');
     var userQuery = new Parse.Query(User);
     userQuery.equalTo('username', req.session.user.username);
