@@ -8,7 +8,7 @@ angular.module('nwmApp')
     $scope.message = '';
 
     $scope.process = function () {
-      return Restangular.all('api/auths/login').post({
+      Restangular.all('api/auths/login').post({
         username: $scope.username,
         password: $scope.password
       }).then((function (data) {
