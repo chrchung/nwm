@@ -36,7 +36,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
           if (split_id.split("_")[0] == model && split_id.split("_")[1] == alien){
             return data[i][j];
           }
-        else{
+          else{
             continue;
           }}}}
     for (var i = 0; i < $scope.maxModels; i++){
@@ -58,16 +58,6 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   }), function (err) {
     alert("Unexpected error occured");
   });
-
-
-  // Attribute ids: mapping from alien id to
-  //var properties = {
-  //  "0_0": ["_0", 45, 91, 11],
-  //
-  //  "1_0": ["_0", 45, 91, 11],
-  //
-  //  "2_0": ["_0", 64, 83, 41, 121, 103],
-  //}
 
   // Score calculator
   var calculateScore = function() {
@@ -114,18 +104,6 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     return score;
   };
 
-  // Save the score to the database
-  $scope.saveScore = function () {
-
-    Restangular.all('/api/scores/').post(
-      {score: $scope.score, game: $scope.cur_game, level: parseInt($scope.cur_level)}).then(
-      (function (data) {
-        $state.go('scoreboard');
-      }), function (err) {
-
-      });
-  };
-
 
   // Returns the number of aliens in the given bucket
   // that have the given attribute
@@ -158,7 +136,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       var alien_id = $scope.alienArray[i].id;
       model_num = $scope.get_model(alien_id);
       if ($scope.aliensInBucket.indexOf(alien_id) != -1 ||
-          models_in_bucket.indexOf(model_num) != -1) {
+        models_in_bucket.indexOf(model_num) != -1) {
         $("#" + alien_id).attr('class', 'illegal_alien');
         $("#" + alien_id).draggable('disable');
         $scope.buckets[bucket].illegal_alien.push(alien_id);
@@ -305,38 +283,36 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
     calculateScore();
   };
+
+  $("#menu").hide();
+  $("#overlay").hide();
+  $scope.toggleMenu = function() {
+    $("#overlay").toggle();
+    $("#menu").toggle("200");
+  }
+
+
+  // Save the score to the database
+  $scope.saveScore = function () {
+    Restangular.all('/api/scores/').post(
+      {score: $scope.score, game: $scope.cur_game, level: parseInt($scope.cur_level)}).then(
+      (function (data) {
+        $state.go('scoreboard');
+      }), function (err) {
+
+      });
+  }
+
+  $scope.logout = function () {
+    Restangular.all('api/auths/logout').post(
+    ).then((function (data) {
+        $state.go('main');
+      }), function (err) {
+
+      });
+  }
+
+  $scope.quit = function (){
+    $state.go('scoreboard');
+  }
 });
-///**
-// * Created by elsieyang on 2015-11-04.
-// */
-//
-//'use strict';
-//(function() {
-//
-//  function LevelOneController($scope, $http) {
-//    var self = this;
-//    this.awesomeThings = [];
-//
-//    //$http.get('/api/levels').then(function(response) {
-//    //  self.awesomeThings = response.data;
-//    //});
-//
-//    $scope.modelnum = 1;
-//    $scope.aliennum = 1;
-//    $scope.models = [];
-//    $scope.aliens = [];
-//    var maxModels = 3;
-//    var maxAliens = 5;
-//    for( var i = 0 ; i <= maxModels; i++) {
-//      $scope.models.push(i + 1);
-//    }
-//    for( var j = 0 ; j <= maxAliens; j++){
-//      $scope.aliens.push(j + 1);
-//    }
-//
-//  }
-//
-//  angular.module('levelOne')
-//    .controller('LevelOneController', LevelOneController);
-//
-//})();
