@@ -28,8 +28,8 @@ $font_2: sans-serif;
 
 
 #title{
-  color: tomato;
-  font-size: 70px;
+  color: #00d4b4;
+  font-size: 50px;
 }
 
 #login {
@@ -92,7 +92,7 @@ $font_2: sans-serif;
 }
 .btn-login {
   color: $white;
-  background-color: $color_red_damask_approx;
+  background-color: #00d4b4;
   &:hover {
     color: $white;
     background-color: $color_flamingo_approx;
@@ -103,3 +103,10 @@ $font_2: sans-serif;
   }
 }
 
+//.bg {
+//  background-image: url("/client/assets/images/bg.png");
+//  // background-size: 100%;
+//  // background-repeat: no-repeat;
+//  background-color: black;
+//  //color: white;
+//}
