@@ -22,11 +22,10 @@ module.exports = function(config) {
       'client/bower_components/angular-ui-router/release/angular-ui-router.js',
       'client/bower_components/jquery-ui/jquery-ui.js',
       'client/bower_components/angular-dragdrop/src/angular-dragdrop.js',
-      'client/bower_components/jQuery-SlotMachine/dist/jquery.slotmachine.min.js',
       'client/bower_components/async/lib/async.js',
       'client/bower_components/restangular/dist/restangular.js',
-      'client/bower_components/angular-pageslide-directive/dist/angular-pageslide-directive.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
+      'client/bower_components/angular-filter-count-to/dist/angular-filter-count-to.min.js',
       // endbower
       'client/app/app.js',
       'client/app/**/*.js',
