@@ -23,6 +23,7 @@ angular.module('nwmApp')
 
     $scope.unlockedLevels = function () {
       Restangular.all('api/levels').get('last_unlocked_level').then(function (serverJson) {
+        //alert(serverJson);
         if (serverJson = 'n/a') {
           $scope.lastLevel = 0;
         } else {
