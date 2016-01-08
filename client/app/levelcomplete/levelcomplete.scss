@@ -1,0 +1,35 @@
+//.btn{
+//  display: inline-block;
+//  color: #fff;
+//  background-color: #00d4b4;
+//  &:hover {
+//    color: #fff;
+//    background-color: #e55f49;
+//  }
+//  &:focus {
+//    color: #fff;
+//    background-color: #e55f49;
+//  }
+//}
+
+//fonts
+$font_0: Glyphicons Halflings;
+$font_1: Open Sans;
+$font_2: sans-serif;
+
+
+#score {
+  font-weight: 900;
+  text-align: center;
+  font-size: 40px;
+  font-family: $font_1, $font_2;
+  top:10px;
+  color:#00d4b4;
+  left: 100%;
+  right: 100%;
+}
+
+.buttonset {
+  top:10px;
+  display: table;
+}
