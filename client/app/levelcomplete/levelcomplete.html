@@ -36,7 +36,7 @@
     <div class="col-xs-6">
       <div ng-show="scores.length > 0">
         <table class="table table-hover">
-          <caption>Player Rankings</caption>
+          <caption>Level {{cur_level}} Game {{cur_game}} Rankings</caption>
           <thead>
           <th>
             Rank
@@ -50,13 +50,13 @@
           </thead>
           <tr ng-repeat="score in scores">
             <td>
-              {{score.indexOf(score) + 1}}
+              {{scores.indexOf(score) + 1}}
             </td>
             <td>
               {{score.user}}
             </td>
             <td>
-              {{score.overallScore}}
+              {{score.score}}
             </td>
           </tr>
         </table>
