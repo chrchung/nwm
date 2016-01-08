@@ -4,14 +4,7 @@
 
 <body>
 
-<!-- menu bar -->
-<div pageslide ps-open="checked" id="menu_panel">
-    <div id="menu_content">
-        <h2>Hello Pageslide</h2>
-        <p>Put here whatever you want</p>
-        <a ng-click="toggle()" class="button" >Close</a>
-    </div>
-</div>
+
 
 <!-- alien contents -->
 <div class="container"
@@ -19,13 +12,21 @@
      data-jqyoui-options
      jqyoui-droppable="{onDrop:'return false;'}">
 
-  <div id="top-right">
-    <div id="info-board">
-      <a class="large button" href="" ng-click="toggle()">Open Demo</a> <br/>
-      SCORE: {{score}}
-    </div><br/>
+  <!--<div id="menu">-->
+    <!--<title> wwwwwwaaaaa</title>-->
+  <!--</div>-->
 
+  <div id="top-right">
+    <div id="score">SCORE: {{score}}</div>
     <div id="img-container"></div>
+  </div>
+
+  <div id="bottom-right">
+    <div>
+      <button class="btn" ng-click="saveScore()">I'm done</button>
+      <button class="btn" ng-click="openMenu()">Menu</button>
+    </div>
+
   </div>
 
   <!--display aliens in grid-->
@@ -43,10 +44,6 @@
       <img src="{{alien.url}}"/>
     </div>
   </div>
-</div>
-
-<div>
-  <button id="" ng-click="saveScore()">I'm done</button>
 </div>
 
 <!--buckets-->
