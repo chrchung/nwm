@@ -27,9 +27,9 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
         for (var j = 0; j < $scope.maxAliens; j++){
           // modelsName is a string in the form of 'level4b6_9'
           if((data[i][j].modelsName).indexOf('a') >= 0){
-            $scope.cur_game = "a";
+            $scope.cur_game = 1;
           } else{
-            $scope.cur_game = "b";
+            $scope.cur_game = 2;
           }
 
           var split_id = data[i][j].modelsName.split(/a|b/)[1];
@@ -116,11 +116,9 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
   // Save the score to the database
   $scope.saveScore = function () {
-    alert($scope.score);
-    alert($scope.cur_game);
-    alert($scope.cur_level);
+
     Restangular.all('/api/scores/').post(
-      {score:$scope.score, game:$scope.cur_game, level:$scope.cur_level}).then(
+      {score: $scope.score, game: $scope.cur_game, level: parseInt($scope.cur_level)}).then(
       (function (data) {
         $state.go('scoreboard');
       }), function (err) {
