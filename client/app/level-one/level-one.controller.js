@@ -44,7 +44,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       $scope.alienData.push({model: i, alien: []});
       for (var j = 0; j < $scope.maxAliens; j++){
         var parsed_data = parseData(i, j);
-        $scope.properties[i + "_" + j] = ["_" + j].concat(parsed_data.attributes);
+        $scope.properties[i + "_" + j] = parsed_data.attributes;
         $scope.alienArray.push({id: i + "_" + j, model: "model" + i, alien: j, url: parsed_data.Alien.url});
         $scope.alienData[i].alien.push({alien:j,
           prop: $scope.properties[i + "_" + j]});
