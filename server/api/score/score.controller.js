@@ -46,8 +46,8 @@ exports.saveScore = function (req, res) {
 var updateOverallScore = function (user, game, level, score, thisScoreId, req, res) {
   var Scores = Parse.Object.extend('Scores');
   var scoreQuery = new Parse.Query(Scores);
-  scoreQuery.equalTo('game', 1);
-  scoreQuery.equalTo('level', 1);
+  scoreQuery.equalTo('game', game);
+  scoreQuery.equalTo('level', level);
   scoreQuery.equalTo('user', user.username);
   scoreQuery.descending('score');
   scoreQuery.notEqualTo('objectId', thisScoreId);
@@ -55,10 +55,9 @@ var updateOverallScore = function (user, game, level, score, thisScoreId, req, r
   scoreQuery.first({
     success: function (curHighest) {
       if (curHighest == null) {
-        changeOverall(score, user, req, res);
+        changeOverall(0, score, user, req, res);
       } else if (curHighest.attributes.score < score) {
-        changeOverall(overallScore.attributes.overallScore -
-          curHighest.attributes.score + score, user, req, res);
+        changeOverall(curHighest.attributes.score, score, user, req, res);
       } else {
         res.status(200).end();
       };
@@ -69,13 +68,13 @@ var updateOverallScore = function (user, game, level, score, thisScoreId, req, r
   });
 };
 
-var changeOverall = function (newVal, user, req, res) {
+var changeOverall = function (oldVal, newVal, user, req, res) {
   var OverallScores = Parse.Object.extend('OverallScores');
   var scoreQuery = new Parse.Query(OverallScores);
   scoreQuery.equalTo('user', user.username);
   scoreQuery.first({
     success: function (overallScore) {
-      overallScore.set('overallScore', newVal);
+      overallScore.set('overallScore', overallScore.attributes.overallScore - oldVal + newVal);
       overallScore.save(null, {
         success: function (gameScore) {
           res.status(200).end();
