@@ -2,7 +2,7 @@ body {
   // background-image: url("level-one/backup_aliens/background_img.png");
   // background-size: 100%;
   // background-repeat: no-repeat;
-  background-color: lightslategray;
+  background-color: white;
   //color: white;
 }
 
@@ -10,29 +10,57 @@ body {
   width: 100%;
 }
 
-#menu_panel {
-    background-color: black;
-    height: 100%;
-    overflow: hidden;
-    transition: width 1s;
-    -webkit-transition: width 1s;
+#menu {
+  position: fixed;
+  background-color: rgba(0, 212, 180, 0.50);
+  width: 300px;
+  height: 200px;
+  right: 100%;
+  left: 100%;
+  top: 100%;
+  bottom: 100%;
+  z-index: 5;
 }
 
-#menu_content {
-  text-align: right;
-  margin-right: 10px;
+#bottom-right {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
 }
 
 #top-right {
   position: fixed;
-  width: 25%;
+  width: 300px;
   right: 0px;
+  text-align: center;
+  margin-top: 10px;
 }
 
-#info-board {
-  text-align: right;
-  background-color: black;
-  width: auto;
+#score {
+  left: 100%;
+  right: 100%;
+}
+
+$color_jungle_green_approx: #1fa67b;
+$color_celeste_approx: #ccc;
+$color_dove_gray_approx: #6d6d6d;
+$color_log_cabin_approx: #212121;
+$white: #fff;
+$color_red_damask_approx: #e55f49;
+$color_flamingo_approx: #ed5337;
+
+button {
+  display: inline-block;
+  color: $white;
+  background-color: $color_red_damask_approx;
+  &:hover {
+    color: $white;
+    background-color: $color_flamingo_approx;
+  }
+  &:focus {
+    color: $white;
+    background-color: $color_flamingo_approx;
+  }
 }
 
 #img-container {
@@ -44,9 +72,9 @@ body {
 }
 
 #aliens {
-  width: 75%;
-  margin-top: 20px;
-  margin-bottom: 200px;
+  margin-left: 220px;
+  margin-top: 10px;
+  margin-right: 250px;
 }
 
 #aliens img {
@@ -55,122 +83,123 @@ body {
 }
 
 .model0 {
-  width: 10%;
+  width: 100px;
 }
 
 .model1 {
-  width: 10%;
+  width: 100px;
 }
 
 .model2 {
-  width: 10%;
+  width: 100px;
 }
 
 .model3 {
-  width: 10%;
+  width: 100px;
 }
 
 .model4 {
-  width: 10%;
+  width: 100px;
 }
 
 .model5 {
-  width: 10%;
+  width: 100px;
 }
 
 .model6 {
-  width: 10%;
+  width: 100px;
 }
 
 .model7 {
-  width: 10%;
+  width: 100px;
 }
 
 .model8 {
-  width: 10%;
+  width: 100px;
 }
 
 .model9 {
-  width: 10%;
+  width: 100px;
 }
 
 .illegal_alien {
-  width: 10%;
+  width: 100px;
 }
 
 .model0 img {
-  border-radius: 50%;
+  border-radius: 10px;
   background-color: rgba(0, 235, 255, 0.27);
 }
 
 .model1 img {
-  border-radius: 50%;
+  border-radius: 10px;
   background-color: rgba(252, 176, 255, 0.27);
 }
 
 .model2 img {
-  border-radius: 50%;
+  border-radius: 10px;
   background-color: rgba(173, 255, 171, 0.27);
 }
 
 .model3 img {
-  border-radius: 50%;
+  border-radius: 10px;
   background-color: rgba(255, 194, 150, 0.27);
 }
 
 .model4 img {
-  border-radius: 50%;
+  border-radius: 10px;
   background-color: rgba(120, 100, 228, 0.27);
 }
 
 .model5 img {
-  border-radius: 50%;
+  border-radius: 10px;
   background-color: rgba(235, 199, 0, 0.27);
 }
 
 .model6 img {
-  border-radius: 50%;
+  border-radius: 10px;
   background-color: rgba(255, 0, 0, 0.27);
 }
 
 .model7 img {
-  border-radius: 50%;
+  border-radius: 10px;
   background-color: rgba(0, 0, 150, 0.27);
 }
 
 .model8 img {
-  border-radius: 50%;
+  border-radius: 10px;
   background-color: rgba(150, 44, 0, 0.27);
 }
 
 .model9 img {
-  border-radius: 50%;
+  border-radius: 10px;
   background-color: rgba(0, 133, 0, 0.27);
 }
 
 .illegal_alien img {
-  border-radius: 50%;
+  border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 #buckets {
-  position: sticky;
-  bottom: 0px;
-  min-width: 100%;
-  height: 170px;
-  white-space: nowrap;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  padding: 0px 5px 0px 5px;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 220px;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 5px 5px 5px 5px;
+  background-color: #00d4b4;
 }
 
 .bucket {
   position: relative;
   white-space: nowrap;
   display:inline-block;
-  background-color: rgba(255, 255, 255, 0.90);
+  background-color: rgba(255, 255, 255, 0.80);
   border-radius: 10px;
-  margin: 10px 5px 10px 5px;
+  margin: 0px 5px 0px 5px;
   width: 200px;
   height: 150px;
   z-index: 1;
