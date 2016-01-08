@@ -5,6 +5,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.alienArray = [];
   $scope.aliensInBucket = []; //ids of aliens in buckets
   $scope.score = 0;
+  $scope.prev_score = $scope.score;
   $scope.current_bucket = 0;
   $scope.properties = {};
 
@@ -66,6 +67,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     for (var i = 0; i < $scope.buckets.length; i++) {
       total_score += calculateScoreByBucket($scope.buckets[i].alien);
     }
+    $scope.prev_score = $scope.score;
     $scope.score = total_score;
   }
 

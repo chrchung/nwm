@@ -11,7 +11,7 @@
   <button class="btn" ng-click="logout()">LOG OUT</button>
 
 </div>
-
+<script src="bower_components/angular-count-to/src/count-to.js"></script>
 <!-- alien contents -->
 <div class="container"
      data-drop="true"
@@ -19,12 +19,12 @@
      jqyoui-droppable="{onDrop:'return false;'}">
 
   <div id="top-right">
-    <div id="score">SCORE: {{score}}</div>
     <div id="img-container"></div>
   </div>
 
   <div id="bottom-right">
     <div>
+      <h3 id="score">SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p></h3>
       <button class="btn" ng-click="saveScore()">I'M DONE!</button><br/>
       <button class="btn" ng-click="toggleMenu()">MENU</button>
     </div>
