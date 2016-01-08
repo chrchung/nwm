@@ -1,9 +1,8 @@
 body {
-  //background-image: url('yeoman.png');
-  //// background-size: 100%;
+  // background-image: url("level-one/backup_aliens/background_img.png");
+  // background-size: 100%;
   // background-repeat: no-repeat;
-  //background-color: black;
-  //color: white;
+  background-color: white;
 }
 
 .container {
@@ -12,20 +11,36 @@ body {
 
 #menu {
   position: fixed;
-  background-color: rgba(0, 212, 180, 0.50);
+  background-color: white;
+  border-radius: 20px;
   width: 300px;
-  height: 200px;
-  right: 100%;
-  left: 100%;
-  top: 100%;
-  bottom: 100%;
-  z-index: 5;
+  height: 140px;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-align: center;
 }
+
+#overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+}
+
 
 #bottom-right {
   position: fixed;
-  bottom: 10px;
+  bottom: 20px;
   right: 10px;
+  z-index: 11;
 }
 
 #top-right {
@@ -41,25 +56,19 @@ body {
   right: 100%;
 }
 
-$color_jungle_green_approx: #1fa67b;
-$color_celeste_approx: #ccc;
-$color_dove_gray_approx: #6d6d6d;
-$color_log_cabin_approx: #212121;
-$white: #fff;
-$color_red_damask_approx: #e55f49;
-$color_flamingo_approx: #ed5337;
-
 button {
+  margin-top: 10px;
+  width:250px;
   display: inline-block;
-  color: $white;
-  background-color: $color_red_damask_approx;
+  color: #fff;
+  background-color: #00d4b4;
   &:hover {
-    color: $white;
-    background-color: $color_flamingo_approx;
+    color: #fff;
+    background-color: #e55f49;
   }
   &:focus {
-    color: $white;
-    background-color: $color_flamingo_approx;
+    color: #fff;
+    background-color: #e55f49;
   }
 }
 
@@ -189,8 +198,9 @@ button {
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-  padding: 5px 5px 5px 5px;
+  padding: 10px 0px 0px 0px;
   background-color: #00d4b4;
+  z-index: 0;
 }
 
 .bucket {
@@ -199,7 +209,7 @@ button {
   display:inline-block;
   background-color: rgba(255, 255, 255, 0.80);
   border-radius: 10px;
-  margin: 0px 5px 0px 5px;
+  margin: 0px 10px 5px 10px;
   width: 200px;
   height: 150px;
   z-index: 1;
