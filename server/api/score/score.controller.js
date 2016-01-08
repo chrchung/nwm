@@ -108,8 +108,8 @@ exports.getAllOverall = function (req, res) {
 exports.getGameScoreboard = function (req, res) {
   var Scores = Parse.Object.extend('Scores');
   var scoreQuery = new Parse.Query(Scores);
-  scoreQuery.equalTo('game', req.params.game);
-  scoreQuery.equalTo('level', req.params.level);
+  scoreQuery.equalTo('game', parseInt(req.params.game));
+  scoreQuery.equalTo('level', parseInt(req.params.level));
   scoreQuery.descending('score');
   scoreQuery.limit(10);
 
@@ -129,8 +129,8 @@ exports.getCurUserGameScore = function (req, res) {
     var scoreQuery = new Parse.Query(Scores);
     var user = req.session.user.username;
     scoreQuery.equalTo('user', user);
-    scoreQuery.equalTo('game', req.params.game);
-    scoreQuery.equalTo('level', req.params.level);
+    scoreQuery.equalTo('game', parseInt(req.params.game));
+    scoreQuery.equalTo('level', parseInt(req.params.level));
     scoreQuery.limit(10);
     scoreQuery.find({
       success: function (scores) {
@@ -153,8 +153,8 @@ exports.getCurUserGameScoreBest = function (req, res) {
     var scoreQuery = new Parse.Query(Scores);
     var user = req.session.user;
     scoreQuery.equalTo('user', req.session.user.username);
-    scoreQuery.equalTo('game', req.params.game);
-    scoreQuery.equalTo('level', req.params.level);
+    scoreQuery.equalTo('game', parseInt(req.params.game));
+    scoreQuery.equalTo('level', parseInt(req.params.level));
     scoreQuery.descending('score');
     scoreQuery.limit(1);
 
