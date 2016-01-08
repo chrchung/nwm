@@ -299,7 +299,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     Restangular.all('/api/scores/').post(
       {score: $scope.score, game: $scope.cur_game, level: parseInt($scope.cur_level)}).then(
       (function (data) {
-        $state.go('scoreboard');
+        $state.go('levelcomplete', {level_id: parseInt($scope.cur_level), game_id: $scope.cur_game, score: $scope.score});
       }), function (err) {
 
       });
