@@ -90,14 +90,12 @@ exports.lastUnlockedLevels = function (req, res) {
     var scoreQuery = new Parse.Query(Scores);
     scoreQuery.equalTo('user', req.session.user.username);
     scoreQuery.descending('level');
-    scoreQuery.limit(1);
-
-    scoreQuery.find({
-      success: function (scores) {
-        if (scores.length == 0) {
-          res.send('n/a');
+    scoreQuery.first({
+      success: function (score) {
+        if (score == null) {
+          res.json('n/a');
         } else {
-          res.json(scores[0].attributes.level);
+          res.json(score.attributes.level);
         };
       },
       error: function (error) {
