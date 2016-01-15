@@ -43,7 +43,7 @@
   <div id="bottom-right">
     <div>
       <h3 id="score-board">SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p>
-        <br/> RECORD OF THE LEVEL: <p>{{highest_score}}</p></h3>
+        <br/>BEST: <p>{{highest_score}}</p></h3>
       <button class="btn" ng-click="saveScore()">SAVE SCORE</button><br/>
       <button class="btn" ng-click="toggleSelectionScreen()">COMPARE ALIENS</button><br/>
       <button class="btn" ng-click="toggleMenu()">MENU</button>
@@ -58,7 +58,7 @@
          id="{{alien.id}}"
          data-drag="true"
          data-jqyoui-options="{'revert': 'valid', 'revertDuration': 0}"
-         jqyoui-draggable
+         jqyoui-draggable="{onStart: 'startDragging'}"
          ng-click="selectAlien(alien.id)"
          style="display: inline-block;
                 margin-right: 10px;
