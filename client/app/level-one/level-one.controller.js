@@ -8,6 +8,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.prev_score = $scope.score;
   $scope.current_bucket = 0;
   $scope.properties = {};
+  $scope.selectedAliens = [];
 
 
   // Add the first bucket
@@ -293,6 +294,15 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     $("#menu").toggle("200");
   }
 
+  $("#selection-screen").hide();
+  $("#overlay").hide();
+  $("#close-selection-screen").hide();
+  $scope.toggleSelectionScreen = function() {
+    $("#overlay").toggle();
+    $("#selection-screen").toggle("200");
+    $("#close-selection-screen").toggle();
+  }
+
 
   // Save the score to the database
   $scope.saveScore = function () {
@@ -316,5 +326,21 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
   $scope.quit = function (){
     $state.go('scoreboard');
+  }
+
+  $scope.selectAlien = function (alien_id) {
+    var ind = $scope.selectedAliens.indexOf(alien_id);
+    if (ind >= 0) {
+      $("#" + alien_id).removeClass('selectedAlien');
+      $scope.selectedAliens.splice(ind, 1);
+    }
+    else {
+      if ($scope.selectedAliens.length == 8) {
+        alert("Can only select 8 aliens!");
+        return 0;
+      }
+      $scope.selectedAliens.push(alien_id);
+      $("#" + alien_id).addClass('selectedAlien');
+    }
   }
 });
