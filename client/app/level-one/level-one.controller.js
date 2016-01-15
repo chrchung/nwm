@@ -329,21 +329,29 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     $state.go('scoreboard');
   }
 
+  $scope.dragged = false;
   $scope.selectAlien = function (alien_id) {
-    var ind = $scope.selectedAliens.indexOf(alien_id);
-    if (ind >= 0) {
-      $("#" + alien_id).removeClass('selectedAlien');
-      $scope.selectedAliens.splice(ind, 1);
-    }
-    else {
-      if ($scope.selectedAliens.length == 8) {
-        alert("Can only select 8 aliens!");
-        return 0;
+    if (!$scope.dragged) {
+      var ind = $scope.selectedAliens.indexOf(alien_id);
+      if (ind >= 0) {
+        $("#" + alien_id).removeClass('selectedAlien');
+        $scope.selectedAliens.splice(ind, 1);
       }
-      $scope.selectedAliens.push(alien_id);
-      $("#" + alien_id).addClass('selectedAlien');
+      else {
+        if ($scope.selectedAliens.length == 8) {
+          alert("Can only select 8 aliens!");
+          return 0;
+        }
+        $scope.selectedAliens.push(alien_id);
+        $("#" + alien_id).addClass('selectedAlien');
+      }
     }
+    $scope.dragged = false;
   }
+
+  $scope.startDragging = function() {
+    $scope.dragged = true;
+  };
 
   $scope.get_highest_score = function (){
     Restangular.all('api/scores/game_scoreboard/' + parseInt($scope.cur_level) + '/' + $scope.cur_game)
