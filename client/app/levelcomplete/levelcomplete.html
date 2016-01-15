@@ -2,31 +2,7 @@
 
   <div id="score">YOUR SCORE IS: {{last_score}}</div>
 
-
-  <div class="buttonset">
-    <div style="display: table-cell;padding-left: 130px;">
-      <button class="btn btn-lg" ng-click="next()">continue your adventure</button>
-    </div>
-
-    <div style="display: table-cell;padding-left: 130px;">
-      <button class="btn btn-lg" type=checkbox ng-click="isCollapsed = !isCollapsed">choose a previous level</button>
-      <hr>
-      <div ng-show="isCollapsed">
-        <td> <div class="text-center">
-          <button class="btn btn-default btn-lg" ng-if="lastLevel >= 0" ui-sref="game({id:1})">Level 1</button>
-          <button class="btn btn-default btn-lg" ng-if="lastLevel >= 1" ui-sref="game({id:2})">Level 2</button>
-          <button class="btn btn-default btn-lg" ng-if="lastLevel >= 2" ui-sref="game({id:3})">Level 3</button>
-          <button class="btn btn-default btn-lg" ng-if="lastLevel >= 3" ui-sref="game({id:4})">Level 4</button>
-          <button class="btn btn-default btn-lg" ng-if="lastLevel >= 4" ui-sref="game({id:5})">Level 5</button>
-        </div></td>
-      </div>
-
-    </div>
-
-    <div style="display: table-cell;padding-left: 130px;">
-      <button class="btn btn-lg" ng-click="scoreboard()">have a rest</button>
-    </div>
-  </div>
+  <br/><br/>
 
 
   <div class="">
@@ -67,3 +43,29 @@
     </div>
   </div>
 </div>
+
+
+<ul id="buttonSet">
+  <li>
+    <button class="btn btn-lg" ng-click="next()">continue your adventure</button>
+  </li>
+
+  <li>
+    <button class="btn btn-lg" type=checkbox ng-click="isCollapsed = !isCollapsed">choose a previous level</button>
+    <div id="more-wrap" ng-if="isCollapsed">
+      <ul id="more-dropdown" style="display: block;">
+        <li><button class="btn btn-default btn-lg" ng-if="lastLevel >= 0" ui-sref="game({id:1})">Level 1</button></li>
+        <li><button class="btn btn-default btn-lg" ng-if="lastLevel >= 1" ui-sref="game({id:2})">Level 2</button></li>
+        <li><button class="btn btn-default btn-lg" ng-if="lastLevel >= 2" ui-sref="game({id:3})">Level 3</button></li>
+        <li><button class="btn btn-default btn-lg" ng-if="lastLevel >= 3" ui-sref="game({id:4})">Level 4</button></li>
+        <li><button class="btn btn-default btn-lg" ng-if="lastLevel >= 4" ui-sref="game({id:5})">Level 5</button></li>
+      </ul>
+    </div>
+
+  </li>
+
+
+  <li>
+    <button class="btn btn-lg" ng-click="scoreboard()">have a rest</button>
+  </li>
+</ul>
