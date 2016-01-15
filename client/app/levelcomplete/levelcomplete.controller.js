@@ -32,13 +32,12 @@ angular.module('nwmApp')
       });
     };
 
-
     $scope.getScores = function (scores) {
       Restangular.all('api/scores/game_scoreboard/' + $scope.cur_level + '/' + $scope.cur_game)
         .getList().then(function (serverJson) {
           //alert(serverJson);
-        $scope.scores = serverJson;
-      });
+          $scope.scores = serverJson;
+        });
     };
 
     $scope.unlockedLevels();

@@ -50,6 +50,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
         $scope.alienData[i].alien.push({alien:j,
           prop: $scope.properties[i + "_" + j]});
       }
+      $scope.get_highest_score();
       shuffleArray($scope.alienArray);
     }
 
@@ -343,4 +344,12 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       $("#" + alien_id).addClass('selectedAlien');
     }
   }
+
+  $scope.get_highest_score = function (){
+    Restangular.all('api/scores/game_scoreboard/' + parseInt($scope.cur_level) + '/' + $scope.cur_game)
+      .getList().then(function (serverJson) {
+        $scope.highest_score = serverJson[0].score;
+      });
+  }
+
 });
