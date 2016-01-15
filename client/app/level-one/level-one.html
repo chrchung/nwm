@@ -5,12 +5,31 @@
 <body>
 <div id="overlay"></div>
 
+<!-- menu -->
 <div id="menu">
   <button class="btn" ng-click="toggleMenu()">RESUME</button><br/>
   <button class="btn" ng-click="quit()">QUIT GAME</button><br/>
   <button class="btn" ng-click="logout()">LOG OUT</button>
-
 </div>
+
+<!-- Zoomed aliens -->
+<div id="selection-screen">
+  <div ng-repeat="alien in selectedAliens"
+       class="model{{get_model(alien)}}"
+       style="white-space: nowrap;
+              display: inline-block;
+              width: 22%;
+              margin: 10px 10px 10px 10px;
+              background-color: white;
+              border-radius: 10px;">
+    <div class="selected-alien"
+         ng-click="selectAlien(alien)">
+      <img ng-src="{{getUrl(get_model(alien), get_alien(alien))}}" />
+    </div>
+  </div>
+</div>
+<div id="close-selection-screen" ng-click="toggleSelectionScreen()">×</div>
+
 <!-- alien contents -->
 <div class="container"
      data-drop="true"
@@ -24,10 +43,10 @@
   <div id="bottom-right">
     <div>
       <h3 id="score-board">SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p></h3>
-      <button class="btn" ng-click="saveScore()">I'M DONE!</button><br/>
+      <button class="btn" ng-click="saveScore()">SAVE SCORE</button><br/>
+      <button class="btn" ng-click="toggleSelectionScreen()">COMPARE ALIENS</button><br/>
       <button class="btn" ng-click="toggleMenu()">MENU</button>
     </div>
-
   </div>
 
   <!--display aliens in grid-->
@@ -39,6 +58,7 @@
          data-drag="true"
          data-jqyoui-options="{'revert': 'valid', 'revertDuration': 0}"
          jqyoui-draggable
+         ng-click="selectAlien(alien.id)"
          style="display: inline-block;
                 margin-right: 10px;
                 margin-bottom: 10px;">
@@ -59,6 +79,7 @@
       <div ng-repeat="a in b.alien"
            ng-mouseover=selectedAlien(a)
            ng-dblclick="putBackAlien($event, a)"
+           ng-click="selectAlien(a)"
            class="model{{get_model(a)}}"
            id="{{a}}"
            style="z-index: 3;
@@ -79,28 +100,3 @@
 </body>
 
 </html>
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-
-<!--<head>-->
-<!--<meta charset="UTF-8">-->
-<!--<title>LEVEL 1</title>-->
-
-<!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>-->
-<!--<script src="level-one.js"></script>-->
-<!--<script src="level-one.controller.js"></script>-->
-<!--</head>-->
-
-<!--<body ng-app="levelOne">-->
-<!--<div class="container" ng-controller="LevelOneController">-->
-<!--<div class="alien"><img src="./backup_aliens/model{{modelnum}}_{{aliennum}}.png" width="10%"></div>-->
-<!--<div ng-repeat="model in models">-->
-<!--<div ng-repeat="alien in aliens">-->
-<!--<div class="alien"><img src="./backup_aliens/model{{$index}}_{{ aliennum }}.png" width="10%"></div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--</body>-->
-<!--</html>-->
