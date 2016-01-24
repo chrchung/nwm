@@ -101,7 +101,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     }
 
     var score = 0;
-    for (var j = 0; j < num_dup.length; j++) {
+    for (var j in num_dup) {
       score += Math.ceil((Math.pow(j, 2) * num_dup[j])/(Math.pow($scope.maxModels, 2)*prop_list.length) * 10000);
     }
 
@@ -113,7 +113,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   // that have the given attribute
   var compare = function(prop_id, alien_list) {
     var num_occurrence = 0;
-    for (var i = 0; i < alien_list.length; i ++) {
+    for (var i = 0; i < alien_list.length; i++) {
       var cur_properties = $scope.alienData[alien_list[i].split("_")[0]].alien[alien_list[i].split("_")[1]].prop;
       if (cur_properties.indexOf(prop_id) != -1) {
         num_occurrence++;
