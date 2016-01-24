@@ -1,8 +1,3 @@
-<html>
-<head>
-</head>
-
-<body>
 <div id="overlay"></div>
 
 <!-- menu -->
@@ -53,7 +48,7 @@
   <!--display aliens in grid-->
   <div id="aliens">
     <div ng-repeat="alien in alienArray"
-         ng-mouseover=selectedAlien(alien.id)
+         ng-mouseover="selectedAlien(alien.id)"
          class="{{alien.model}}"
          id="{{alien.id}}"
          data-drag="true"
@@ -97,7 +92,3 @@
     </div>
   </div>
 </div>
-
-</body>
-
-</html>
