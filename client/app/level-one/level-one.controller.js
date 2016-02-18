@@ -51,6 +51,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
           prop: $scope.properties[i + "_" + j]});
       }
       $scope.get_highest_score();
+      $scope.get_greedy();
       shuffleArray($scope.alienArray);
     }
 
@@ -61,6 +62,8 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   }), function (err) {
     alert("Unexpected error occured");
   });
+
+
 
   // Score calculator
   var calculateScore = function() {
@@ -357,6 +360,12 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     Restangular.all('api/scores/game_scoreboard/' + parseInt($scope.cur_level) + '/' + $scope.cur_game)
       .getList().then(function (serverJson) {
         $scope.highest_score = serverJson[0].score;
+      });
+  }
+  $scope.get_greedy = function() {
+    Restangular.all('api/levels/getBeat/' + parseInt($scope.cur_level) + '/' + parseInt($scope.cur_game))
+      .getList().then(function (serverJson) {
+        $scope.beat = serverJson[0].scoreToBeat;
       });
   }
 
