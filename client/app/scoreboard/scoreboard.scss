@@ -2,3 +2,68 @@
   float: right;
   //margin: 10px;
 }
+
+
+
+.level {
+  margin-top: 10px;
+  width: 200px;
+  height: 100px;
+  display: inline-block;
+  color: #fff;
+  font-size: 30px;
+  background-color: #00d4b4;
+  &:hover {
+    color: #fff;
+    background-color: #e55f49;
+  }
+  &:focus {
+    color: #fff;
+    background-color: #e55f49;
+  }
+}
+
+.logout {
+  margin-top: 10px;
+  width: 100px;
+  display: inline-block;
+  color: #fff;
+  background-color: #00d4b4;
+  &:hover {
+    color: #fff;
+    background-color: #e55f49;
+  }
+  &:focus {
+    color: #fff;
+    background-color: #e55f49;
+  }
+}
+
+
+.bottom-right {
+  background-color: #00d4b4;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 50px;
+  color: white;
+  border-radius: 25px;
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 0px;
+  padding-right: 0px;
+
+  table {
+    margin: auto;
+    width: 50%;
+  }
+
+  td {
+    padding: 0px;
+    width: 150px;
+    height: 10px;
+    font-size: 12px;
+  }
+}
+
