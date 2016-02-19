@@ -51,6 +51,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
           prop: $scope.properties[i + "_" + j]});
       }
       $scope.get_highest_score();
+      $scope.get_greedy();
       shuffleArray($scope.alienArray);
     }
 
@@ -62,6 +63,8 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     alert("Unexpected error occured");
   });
 
+
+
   // Score calculator
   var calculateScore = function() {
     // Calculate points for each bucket
@@ -70,6 +73,37 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       total_score += calculateScoreByBucket($scope.buckets[i].alien);
     }
     $scope.prev_score = $scope.score;
+
+    // Feedback
+    var higher = Math.max($scope.beat, $scope.highest_score);
+
+    if ($scope.score < total_score) {
+      if (total_score >= higher * 5 / 5) {
+        if ($scope.feedback != "OMG!"){
+          $scope.feedback = "OMG!";
+          $("#feedback").show().delay(500).fadeOut();
+        }
+      }
+      else if (total_score >= higher * 4 / 5) {
+        if ($scope.feedback != "Amazing!"){
+          $scope.feedback = "Amazing!";
+          $("#feedback").show().delay(500).fadeOut();
+        }
+      }
+      else if (total_score >= higher * 3 / 5) {
+        if ($scope.feedback != "Wow!"){
+          $scope.feedback = "Wow!";
+          $("#feedback").show().delay(500).fadeOut();
+        }
+      }
+      else if (total_score >= higher * 2 / 5) {
+        if ($scope.feedback != "Good!"){
+          $scope.feedback = "Good!";
+          $("#feedback").show().delay(500).fadeOut();
+        }
+      }
+    }
+
     $scope.score = total_score;
   }
 
@@ -357,6 +391,12 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     Restangular.all('api/scores/game_scoreboard/' + parseInt($scope.cur_level) + '/' + $scope.cur_game)
       .getList().then(function (serverJson) {
         $scope.highest_score = serverJson[0].score;
+      });
+  }
+  $scope.get_greedy = function() {
+    Restangular.all('api/levels/getBeat/' + parseInt($scope.cur_level) + '/' + parseInt($scope.cur_game))
+      .getList().then(function (serverJson) {
+        $scope.beat = serverJson[0].scoreToBeat;
       });
   }
 
