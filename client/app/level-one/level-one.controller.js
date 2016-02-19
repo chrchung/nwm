@@ -10,9 +10,18 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.properties = {};
   $scope.selectedAliens = [];
 
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
 
   // Add the first bucket
-  $scope.buckets.push({alien:[], illegal_alien:[]});
+  var init_color = getRandomColor();
+  $scope.buckets.push({alien:[], illegal_alien:[], color:[init_color]});
   $scope.num_buckets++;
   $scope.currentBkt = 0; // This is actually the index of the current clicked bucket
 
@@ -52,6 +61,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       }
       $scope.get_highest_score();
       $scope.get_greedy();
+      //$scope.newGroup();
       shuffleArray($scope.alienArray);
     }
 
@@ -247,8 +257,12 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     $("#img-container").html("<img width='300px' src='" + url + "' />");
   };
 
+
+
   $scope.addBucket = function() {
-    $scope.buckets.push({alien:[], illegal_alien:[]});
+    var color = getRandomColor();
+    $scope.buckets.push({alien:[], illegal_alien:[], color:[color]});
+
     $scope.num_buckets++;
   };
 
@@ -368,8 +382,29 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     if (!$scope.dragged) {
       var ind = $scope.selectedAliens.indexOf(alien_id);
       if (ind >= 0) {
-        $("#" + alien_id).removeClass('selectedAlien');
+        $("#" + alien_id).css( "border", "0px");
+
         $scope.selectedAliens.splice(ind, 1);
+
+        // Remove the alien from the bucket
+        for (var i = 0; i < $scope.buckets.length; i++) {
+          for (var j = 0; j < $scope.buckets[i].alien.length; j++) {
+            if ($scope.buckets[i].alien[j] == alien_id) {
+              var bucket_id = i;
+              break;
+            }
+          }
+        }
+        alert(bucket_id);
+
+        $scope.aliensInBucket.splice($scope.aliensInBucket.indexOf(alien_id), 1);
+        $scope.buckets[bucket_id].alien.splice($scope.buckets[bucket_id].alien.indexOf(alien_id), 1);
+
+        if($scope.buckets[bucket_id].alien.length == 0) {
+          $scope.num_buckets--;
+          $scope.buckets.splice(bucket_id, 1);
+        }
+
       }
       else {
         if ($scope.selectedAliens.length == 8) {
@@ -377,11 +412,25 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
           return 0;
         }
         $scope.selectedAliens.push(alien_id);
-        $("#" + alien_id).addClass('selectedAlien');
+
+        var bucket_ind  = $scope.num_buckets - 1;
+        $scope.buckets[bucket_ind].alien.push(alien_id);
+
+
+        $("#" + alien_id).css( "border", "2px solid" + $scope.buckets[bucket_ind].color);
+        $("#" + alien_id).css( "border-radius", "15px");
       }
     }
     $scope.dragged = false;
   }
+
+
+
+  $scope.newGroup = function() {
+    $scope.addBucket();
+  }
+
+
 
   $scope.startDragging = function() {
     $scope.dragged = true;
