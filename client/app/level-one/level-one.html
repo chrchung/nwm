@@ -7,36 +7,31 @@
 </div>
 
 <!-- Zoomed aliens -->
-<div id="selection-screen">
-  <div ng-repeat="alien in selectedAliens"
-       class="model{{get_model(alien)}}"
-       style="white-space: nowrap;
-              display: inline-block;
-              width: 22%;
-              margin: 10px 10px 10px 10px;
-              background-color: white;
-              border-radius: 10px;">
-    <div class="selected-alien"
-         ng-click="selectAlien(alien)">
-      <img ng-src="{{getUrl(get_model(alien), get_alien(alien))}}" />
-    </div>
-  </div>
-</div>
-<div id="close-selection-screen" ng-click="toggleSelectionScreen()">×</div>
+<!--<div id="selection-screen">-->
+  <!--<div ng-repeat="alien in selectedAliens"-->
+       <!--class="model{{get_model(alien)}}"-->
+       <!--style="white-space: nowrap;-->
+              <!--display: inline-block;-->
+              <!--width: 22%;-->
+              <!--margin: 10px 10px 10px 10px;-->
+              <!--background-color: white;-->
+              <!--border-radius: 10px;">-->
+    <!--<div class="selected-alien"-->
+         <!--ng-click="selectAlien(alien)">-->
+      <!--<img ng-src="{{getUrl(get_model(alien), get_alien(alien))}}" />-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+<!--<div id="close-selection-screen" ng-click="toggleSelectionScreen()">×</div>-->
 
 <!-- alien contents -->
-<div class="container"
-     data-drop="true"
-     data-jqyoui-options
-     jqyoui-droppable="{onDrop:'return false;'}">
-
   <div id="top-right">
     <div id="img-container"></div>
   </div>
 
   <div id="bottom-right">
     <div>
-      <h3 id="score-board">
+      <h3 class="text-center" id="score-board">
         SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p>
         <span id="feedback">{{feedback}}</span><br/>
         BEST: <p>{{highest_score}}</p></h3>
@@ -54,9 +49,6 @@
          ng-mouseover="selectedAlien(alien.id)"
          class="{{alien.model}}"
          id="{{alien.id}}"
-         data-drag="true"
-         data-jqyoui-options="{'revert': 'valid', 'revertDuration': 0}"
-         jqyoui-draggable="{onStart: 'startDragging'}"
          ng-click="selectAlien(alien.id)"
          style="display: inline-block;
                 margin-right: 10px;
@@ -65,7 +57,6 @@
     </div>
   </div>
 
-</div>
 
 <!--&lt;!&ndash;buckets&ndash;&gt;-->
 <!--<div id="buckets"-->
