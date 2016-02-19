@@ -37,9 +37,10 @@
 
   <div id="bottom-right">
     <div>
-      <h3 id="score-board">SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p>
-        <br/>BEST: <p>{{highest_score}}</p></h3>
-      GREEDY: <p>{{beat}}</p></h3>
+      <h3 id="score-board">
+        SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p>
+        <span id="feedback">{{feedback}}</span><br/>
+        BEST: <p>{{highest_score}}</p></h3>
       <button class="btn" ng-click="saveScore()">SAVE SCORE</button><br/>
       <button class="btn" ng-click="toggleSelectionScreen()">COMPARE ALIENS</button><br/>
       <button class="btn" ng-click="toggleMenu()">MENU</button>
