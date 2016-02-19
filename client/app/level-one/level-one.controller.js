@@ -79,20 +79,28 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
     if ($scope.score < total_score) {
       if (total_score >= higher * 5 / 5) {
-        $scope.feedback = "OMG!";
-        $("#feedback").show().delay(500).fadeOut();
+        if ($scope.feedback != "OMG!"){
+          $scope.feedback = "OMG!";
+          $("#feedback").show().delay(500).fadeOut();
+        }
       }
       else if (total_score >= higher * 4 / 5) {
-        $scope.feedback = "Amazing!";
-        $("#feedback").show().delay(500).fadeOut();
+        if ($scope.feedback != "Amazing!"){
+          $scope.feedback = "Amazing!";
+          $("#feedback").show().delay(500).fadeOut();
+        }
       }
       else if (total_score >= higher * 3 / 5) {
-        $scope.feedback = "Wow!";
-        $("#feedback").show().delay(500).fadeOut();
+        if ($scope.feedback != "Wow!"){
+          $scope.feedback = "Wow!";
+          $("#feedback").show().delay(500).fadeOut();
+        }
       }
       else if (total_score >= higher * 2 / 5) {
-        $scope.feedback = "Good!";
-        $("#feedback").show().delay(500).fadeOut();
+        if ($scope.feedback != "Good!"){
+          $scope.feedback = "Good!";
+          $("#feedback").show().delay(500).fadeOut();
+        }
       }
     }
 
