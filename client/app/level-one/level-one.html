@@ -36,8 +36,10 @@
 
   <div id="bottom-right">
     <div>
-      <h3 id="score-board">SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p>
-        <br/>BEST: <p>{{highest_score}}</p></h3>
+      <h3 id="score-board">
+        SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p>
+        <span id="feedback">{{feedback}}</span><br/>
+        BEST: <p>{{highest_score}}</p></h3>
       <button class="btn" ng-click="saveScore()">SAVE SCORE</button><br/>
       <button class="btn" ng-click="toggleSelectionScreen()">COMPARE ALIENS</button><br/>
       <button class="btn" ng-click="toggleMenu()">MENU</button>
@@ -73,18 +75,18 @@
        data-drop="true"
        data-jqyoui-options
        jqyoui-droppable="{onDrop:'onDrop'}">
-      <div ng-repeat="a in b.alien"
-           ng-mouseover=selectedAlien(a)
-           ng-dblclick="putBackAlien($event, a)"
-           ng-click="selectAlien(a)"
-           class="model{{get_model(a)}}"
-           id="{{a}}"
-           style="z-index: 3;
+    <div ng-repeat="a in b.alien"
+         ng-mouseover=selectedAlien(a)
+         ng-dblclick="putBackAlien($event, a)"
+         ng-click="selectAlien(a)"
+         class="model{{get_model(a)}}"
+         id="{{a}}"
+         style="z-index: 3;
                 width: 25%;
                 display: inline-block;
                 float: left;">
-        <img style="width: 100%;"
-             ng-src="{{getUrl(get_model(a), get_alien(a))}}" />
+      <img style="width: 100%;"
+           ng-src="{{getUrl(get_model(a), get_alien(a))}}" />
     </div>
 
 
