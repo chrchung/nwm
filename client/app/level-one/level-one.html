@@ -1,9 +1,9 @@
 <div id="overlay"></div>
 <!-- menu -->
 <div id="menu">
-  <button class="btn menubtn" ng-click="toggleMenu()">RESUME</button><br/>
-  <button class="btn menubtn" ng-click="quit()">QUIT GAME</button><br/>
-  <button class="btn menubtn" ng-click="logout()">LOG OUT</button>
+  <button class="btn menu-button" ng-click="toggleMenu()">RESUME</button><br/>
+  <button class="btn menu-button" ng-click="quit()">QUIT GAME</button><br/>
+  <button class="btn menu-button" ng-click="logout()">LOG OUT</button>
 </div>
 
 <!-- Zoomed aliens -->
@@ -40,9 +40,9 @@
         SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p>
         <span id="feedback">{{feedback}}</span><br/>
         BEST: <p>{{highest_score}}</p></h3>
-      <button class="btn" ng-click="saveScore()">SAVE SCORE</button><br/>
-      <button class="btn" ng-click="toggleSelectionScreen()">COMPARE ALIENS</button><br/>
-      <button class="btn" ng-click="toggleMenu()">MENU</button>
+      <button class="btn menu-button" ng-click="saveScore()">SAVE SCORE</button><br/>
+      <button class="btn menu-button" ng-click="toggleSelectionScreen()">COMPARE ALIENS</button><br/>
+      <button class="btn menu-button" ng-click="toggleMenu()">MENU</button>
     </div>
   </div>
 
