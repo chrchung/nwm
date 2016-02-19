@@ -40,9 +40,9 @@
         SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p>
         <span id="feedback">{{feedback}}</span><br/>
         BEST: <p>{{highest_score}}</p></h3>
+      <button class="btn menu-button" ng-click="newGroup()">NEW GROUP</button><br/>
+      <button class="btn menu-button" ng-click="toggleMenu()">MENU</button><br/>
       <button class="btn menu-button" ng-click="saveScore()">SAVE SCORE</button><br/>
-      <button class="btn menu-button" ng-click="toggleSelectionScreen()">COMPARE ALIENS</button><br/>
-      <button class="btn menu-button" ng-click="toggleMenu()">MENU</button>
     </div>
   </div>
 
@@ -64,34 +64,35 @@
       <img src="{{alien.url}}"/>
     </div>
   </div>
+
 </div>
 
-<!--buckets-->
-<div id="buckets"
-     data-drop="true"
-     data-jqyoui-options>
-  <div ng-repeat="b in buckets track by $index" class="bucket" id="bucket_{{$index}}"
-       ng-click="currentBucket($index)"
-       data-drop="true"
-       data-jqyoui-options
-       jqyoui-droppable="{onDrop:'onDrop'}">
-    <div ng-repeat="a in b.alien"
-         ng-mouseover=selectedAlien(a)
-         ng-dblclick="putBackAlien($event, a)"
-         ng-click="selectAlien(a)"
-         class="model{{get_model(a)}}"
-         id="{{a}}"
-         style="z-index: 3;
-                width: 25%;
-                display: inline-block;
-                float: left;">
-      <img style="width: 100%;"
-           ng-src="{{getUrl(get_model(a), get_alien(a))}}" />
-    </div>
+<!--&lt;!&ndash;buckets&ndash;&gt;-->
+<!--<div id="buckets"-->
+     <!--data-drop="true"-->
+     <!--data-jqyoui-options>-->
+  <!--<div ng-repeat="b in buckets track by $index" class="bucket" id="bucket_{{$index}}"-->
+       <!--ng-click="currentBucket($index)"-->
+       <!--data-drop="true"-->
+       <!--data-jqyoui-options-->
+       <!--jqyoui-droppable="{onDrop:'onDrop'}">-->
+    <!--<div ng-repeat="a in b.alien"-->
+         <!--ng-mouseover=selectedAlien(a)-->
+         <!--ng-dblclick="putBackAlien($event, a)"-->
+         <!--ng-click="selectAlien(a)"-->
+         <!--class="model{{get_model(a)}}"-->
+         <!--id="{{a}}"-->
+         <!--style="z-index: 3;-->
+                <!--width: 25%;-->
+                <!--display: inline-block;-->
+                <!--float: left;">-->
+      <!--<img style="width: 100%;"-->
+           <!--ng-src="{{getUrl(get_model(a), get_alien(a))}}" />-->
+    <!--</div>-->
 
 
-    <div class="remove_bucket" ng-if="ifNotLast($index)" ng-click="deleteBucket($event)">
-      ×
-    </div>
-  </div>
-</div>
+    <!--<div class="remove_bucket" ng-if="ifNotLast($index)" ng-click="deleteBucket($event)">-->
+      <!--×-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
