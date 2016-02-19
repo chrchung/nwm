@@ -53,14 +53,14 @@
 
 #bottom-right {
   position: fixed;
-  bottom: 20px;
+  top: 200px;
   right: 10px;
   z-index: 8;
 }
 
 #top-right {
   position: fixed;
-  width: 300px;
+  width: 200px;
   right: 0px;
   text-align: center;
   margin-top: 10px;
@@ -90,7 +90,7 @@
 
 .menu-button {
   margin-top: 10px;
-  width:250px;
+  width: 200px;
   display: inline-block;
   color: #fff;
   background-color: #00d4b4;
@@ -113,19 +113,19 @@
 }
 
 #aliens {
-  //margin-left: 220px;
+  margin-left: 20px;
   margin-top: 10px;
-  margin-right: 250px;
+  margin-right: 150px;
 }
 
 #aliens img {
-  z-index: -1;
+  z-index: 8;
   width: 100%;
 }
 
 .model0, .model1, .model2, .model3, .model4, .model5,
 .model5, .model6, .model7, .model8, .model9, .illegal_alien {
-  width: 200px;
+  width: 100px;
 }
 
 .model0 img {
@@ -182,43 +182,43 @@
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.12);
 }
-
-#buckets {
-  position: fixed;
-  left: 0px;
-  top: 0px;
-  width: 220px;
-  height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  padding: 10px 0px 0px 0px;
-  background-color: #00d4b4;
-  z-index: 0;
-}
-
-.bucket {
-  position: relative;
-  white-space: nowrap;
-  display:inline-block;
-  background-color: rgba(255, 255, 255, 0.80);
-  border-radius: 10px;
-  margin: 0px 10px 5px 10px;
-  width: 200px;
-  height: 150px;
-  z-index: 1;
-}
-
-.current_bucket {
-  background-color: white;
-}
-
-.bucket .remove_bucket {
-  position: absolute;
-  bottom: 0px;
-  right: 5px;
-  color: dimgray;
-  font-size: 20px;
-}
+//
+//#buckets {
+//  position: fixed;
+//  left: 0px;
+//  top: 0px;
+//  width: 220px;
+//  height: 100%;
+//  overflow-y: scroll;
+//  overflow-x: hidden;
+//  padding: 10px 0px 0px 0px;
+//  background-color: #00d4b4;
+//  z-index: 0;
+//}
+//
+//.bucket {
+//  position: relative;
+//  white-space: nowrap;
+//  display:inline-block;
+//  background-color: rgba(255, 255, 255, 0.80);
+//  border-radius: 10px;
+//  margin: 0px 10px 5px 10px;
+//  width: 200px;
+//  height: 150px;
+//  z-index: 1;
+//}
+//
+//.current_bucket {
+//  background-color: white;
+//}
+//
+//.bucket .remove_bucket {
+//  position: absolute;
+//  bottom: 0px;
+//  right: 5px;
+//  color: dimgray;
+//  font-size: 20px;
+//}
 
 .selectedAlien {
   border-radius:10px;
