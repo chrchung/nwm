@@ -73,6 +73,29 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       total_score += calculateScoreByBucket($scope.buckets[i].alien);
     }
     $scope.prev_score = $scope.score;
+
+    // Feedback
+    var higher = Math.max($scope.beat, $scope.highest_score);
+
+    if ($scope.score < total_score) {
+      if (total_score >= higher * 5 / 5) {
+        $scope.feedback = "OMG!";
+        $("#feedback").show().delay(500).fadeOut();
+      }
+      else if (total_score >= higher * 4 / 5) {
+        $scope.feedback = "Amazing!";
+        $("#feedback").show().delay(500).fadeOut();
+      }
+      else if (total_score >= higher * 3 / 5) {
+        $scope.feedback = "Wow!";
+        $("#feedback").show().delay(500).fadeOut();
+      }
+      else if (total_score >= higher * 2 / 5) {
+        $scope.feedback = "Good!";
+        $("#feedback").show().delay(500).fadeOut();
+      }
+    }
+
     $scope.score = total_score;
   }
 
