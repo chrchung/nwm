@@ -53,17 +53,34 @@
 
 #bottom-right {
   position: fixed;
-  top: 200px;
-  right: 10px;
+  bottom:2%;
+  right: 3%;
   z-index: 8;
+}
+
+#middle-right {
+  position: fixed;
+  top: 40%;
+  width: 230px;
+  right: 2.4%;
+  text-align: center;
+  color: #00d4b4;
+  font-family: Impact, Charcoal, sans-serif;
+  font-size: 25px;
+}
+
+#legend {
+  min-height: 5px;
+  width: 230px;
+  right: 2.4%;
 }
 
 #top-right {
   position: fixed;
-  width: 200px;
-  right: 0px;
+  width: 230px;
+  right: 2%;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 #score-board {
@@ -73,6 +90,7 @@
 }
 
 #score-board p {
+  margin-top: 5px;
   display: inline-block;
 }
 
@@ -115,7 +133,7 @@
 #aliens {
   margin-left: 20px;
   margin-top: 10px;
-  margin-right: 150px;
+  margin-right: 161px;
 }
 
 #aliens img {

@@ -29,6 +29,28 @@
     <div id="img-container"></div>
   </div>
 
+  <div id="middle-right">
+    <div id="group-container">GROUPS</div>
+    <table id="legend">
+
+      <colgroup span="5"></colgroup>
+      <tbody>
+        <tr>
+          <td ng-repeat="color in colorArray"
+              id="color_block_{{$index}}"
+              style="background-color: {{color.color}};
+              cursor:pointer;display:inline-block;
+              min-width:15px;
+              min-height:15px;
+              margin:1px;"
+              ng-click="currentBucket($index)">
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
   <div id="bottom-right">
     <div>
       <h3 class="text-center" id="score-board">
