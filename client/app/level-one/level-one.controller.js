@@ -9,6 +9,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.current_bucket = 0;
   $scope.properties = {};
   $scope.selectedAliens = [];
+  $scope.colorArray = [];
 
   function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
@@ -21,10 +22,10 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
   // Add the first bucket
   var init_color = getRandomColor();
-  $scope.buckets.push({alien:[], illegal_alien:[], color:[init_color]});
+  $scope.buckets.push({alien:[], illegal_alien:[], color:init_color});
+  $scope.colorArray.push({color:init_color});
   $scope.num_buckets++;
-  $scope.currentBkt = 0; // This is actually the index of the current clicked bucket
-
+  $scope.current_bucket = 0; // This is actually the index of the current clicked bucket
 
   // Current level
   $scope.cur_level = $stateParams.id;
@@ -215,15 +216,19 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   };
 
   $scope.currentBucket = function(bucket) {
-    updateIllegalAlien(bucket);
-    $scope.current_bucket = bucket;
-    $("#bucket_" + bucket).addClass("current_bucket");
+    //updateIllegalAlien(bucket);
 
-    for (var i = 0; i < $scope.buckets.length; i++) {
-      if (i != bucket) {
-        $("#bucket_" + i).removeClass("current_bucket");
-      }
-    }
+    $scope.current_bucket = bucket;
+
+    $("#color_block_" + bucket).css( "border", "1px solid black");
+
+    //$("#bucket_" + bucket).addClass("current_bucket");
+    //
+    //for (var i = 0; i < $scope.buckets.length; i++) {
+    //  if (i != bucket) {
+    //    $("#bucket_" + i).removeClass("current_bucket");
+    //  }
+    //}
   };
 
   function shuffleArray(array) {
@@ -260,10 +265,16 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
 
   $scope.addBucket = function() {
-    var color = getRandomColor();
-    $scope.buckets.push({alien:[], illegal_alien:[], color:[color]});
-
-    $scope.num_buckets++;
+    if ($scope.buckets.length == 0 || $scope.buckets[$scope.num_buckets - 1].alien.length == 0) {
+      alert("You have not chosen any alien for the last bucket!");
+    } else {
+      var color = getRandomColor();
+      $scope.buckets.push({alien:[], illegal_alien:[], color:color});
+      $scope.current_bucket = $scope.num_buckets;
+      $scope.num_buckets++;
+      var bucket_ind  = $scope.num_buckets - 1;
+      $scope.colorArray.push({color:$scope.buckets[bucket_ind].color});
+    }
   };
 
 
@@ -400,24 +411,28 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
         $scope.aliensInBucket.splice($scope.aliensInBucket.indexOf(alien_id), 1);
         $scope.buckets[bucket_id].alien.splice($scope.buckets[bucket_id].alien.indexOf(alien_id), 1);
 
-        if($scope.buckets[bucket_id].alien.length == 0) {
+        if($scope.buckets[bucket_id].alien.length == 0 && $scope.buckets.length > 1) {
           $scope.num_buckets--;
           $scope.buckets.splice(bucket_id, 1);
-        }
+          $scope.colorArray.splice(bucket_id, 1);
 
+          $scope.current_bucket = bucket_id;
+          alert($scope.current_bucket);
+        }
+        calculateScore();
       }
       else {
-        if ($scope.selectedAliens.length == 8) {
-          alert("Can only select 8 aliens!");
-          return 0;
-        }
+        //if ($scope.selectedAliens.length == 8) {
+        //  alert("Can only select 8 aliens!");
+        //  return 0;
+        //}
         $scope.selectedAliens.push(alien_id);
 
-        var bucket_ind  = $scope.num_buckets - 1;
-        $scope.buckets[bucket_ind].alien.push(alien_id);
+        $scope.buckets[$scope.current_bucket].alien.push(alien_id);
 
 
-        $("#" + alien_id).css( "border", "2px solid" + $scope.buckets[bucket_ind].color);
+        calculateScore();
+        $("#" + alien_id).css( "border", "2px solid" + $scope.buckets[$scope.current_bucket].color);
         $("#" + alien_id).css( "border-radius", "15px");
       }
     }
