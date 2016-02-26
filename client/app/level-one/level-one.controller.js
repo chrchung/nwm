@@ -9,6 +9,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.current_bucket = 0;
   $scope.properties = {};
   $scope.selectedAliens = [];
+  $scope.small_eedback;
 
   function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
@@ -83,6 +84,16 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       total_score += calculateScoreByBucket($scope.buckets[i].alien);
     }
     $scope.prev_score = $scope.score;
+
+    // Small feedback
+    if ($scope.score < total_score) {
+      $scope.small_feedback = "<span class='glyphicon glyphicon-arrow-up' style='color:rgb(255,110,110);'></span>";
+      $("#small_feedback").show().delay(500).fadeOut();
+    }
+    else {
+      $scope.small_feedback = "<span class='glyphicon glyphicon-arrow-down' style='color:rgb(98,133,255);'></span>";
+      $("#small_feedback").show().delay(500).fadeOut();
+    }
 
     // Feedback
     var higher = Math.max($scope.beat, $scope.highest_score);
