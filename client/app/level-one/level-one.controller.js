@@ -10,12 +10,20 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.properties = {};
   $scope.selectedAliens = [];
   $scope.colorArray = [];
+  $scope.presetColors = ["#66ff99", "#ffccff", "#006666", "#b3b300", "#99ff33", "#0033cc", "#cc99ff",  "#009933", "#336699", "#99ccff", "#0099cc",
+                        "#ffcc99","#ff5050", "#ffff99", "#ff9933", "#660066", "#990000", "#ffff00",   ];
+
 
   function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-      color += letters[Math.floor(Math.random() * 16)];
+
+    if ($scope.num_buckets <= 17) {
+      var color = $scope.presetColors[$scope.num_buckets - 1];
+    } else {
+      var color = '#';
+      for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
     }
     return color;
   }
