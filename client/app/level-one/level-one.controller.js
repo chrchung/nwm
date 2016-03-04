@@ -85,6 +85,21 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     }
     $scope.prev_score = $scope.score;
 
+    // Small feedback
+    if ($scope.score < total_score) {
+      $("#small_feedback").removeClass('glyphicon glyphicon-arrow-');
+      $("#small_feedback").addClass('glyphicon glyphicon-arrow-up');
+      $("#small_feedback").css({'color': 'rgb(255,101,101)'});
+      $("#small_feedback").show().delay(500).fadeOut();
+
+    }
+    else if ($scope.score > total_score) {
+      $("#small_feedback").removeClass('glyphicon glyphicon-arrow-down');
+      $("#small_feedback").addClass('glyphicon glyphicon-arrow-down');
+      $("#small_feedback").css({'color': 'rgb(98,133,255)'});
+      $("#small_feedback").show().delay(500).fadeOut();
+    }
+
     // Feedback
     var higher = Math.max($scope.beat, $scope.highest_score);
 
