@@ -26,6 +26,14 @@
 
 <!-- alien contents -->
   <div id="top-right">
+    <button class="zoom-in-area"
+            ng-click="togglePageslide()"
+            data-drop="true"
+            jqyoui-droppable="{onDrop:'onDropZoom'}">
+      <br/>
+      <span class="glyphicon glyphicon-zoom-in" size='50px'></span><br/>
+      <br/>
+    </button><br/>
     <div id="img-container"></div>
   </div>
 
@@ -33,7 +41,7 @@
     <div id="group-container">GROUPS</div>
     <table id="legend">
 
-      <colgroup span="5"></colgroup>
+      <colgroup span="4"></colgroup>
       <tbody>
         <tr>
           <td ng-repeat="color in colorArray"
@@ -42,9 +50,8 @@
               cursor:pointer;display:inline-block;
               min-width:15px;
               min-height:15px;
-              margin:1px;"
+              margin:5px;"
               ng-click="currentBucket($index)">
-
           </td>
         </tr>
       </tbody>
@@ -63,6 +70,15 @@
     </div>
   </div>
 
+  <pageslide ps-open="checked" ps-side="bottom" ps-key-listener=true ps-size='220px' ps-speed=0>
+    <div id="zoomin-aliens">
+      <div ng-repeat="alien in zoominAliens"
+           class="model{{get_model(alien)}} zoomin-alien"
+           ng-click="unzoomAlien(alien)">
+          <img ng-src="{{getUrl(get_model(alien), get_alien(alien))}}" />
+      </div>
+    </div>
+  </pageslide>
 
 
   <!--display aliens in grid-->
@@ -74,7 +90,10 @@
          ng-click="selectAlien(alien.id)"
          style="display: inline-block;
                 margin-right: 10px;
-                margin-bottom: 10px;">
+                margin-bottom: 10px;"
+         data-drag="true"
+         jqyoui-draggable="{animate: false, onStart:'onStart'}"
+         data-jqyoui-options="{revert: true, revertDuration: 0}">
       <img src="{{alien.url}}"/>
     </div>
   </div>
