@@ -3,6 +3,13 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 $fa-font-path: "../bower_components/font-awesome/fonts";
 @import '../bower_components/font-awesome/scss/font-awesome';
 
+@import url('https://fonts.googleapis.com/css?family=Londrina+Outline');
+
+@font-face {
+    font-family: 'anagram';
+    src: url(/assets/Anagram.ttf);
+}
+
 /**
  * App-wide Styles
  */
