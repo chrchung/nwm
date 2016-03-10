@@ -28,8 +28,11 @@ $font_2: sans-serif;
 
 
 #title{
-  color: #35a8b1;
-  font-size: 40px;
+  //font-family: 'anagram';
+  font-family: 'Londrina Outline';
+  font-weight: bold;
+  color: white;
+  font-size: 55px;
 }
 
 .center-img {
@@ -99,19 +102,29 @@ $font_2: sans-serif;
 #sign-up {
   font-size: 20px;
   color: white;
+  a {
+    color:  #9999ff;
+  }
 }
 
 .btn-login {
   color: $white;
-  background-color: #35a8b1;
+  background-color: #9999ff;
   &:hover {
     color: $white;
-    background-color: $color_flamingo_approx;
+
   }
   &:focus {
     color: $white;
-    background-color: $color_flamingo_approx;
+
   }
+}
+
+
+
+.form-control:focus {
+  border-color: white;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 255, 255, 0.6);
 }
 
 //.bg {
