@@ -64,7 +64,7 @@
   width: 230px;
   right: 2.4%;
   text-align: center;
-  color: #00d4b4;
+  color: #35a8b1;
   font-family: Impact, Charcoal, sans-serif;
   font-size: 25px;
 }
@@ -84,7 +84,7 @@
 }
 
 #score-board {
-  color: #00d4b4;
+  color: #35a8b1;
   font-family: Impact, Charcoal, sans-serif;
 
 }
@@ -111,7 +111,7 @@
   width: 200px;
   display: inline-block;
   color: #fff;
-  background-color: #00d4b4;
+  background-color: #35a8b1;
   &:hover {
     color: #fff;
     background-color: #e55f49;
@@ -134,6 +134,9 @@
   margin-left: 20px;
   margin-top: 10px;
   margin-right: 161px;
+  //background-color: rgba(255, 255, 255, 0.5);
+  //border-radius: 5px;
+  //padding: 2px;
 }
 
 #aliens img {
@@ -148,52 +151,52 @@
 
 .model0 img {
   border-radius: 10px;
-  background-color: rgba(0, 235, 255, 0.27);
+  background-color: rgba(230, 250, 255, 1);
 }
 
 .model1 img {
   border-radius: 10px;
-  background-color: rgba(252, 176, 255, 0.27);
+  background-color: rgba(255, 230, 255, 1);
 }
 
 .model2 img {
   border-radius: 10px;
-  background-color: rgba(173, 255, 171, 0.27);
+  background-color: rgba(179, 224, 255, 1);
 }
 
 .model3 img {
   border-radius: 10px;
-  background-color: rgba(255, 194, 150, 0.27);
+  background-color: rgba(255, 224, 179, 1);
 }
 
 .model4 img {
   border-radius: 10px;
-  background-color: rgba(120, 100, 228, 0.27);
+  background-color: rgba(255, 204, 204, 1);
 }
 
 .model5 img {
   border-radius: 10px;
-  background-color: rgba(235, 199, 0, 0.27);
+  background-color: rgba(255, 255, 204, 1);
 }
 
 .model6 img {
   border-radius: 10px;
-  background-color: rgba(255, 0, 0, 0.27);
+  background-color: rgba(236, 255, 179, 1);
 }
 
 .model7 img {
   border-radius: 10px;
-  background-color: rgba(0, 0, 150, 0.27);
+  background-color: rgba(236, 217, 198, 1);
 }
 
 .model8 img {
   border-radius: 10px;
-  background-color: rgba(150, 44, 0, 0.27);
+  background-color: rgba(153, 255, 187, 1);
 }
 
 .model9 img {
   border-radius: 10px;
-  background-color: rgba(0, 133, 0, 0.27);
+  background-color: rgba(179, 255, 236, 1);
 }
 
 .illegal_alien img {

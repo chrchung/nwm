@@ -28,7 +28,7 @@ $font_2: sans-serif;
 
 
 #title{
-  color: #00d4b4;
+  color: #35a8b1;
   font-size: 40px;
 }
 
@@ -95,9 +95,15 @@ $font_2: sans-serif;
   font-size: 15px;
   font-family: $font_1, $font_2;
 }
+
+#sign-up {
+  font-size: 20px;
+  color: white;
+}
+
 .btn-login {
   color: $white;
-  background-color: #00d4b4;
+  background-color: #35a8b1;
   &:hover {
     color: $white;
     background-color: $color_flamingo_approx;

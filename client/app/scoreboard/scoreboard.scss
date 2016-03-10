@@ -1,32 +1,44 @@
-#logout-button {
-  float: right;
-  font-weight: bold;
-  border-color: black;
-  //margin: 10px;
-}
+//#logout-button {
+//  float: right;
+//  font-weight: bold;
+//  padding: 10px;
+//  //margin: 10px;
+//}
+//
+//#tutorial-button{
+//  float: right;
+//  font-weight: bold;
+//}
+//
+//.level {
+//  margin-top: 10px;
+//  width: 200px;
+//  height: 100px;
+//  display: inline-block;
+//  color: #fff;
+//  font-size: 30px;
+//  background-color: #009999;
+//  &:hover {
+//    color: #fff;
+//    background-color: #e55f49;
+//  }
+//  &:focus {
+//    color: #fff;
+//    background-color: #e55f49;
+//  }
+//}
 
-#tutorial-button{
-  float: right;
-  border-color: black;
-  font-weight: bold;
+#settings {
+  cursor: pointer;
 }
 
 .level {
-  margin-top: 10px;
-  width: 200px;
-  height: 100px;
+  cursor: pointer;
+}
+
+.inline {
+  margin: 50px;
   display: inline-block;
-  color: #fff;
-  font-size: 30px;
-  background-color: #00d4b4;
-  &:hover {
-    color: #fff;
-    background-color: #e55f49;
-  }
-  &:focus {
-    color: #fff;
-    background-color: #e55f49;
-  }
 }
 
 .logout {
@@ -34,7 +46,7 @@
   width: 100px;
   display: inline-block;
   color: #fff;
-  background-color: #00d4b4;
+  background-color: white;
   &:hover {
     color: #fff;
     background-color: #e55f49;
@@ -47,7 +59,7 @@
 
 
 .bottom-right {
-  background-color: #00d4b4;
+  background-color: white;
   position: fixed;
   bottom: 0;
   right: 0;
@@ -73,3 +85,10 @@
   }
 }
 
+
+#settings-toggle {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+}
