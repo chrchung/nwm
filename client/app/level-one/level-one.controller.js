@@ -10,20 +10,17 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.properties = {};
   $scope.selectedAliens = [];
   $scope.colorArray = [];
-  $scope.presetColors = ["#66ff99", "#ffccff", "#006666", "#b3b300", "#99ff33", "#0033cc", "#cc99ff",  "#009933", "#336699", "#99ccff", "#0099cc",
-                        "#ffcc99","#ff5050", "#ffff99", "#ff9933", "#660066", "#990000", "#ffff00",   ];
-
+  $scope.dragged = false;  // Disable click event when start dragging
+  $scope.pageslide = false;
+  $scope.zoominAliens = [];
+  $scope.checked = false;
+  $scope.colorCounter;
 
   function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
-
-    if ($scope.num_buckets <= 17) {
-      var color = $scope.presetColors[$scope.num_buckets - 1];
-    } else {
-      var color = '#';
-      for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+      color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
   }
@@ -95,14 +92,14 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
     // Small feedback
     if ($scope.score < total_score) {
-      $("#small_feedback").removeClass('glyphicon glyphicon-arrow-down');
+      $("#small_feedback").removeClass('glyphicon glyphicon-arrow-');
       $("#small_feedback").addClass('glyphicon glyphicon-arrow-up');
       $("#small_feedback").css({'color': 'rgb(255,101,101)'});
       $("#small_feedback").show().delay(500).fadeOut();
 
     }
     else if ($scope.score > total_score) {
-      $("#small_feedback").removeClass('glyphicon glyphicon-arrow-up');
+      $("#small_feedback").removeClass('glyphicon glyphicon-arrow-down');
       $("#small_feedback").addClass('glyphicon glyphicon-arrow-down');
       $("#small_feedback").css({'color': 'rgb(98,133,255)'});
       $("#small_feedback").show().delay(500).fadeOut();
@@ -114,7 +111,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     if ($scope.score < total_score) {
       if (total_score >= higher * 5 / 5) {
         if ($scope.feedback != "OMG!"){
-          $scope.feedback = "YEAHH!";
+          $scope.feedback = "OMG!";
           $("#feedback").show().delay(500).fadeOut();
         }
       }
@@ -207,15 +204,18 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     for (var i = 0; i < $scope.alienArray.length; i++) {
       var alien_id = $scope.alienArray[i].id;
       model_num = $scope.get_model(alien_id);
-      if ($scope.aliensInBucket.indexOf(alien_id) != -1 ||
-        models_in_bucket.indexOf(model_num) != -1) {
-        $("#" + alien_id).attr('class', 'illegal_alien');
-        $("#" + alien_id).draggable('disable');
-        $scope.buckets[bucket].illegal_alien.push(alien_id);
+      if ((models_in_bucket.indexOf(model_num) != -1 && $scope.buckets[bucket].alien.indexOf(alien_id) == -1)
+        || ($scope.aliensInBucket.indexOf(alien_id) != -1 && $scope.buckets[bucket].alien.indexOf(alien_id) == -1)) {
+          $("#" + alien_id).attr('class', 'illegal_alien');
+          //$("#" + alien_id).click(function() {
+          //  $("#" + alien_id).html('ng-click', 'false');
+          //});
+          $scope.buckets[bucket].illegal_alien.push(alien_id);
+        //}
       }
+
       else {
         $("#" + alien_id).attr('class', "model" + model_num);
-        $("#" + alien_id).draggable('enable');
       }
     }
   };
@@ -239,19 +239,19 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   };
 
   $scope.currentBucket = function(bucket) {
-    //updateIllegalAlien(bucket);
-
     $scope.current_bucket = bucket;
+    updateIllegalAlien(bucket);
+    //alert(bucket);
 
-    $("#color_block_" + bucket).css( "border", "1px solid black");
+    $("#color_block_" + bucket).css( "transform", "scale(1.6)");
 
     //$("#bucket_" + bucket).addClass("current_bucket");
-    //
-    //for (var i = 0; i < $scope.buckets.length; i++) {
-    //  if (i != bucket) {
-    //    $("#bucket_" + i).removeClass("current_bucket");
-    //  }
-    //}
+
+    for (var i = 0; i < $scope.buckets.length; i++) {
+      if (i != bucket) {
+        $("#color_block_" + i).css( "transform", "scale(1)");
+      }
+    }
   };
 
   function shuffleArray(array) {
@@ -377,16 +377,6 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     $("#menu").toggle("200");
   }
 
-  $("#selection-screen").hide();
-  $("#overlay").hide();
-  $("#close-selection-screen").hide();
-  $scope.toggleSelectionScreen = function() {
-    $("#overlay").toggle();
-    $("#selection-screen").toggle("200");
-    $("#close-selection-screen").toggle();
-  }
-
-
   // Save the score to the database
   $scope.saveScore = function () {
     Restangular.all('/api/scores/').post(
@@ -411,54 +401,60 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     $state.go('scoreboard');
   }
 
-  $scope.dragged = false;
   $scope.selectAlien = function (alien_id) {
-    if (!$scope.dragged) {
-      var ind = $scope.selectedAliens.indexOf(alien_id);
-      if (ind >= 0) {
-        $("#" + alien_id).css( "border", "0px");
+    if ($scope.buckets[$scope.current_bucket].illegal_alien.indexOf(alien_id) != -1) {
+      return;
+    } else {
+      if (!$scope.dragged) {
+        var ind = $scope.selectedAliens.indexOf(alien_id);
+        if (ind >= 0) {
+          $("#" + alien_id).css( "border", "0px");
 
-        $scope.selectedAliens.splice(ind, 1);
+          $scope.selectedAliens.splice(ind, 1);
 
-        // Remove the alien from the bucket
-        for (var i = 0; i < $scope.buckets.length; i++) {
-          for (var j = 0; j < $scope.buckets[i].alien.length; j++) {
-            if ($scope.buckets[i].alien[j] == alien_id) {
-              var bucket_id = i;
-              break;
+          // Remove the alien from the bucket
+          for (var i = 0; i < $scope.buckets.length; i++) {
+            for (var j = 0; j < $scope.buckets[i].alien.length; j++) {
+              if ($scope.buckets[i].alien[j] == alien_id) {
+                var bucket_id = i;
+                break;
+              }
             }
           }
+          //alert(bucket_id);
+
+          $scope.aliensInBucket.splice($scope.aliensInBucket.indexOf(alien_id), 1);
+          $scope.buckets[bucket_id].alien.splice($scope.buckets[bucket_id].alien.indexOf(alien_id), 1);
+
+          if($scope.buckets[bucket_id].alien.length == 0 && $scope.buckets.length > 1) {
+            $scope.num_buckets--;
+            $scope.buckets.splice(bucket_id, 1);
+            $scope.colorArray.splice(bucket_id, 1);
+
+            $scope.current_bucket = bucket_id - 1;
+            alert($scope.current_bucket);
+          }
+          updateIllegalAlien($scope.current_bucket);
+          calculateScore();
         }
+        else {
+          //if ($scope.selectedAliens.length == 8) {
+          //  alert("Can only select 8 aliens!");
+          //  return 0;
+          //}
+          $scope.selectedAliens.push(alien_id);
+          $scope.aliensInBucket.push(alien_id);
+          $scope.buckets[$scope.current_bucket].alien.push(alien_id);
 
-        $scope.aliensInBucket.splice($scope.aliensInBucket.indexOf(alien_id), 1);
-        $scope.buckets[bucket_id].alien.splice($scope.buckets[bucket_id].alien.indexOf(alien_id), 1);
-
-        if($scope.buckets[bucket_id].alien.length == 0 && $scope.buckets.length > 1) {
-          $scope.num_buckets--;
-          $scope.buckets.splice(bucket_id, 1);
-          $scope.colorArray.splice(bucket_id, 1);
-
-          $scope.current_bucket = bucket_id;
-          alert($scope.current_bucket);
+          updateIllegalAlien($scope.current_bucket);
+          calculateScore();
+          $("#" + alien_id).css( "border", "2px solid" + $scope.buckets[$scope.current_bucket].color);
+          $("#" + alien_id).css( "border-radius", "15px");
         }
-        calculateScore();
       }
-      else {
-        //if ($scope.selectedAliens.length == 8) {
-        //  alert("Can only select 8 aliens!");
-        //  return 0;
-        //}
-        $scope.selectedAliens.push(alien_id);
-
-        $scope.buckets[$scope.current_bucket].alien.push(alien_id);
-
-
-        calculateScore();
-        $("#" + alien_id).css( "border", "2px solid" + $scope.buckets[$scope.current_bucket].color);
-        $("#" + alien_id).css( "border-radius", "15px");
-      }
+      $scope.dragged = false;
     }
-    $scope.dragged = false;
+
   }
 
 
@@ -466,12 +462,6 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.newGroup = function() {
     $scope.addBucket();
   }
-
-
-
-  $scope.startDragging = function() {
-    $scope.dragged = true;
-  };
 
   $scope.get_highest_score = function (){
     Restangular.all('api/scores/game_scoreboard/' + parseInt($scope.cur_level) + '/' + $scope.cur_game)
@@ -484,6 +474,43 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       .getList().then(function (serverJson) {
         $scope.beat = serverJson[0].scoreToBeat;
       });
+  }
+
+// ZOOMING
+
+  // TODO: Add zoomin icon
+  $scope.onDropZoom = function(event, ui) {
+    var alien_id = ui.draggable.attr('id');
+    var id = $scope.get_alien(alien_id);
+    var model = $scope.get_model(alien_id);
+
+    var ind = $scope.zoominAliens.indexOf(alien_id);
+
+    // Already in the zoom-in list
+    if (ind < 0) {
+      $scope.zoominAliens.push(alien_id);
+      $("#" + alien_id).css('outline-style', 'solid');
+      $("#" + alien_id).css('outline-width', '1px');
+      $("#" + alien_id).css('outline-color', 'red');
+      //$("#" + alien_id).addClass("zoomin-small-alien");
+    }
+
+    $scope.dragged = false;
+  };
+
+  $scope.onStart = function(event) {
+    $scope.dragged = true;
+  };
+
+  $scope.togglePageslide = function() {
+    $scope.checked = !$scope.checked
+  }
+
+  $scope.unzoomAlien = function(id) {
+    var ind = $scope.zoominAliens.indexOf(id);
+    $scope.zoominAliens.splice(ind, 1);
+    $("#" + id).css('outline-style', 'none');
+    //$("#" + id).removeClass("zoomin-small-alien");
   }
 
 });
