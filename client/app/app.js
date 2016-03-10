@@ -8,8 +8,7 @@ angular.module('nwmApp', [
   'ui.bootstrap',
   'ngDragDrop',
   'restangular',
-  'countTo',
-  'pageslide-directive'
+  'countTo'
 ])
 
   .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
