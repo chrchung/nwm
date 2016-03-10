@@ -60,11 +60,11 @@
 
 #middle-right {
   position: fixed;
-  top: 40%;
+  top: 48%;
   width: 230px;
   right: 2.4%;
   text-align: center;
-  color: #35a8b1;
+  color: #00d4b4;
   font-family: Impact, Charcoal, sans-serif;
   font-size: 25px;
 }
@@ -84,13 +84,12 @@
 }
 
 #score-board {
-  color: #35a8b1;
+  color: #00d4b4;
   font-family: Impact, Charcoal, sans-serif;
-
+  margin-bottom: 0;
 }
 
 #score-board p {
-  margin-top: 5px;
   display: inline-block;
 }
 
@@ -107,11 +106,11 @@
 }
 
 .menu-button {
-  margin-top: 10px;
+  margin-top: 5px;
   width: 200px;
   display: inline-block;
   color: #fff;
-  background-color: #35a8b1;
+  background-color: #00d4b4;
   &:hover {
     color: #fff;
     background-color: #e55f49;
@@ -134,9 +133,6 @@
   margin-left: 20px;
   margin-top: 10px;
   margin-right: 161px;
-  //background-color: rgba(255, 255, 255, 0.5);
-  //border-radius: 5px;
-  //padding: 2px;
 }
 
 #aliens img {
@@ -151,52 +147,52 @@
 
 .model0 img {
   border-radius: 10px;
-  background-color: rgba(230, 250, 255, 1);
+  background-color: rgba(0, 235, 255, 0.27);
 }
 
 .model1 img {
   border-radius: 10px;
-  background-color: rgba(255, 230, 255, 1);
+  background-color: rgba(252, 176, 255, 0.27);
 }
 
 .model2 img {
   border-radius: 10px;
-  background-color: rgba(179, 224, 255, 1);
+  background-color: rgba(173, 255, 171, 0.27);
 }
 
 .model3 img {
   border-radius: 10px;
-  background-color: rgba(255, 224, 179, 1);
+  background-color: rgba(255, 194, 150, 0.27);
 }
 
 .model4 img {
   border-radius: 10px;
-  background-color: rgba(255, 204, 204, 1);
+  background-color: rgba(120, 100, 228, 0.27);
 }
 
 .model5 img {
   border-radius: 10px;
-  background-color: rgba(255, 255, 204, 1);
+  background-color: rgba(235, 199, 0, 0.27);
 }
 
 .model6 img {
   border-radius: 10px;
-  background-color: rgba(236, 255, 179, 1);
+  background-color: rgba(255, 0, 0, 0.27);
 }
 
 .model7 img {
   border-radius: 10px;
-  background-color: rgba(236, 217, 198, 1);
+  background-color: rgba(0, 0, 150, 0.27);
 }
 
 .model8 img {
   border-radius: 10px;
-  background-color: rgba(153, 255, 187, 1);
+  background-color: rgba(150, 44, 0, 0.27);
 }
 
 .model9 img {
   border-radius: 10px;
-  background-color: rgba(179, 255, 236, 1);
+  background-color: rgba(0, 133, 0, 0.27);
 }
 
 .illegal_alien img {
@@ -231,6 +227,8 @@
 //
 .current_bucket {
   transform: scale(1.6);
+  font-size: 10px;
+  color: white;
 }
 //
 //.bucket .remove_bucket {
@@ -244,6 +242,36 @@
 .selectedAlien {
   border-radius:10px;
   box-shadow: 0px 0px 0px 1px
+}
+
+
+.zoom-in-area {
+  width: 200px;
+}
+
+#zoomin-aliens {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.6);
+}
+
+.zoomin-alien {
+  white-space: nowrap;
+  display: inline-block;
+  width: 200px;
+  margin: 10px 0px 10px 10px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.zoomin-alien img {
+  width: 200px;
+}
+
+.zoomin-small-alien {
+  outline-style: solid;
+  outline-width: 1px;
+  outline-color: red;
 }
 
 .zoom-in-area {
