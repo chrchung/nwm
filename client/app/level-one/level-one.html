@@ -89,11 +89,12 @@
 </pageslide>
 
 <!--display aliens in grid-->
+<!--ng-mouseenter="highLight(alien.id)"-->
+<!--ng-mouseleave="lowLight()"-->
 <div id="aliens">
   <div ng-repeat="alien in alienArray"
        ng-mouseover="selectedAlien(alien.id)"
-       ng-mouseenter="highLight(alien.id)"
-       ng-mouseleave="lowLight(alien.id)"
+
        class="{{alien.model}}"
        id="{{alien.id}}"
        ng-click="selectAlien(alien.id)"
