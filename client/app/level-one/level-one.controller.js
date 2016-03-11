@@ -370,6 +370,8 @@ $scope.predefinedColorCounter = 0;
 
   $scope.addBucket = function() {
     if ($scope.buckets.length == 0 || $scope.buckets[$scope.num_buckets - 1].alien.length == 0) {
+      $(".colour-error").css("top", $(".add-colour").position().top - 20);
+      $(".colour-error").css("left", $(".add-colour").position().left - 100);
       $(".colour-error").show().delay(1000).fadeOut();
       // alert("You have not chosen any alien for the last bucket!");
     } else {

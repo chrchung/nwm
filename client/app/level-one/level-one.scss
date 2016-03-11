@@ -2,7 +2,7 @@ body {
   color: white;
 }
 
-h3 {
+h2 {
   font-family: 'Londrina Outline';
 }
 
@@ -82,14 +82,17 @@ h3 {
   display: none;
 }
 
-#bottom-right {
+ #bottom-right {
   position: fixed;
-  top: 35%;
-  right: 3%;
+  width: 200px;
+  bottom: 0;
+  right: 0;
+  padding: 2px;
   z-index: 8;
 }
 
-#score-board {
+#bottom-right #score-board {
+  left: 0;
   text-align: left;
 }
 
@@ -109,22 +112,22 @@ h3 {
   //}
 }
 
-#middle-right {
-  position: fixed;
-  bottom: 30%;
-  width: 200px;
-  right: 2.4%;
-  text-align: center;
-  font-size: 25px;
-}
+// #middle-right {
+//   position: fixed;
+//   bottom: 30%;
+//   width: 200px;
+//   right: 2.4%;
+//   text-align: center;
+// }
 
-#middle-right #group-container {
+#bottom-right #group-container {
   display: inline-block;
 }
 
-#middle-right .add-colour {
+#bottom-right .add-colour {
   color: white;
   cursor: pointer;
+  font-size: 24px;
   //border-radius: 50%;
 }
 
@@ -132,16 +135,22 @@ h3 {
 //  color: rgb(180,125,251);
 //}
 
-#middle-right .colour-error {
-  font-size: 15px;
+#bottom-right .colour-error {
   display: none;
+  position: absolute;
 }
 
+#bottom-right #score-board {
+  margin-bottom: 0;
+}
 
-#legend {
-  min-height: 5px;
-  width: 230px;
-  right: 2.4%;
+#bottom-right #score-board p {
+  margin-top: 5px;
+  display: inline-block;
+}
+
+#bottom-right #legend {
+  min-height: 150px;
 }
 
 #top-right {
@@ -150,17 +159,6 @@ h3 {
   right: 2%;
   text-align: center;
   margin-top: 5px;
-}
-
-#score-board {
-  margin-bottom: 0;
-  font-weight: bold;
-  font-size: 40px;
-}
-
-#score-board p {
-  margin-top: 5px;
-  display: inline-block;
 }
 
 #feedback {
@@ -293,7 +291,7 @@ h3 {
 //
 .current_bucket {
   transform: scale(1.6);
-  font-size: 10px;
+  font-size: 8px;
   color: white;
 }
 //
@@ -340,10 +338,4 @@ h3 {
   outline-style: solid;
   outline-width: 1px;
   outline-color: red;
-}
-
-
-#group-container {
-  font-size: 40px;
-  font-weight: bold;
 }
