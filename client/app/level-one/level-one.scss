@@ -86,7 +86,7 @@ h3 {
 
 #bottom-right {
   position: fixed;
-  bottom:2%;
+  top: 35%;
   right: 3%;
   z-index: 8;
 }
@@ -102,19 +102,19 @@ h3 {
   color: #fff;
   background-color: #9999ff;
   font-family: Arial;
-  &:hover {
-    color: #fff;
-    background-color: rgb(180,125,251);
-  }
-  &:focus {
-    color: #fff;
-    background-color: rgb(180,125,251);
-  }
+  //&:hover {
+  //  color: #fff;
+  //  background-color: rgb(180,125,251);
+  //}
+  //&:focus {
+  //  color: #fff;
+  //  background-color: rgb(180,125,251);
+  //}
 }
 
 #middle-right {
   position: fixed;
-  top: 48%;
+  bottom: 30%;
   width: 200px;
   right: 2.4%;
   text-align: center;
@@ -126,14 +126,14 @@ h3 {
 }
 
 #middle-right .add-colour {
-  background-color: white;
-  color: #9999ff;
-  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  //border-radius: 50%;
 }
 
-#middle-right .add-colour:hover {
-  color: rgb(180,125,251);
-}
+//#middle-right .add-colour:hover {
+//  color: rgb(180,125,251);
+//}
 
 #middle-right .colour-error {
   font-family: Arial;
@@ -157,6 +157,9 @@ h3 {
 
 #score-board {
   margin-bottom: 0;
+  font-family: "Londrina Outline";
+  font-weight: bold;
+  font-size: 40px;
 }
 
 #score-board p {
@@ -340,4 +343,11 @@ h3 {
   outline-style: solid;
   outline-width: 1px;
   outline-color: red;
+}
+
+
+#group-container {
+  font-family: "Londrina Outline";
+  font-size: 40px;
+  font-weight: bold;
 }
