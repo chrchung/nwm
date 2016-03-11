@@ -15,6 +15,18 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.zoominAliens = [];
   $scope.checked = false;
   $scope.colorCounter;
+  $scope.predefinedColors = {
+  'rgba(230, 250, 255, 1)': false,
+  'rgba(255, 230, 255, 1)': false,
+  'rgba(179, 224, 255, 1)': false,
+  'rgba(255, 224, 179, 1)': false,
+  'rgba(255, 204, 204, 1)': false,
+  'rgba(255, 255, 204, 1)': false,
+  'rgba(236, 255, 179, 1)': false,
+  'rgba(236, 217, 198, 1)': false,
+  'rgba(153, 255, 187, 1)': false
+};
+$scope.predefinedColorCounter = 0;
 
 
   var updateIllegalAlien = function(bucket){
@@ -86,6 +98,16 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
 
   function getRandomColor() {
+    if ($scope.predefinedColorCounter != $scope.predefinedColors.length) {
+      for (var color in $scope.predefinedColors) {
+        // Colour available
+        if (!$scope.predefinedColors[color]) {
+          $scope.predefinedColors[color] = true;
+          $scope.predefinedColorCounter++;
+          return color;
+        }
+      }
+    }
     var letters = '0123456789ABCDEF'.split('');
     var color = '#';
     for (var i = 0; i < 6; i++ ) {
@@ -176,8 +198,8 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     }
     $scope.prev_score = $scope.score;
     var element = document.getElementById(alien_id);
-    var coord_x = getPosition(element).x + 20;
-    var coord_y = getPosition(element).y + 20;
+    var coord_x = element.offsetLeft - element.scrollLeft + 20;
+    var coord_y = element.offsetTop - element.scrollTop - 20;
 
         // Small feedback
           if ($scope.score < total_score) {
@@ -209,28 +231,20 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
     if ($scope.score < total_score) {
       if (total_score >= higher * 5 / 5) {
-        if ($scope.feedback != "OMG!"){
-          $scope.feedback = "OMG!";
-          $("#feedback").show().delay(500).fadeOut();
-        }
+        $scope.feedback = "Best!";
+        $("#feedback").show().delay(500).fadeOut();
       }
       else if (total_score >= higher * 4 / 5) {
-        if ($scope.feedback != "Amazing!"){
-          $scope.feedback = "Amazing!";
-          $("#feedback").show().delay(500).fadeOut();
-        }
+        $scope.feedback = "Amazing!";
+        $("#feedback").show().delay(500).fadeOut();
       }
       else if (total_score >= higher * 3 / 5) {
-        if ($scope.feedback != "Wow!"){
-          $scope.feedback = "Wow!";
-          $("#feedback").show().delay(500).fadeOut();
-        }
+        $scope.feedback = "Wow!";
+        $("#feedback").show().delay(500).fadeOut();
       }
       else if (total_score >= higher * 2 / 5) {
-        if ($scope.feedback != "Good!"){
-          $scope.feedback = "Good!";
-          $("#feedback").show().delay(500).fadeOut();
-        }
+        $scope.feedback = "Good!";
+        $("#feedback").show().delay(500).fadeOut();
       }
     }
 
@@ -339,7 +353,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
         var cur_properties = $scope.alienData[model_num].alien[alien_num].prop;
         for (var k = 0; k < cur_properties.length; k++) {
           if (current_prop.indexOf(cur_properties[k]) != -1) {
-            $("#" + $scope.alienArray[j].id).css('box-shadow', 'rgb(250, 250, 210) 0 0 10px');
+            $("#" + $scope.alienArray[j].id).css('box-shadow', 'rgb(255, 255, 255) 0 0 10px');
             $("#" + $scope.alienArray[j].id).css('border-radius', '10px');
           }
         }
@@ -356,6 +370,8 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
   $scope.addBucket = function() {
     if ($scope.buckets.length == 0 || $scope.buckets[$scope.num_buckets - 1].alien.length == 0) {
+      $(".colour-error").css("top", $(".add-colour").position().top - 20);
+      $(".colour-error").css("left", $(".add-colour").position().left - 100);
       $(".colour-error").show().delay(1000).fadeOut();
       // alert("You have not chosen any alien for the last bucket!");
     } else {
@@ -444,10 +460,22 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   //   $("#menu").toggle("200");
   // }
 
-  $scope.togglePopup = function() {
+  $scope.buttonReq = '';
+  $scope.togglePopup = function(msg, req) {
+    $("#overlay").toggle();
+    $scope.buttonReq = req;
+    $(".alert-msg").html(msg);
     $("#popup").toggle();
   }
 
+  $scope.handleButtonRequest = function() {
+    if ($scope.buttonReq == 'submit') {
+      $scope.saveScore();
+    }
+    else if ($scope.buttonReq == 'quit') {
+      $scope.quit();
+    }
+  }
 
   // Save the score to the database
   $scope.saveScore = function () {
@@ -540,6 +568,11 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
           $scope.buckets[bucket_id].alien.splice($scope.buckets[bucket_id].alien.indexOf(alien_id), 1);
 
           if($scope.buckets[bucket_id].alien.length == 0 && $scope.buckets.length > 1) {
+            // Check if removing a predefined color
+            if (Object.keys($scope.predefinedColors).indexOf($scope.buckets[bucket_id].color) != -1) {
+              $scope.predefinedColors[$scope.buckets[bucket_id].color] = false;
+              $scope.predefinedColorCounter--;
+            }
             $scope.buckets.splice(bucket_id, 1);
             $scope.colorArray.splice(bucket_id, 1);
             $scope.num_buckets--;
