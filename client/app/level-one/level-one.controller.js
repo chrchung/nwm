@@ -14,19 +14,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.pageslide = false;
   $scope.zoominAliens = [];
   $scope.checked = false;
-  $scope.colorCounter = 0;
-
-  $scope.presetColors = [
-    "#FFEFFF",
-    "#B3E0FF",
-    "#FFCCB3",
-    "#FFCCCC",
-    "#FFFFCC",
-    "#ECFFB3",
-    "#ECD9C6",
-    "#99FFBB",
-    "#B3FFEC"
-  ];
+  $scope.colorCounter;
 
 
   var updateIllegalAlien = function(bucket){
@@ -63,6 +51,16 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
   $scope.currentBucket = function(bucket) {
     $scope.current_bucket = bucket;
+
+    // Lowlight all aliens
+    $scope.lowLight();
+
+    // Highlight aliens that similar to aliens in current bucket
+    var cur_alien_list = $scope.buckets[bucket].alien;
+    for (var j = 0; j < cur_alien_list.length; j++) {
+      $scope.highLight(cur_alien_list[j]);
+    }
+
     updateIllegalAlien(bucket);
     for (var i = 0; i < $scope.buckets.length; i++) {
       if (i != bucket) {
@@ -88,16 +86,11 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
 
   function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
     var color = '#';
-    if ($scope.colorCounter < 9) {
-      color = $scope.presetColors[$scope.colorCounter];
-      $scope.colorCounter += 1;
-    } else {
-      var letters = '0123456789ABCDEF'.split('');
-      for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-    };
+    for (var i = 0; i < 6; i++ ) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
     return color;
   }
 
@@ -353,7 +346,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       }
   }
 
-  $scope.lowLight = function (alien_id) {
+  $scope.lowLight = function () {
     for (var j = 0; j < $scope.alienArray.length; j++) {
       $("#" + $scope.alienArray[j].id).css('box-shadow', 'none');
     }
@@ -557,11 +550,13 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
               $scope.current_bucket -= 1;
               updateIllegalAlien($scope.current_bucket);
             }
+
           } else {
             updateIllegalAlien($scope.current_bucket);
           }
 
           calculateScore(alien_id);
+          $scope.currentBucket($scope.current_bucket);
         }
 
         // Select aliens
@@ -579,6 +574,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
           updateIllegalAlien($scope.current_bucket);
           calculateScore(alien_id);
+          $scope.currentBucket($scope.current_bucket);
 
         }
       }
