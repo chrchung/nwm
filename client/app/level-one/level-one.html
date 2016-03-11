@@ -9,8 +9,8 @@
 <div id="popup">
   <div id='popup-content'>
     <p class='alert-msg'></p><br/>
-    <button class="btn menu-button" ng-click="quit()">Yes</button>
-    <button class="btn menu-button" ng-click="togglePopup('')">No</button>
+    <button class="btn menu-button yes-button" ng-click="handleButtonRequest()">Yes</button>
+    <button class="btn menu-button" ng-click="togglePopup('', '')">No</button>
   </div>
 </div>
 
@@ -76,8 +76,8 @@
       SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p><br/>
       BEST: <p>{{highest_score}}</p></h3>
     <!-- <button class="btn menu-button" ng-click="toggleMenu()">MENU</button><br/> -->
-    <button class="btn menu-button" ng-click="togglePopup('Do you want to submit the score?')">Submit</button>
-    <button class="btn menu-button" ng-click="togglePopup('Do you want to quit the game?')">Quit</button>
+    <button class="btn menu-button" ng-click="togglePopup('Do you want to submit the score?', 'submit')">Submit</button>
+    <button class="btn menu-button" ng-click="togglePopup('Do you want to quit the game?', 'quit')">Quit</button>
   </div>
 </div>
 
