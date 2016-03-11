@@ -198,8 +198,8 @@ $scope.predefinedColorCounter = 0;
     }
     $scope.prev_score = $scope.score;
     var element = document.getElementById(alien_id);
-    var coord_x = getPosition(element).x + 20;
-    var coord_y = getPosition(element).y + 20;
+    var coord_x = element.offsetLeft - element.scrollLeft + 20;
+    var coord_y = element.offsetTop - element.scrollTop - 20;
 
         // Small feedback
           if ($scope.score < total_score) {
