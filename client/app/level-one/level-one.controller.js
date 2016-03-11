@@ -361,7 +361,7 @@ $scope.predefinedColorCounter = 0;
         var cur_properties = $scope.alienData[model_num].alien[alien_num].prop;
         for (var k = 0; k < cur_properties.length; k++) {
           if (current_prop.indexOf(cur_properties[k]) != -1) {
-            $("#" + $scope.alienArray[j].id).css('box-shadow', 'rgb(250, 250, 210) 0 0 10px');
+            $("#" + $scope.alienArray[j].id).css('box-shadow', 'rgb(255, 255, 255) 0 0 10px');
             $("#" + $scope.alienArray[j].id).css('border-radius', '10px');
           }
         }
