@@ -231,28 +231,20 @@ $scope.predefinedColorCounter = 0;
 
     if ($scope.score < total_score) {
       if (total_score >= higher * 5 / 5) {
-        if ($scope.feedback != "OMG!"){
-          $scope.feedback = "OMG!";
-          $("#feedback").show().delay(500).fadeOut();
-        }
+        $scope.feedback = "Best!";
+        $("#feedback").show().delay(500).fadeOut();
       }
       else if (total_score >= higher * 4 / 5) {
-        if ($scope.feedback != "Amazing!"){
-          $scope.feedback = "Amazing!";
-          $("#feedback").show().delay(500).fadeOut();
-        }
+        $scope.feedback = "Amazing!";
+        $("#feedback").show().delay(500).fadeOut();
       }
       else if (total_score >= higher * 3 / 5) {
-        if ($scope.feedback != "Wow!"){
-          $scope.feedback = "Wow!";
-          $("#feedback").show().delay(500).fadeOut();
-        }
+        $scope.feedback = "Wow!";
+        $("#feedback").show().delay(500).fadeOut();
       }
       else if (total_score >= higher * 2 / 5) {
-        if ($scope.feedback != "Good!"){
-          $scope.feedback = "Good!";
-          $("#feedback").show().delay(500).fadeOut();
-        }
+        $scope.feedback = "Good!";
+        $("#feedback").show().delay(500).fadeOut();
       }
     }
 
@@ -466,10 +458,21 @@ $scope.predefinedColorCounter = 0;
   //   $("#menu").toggle("200");
   // }
 
-  $scope.togglePopup = function(msg) {
+  $scope.buttonReq = '';
+  $scope.togglePopup = function(msg, req) {
     $("#overlay").toggle();
+    $scope.buttonReq = req;
     $(".alert-msg").html(msg);
     $("#popup").toggle();
+  }
+
+  $scope.handleButtonRequest = function() {
+    if ($scope.buttonReq == 'submit') {
+      $scope.saveScore();
+    }
+    else if ($scope.buttonReq == 'quit') {
+      $scope.quit();
+    }
   }
 
   // Save the score to the database

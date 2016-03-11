@@ -1,6 +1,5 @@
 body {
   color: white;
- // font-family: 'Londrina Outline';
 }
 
 h3 {
@@ -41,7 +40,6 @@ h3 {
 #popup-content {
   padding: 20px;
   color: grey;
-  font-family: Arial;
 }
 
 #popup-content .btn {
@@ -101,7 +99,6 @@ h3 {
   display: inline-block;
   color: #fff;
   background-color: #9999ff;
-  font-family: Arial;
   //&:hover {
   //  color: #fff;
   //  background-color: rgb(180,125,251);
@@ -136,10 +133,10 @@ h3 {
 //}
 
 #middle-right .colour-error {
-  font-family: Arial;
   font-size: 15px;
   display: none;
 }
+
 
 #legend {
   min-height: 5px;
@@ -157,7 +154,6 @@ h3 {
 
 #score-board {
   margin-bottom: 0;
-  font-family: "Londrina Outline";
   font-weight: bold;
   font-size: 40px;
 }
@@ -176,6 +172,7 @@ h3 {
   text-shadow: 0px 0px 3px #000000;
   color: rgb(255,121,121);
   font-size: 100px;
+  font-family: 'Londrina Outline';
 }
 
 #img-container {
@@ -347,7 +344,6 @@ h3 {
 
 
 #group-container {
-  font-family: "Londrina Outline";
   font-size: 40px;
   font-weight: bold;
 }
