@@ -1,9 +1,14 @@
-<div id="overlay"></div>
+<!-- <div id="overlay"></div> -->
 <!-- menu -->
-<div id="menu">
+<!-- <div id="menu">
   <button class="btn menu-button" ng-click="toggleMenu()">RESUME</button><br/>
   <button class="btn menu-button" ng-click="quit()">QUIT GAME</button><br/>
   <button class="btn menu-button" ng-click="logout()">LOG OUT</button>
+</div> -->
+
+<div id="popup">
+  <p class='alert-msg'></p>
+  <button class="btn menu-button" ng-click="togglePopup()">OK</button><br/>
 </div>
 
 <span id="feedback">{{feedback}}</span> <span id="small_feedback"></span>
@@ -28,20 +33,20 @@
 
 <!-- alien contents -->
 <div id="top-right">
-  <button class="zoom-in-area"
+  <div class="zoom-in-area"
           ng-click="togglePageslide()"
           data-drop="true"
           jqyoui-droppable="{onDrop:'onDropZoom'}">
-    <br/>
-    <span class="glyphicon glyphicon-zoom-in" size='50px'></span><br/>
-    <br/>
-  </button><br/>
+    <span class="glyphicon glyphicon-zoom-in" size='50px'></span>
+  </div><br/>
   <div id="img-container"></div>
 </div>
 
 <div id="middle-right">
   <div id="group-container">GROUPS</div>
   <span class="add-colour glyphicon glyphicon-plus-sign" ng-click="newGroup()"></span>
+  <!-- error message -->
+  <p class='colour-error'>You have not chosen any alien for the last bucket!</p>
   <table id="legend">
 
     <colgroup span="4"></colgroup>
