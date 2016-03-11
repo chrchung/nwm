@@ -5,10 +5,10 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 
 @import url('https://fonts.googleapis.com/css?family=Londrina+Outline');
 
-@font-face {
-    font-family: 'anagram';
-    src: url(/assets/Anagram.ttf);
-}
+//@font-face {
+//    font-family: 'anagram';
+//    src: url(/assets/Anagram.ttf);
+//}
 
 /**
  * App-wide Styles
@@ -23,7 +23,8 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 
 
 body {
-  background-image: url(/assets/images/gamebg.c9fff19b.png);
+  background-image: url(/assets/images/gamebg.png);
+  //background-image: url(/assets/images/gamebg.c9fff19b.png);
 }
 
 
