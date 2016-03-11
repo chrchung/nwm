@@ -1,4 +1,4 @@
-<!-- <div id="overlay"></div> -->
+<div id="overlay"></div>
 <!-- menu -->
 <!-- <div id="menu">
   <button class="btn menu-button" ng-click="toggleMenu()">RESUME</button><br/>
@@ -7,8 +7,11 @@
 </div> -->
 
 <div id="popup">
-  <p class='alert-msg'></p>
-  <button class="btn menu-button" ng-click="togglePopup()">OK</button><br/>
+  <div id='popup-content'>
+    <p class='alert-msg'></p><br/>
+    <button class="btn menu-button" ng-click="quit()">Yes</button>
+    <button class="btn menu-button" ng-click="togglePopup('')">No</button>
+  </div>
 </div>
 
 <span id="feedback">{{feedback}}</span> <span id="small_feedback"></span>
@@ -43,7 +46,7 @@
 </div>
 
 <div id="middle-right">
-  <div id="group-container">GROUPS</div>
+  <h3 id="group-container">GROUPS</h3>
   <span class="add-colour glyphicon glyphicon-plus-sign" ng-click="newGroup()"></span>
   <!-- error message -->
   <p class='colour-error'>You have not chosen any alien for the last bucket!</p>
@@ -73,8 +76,8 @@
       SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p><br/>
       BEST: <p>{{highest_score}}</p></h3>
     <!-- <button class="btn menu-button" ng-click="toggleMenu()">MENU</button><br/> -->
-    <button class="btn menu-button" ng-click="saveScore()">Submit</button>
-    <button class="btn menu-button" ng-click="quit()">Quit</button>
+    <button class="btn menu-button" ng-click="togglePopup('Do you want to submit the score?')">Submit</button>
+    <button class="btn menu-button" ng-click="togglePopup('Do you want to quit the game?')">Quit</button>
   </div>
 </div>
 
