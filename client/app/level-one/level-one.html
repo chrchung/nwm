@@ -39,6 +39,7 @@
 
 <div id="middle-right">
   <div id="group-container">GROUPS</div>
+  <span class="add-colour glyphicon glyphicon-plus-sign" ng-click="newGroup()"></span>
   <table id="legend">
 
     <colgroup span="4"></colgroup>
@@ -61,13 +62,13 @@
 
 <div id="bottom-right">
   <div>
-    <h3 class="text-center" id="score-board">
+    <h3 id="score-board">
       SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p>
       <span id="feedback">{{feedback}}</span> <span id="small_feedback"></span><br/>
       BEST: <p>{{highest_score}}</p></h3>
-    <button class="btn menu-button" id="new_group" ng-click="newGroup()">NEW GROUP</button><br/>
-    <button class="btn menu-button" ng-click="toggleMenu()">MENU</button><br/>
-    <button class="btn menu-button" ng-click="saveScore()">SAVE SCORE</button><br/>
+    <!-- <button class="btn menu-button" ng-click="toggleMenu()">MENU</button><br/> -->
+    <button class="btn menu-button" ng-click="saveScore()">Submit</button> 
+    <button class="btn menu-button" ng-click="quit()">Quit</button>
   </div>
 </div>
 
