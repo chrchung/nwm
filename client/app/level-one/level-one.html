@@ -6,6 +6,8 @@
   <button class="btn menu-button" ng-click="logout()">LOG OUT</button>
 </div>
 
+<span id="feedback">{{feedback}}</span> <span id="small_feedback"></span>
+
 <!-- Zoomed aliens -->
 <!--<div id="selection-screen">-->
 <!--<div ng-repeat="alien in selectedAliens"-->
@@ -62,12 +64,11 @@
 
 <div id="bottom-right">
   <div>
-    <h3 id="score-board">
-      SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p>
-      <span id="feedback">{{feedback}}</span> <span id="small_feedback"></span><br/>
+    <h3 class="text-center" id="score-board">
+      SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p><br/>
       BEST: <p>{{highest_score}}</p></h3>
     <!-- <button class="btn menu-button" ng-click="toggleMenu()">MENU</button><br/> -->
-    <button class="btn menu-button" ng-click="saveScore()">Submit</button> 
+    <button class="btn menu-button" ng-click="saveScore()">Submit</button>
     <button class="btn menu-button" ng-click="quit()">Quit</button>
   </div>
 </div>
@@ -86,6 +87,8 @@
 <div id="aliens">
   <div ng-repeat="alien in alienArray"
        ng-mouseover="selectedAlien(alien.id)"
+       ng-mouseenter="highLight(alien.id)"
+       ng-mouseleave="lowLight(alien.id)"
        class="{{alien.model}}"
        id="{{alien.id}}"
        ng-click="selectAlien(alien.id)"
