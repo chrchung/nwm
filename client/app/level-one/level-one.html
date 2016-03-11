@@ -6,6 +6,8 @@
   <button class="btn menu-button" ng-click="logout()">LOG OUT</button>
 </div>
 
+<span id="feedback">{{feedback}}</span> <span id="small_feedback"></span>
+
 <!-- Zoomed aliens -->
 <!--<div id="selection-screen">-->
 <!--<div ng-repeat="alien in selectedAliens"-->
@@ -62,8 +64,7 @@
 <div id="bottom-right">
   <div>
     <h3 class="text-center" id="score-board">
-      SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p>
-      <span id="feedback">{{feedback}}</span> <span id="small_feedback"></span><br/>
+      SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p><br/>
       BEST: <p>{{highest_score}}</p></h3>
     <button class="btn menu-button" id="new_group" ng-click="newGroup()">NEW GROUP</button><br/>
     <button class="btn menu-button" ng-click="toggleMenu()">MENU</button><br/>
