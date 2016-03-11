@@ -1,14 +1,31 @@
 body {
   color: white;
- // font-family: 'Londrina Outline';
+  //font-family: 'Londrina Outline';
 }
 
-#menu {
+h3 {
+  font-family: Londrina Outline;
+}
 
+// #menu {
+//   position: fixed;
+//   background-color: white;
+//   border-radius: 20px;
+//   width: 200px;
+//   height: 140px;
+//   top: 50%;
+//   left: 50%;
+//   -webkit-transform: translate(-50%, -50%);
+//   transform: translate(-50%, -50%);
+//   z-index: 10;
+//   text-align: center;
+// }
+
+#popup {
   position: fixed;
   background-color: white;
   border-radius: 20px;
-  width: 200px;
+  width: 300px;
   height: 140px;
   top: 50%;
   left: 50%;
@@ -19,16 +36,26 @@ body {
   display: none;
 }
 
-#selection-screen {
-  position: fixed;
-  width: 90%;
-  z-index: 10;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  text-align: center;
+#popup-content {
+  padding: 20px;
+  color: grey;
+  font-family: Arial;
 }
+
+#popup-content .btn {
+  bottom: 0;
+}
+
+// #selection-screen {
+//   position: fixed;
+//   width: 90%;
+//   z-index: 10;
+//   top: 50%;
+//   left: 50%;
+//   -webkit-transform: translate(-50%, -50%);
+//   transform: translate(-50%, -50%);
+//   text-align: center;
+// }
 
 .selected-alien img {
   width: 100%;
@@ -45,14 +72,17 @@ body {
 }
 
 
-// #overlay {
-//   position: fixed;
-//   width: 100%;
-//   height: 100%;
-//   background-color: rgba(0, 0, 0, 0.5);
-//   z-index: 9;
-// }
-//
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 9;
+  display: none;
+}
+
 
 #bottom-right {
   position: fixed;
@@ -65,7 +95,7 @@ body {
   text-align: left;
 }
 
-#bottom-right .menu-button {
+.menu-button {
   margin: 5px;
   width: 70px;
   display: inline-block;
@@ -158,7 +188,7 @@ body {
   margin-top: 10px;
   margin-right: 161px;
   //background-color: rgba(255, 255, 255, 0.5);
- // border-radius: 5px;
+  //border-radius: 5px;
   //padding: 2px;
 }
 
