@@ -45,36 +45,37 @@
   <div id="img-container"></div>
 </div>
 
-<div id="middle-right">
-  <h3 id="group-container">GROUPS</h3>
-  <span class="add-colour glyphicon glyphicon-plus-sign" ng-click="newGroup()"></span>
-  <!-- error message -->
-  <p class='colour-error'>You have not chosen any alien for the last bucket!</p>
-  <table id="legend">
-
-    <colgroup span="4"></colgroup>
-    <tbody>
-    <tr>
-      <td ng-repeat="color in colorArray"
-          id="color_block_{{$index}}"
-          style="background-color: {{color.color}};
-              cursor:pointer;display:inline-block;
-              min-width:15px;
-              min-height:15px;
-              margin:5px;"
-          ng-click="currentBucket($index)">
-
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
-
 <div id="bottom-right">
   <div>
-    <h3 class="text-center" id="score-board">
+    <!-- info -->
+    <h2 class="text-center" id="score-board">
       SCORE: <p count-to="{{score}}" value="{{prev_score}}" duration="0.5"></p><br/>
-      BEST: <p>{{highest_score}}</p></h3>
+      BEST: <p>{{highest_score}}</p>
+    </h2>
+
+    <!-- colour list -->
+    <h2 id="group-container">GROUPS</h2>
+    <span class="add-colour glyphicon glyphicon-plus-sign" ng-click="newGroup()"></span>
+    <table id="legend">
+      <colgroup span="4"></colgroup>
+      <tbody>
+      <tr>
+        <td ng-repeat="color in colorArray"
+            id="color_block_{{$index}}"
+            style="background-color: {{color.color}};
+                cursor:pointer;display:inline-block;
+                min-width:15px;
+                min-height:15px;
+                margin:5px;"
+            ng-click="currentBucket($index)">
+
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <!-- error message -->
+    <p class='colour-error'>You have an empty bucket!</p>
+
     <!-- <button class="btn menu-button" ng-click="toggleMenu()">MENU</button><br/> -->
     <button class="btn menu-button" ng-click="togglePopup('Do you want to submit the score?', 'submit')">Submit</button>
     <button class="btn menu-button" ng-click="togglePopup('Do you want to quit the game?', 'quit')">Quit</button>
