@@ -169,7 +169,7 @@ body {
 }
 
 .model0, .model1, .model2, .model3, .model4, .model5,
-.model5, .model6, .model7, .model8, .model9, .illegal_alien {
+.model5, .model6, .model7, .model8, .model9, .illegal_alien{
   width: 100px;
   background-color: rgba(255,255,255,.5);
 }
@@ -227,7 +227,13 @@ body {
 
 .illegal_alien img {
   border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.12);
+  background: repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0.2) 10px,
+      rgba(0, 0, 0, 0.3) 10px,
+      rgba(0, 0, 0, 0.3) 20px
+  )
 }
 //
 //#buckets {
@@ -305,3 +311,4 @@ body {
   outline-width: 1px;
   outline-color: red;
 }
+
