@@ -144,15 +144,55 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     });
   });
 
+  function getPosition(element) {
+    var xPosition = 0;
+    var yPosition = 0;
+
+    while(element) {
+      xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+      yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+      element = element.offsetParent;
+    }
+    return { x: xPosition, y: yPosition };
+  }
+
 
   // Score calculator
-  var calculateScore = function() {
+  var calculateScore = function(alien_id) {
     // Calculate points for each bucket
     var total_score = 0;
     for (var i = 0; i < $scope.buckets.length; i++) {
       total_score += calculateScoreByBucket($scope.buckets[i].alien);
     }
     $scope.prev_score = $scope.score;
+    var element = document.getElementById(alien_id);
+    var coord_x = getPosition(element).x + 20;
+    var coord_y = getPosition(element).y + 20;
+
+        // Small feedback
+          if ($scope.score < total_score) {
+            $("#small_feedback").removeClass('glyphicon glyphicon-arrow-down');
+            $("#small_feedback").addClass('glyphicon glyphicon-arrow-up animated rubberBand');
+
+            $("#small_feedback").css({'color': 'rgb(255,101,101)'});
+            $("#small_feedback").css({'position': 'absolute'});
+            $("#small_feedback").css({'left': coord_x});
+            $("#small_feedback").css({'top': coord_y});
+            $("#small_feedback").css({'font-size': '100px'});
+            $("#small_feedback").css({'z-index': '99'});
+            $("#small_feedback").show().delay(500).fadeOut();
+
+            }
+        else if ($scope.score > total_score) {
+            $("#small_feedback").removeClass('glyphicon glyphicon-arrow-up');
+            $("#small_feedback").addClass('glyphicon glyphicon-arrow-down');
+            $("#small_feedback").css({'color': 'rgb(98,133,255)'});
+            $("#small_feedback").css({'position': 'absolute'});
+            $("#small_feedback").css({'left': coord_x});
+            $("#small_feedback").css({'top': coord_y});
+            $("#small_feedback").css({'z-index': '99'});
+            $("#small_feedback").show().delay(500).fadeOut();
+          }
 
     // Feedback
     var higher = Math.max($scope.beat, $scope.highest_score);
@@ -289,8 +329,8 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
         var cur_properties = $scope.alienData[model_num].alien[alien_num].prop;
         for (var k = 0; k < cur_properties.length; k++) {
           if (current_prop.indexOf(cur_properties[k]) != -1) {
-            $("#" + $scope.alienArray[j].id).css('box-shadow', 'rgb(250, 250, 210) 0 0 15px');
-            $("#" + $scope.alienArray[j].id).css('border-radius', '15px');
+            $("#" + $scope.alienArray[j].id).css('box-shadow', 'rgb(250, 250, 210) 0 0 10px');
+            $("#" + $scope.alienArray[j].id).css('border-radius', '10px');
           }
         }
       }
@@ -347,44 +387,44 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   //  calculateScore();
   //};
 
-  $scope.putBackAlien = function($event, alienId) {
+  //$scope.putBackAlien = function($event, alienId) {
+  //
+  //  var id = $($event.target).parent().parent().attr('id');
+  //  var bucket = id.split("_")[1];
+  //  var modelNum = $scope.get_model(alienId);
+  //
+  //  $scope.aliensInBucket.splice($scope.aliensInBucket.indexOf(alienId), 1);
+  //  $scope.buckets[bucket].alien.splice($scope.buckets[bucket].alien.indexOf(alienId), 1);
+  //
+  //  if($scope.buckets[bucket].alien.length == 0) {
+  //    $scope.num_buckets--;
+  //    $scope.buckets.splice(bucket, 1);
+  //  }
+  //
+  //  updateIllegalAlien(bucket);
+  //  calculateScore();
+  //};
 
-    var id = $($event.target).parent().parent().attr('id');
-    var bucket = id.split("_")[1];
-    var modelNum = $scope.get_model(alienId);
-
-    $scope.aliensInBucket.splice($scope.aliensInBucket.indexOf(alienId), 1);
-    $scope.buckets[bucket].alien.splice($scope.buckets[bucket].alien.indexOf(alienId), 1);
-
-    if($scope.buckets[bucket].alien.length == 0) {
-      $scope.num_buckets--;
-      $scope.buckets.splice(bucket, 1);
-    }
-
-    updateIllegalAlien(bucket);
-    calculateScore();
-  };
-
-  $scope.deleteBucket = function($event) {
-    var id = $($event.target).parent().attr('id');
-    var bucket = id.split("_")[1];
-
-    if($scope.buckets[bucket].alien.length>0){
-      for (var m = 0; m <  $scope.buckets[bucket].alien.length; m++){
-        var alienId = $scope.buckets[bucket].alien[m];
-        var modelNum = $scope.get_model(alienId);
-
-        $scope.aliensInBucket.splice($scope.aliensInBucket.indexOf(alienId), 1);
-        //$scope.alienArray.push({id: modelNum + "_" + alienNum, model: "model" + modelNum, alien: alienNum});
-        $("#" + alienId).attr('class', "model" + modelNum);
-      }
-    }
-    // Remove the bucket
-    $scope.buckets.splice(id.substring(id.length-1, id.length),1);
-    $scope.num_buckets--;
-
-    calculateScore();
-  };
+  //$scope.deleteBucket = function($event) {
+  //  var id = $($event.target).parent().attr('id');
+  //  var bucket = id.split("_")[1];
+  //
+  //  if($scope.buckets[bucket].alien.length>0){
+  //    for (var m = 0; m <  $scope.buckets[bucket].alien.length; m++){
+  //      var alienId = $scope.buckets[bucket].alien[m];
+  //      var modelNum = $scope.get_model(alienId);
+  //
+  //      $scope.aliensInBucket.splice($scope.aliensInBucket.indexOf(alienId), 1);
+  //      //$scope.alienArray.push({id: modelNum + "_" + alienNum, model: "model" + modelNum, alien: alienNum});
+  //      $("#" + alienId).attr('class', "model" + modelNum);
+  //    }
+  //  }
+  //  // Remove the bucket
+  //  $scope.buckets.splice(id.substring(id.length-1, id.length),1);
+  //  $scope.num_buckets--;
+  //
+  //  calculateScore();
+  //};
 
   $("#menu").hide();
   $("#overlay").hide();
@@ -437,7 +477,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
       $scope.buckets[bucket_id].alien.splice($scope.buckets[bucket_id].alien.indexOf(alien_id), 1);
       $scope.buckets[$scope.current_bucket].alien.push(alien_id);
-      $("#" + alien_id).css( "border", "2px solid" + $scope.buckets[$scope.current_bucket].color);
+      $("#" + alien_id).css( "border", "3px solid" + $scope.buckets[$scope.current_bucket].color);
       $("#" + alien_id).css( "border-radius", "15px");
 
       if($scope.buckets[bucket_id].alien.length == 0 && $scope.buckets.length > 1) {
@@ -455,7 +495,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
         updateIllegalAlien($scope.current_bucket);
       }
 
-      calculateScore();
+      calculateScore(alien_id);
 
     }
 
@@ -498,7 +538,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
             updateIllegalAlien($scope.current_bucket);
           }
 
-          calculateScore();
+          calculateScore(alien_id);
         }
 
         // Select aliens
@@ -510,11 +550,11 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
           $scope.selectedAliens.push(alien_id);
           $scope.aliensInBucket.push(alien_id);
           $scope.buckets[$scope.current_bucket].alien.push(alien_id);
-          $("#" + alien_id).css( "border", "2px solid" + $scope.buckets[$scope.current_bucket].color);
+          $("#" + alien_id).css( "border", "3px solid" + $scope.buckets[$scope.current_bucket].color);
           $("#" + alien_id).css( "border-radius", "15px");
 
           updateIllegalAlien($scope.current_bucket);
-          calculateScore();
+          calculateScore(alien_id);
 
         }
       }
