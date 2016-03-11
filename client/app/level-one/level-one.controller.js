@@ -15,6 +15,18 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.zoominAliens = [];
   $scope.checked = false;
   $scope.colorCounter;
+  $scope.predefinedColors = {
+  'rgba(230, 250, 255, 1)': false,
+  'rgba(255, 230, 255, 1)': false,
+  'rgba(179, 224, 255, 1)': false,
+  'rgba(255, 224, 179, 1)': false,
+  'rgba(255, 204, 204, 1)': false,
+  'rgba(255, 255, 204, 1)': false,
+  'rgba(236, 255, 179, 1)': false,
+  'rgba(236, 217, 198, 1)': false,
+  'rgba(153, 255, 187, 1)': false
+};
+$scope.predefinedColorCounter = 0;
 
 
   var updateIllegalAlien = function(bucket){
@@ -86,6 +98,16 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
 
   function getRandomColor() {
+    if ($scope.predefinedColorCounter != $scope.predefinedColors.length) {
+      for (var color in $scope.predefinedColors) {
+        // Colour available
+        if (!$scope.predefinedColors[color]) {
+          $scope.predefinedColors[color] = true;
+          $scope.predefinedColorCounter++;
+          return color;
+        }
+      }
+    }
     var letters = '0123456789ABCDEF'.split('');
     var color = '#';
     for (var i = 0; i < 6; i++ ) {
@@ -444,10 +466,11 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   //   $("#menu").toggle("200");
   // }
 
-  $scope.togglePopup = function() {
+  $scope.togglePopup = function(msg) {
+    $("#overlay").toggle();
+    $(".alert-msg").html(msg);
     $("#popup").toggle();
   }
-
 
   // Save the score to the database
   $scope.saveScore = function () {
@@ -540,6 +563,11 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
           $scope.buckets[bucket_id].alien.splice($scope.buckets[bucket_id].alien.indexOf(alien_id), 1);
 
           if($scope.buckets[bucket_id].alien.length == 0 && $scope.buckets.length > 1) {
+            // Check if removing a predefined color
+            if (Object.keys($scope.predefinedColors).indexOf($scope.buckets[bucket_id].color) != -1) {
+              $scope.predefinedColors[$scope.buckets[bucket_id].color] = false;
+              $scope.predefinedColorCounter--;
+            }
             $scope.buckets.splice(bucket_id, 1);
             $scope.colorArray.splice(bucket_id, 1);
             $scope.num_buckets--;
