@@ -1,12 +1,13 @@
-.container {
-  // width: 100%;
+body {
+  color: white;
+  font-family: 'Londrina Outline';
 }
 
 #menu {
   position: fixed;
   background-color: white;
   border-radius: 20px;
-  width: 300px;
+  width: 200px;
   height: 140px;
   top: 50%;
   left: 50%;
@@ -58,15 +59,44 @@
   z-index: 8;
 }
 
+#bottom-right .menu-button {
+  margin: 5px;
+  width: 70px;
+  display: inline-block;
+  color: #fff;
+  background-color: #9999ff;
+  font-family: Arial;
+  &:hover {
+    color: #fff;
+    background-color: rgb(180,125,251);
+  }
+  &:focus {
+    color: #fff;
+    background-color: rgb(180,125,251);
+  }
+}
+
 #middle-right {
   position: fixed;
   top: 48%;
-  width: 230px;
+  width: 200px;
   right: 2.4%;
   text-align: center;
-  color: #00d4b4;
-  font-family: Impact, Charcoal, sans-serif;
   font-size: 25px;
+}
+
+#middle-right #group-container {
+  display: inline-block;
+}
+
+#middle-right .add-colour {
+  background-color: white;
+  color: #9999ff;
+  border-radius: 50%;
+}
+
+#middle-right .add-colour:hover {
+  color: rgb(180,125,251);
 }
 
 #legend {
@@ -77,15 +107,13 @@
 
 #top-right {
   position: fixed;
-  width: 230px;
+  width: 200px;
   right: 2%;
   text-align: center;
   margin-top: 5px;
 }
 
 #score-board {
-  color: #00d4b4;
-  font-family: Impact, Charcoal, sans-serif;
   margin-bottom: 0;
 }
 
@@ -99,26 +127,9 @@
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  font-family: Impact, Charcoal, sans-serif;
   text-shadow: 0px 0px 3px #000000;
   color: rgb(255,121,121);
   font-size: 100px;
-}
-
-.menu-button {
-  margin-top: 5px;
-  width: 200px;
-  display: inline-block;
-  color: #fff;
-  background-color: #00d4b4;
-  &:hover {
-    color: #fff;
-    background-color: #e55f49;
-  }
-  &:focus {
-    color: #fff;
-    background-color: #e55f49;
-  }
 }
 
 #img-container {
