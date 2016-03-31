@@ -257,10 +257,10 @@ h2 {
   border-radius: 10px;
   background: repeating-linear-gradient(
       45deg,
-      rgba(0, 0, 0, 0.2),
-      rgba(0, 0, 0, 0.2) 10px,
-      rgba(0, 0, 0, 0.3) 10px,
-      rgba(0, 0, 0, 0.3) 20px
+      transparent,
+      transparent 10px,
+      rgba(255, 255, 255, .5) 10px,
+      rgba(255, 255, 255, .5) 30px
   )
 }
 //

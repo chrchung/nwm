@@ -1,4 +1,4 @@
-angular.module('nwmApp').controller('LevelOneController', function($scope, Restangular, $stateParams, $state) {
+angular.module('nwmApp').controller('LevelOneController', function($scope, Restangular, $stateParams, $state, $timeout) {
   $scope.alienData = [];
   $scope.buckets = [];
   $scope.num_buckets = 0;  // number of added buckets
@@ -69,6 +69,7 @@ $scope.predefinedColorCounter = 0;
 
     // Highlight aliens that similar to aliens in current bucket
     var cur_alien_list = $scope.buckets[bucket].alien;
+    var cur_alien_list = $scope.buckets[bucket].alien;
     for (var j = 0; j < cur_alien_list.length; j++) {
       $scope.highLight(cur_alien_list[j]);
     }
@@ -76,14 +77,19 @@ $scope.predefinedColorCounter = 0;
     updateIllegalAlien(bucket);
     for (var i = 0; i < $scope.buckets.length; i++) {
       if (i != bucket) {
-        $("#color_block_" + i).removeClass("current_bucket");
-        $("#color_block_" + i).html("");
+        $("#color_block_" + i).removeClass("current_bucket").trigger('input');
+        $("#color_block_" + i).html("").trigger('input');
       }
       else {
-        $("#color_block_" + i).addClass("current_bucket");
-        $("#color_block_" + i).html("✓");
+        $("#color_block_" + i).addClass("current_bucket").trigger('input');
+        $("#color_block_" + i).html("✓").trigger('input');
       }
+
+
+     // $('#color_block_' + i).trigger('input');
     }
+
+
   };
 
 
@@ -353,7 +359,7 @@ $scope.predefinedColorCounter = 0;
         var cur_properties = $scope.alienData[model_num].alien[alien_num].prop;
         for (var k = 0; k < cur_properties.length; k++) {
           if (current_prop.indexOf(cur_properties[k]) != -1) {
-            $("#" + $scope.alienArray[j].id).css('box-shadow', 'rgb(255, 255, 255) 0 0 10px');
+            $("#" + $scope.alienArray[j].id).css('box-shadow', 'rgb(255, 255, 153) 0 0 10px');
             $("#" + $scope.alienArray[j].id).css('border-radius', '10px');
           }
         }
@@ -380,6 +386,14 @@ $scope.predefinedColorCounter = 0;
       $scope.num_buckets++;
       var bucket_ind  = $scope.num_buckets - 1;
       $scope.colorArray.push({color:$scope.buckets[bucket_ind].color});
+
+      $scope.currentBucket(bucket_ind);
+      //
+      $timeout(function() {
+        angular.element('#color_block_' + bucket_ind).triggerHandler('click');
+      //
+      }, 0);
+
     }
   };
 
@@ -691,6 +705,11 @@ $scope.predefinedColorCounter = 0;
     $("#" + id).css('box-shadow', 'none');
     //$("#" + id).removeClass("zoomin-small-alien");
   }
+
+  //
+  //$scope.$watch('buckets', function() {
+  //  $scope.$digest();
+  //});
 
 
 });
