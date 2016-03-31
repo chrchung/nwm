@@ -82,7 +82,7 @@ $scope.predefinedColorCounter = 0;
       }
       else {
         $("#color_block_" + i).addClass("current_bucket").trigger('input');
-        $("#color_block_" + i).html("✓").trigger('input');
+        $("#color_block_" + i).html(" ✓").trigger('input');
       }
 
 
@@ -182,18 +182,6 @@ $scope.predefinedColorCounter = 0;
     });
   });
 
-  function getPosition(element) {
-    var xPosition = 0;
-    var yPosition = 0;
-
-    while(element) {
-      xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
-      yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
-      element = element.offsetParent;
-    }
-    return { x: xPosition, y: yPosition };
-  }
-
 
   // Score calculator
   var calculateScore = function(alien_id) {
@@ -209,6 +197,8 @@ $scope.predefinedColorCounter = 0;
 
         // Small feedback
           if ($scope.score < total_score) {
+            var diff = total_score - $scope.score;
+            $("#small_feedback").html(diff);
             $("#small_feedback").removeClass('glyphicon glyphicon-arrow-down');
             $("#small_feedback").addClass('glyphicon glyphicon-arrow-up animated rubberBand');
 
@@ -222,6 +212,8 @@ $scope.predefinedColorCounter = 0;
 
             }
         else if ($scope.score > total_score) {
+            var diff = $scope.score - total_score;
+            $("#small_feedback").html(diff);
             $("#small_feedback").removeClass('glyphicon glyphicon-arrow-up');
             $("#small_feedback").addClass('glyphicon glyphicon-arrow-down');
             $("#small_feedback").css({'color': 'rgb(98,133,255)'});
@@ -388,10 +380,9 @@ $scope.predefinedColorCounter = 0;
       $scope.colorArray.push({color:$scope.buckets[bucket_ind].color});
 
       $scope.currentBucket(bucket_ind);
-      //
+
       $timeout(function() {
         angular.element('#color_block_' + bucket_ind).triggerHandler('click');
-      //
       }, 0);
 
     }
@@ -514,125 +505,159 @@ $scope.predefinedColorCounter = 0;
     $state.go('scoreboard');
   }
 
+  // Variables to hold history state.
+  $scope.historyBuckets = [];
+  $scope.historySelectedAliens = [];
+  $scope.historyAliensInBucket = [];
+  $scope.historyAlienId = '';
+  $scope.historyBucketId = '';
+  $scope.historySelectFlag = 0; // 0 means previously selected, 1 means previously unselected, 2 means previously swapped
+  $scope.historyColor = '';
+  $scope.historySwappedBucketId = '';
+  $scope.historyColorArray = [];
 
   $scope.selectAlien = function (alien_id) {
     // Illegal Aliens
     if ($scope.buckets[$scope.current_bucket].illegal_alien.indexOf(alien_id) != -1) {
       return;
     }
-    // Aliens that in other buckets, can be switched to current bucket when being clicked
-    else if ($scope.aliensInBucket.indexOf(alien_id) != -1 && $scope.buckets[$scope.current_bucket].alien.indexOf(alien_id) == -1) {
-      for (var i = 0; i < $scope.buckets.length; i++) {
-        for (var j = 0; j < $scope.buckets[i].alien.length; j++) {
-          if ($scope.buckets[i].alien[j] == alien_id) {
-            var bucket_id = i;
-            break;
+    else {
+      //Store the history state of buckets
+      $scope.historyBuckets = JSON.parse(JSON.stringify($scope.buckets));
+      $scope.historySelectedAliens = JSON.parse(JSON.stringify($scope.selectedAliens));
+      $scope.historyAliensInBucket = JSON.parse(JSON.stringify($scope.aliensInBucket));
+      $scope.historyAlienId = alien_id;
+      $scope.historyColorArray = JSON.parse(JSON.stringify($scope.colorArray));
+
+      // Aliens that in other buckets, can be switched to current bucket when being clicked
+      if ($scope.aliensInBucket.indexOf(alien_id) != -1 && $scope.buckets[$scope.current_bucket].alien.indexOf(alien_id) == -1) {
+        for (var i = 0; i < $scope.buckets.length; i++) {
+          for (var j = 0; j < $scope.buckets[i].alien.length; j++) {
+            if ($scope.buckets[i].alien[j] == alien_id) {
+              var bucket_id = i;
+              break;
+            }
           }
         }
-      }
 
-      $scope.buckets[bucket_id].alien.splice($scope.buckets[bucket_id].alien.indexOf(alien_id), 1);
-      $scope.buckets[$scope.current_bucket].alien.push(alien_id);
-      $("#" + alien_id).css( "background-color", $scope.buckets[$scope.current_bucket].color);
-      // $("#" + alien_id).css( "border", "3px solid" + $scope.buckets[$scope.current_bucket].color);
-      // $("#" + alien_id).css( "border-radius", "15px");
+        $scope.buckets[bucket_id].alien.splice($scope.buckets[bucket_id].alien.indexOf(alien_id), 1);
+        $scope.buckets[$scope.current_bucket].alien.push(alien_id);
 
-      if($scope.buckets[bucket_id].alien.length == 0 && $scope.buckets.length > 1) {
-        $scope.buckets.splice(bucket_id, 1);
-        $scope.colorArray.splice(bucket_id, 1);
-        $scope.num_buckets--;
+        $scope.historyBucketId = $scope.current_bucket;
+        $scope.historySwappedBucketId = bucket_id;
+        $scope.historySelectFlag = 2;
+        $scope.historyColor = $scope.buckets[bucket_id].color;
+
+        $("#" + alien_id).css( "background-color", $scope.buckets[$scope.current_bucket].color);
+        // $("#" + alien_id).css( "border", "3px solid" + $scope.buckets[$scope.current_bucket].color);
+        // $("#" + alien_id).css( "border-radius", "15px");
+
+        if($scope.buckets[bucket_id].alien.length == 0 && $scope.buckets.length > 1) {
+          $scope.buckets.splice(bucket_id, 1);
+          $scope.colorArray.splice(bucket_id, 1);
+          $scope.num_buckets--;
 
 
-        //updateIllegalAlien(bucket_id);
-        if ($scope.current_bucket > bucket_id) {
-          $scope.current_bucket -= 1;
+          //updateIllegalAlien(bucket_id);
+          if ($scope.current_bucket > bucket_id) {
+            $scope.current_bucket -= 1;
+            updateIllegalAlien($scope.current_bucket);
+          }
+        } else {
           updateIllegalAlien($scope.current_bucket);
         }
-      } else {
-        updateIllegalAlien($scope.current_bucket);
+
+        $scope.currentBucket($scope.current_bucket);
+        calculateScore(alien_id);
+
       }
 
-      calculateScore(alien_id);
+      // Normal aliens
+      else {
+        //Deselect aliens
+        if (!$scope.dragged) {
+          $scope.historySelectFlag = false;
+          var ind = $scope.selectedAliens.indexOf(alien_id);
+          if (ind >= 0) {
+            $scope.historySelectFlag = 1;
 
-    }
+            $("#" + alien_id).css("background-color", "rgba(255,255,255,.5)");
+            // $("#" + alien_id).css( "border", "0px");
 
-    // Normal aliens
-    else {
-      //Deselect aliens
-      if (!$scope.dragged) {
-        var ind = $scope.selectedAliens.indexOf(alien_id);
-        if (ind >= 0) {
-          $("#" + alien_id).css( "background-color", "rgba(255,255,255,.5)");
-          // $("#" + alien_id).css( "border", "0px");
+            $scope.selectedAliens.splice(ind, 1);
 
-          $scope.selectedAliens.splice(ind, 1);
-
-          // Remove the alien from the bucket
-          for (var i = 0; i < $scope.buckets.length; i++) {
-            for (var j = 0; j < $scope.buckets[i].alien.length; j++) {
-              if ($scope.buckets[i].alien[j] == alien_id) {
-                var bucket_id = i;
-                break;
+            // Remove the alien from the bucket
+            for (var i = 0; i < $scope.buckets.length; i++) {
+              for (var j = 0; j < $scope.buckets[i].alien.length; j++) {
+                if ($scope.buckets[i].alien[j] == alien_id) {
+                  var bucket_id = i;
+                  break;
+                }
               }
             }
-          }
-          //alert(bucket_id);
+            //alert(bucket_id);
 
-          $scope.aliensInBucket.splice($scope.aliensInBucket.indexOf(alien_id), 1);
-          $scope.buckets[bucket_id].alien.splice($scope.buckets[bucket_id].alien.indexOf(alien_id), 1);
+            $scope.aliensInBucket.splice($scope.aliensInBucket.indexOf(alien_id), 1);
+            $scope.buckets[bucket_id].alien.splice($scope.buckets[bucket_id].alien.indexOf(alien_id), 1);
 
-          if($scope.buckets[bucket_id].alien.length == 0 && $scope.buckets.length > 1) {
-            // Check if removing a predefined color
-            if (Object.keys($scope.predefinedColors).indexOf($scope.buckets[bucket_id].color) != -1) {
-              $scope.predefinedColors[$scope.buckets[bucket_id].color] = false;
-              $scope.predefinedColorCounter--;
-            }
-            $scope.buckets.splice(bucket_id, 1);
-            $scope.colorArray.splice(bucket_id, 1);
-            $scope.num_buckets--;
+            if ($scope.buckets[bucket_id].alien.length == 0 && $scope.buckets.length > 1) {
+              // Check if removing a predefined color
+              if (Object.keys($scope.predefinedColors).indexOf($scope.buckets[bucket_id].color) != -1) {
+                $scope.predefinedColors[$scope.buckets[bucket_id].color] = false;
+                $scope.predefinedColorCounter--;
+              }
+              $scope.buckets.splice(bucket_id, 1);
+              $scope.colorArray.splice(bucket_id, 1);
+              $scope.num_buckets--;
 
 
-            //updateIllegalAlien(bucket_id);
-            if ($scope.current_bucket >= bucket_id) {
-              $scope.current_bucket -= 1;
+              //updateIllegalAlien(bucket_id);
+              if ($scope.current_bucket >= bucket_id) {
+                $scope.current_bucket -= 1;
+                updateIllegalAlien($scope.current_bucket);
+              }
+
+            } else {
               updateIllegalAlien($scope.current_bucket);
             }
 
-          } else {
-            updateIllegalAlien($scope.current_bucket);
+            calculateScore(alien_id);
+            $scope.currentBucket($scope.current_bucket);
           }
 
-          calculateScore(alien_id);
-          $scope.currentBucket($scope.current_bucket);
+          // Select aliens
+          else {
+            $scope.historySelectFlag = 0;
+            //if ($scope.selectedAliens.length == 8) {
+            //  alert("Can only select 8 aliens!");
+            //  return 0;
+            //}
+            $scope.selectedAliens.push(alien_id);
+            $scope.aliensInBucket.push(alien_id);
+            $scope.buckets[$scope.current_bucket].alien.push(alien_id);
+
+            $scope.historyBucketId = $scope.current_bucket;
+
+
+            $("#" + alien_id).css("background-color", $scope.buckets[$scope.current_bucket].color);
+            // $("#" + alien_id).css( "border", "3px solid" + $scope.buckets[$scope.current_bucket].color);
+            // $("#" + alien_id).css( "border-radius", "15px");
+
+            updateIllegalAlien($scope.current_bucket);
+            calculateScore(alien_id);
+            $scope.currentBucket($scope.current_bucket);
+
+          }
         }
-
-        // Select aliens
-        else {
-          //if ($scope.selectedAliens.length == 8) {
-          //  alert("Can only select 8 aliens!");
-          //  return 0;
-          //}
-          $scope.selectedAliens.push(alien_id);
-          $scope.aliensInBucket.push(alien_id);
-          $scope.buckets[$scope.current_bucket].alien.push(alien_id);
-          $("#" + alien_id).css( "background-color", $scope.buckets[$scope.current_bucket].color);
-          // $("#" + alien_id).css( "border", "3px solid" + $scope.buckets[$scope.current_bucket].color);
-          // $("#" + alien_id).css( "border-radius", "15px");
-
-          updateIllegalAlien($scope.current_bucket);
-          calculateScore(alien_id);
-          $scope.currentBucket($scope.current_bucket);
-
-        }
+        $scope.dragged = false;
       }
-      $scope.dragged = false;
     }
 
-    if ($scope.buckets.length == 0 || $scope.buckets[$scope.num_buckets - 1].alien.length == 0) {
-      $('#new_group').attr('disabled', true);
-    } else {
-      $('#new_group').attr('disabled', false);
-    }
+    //if ($scope.buckets.length == 0 || $scope.buckets[$scope.num_buckets - 1].alien.length == 0) {
+    //  $('#new_group').attr('disabled', true);
+    //} else {
+    //  $('#new_group').attr('disabled', false);
+    //}
 
   }
 
@@ -706,10 +731,73 @@ $scope.predefinedColorCounter = 0;
     //$("#" + id).removeClass("zoomin-small-alien");
   }
 
+
   //
   //$scope.$watch('buckets', function() {
   //  $scope.$digest();
   //});
+
+  $scope.undo = function() {
+    $scope.buckets = JSON.parse(JSON.stringify($scope.historyBuckets));
+    $scope.selectedAliens = JSON.parse(JSON.stringify($scope.historySelectedAliens));
+    $scope.aliensInBucket = JSON.parse(JSON.stringify($scope.historyAliensInBucket));
+    $scope.colorArray = JSON.parse(JSON.stringify($scope.historyColorArray));
+
+    // Previously unselected alien, now we want to add it back
+    if ($scope.historySelectFlag == 1) {
+      $("#" + $scope.historyAlienId).css("background-color", $scope.buckets[$scope.current_bucket].color);
+      updateIllegalAlien($scope.historyBucketId);
+      calculateScore($scope.historyAlienId);
+      $scope.currentBucket($scope.historyBucketId);
+
+      $timeout(function() {
+        angular.element('#color_block_' + $scope.historyBucketId).triggerHandler('click');
+      }, 0);
+    }
+
+    // Previously selected alien, now we want remove it
+    else if ($scope.historySelectFlag == 0) {
+      $("#" + $scope.historyAlienId).css("background-color", "rgba(255,255,255,.5)");
+      updateIllegalAlien($scope.historyBucketId);
+      calculateScore($scope.historyAlienId);
+      $scope.currentBucket($scope.historyBucketId);
+
+      $timeout(function() {
+        angular.element('#color_block_' + $scope.historyBucketId).triggerHandler('click');
+      }, 0);
+    }
+
+    // Previously swapped alien, now we want to move it back to previous bucket
+    // This includes change alien's color to previous bucket's color
+    // If previous bucket was unfortunately removed, we want to add it back
+
+    else {
+      $("#" + $scope.historyAlienId).css("background-color", $scope.historyColor);
+      updateIllegalAlien($scope.historySwappedBucketId);
+      calculateScore($scope.historyAlienId);
+      $scope.currentBucket($scope.historySwappedBucketId);
+
+      $timeout(function() {
+        angular.element('#color_block_' + $scope.historySwappedBucketId).triggerHandler('click');
+      }, 0);
+    }
+
+
+
+    if ($scope.buckets[$scope.historyBucketId].alien.length == 0 && $scope.buckets.length > 1) {
+      // Check if removing a predefined color
+      if (Object.keys($scope.predefinedColors).indexOf($scope.buckets[$scope.historyBucketId].color) != -1) {
+        $scope.predefinedColors[$scope.buckets[$scope.historyBucketId].color] = false;
+        $scope.predefinedColorCounter--;
+      }
+      $scope.buckets.splice($scope.historyBucketId, 1);
+      $scope.colorArray.splice($scope.historyBucketId, 1);
+      $scope.num_buckets--;
+
+    }
+
+    $scope.num_buckets = $scope.buckets.length;
+  }
 
 
 });
