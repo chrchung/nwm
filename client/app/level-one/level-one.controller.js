@@ -342,20 +342,40 @@ $scope.predefinedColorCounter = 0;
 
   $scope.highLight = function (alien_id) {
     var current_prop = $scope.alienData[alien_id.split("_")[0]].alien[alien_id.split("_")[1]].prop;
+    var similar_aliens = [];
+    for (var j = 0; j < $scope.alienArray.length; j++) {
+      var model_num = $scope.alienArray[j].id.split("_")[0];
+      var alien_num = $scope.alienArray[j].id.split("_")[1];
 
-      for (var j = 0; j < $scope.alienArray.length; j++) {
-        var model_num = $scope.alienArray[j].id.split("_")[0];
-        var alien_num = $scope.alienArray[j].id.split("_")[1];
-
-        // a list of properties of the current alien
-        var cur_properties = $scope.alienData[model_num].alien[alien_num].prop;
-        for (var k = 0; k < cur_properties.length; k++) {
-          if (current_prop.indexOf(cur_properties[k]) != -1) {
-            $("#" + $scope.alienArray[j].id).css('box-shadow', 'rgb(255, 255, 153) 0 0 10px');
-            $("#" + $scope.alienArray[j].id).css('border-radius', '10px');
-          }
+      // a list of properties of the current alien
+      var cur_properties = $scope.alienData[model_num].alien[alien_num].prop;
+      for (var k = 0; k < cur_properties.length; k++) {
+        if (current_prop.indexOf(cur_properties[k]) != -1) {
+          $("#" + $scope.alienArray[j].id).css('box-shadow', 'rgb(255, 255, 153) 0 0 10px');
+          $("#" + $scope.alienArray[j].id).css('border-radius', '10px');
+          similar_aliens.push($scope.alienArray[j]);
         }
       }
+    }
+
+    for (var i = 0; i < $scope.alienArray.length; i++) {
+      if ($scope.alienArray[i].id == alien_id) {
+        var curr_alien_idx = i;
+        break;
+      }
+    }
+
+    for (i = 0; i < similar_aliens.length; i++) {
+      var rm_idx = $scope.alienArray.indexOf(similar_aliens[i]);
+      if (rm_idx < curr_alien_idx) {
+        $scope.alienArray.splice(rm_idx, 1);
+        $scope.alienArray.splice(curr_alien_idx-1, 0, similar_aliens[i]);
+      }
+      else if (rm_idx > curr_alien_idx) {
+        $scope.alienArray.splice(rm_idx, 1);
+        $scope.alienArray.splice(curr_alien_idx+1, 0, similar_aliens[i]);
+      }
+    }
   }
 
   $scope.lowLight = function () {
