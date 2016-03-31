@@ -85,7 +85,7 @@ h2 {
  #bottom-right {
   position: fixed;
   width: 200px;
-  bottom: 0;
+  top: 42%;
   right: 0;
   padding: 2px;
   z-index: 8;
@@ -97,6 +97,7 @@ h2 {
 }
 
 .menu-button {
+
   margin: 5px;
   width: 70px;
   display: inline-block;
@@ -151,6 +152,13 @@ h2 {
 
 #bottom-right #legend {
   min-height: 150px;
+}
+
+#buttons {
+  display: inline-block;
+  position: fixed;
+  bottom: 12px;
+  right: 0;
 }
 
 #top-right {
@@ -291,7 +299,10 @@ h2 {
 //
 .current_bucket {
   transform: scale(1.6);
-  font-size: 8px;
+  font-size: 10px;
+  text-align: center;
+  text-shadow: 0.2px 0 0 #000, -0.2px 0 0 #000, 0 0.2px 0 #000, 0 -0.2px 0 #000, 0.2px 0.2px #000,
+  -0.2px -0.2px 0 #000, 0.2px -0.2px 0 #000, -0.2px 0.2px 0 #000;
   color: white;
 }
 //
