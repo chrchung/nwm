@@ -560,8 +560,14 @@ $scope.predefinedColorCounter = 0;
           }
         }
 
+
         $scope.buckets[bucket_id].alien.splice($scope.buckets[bucket_id].alien.indexOf(alien_id), 1);
         $scope.buckets[$scope.current_bucket].alien.push(alien_id);
+
+        if (Object.keys($scope.predefinedColors).indexOf($scope.buckets[bucket_id].color) != -1) {
+          $scope.predefinedColors[$scope.buckets[bucket_id].color] = false;
+          $scope.predefinedColorCounter--;
+        }
 
         $scope.historyBucketId = $scope.current_bucket;
         $scope.historySwappedBucketId = bucket_id;
