@@ -71,7 +71,12 @@ $scope.predefinedColorCounter = 0;
     var cur_alien_list = $scope.buckets[bucket].alien;
     var cur_alien_list = $scope.buckets[bucket].alien;
     for (var j = 0; j < cur_alien_list.length; j++) {
-      $scope.highLight(cur_alien_list[j]);
+      if ($scope.moveAliens) {
+        $scope.highLightAndMove(cur_alien_list[j]);
+      }
+      else {
+        $scope.highLight(cur_alien_list[j]);
+      }
     }
 
     updateIllegalAlien(bucket);
@@ -343,19 +348,57 @@ $scope.predefinedColorCounter = 0;
   $scope.highLight = function (alien_id) {
     var current_prop = $scope.alienData[alien_id.split("_")[0]].alien[alien_id.split("_")[1]].prop;
 
-      for (var j = 0; j < $scope.alienArray.length; j++) {
-        var model_num = $scope.alienArray[j].id.split("_")[0];
-        var alien_num = $scope.alienArray[j].id.split("_")[1];
+    for (var j = 0; j < $scope.alienArray.length; j++) {
+      var model_num = $scope.alienArray[j].id.split("_")[0];
+      var alien_num = $scope.alienArray[j].id.split("_")[1];
 
-        // a list of properties of the current alien
-        var cur_properties = $scope.alienData[model_num].alien[alien_num].prop;
-        for (var k = 0; k < cur_properties.length; k++) {
-          if (current_prop.indexOf(cur_properties[k]) != -1) {
-            $("#" + $scope.alienArray[j].id).css('box-shadow', 'rgb(255, 255, 153) 0 0 10px');
-            $("#" + $scope.alienArray[j].id).css('border-radius', '10px');
-          }
+      // a list of properties of the current alien
+      var cur_properties = $scope.alienData[model_num].alien[alien_num].prop;
+      for (var k = 0; k < cur_properties.length; k++) {
+        if (current_prop.indexOf(cur_properties[k]) != -1) {
+          $("#" + $scope.alienArray[j].id).css('box-shadow', '#FFD736 0 0 10px');
+          $("#" + $scope.alienArray[j].id).css('border-radius', '10px');
         }
       }
+    }
+  }
+
+  $scope.highLightAndMove = function (alien_id) {
+    var current_prop = $scope.alienData[alien_id.split("_")[0]].alien[alien_id.split("_")[1]].prop;
+    var similar_aliens = [];
+    for (var j = 0; j < $scope.alienArray.length; j++) {
+      var model_num = $scope.alienArray[j].id.split("_")[0];
+      var alien_num = $scope.alienArray[j].id.split("_")[1];
+
+      // a list of properties of the current alien
+      var cur_properties = $scope.alienData[model_num].alien[alien_num].prop;
+      for (var k = 0; k < cur_properties.length; k++) {
+        if (current_prop.indexOf(cur_properties[k]) != -1) {
+          $("#" + $scope.alienArray[j].id).css('box-shadow', '#FFD736 0 0 10px');
+          $("#" + $scope.alienArray[j].id).css('border-radius', '10px');
+          similar_aliens.push($scope.alienArray[j]);
+        }
+      }
+    }
+
+    for (var i = 0; i < $scope.alienArray.length; i++) {
+      if ($scope.alienArray[i].id == alien_id) {
+        var curr_alien_idx = i;
+        break;
+      }
+    }
+
+    for (i = 0; i < similar_aliens.length; i++) {
+      var rm_idx = $scope.alienArray.indexOf(similar_aliens[i]);
+      if (rm_idx < curr_alien_idx) {
+        $scope.alienArray.splice(rm_idx, 1);
+        $scope.alienArray.splice(curr_alien_idx-1, 0, similar_aliens[i]);
+      }
+      else if (rm_idx > curr_alien_idx) {
+        $scope.alienArray.splice(rm_idx, 1);
+        $scope.alienArray.splice(curr_alien_idx+1, 0, similar_aliens[i]);
+      }
+    }
   }
 
   $scope.lowLight = function () {
@@ -542,6 +585,11 @@ $scope.predefinedColorCounter = 0;
 
         $scope.buckets[bucket_id].alien.splice($scope.buckets[bucket_id].alien.indexOf(alien_id), 1);
         $scope.buckets[$scope.current_bucket].alien.push(alien_id);
+
+        if (Object.keys($scope.predefinedColors).indexOf($scope.buckets[bucket_id].color) != -1) {
+          $scope.predefinedColors[$scope.buckets[bucket_id].color] = false;
+          $scope.predefinedColorCounter--;
+        }
 
         $scope.historyBucketId = $scope.current_bucket;
         $scope.historySwappedBucketId = bucket_id;

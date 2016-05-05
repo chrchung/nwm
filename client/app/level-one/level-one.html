@@ -36,12 +36,12 @@
 
 <!-- alien contents -->
 <div id="top-right">
-  <div class="zoom-in-area"
+  <!-- <div class="zoom-in-area"
           ng-click="togglePageslide()"
           data-drop="true"
           jqyoui-droppable="{onDrop:'onDropZoom'}">
     <span class="glyphicon glyphicon-zoom-in" size='50px'></span>
-  </div>
+  </div> -->
   <div id="img-container"></div>
 </div>
 
@@ -79,7 +79,7 @@
 </div>
 
 <div id="buttons">
-  <button class="btn menu-button" ng-click="undo()">Undo</button>
+  <button class="btn menu-button" ng-init="moveAliens = true" ng-click="moveAliens = !moveAliens">{{moveAliens}}</button>
   <button class="btn menu-button" ng-click="togglePopup('Do you want to submit the score?', 'submit')">Submit</button>
   <button class="btn menu-button" ng-click="togglePopup('Do you want to quit the game?', 'quit')">Quit</button>
 </div>
