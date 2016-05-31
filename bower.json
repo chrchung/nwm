@@ -12,11 +12,11 @@
     "angular-sanitize": "~1.4.0",
     "angular-bootstrap": "~0.13.0",
     "font-awesome": ">=4.1.0",
-    "lodash": "~2.4.1",
+    "lodash": "~3.10.1",
     "angular-ui-router": "~0.2.15",
     "angular-dragdrop": "~1.0.12",
     "async": "~1.5.0",
-    "restangular": "~1.5.1",
+    "restangular": "~1.5.2",
     "angular-filter-count-to": "~0.0.3",
     "hover": "^2.0.2"
   },
