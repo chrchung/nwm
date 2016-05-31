@@ -10,6 +10,7 @@ var Parse = require('parse/node').Parse;
 var fs = require('fs');
 var async = require('async');
 Parse.initialize(config.PARSE_APPID, config.PARSE_JSKEY);
+Parse.serverURL = 'https://parseapi.back4app.com'
 
 
 // Gets a list of Scores
