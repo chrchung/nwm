@@ -100,3 +100,18 @@
   bottom: 0;
   width: 100%;
 }
+
+.stats {
+  visibility: hidden;
+  font-family: 'Amatic SC', cursive;
+  font-size: 30px;
+  background-color: rgba(255,255,255,0.3);
+  //border: solid;
+  //border-color: yellow;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.visible {
+  visibility: visible;
+}
