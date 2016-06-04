@@ -6,52 +6,104 @@
   <div class="text-center">
       <div id="select-level">SELECT A LEVEL</div>
 
-      <div class="inline a-one  animated bounceInDown">
+      <div class="inline a-one animated bounceInDown">
         <!--<img class="level hvr-grow-rotate" src="assets/images/planet_1.png" ui-sref="game({id: 1})"/>-->
-
-        <img class="level hvr-grow-rotate" src="assets/images/planet_1.4f175cf1.png" ui-sref="game({id: 1})"/>
+        <br>
+        <br>
+        <img ng-mouseleave="hideStats('1')" ng-mouseover="showStats('1')" class="level hvr-grow-rotate" src="assets/images/planet_1.4f175cf1.png" ui-sref="game({id: 1})"/>
         <br>
         <br>
         <!--<img src="assets/images/star_0.png"/>-->
         <img src="assets/images/star_0.94ef85c9.png"/>
+        <br>
+        <br>
+        <div class="stats" id="1">
+          Dominator: {{ stats[0].dominator }}
+          <br>
+          Score: {{ stats[0].highScore }}
+          <br>
+          Your Score: {{ stats[0].curPlayerScore }}
+        </div>
       </div>
 
       <div class="inline a-two animated bounceInDown">
         <!--<img class="level hvr-grow-rotate" src="assets/images/planet_2.png" ng-disabled="lastLevel < 1" ui-sref="game({id: 2})"/>-->
-
-        <img class="level hvr-grow-rotate" src="assets/images/planet_2.08526ec4.png" ng-disabled="lastLevel < 1" ui-sref="game({id: 2})"/>
+        <br>
+        <br>
+        <img ng-mouseleave="hideStats('2')" ng-mouseover="showStats('2')" class="level hvr-grow-rotate" src="assets/images/planet_2.08526ec4.png" ng-disabled="lastLevel < 1" ui-sref="game({id: 2})"/>
         <br>
         <br>
         <img src="assets/images/star_1.png"/>
         <!--<img src="assets/images/star_1.c1b0db2c.png"/>-->
+        <br>
+        <br>
+        <div class="stats" id="2">
+          Dominator: {{ stats[1].dominator }}
+          <br>
+          Score: {{ stats[1].highScore }}
+          <br>
+          Your Score: {{ stats[1].curPlayerScore }}
+        </div>
       </div>
 
       <div class="inline a-three  animated bounceInDown">
         <!--<img class="level hvr-grow-rotate" src="assets/images/planet_3.png" ng-disabled="lastLevel < 2" ui-sref="game({id: 3})"/>-->
-        <img class="level hvr-grow-rotate" src="assets/images/planet_3.0fa58ba9.png" ng-disabled="lastLevel < 2" ui-sref="game({id: 3})"/>
+        <br>
+        <br>
+        <img ng-mouseleave="hideStats('3')" ng-mouseover="showStats('3')" class="level hvr-grow-rotate" src="assets/images/planet_3.0fa58ba9.png" ng-disabled="lastLevel < 2" ui-sref="game({id: 3})"/>
         <br>
         <br>
         <!--<img src="assets/images/star_2.png"/>-->
         <img src="assets/images/star_2.b3ab1aea.png"/>
+        <br>
+        <br>
+        <div class="stats" id="3">
+          Dominator: {{ stats[2].dominator }}
+          <br>
+          Score: {{ stats[2].highScore }}
+          <br>
+          Your Score: {{ stats[2].curPlayerScore }}
+        </div>
       </div>
 
       <div class="inline a-four  animated bounceInDown">
         <!--<img class="level hvr-grow-rotate" src="assets/images/planet_4.png" ng-disabled="lastLevel < 3" ui-sref="game({id: 4})"/>-->
-
-        <img class="level hvr-grow-rotate" src="assets/images/planet_4.cdf498a5.png" ng-disabled="lastLevel < 3" ui-sref="game({id: 4})"/>
+        <br>
+        <br>
+        <img ng-mouseleave="hideStats('4')" ng-mouseover="showStats('4')" class="level hvr-grow-rotate" src="assets/images/planet_4.cdf498a5.png" ng-disabled="lastLevel < 3" ui-sref="game({id: 4})"/>
         <br>
         <br>
         <!--<img src="assets/images/star_3.png"/>-->
         <img src="assets/images/star_3.6542b2dd.png"/>
+        <br>
+        <br>
+        <div class="stats" id="4">
+          Dominator: {{ stats[3].dominator }}
+          <br>
+          Score: {{ stats[3].highScore }}
+          <br>
+          Your Score: {{ stats[3].curPlayerScore }}
+        </div>
       </div>
 
       <div class="inline a-five  animated bounceInDown">
+        <br>
+        <br>
         <!--<img class="level hvr-grow-rotate" src="assets/images/planet_5.png" ng-disabled="lastLevel < 4" ui-sref="game({id: 5})"/>-->
-        <img class="level hvr-grow-rotate" src="assets/images/planet_5.778e9245.png" ng-disabled="lastLevel < 4" ui-sref="game({id: 5})"/>
+        <img ng-mouseleave="hideStats('5')" ng-mouseover="showStats('5')" class="level hvr-grow-rotate" src="assets/images/planet_5.778e9245.png" ng-disabled="lastLevel < 4" ui-sref="game({id: 5})"/>
         <br>
         <br>
         <!--<img src="assets/images/star_4.png"/>-->
         <img src="assets/images/star_4.5f061029.png"/>
+        <br>
+        <br>
+        <div class="stats" id="5">
+          Dominator: {{ stats[4].dominator }}
+          <br>
+          Score: {{ stats[4].highScore }}
+          <br>
+          Your Score: {{ stats[4].curPlayerScore }}
+        </div>
       </div>
   </div>
   <br>

@@ -85,7 +85,6 @@ var randomize = function (arr, num) {
   return arr.slice(0, num);
 };
 
-
 exports.getScoreToBeat = function (req, res) {
   var Games = Parse.Object.extend('Games');
   var gamesQuery = new Parse.Query(Games);
@@ -100,7 +99,7 @@ exports.getScoreToBeat = function (req, res) {
       res.status(400).end();
     }
   });
-}
+};
 
 exports.lastUnlockedLevels = function (req, res) {
   if (req.session.user) {
