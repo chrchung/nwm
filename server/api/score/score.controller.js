@@ -20,16 +20,44 @@ exports.index = function (req, res) {
 
 exports.saveScore = function (req, res) {
   if (req.session.user) {
+    var solution = req.body.solution;
     var score = req.body.score;
-    var game = req.body.game;
+   // var game = req.body.game;
     var level = req.body.level;
     var user = req.session.user;
     var Scores = Parse.Object.extend('Scores');
     var newScore = new Scores();
-    newScore.set('game', game);
+   // newScore.set('game', game);
     newScore.set('level', level);
     newScore.set('user', user.username);
     newScore.set('score', score);
+
+    // get current best solution and replace if higher
+    var Solutions = Parse.Object.extend('Solutions');
+    var solutionsQuery = new Parse.Query(Solutions);
+    solutionsQuery.equalTo('level', parseInt(req.params.id));
+    solutionsQuery.equalTo('partial', false);
+
+    solutionsQuery.first({
+      success: function (bestSolution) {
+        if (bestSolution.attributes.score < score) {
+          bestSolution.set('user', user);
+          bestSolution.set('solution', solution);
+          bestSolution.set('score', score);
+          bestSolution.save(null, {
+            success: function (gameScore) {
+
+            },
+            error: function (gameScore, error) {
+              res.status(400).end();
+            }
+          });
+        }
+      },
+      error: function (error) {
+        res.status(400).end();
+      }
+    });
 
     newScore.save(null, {
       success: function (gameScore) {
@@ -43,6 +71,98 @@ exports.saveScore = function (req, res) {
     res.status(400).end();
   };
 };
+
+exports.saveForLater = function (req, res) {
+  if (req.session.user) {
+    var solution = req.body.solution;
+    //var score = req.body.score;
+    var level = req.body.level;
+    var user = req.session.user;
+
+    //delete last save if found
+    var Solutions = Parse.Object.extend('Solutions');
+    var solutionsQuery = new Parse.Query(Solutions);
+    solutionsQuery.equalTo('level', parseInt(req.params.id));
+    solutionsQuery.equalTo('partial', false);
+    solutionsQuery.equalTo('user', user);
+
+    solutionsQuery.first({
+      success: function (sol) {
+        if (sol) {
+          sol.destroy({
+            success: function(myObject) {
+              // The object was deleted from the Parse Cloud.
+            },
+            error: function(myObject, error) {
+              // The delete failed.
+              // error is a Parse.Error with an error code and message.
+            }
+          });
+        }
+      },
+      error: function (error) {
+        res.status(400).end();
+      }
+    });
+
+    var Solution = Parse.Object.extend('Solution');
+    var newSolution = new Solution();
+    newSolution.set('solution', solution);
+    newSolution.set('level', level);
+    newSolution.set('user', user);
+    newSolution.set('partial', true);
+
+    newSolution.save(null, {
+      success: function (gameScore) {
+        res.status(200).end();
+
+      },
+      error: function (gameScore, error) {
+        res.status(400).end();
+      }
+    });
+
+  };
+};
+
+exports.getBestSolution = function(req, res) {
+  if (req.session.user) {
+    var Solutions = Parse.Object.extend('Solutions');
+    var solutionsQuery = new Parse.Query(Solutions);
+    solutionsQuery.equalTo('level', parseInt(req.params.id));
+    solutionsQuery.equalTo('partial', false);
+
+    solutionsQuery.first({
+      success: function (sol) {
+        res.send(sol);
+      },
+      error: function (error) {
+        res.status(400).end();
+      }
+    });
+  }
+};
+
+exports.getCurUserSolution = function(req, res) {
+  if (req.session.user) {
+    var Solutions = Parse.Object.extend('Solutions');
+    var solutionsQuery = new Parse.Query(Solutions);
+    solutionsQuery.equalTo('level', parseInt(req.params.id));
+    solutionsQuery.equalTo('user', req.session.user);
+    solutionsQuery.equalTo('partial', true);
+
+    solutionsQuery.first({
+      success: function (sol) {
+        res.send(sol);
+      },
+      error: function (error) {
+        res.status(400).end();
+      }
+    });
+  }
+};
+
+
 
 // var updateOverallScore = function (user, game, level, score, thisScoreId, req, res) {
 //   var Scores = Parse.Object.extend('Scores');

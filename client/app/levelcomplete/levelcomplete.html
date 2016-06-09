@@ -1,71 +1,75 @@
-<div class="">
-
-  <div id="score">YOUR SCORE IS: {{last_score}}</div>
-
-  <br/><br/>
+<div id="score">YOUR SCORE IS: {{last_score}}.</div>
 
 
-  <div class="">
-    <div class="col-xs-3">
-    </div>
 
-    <div class="col-xs-6">
-      <div ng-show="scores.length > 0">
-        <table class="table table-hover">
-          <caption>Level {{cur_level}} Game {{cur_game}} Rankings</caption>
-          <thead>
-          <th>
-            Rank
-          </th>
-          <th>
-            Username
-          </th>
-          <th>
-            Score
-          </th>
-          </thead>
-          <tr ng-repeat="score in scores">
-            <td>
-              {{scores.indexOf(score) + 1}}
-            </td>
-            <td>
-              {{score.user}}
-            </td>
-            <td>
-              {{score.score}}
-            </td>
-          </tr>
-        </table>
-      </div>
+<!--<div class="">-->
 
-    </div>
-    <div class="col-xs-3">
-    </div>
-  </div>
-</div>
+  <!--<div id="score">YOUR SCORE IS: {{last_score}}</div>-->
+
+  <!--<br/><br/>-->
 
 
-<ul id="buttonSet">
+  <!--<div class="">-->
+    <!--<div class="col-xs-3">-->
+    <!--</div>-->
+
+    <!--<div class="col-xs-6">-->
+      <!--<div ng-show="scores.length > 0">-->
+        <!--<table class="table table-hover">-->
+          <!--<caption>Level {{cur_level}} Game {{cur_game}} Rankings</caption>-->
+          <!--<thead>-->
+          <!--<th>-->
+            <!--Rank-->
+          <!--</th>-->
+          <!--<th>-->
+            <!--Username-->
+          <!--</th>-->
+          <!--<th>-->
+            <!--Score-->
+          <!--</th>-->
+          <!--</thead>-->
+          <!--<tr ng-repeat="score in scores">-->
+            <!--<td>-->
+              <!--{{scores.indexOf(score) + 1}}-->
+            <!--</td>-->
+            <!--<td>-->
+              <!--{{score.user}}-->
+            <!--</td>-->
+            <!--<td>-->
+              <!--{{score.score}}-->
+            <!--</td>-->
+          <!--</tr>-->
+        <!--</table>-->
+      <!--</div>-->
+
+    <!--</div>-->
+    <!--<div class="col-xs-3">-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+
+
+<!--<ul id="buttonSet">-->
+  <!--&lt;!&ndash;<li>&ndash;&gt;-->
+    <!--&lt;!&ndash;<button class="btn btn-lg" ng-click="next()">continue your adventure</button>&ndash;&gt;-->
+  <!--&lt;!&ndash;</li>&ndash;&gt;-->
+
   <!--<li>-->
-    <!--<button class="btn btn-lg" ng-click="next()">continue your adventure</button>-->
+    <!--<button class="btn btn-lg" type=checkbox ng-click="isCollapsed = !isCollapsed">choose a previous level</button>-->
+    <!--<div id="more-wrap" ng-if="isCollapsed">-->
+      <!--<ul id="more-dropdown" style="display: block;">-->
+        <!--<li><button class="btn btn-default btn-lg" ng-if="lastLevel >= 0" ui-sref="game({id:1})">Level 1</button></li>-->
+        <!--<li><button class="btn btn-default btn-lg" ng-if="lastLevel >= 1" ui-sref="game({id:2})">Level 2</button></li>-->
+        <!--&lt;!&ndash;<li><button class="btn btn-default btn-lg" ng-if="lastLevel >= 2" ui-sref="game({id:3})">Level 3</button></li>&ndash;&gt;-->
+        <!--&lt;!&ndash;<li><button class="btn btn-default btn-lg" ng-if="lastLevel >= 3" ui-sref="game({id:4})">Level 4</button></li>&ndash;&gt;-->
+        <!--&lt;!&ndash;<li><button class="btn btn-default btn-lg" ng-if="lastLevel >= 4" ui-sref="game({id:5})">Level 5</button></li>&ndash;&gt;-->
+      <!--</ul>-->
+    <!--</div>-->
+
   <!--</li>-->
 
-  <li>
-    <button class="btn btn-lg" type=checkbox ng-click="isCollapsed = !isCollapsed">choose a previous level</button>
-    <div id="more-wrap" ng-if="isCollapsed">
-      <ul id="more-dropdown" style="display: block;">
-        <li><button class="btn btn-default btn-lg" ng-if="lastLevel >= 0" ui-sref="game({id:1})">Level 1</button></li>
-        <li><button class="btn btn-default btn-lg" ng-if="lastLevel >= 1" ui-sref="game({id:2})">Level 2</button></li>
-        <!--<li><button class="btn btn-default btn-lg" ng-if="lastLevel >= 2" ui-sref="game({id:3})">Level 3</button></li>-->
-        <!--<li><button class="btn btn-default btn-lg" ng-if="lastLevel >= 3" ui-sref="game({id:4})">Level 4</button></li>-->
-        <!--<li><button class="btn btn-default btn-lg" ng-if="lastLevel >= 4" ui-sref="game({id:5})">Level 5</button></li>-->
-      </ul>
-    </div>
 
-  </li>
-
-
-  <li>
-    <button class="btn btn-lg" ng-click="scoreboard()">have a rest</button>
-  </li>
-</ul>
+  <!--<li>-->
+    <!--<button class="btn btn-lg" ng-click="scoreboard()">have a rest</button>-->
+  <!--</li>-->
+<!--</ul>-->
