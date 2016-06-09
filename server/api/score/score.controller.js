@@ -33,7 +33,7 @@ exports.saveScore = function (req, res) {
 
     newScore.save(null, {
       success: function (gameScore) {
-        updateOverallScore(user, game, level, score, gameScore.id, req, res);
+        //updateOverallScore(user, game, level, score, gameScore.id, req, res);
       },
       error: function (gameScore, error) {
         res.status(400).end();
@@ -44,30 +44,30 @@ exports.saveScore = function (req, res) {
   };
 };
 
-var updateOverallScore = function (user, game, level, score, thisScoreId, req, res) {
-  var Scores = Parse.Object.extend('Scores');
-  var scoreQuery = new Parse.Query(Scores);
-  scoreQuery.equalTo('game', game);
-  scoreQuery.equalTo('level', level);
-  scoreQuery.equalTo('user', user.username);
-  scoreQuery.descending('score');
-  scoreQuery.notEqualTo('objectId', thisScoreId);
-
-  scoreQuery.first({
-    success: function (curHighest) {
-      if (curHighest == null) {
-        changeOverall(0, score, user, req, res);
-      } else if (curHighest.attributes.score < score) {
-        changeOverall(curHighest.attributes.score, score, user, req, res);
-      } else {
-        res.status(200).end();
-      };
-    },
-    error: function (error) {
-      res.status(400).end();
-    }
-  });
-};
+// var updateOverallScore = function (user, game, level, score, thisScoreId, req, res) {
+//   var Scores = Parse.Object.extend('Scores');
+//   var scoreQuery = new Parse.Query(Scores);
+//   scoreQuery.equalTo('game', game);
+//   scoreQuery.equalTo('level', level);
+//   scoreQuery.equalTo('user', user.username);
+//   scoreQuery.descending('score');
+//   scoreQuery.notEqualTo('objectId', thisScoreId);
+//
+//   scoreQuery.first({
+//     success: function (curHighest) {
+//       if (curHighest == null) {
+//         changeOverall(0, score, user, req, res);
+//       } else if (curHighest.attributes.score < score) {
+//         changeOverall(curHighest.attributes.score, score, user, req, res);
+//       } else {
+//         res.status(200).end();
+//       };
+//     },
+//     error: function (error) {
+//       res.status(400).end();
+//     }
+//   });
+// };
 
 var changeOverall = function (oldVal, newVal, user, req, res) {
   var OverallScores = Parse.Object.extend('OverallScores');
