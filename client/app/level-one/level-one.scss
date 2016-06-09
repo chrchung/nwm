@@ -2,10 +2,6 @@ body {
   color: white;
 }
 
-h2 {
-  font-family: 'Londrina Outline';
-}
-
 // #menu {
 //   color: white;
 //   position: fixed;
@@ -84,11 +80,17 @@ h2 {
 
  #bottom-right {
   position: fixed;
-  width: 200px;
-  top: 42%;
-  right: 0;
+  width: 100%;
+  bottom: 0;
   padding: 2px;
   z-index: 8;
+}
+
+#bottom-right .title-font {
+  font-family: 'Londrina Outline';
+  font-size: 2em;
+  font-weight: bold;
+  color: black;
 }
 
 #bottom-right #score-board {
@@ -97,44 +99,21 @@ h2 {
 }
 
 .menu-button {
-
   margin: 5px;
   width: 70px;
   display: inline-block;
   color: #fff;
   background-color: #9999ff;
-  //&:hover {
-  //  color: #fff;
-  //  background-color: rgb(180,125,251);
-  //}
-  //&:focus {
-  //  color: #fff;
-  //  background-color: rgb(180,125,251);
-  //}
 }
 
-// #middle-right {
-//   position: fixed;
-//   bottom: 30%;
-//   width: 200px;
-//   right: 2.4%;
-//   text-align: center;
-// }
-
 #bottom-right #group-container {
-  display: inline-block;
+  display: block;
+  text-align: center;
 }
 
 #bottom-right .add-colour {
-  color: white;
   cursor: pointer;
-  font-size: 24px;
-  //border-radius: 50%;
 }
-
-//#middle-right .add-colour:hover {
-//  color: rgb(180,125,251);
-//}
 
 #bottom-right .colour-error {
   display: none;
@@ -143,6 +122,7 @@ h2 {
 
 #bottom-right #score-board {
   margin-bottom: 0;
+  float: left;
 }
 
 #bottom-right #score-board p {
@@ -150,23 +130,10 @@ h2 {
   display: inline-block;
 }
 
-#bottom-right #legend {
-  min-height: 150px;
-}
-
-#buttons {
-  display: inline-block;
+#bottom-right #buttons {
   position: fixed;
-  bottom: 12px;
+  bottom: 0;
   right: 0;
-}
-
-#top-right {
-  position: fixed;
-  width: 200px;
-  right: 2%;
-  text-align: center;
-  margin-top: 5px;
 }
 
 #feedback {
@@ -190,9 +157,8 @@ h2 {
 }
 
 #aliens {
-  margin-left: 20px;
-  margin-top: 10px;
-  margin-right: 161px;
+  margin: 10px;
+  margin-bottom: 5em;
   //background-color: rgba(255, 255, 255, 0.5);
   //border-radius: 5px;
   //padding: 2px;
@@ -271,48 +237,14 @@ h2 {
       rgba(255, 255, 255, .5) 30px
   )
 }
-//
-//#buckets {
-//  position: fixed;
-//  left: 0px;
-//  top: 0px;
-//  width: 220px;
-//  height: 100%;
-//  overflow-y: scroll;
-//  overflow-x: hidden;
-//  padding: 10px 0px 0px 0px;
-//  background-color: #00d4b4;
-//  z-index: 0;
-//}
-//
-//.bucket {
-//  position: relative;
-//  white-space: nowrap;
-//  display:inline-block;
-//  background-color: rgba(255, 255, 255, 0.80);
-//  border-radius: 10px;
-//  margin: 0px 10px 5px 10px;
-//  width: 200px;
-//  height: 150px;
-//  z-index: 1;
-//}
-//
+
 .current_bucket {
   transform: scale(1.6);
-  font-size: 10px;
   text-align: center;
   text-shadow: 0.2px 0 0 #000, -0.2px 0 0 #000, 0 0.2px 0 #000, 0 -0.2px 0 #000, 0.2px 0.2px #000,
   -0.2px -0.2px 0 #000, 0.2px -0.2px 0 #000, -0.2px 0.2px 0 #000;
   color: white;
 }
-//
-//.bucket .remove_bucket {
-//  position: absolute;
-//  bottom: 0px;
-//  right: 5px;
-//  color: dimgray;
-//  font-size: 20px;
-//}
 
 .selectedAlien {
   border-radius:10px;
@@ -350,4 +282,3 @@ h2 {
   outline-width: 1px;
   outline-color: red;
 }
-

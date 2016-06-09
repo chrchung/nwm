@@ -179,10 +179,10 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   }
 
   $scope.get_highest_score = function (){
-    Restangular.all('api/scores/game_scoreboard/' + parseInt($scope.cur_level) + '/' + $scope.cur_game)
-      .getList().then(function (serverJson) {
-        $scope.highest_score = serverJson[0].score;
-      });
+    // Restangular.all('api/scores/game_scoreboard/' + parseInt($scope.cur_level) + '/' + $scope.cur_game)
+    //   .getList().then(function (serverJson) {
+    //     $scope.highest_score = serverJson[0].score;
+    //   });
   };
   $scope.get_greedy = function() {
     Restangular.all('api/levels/getBeat/' + parseInt($scope.cur_level) + '/' + parseInt($scope.cur_game))
