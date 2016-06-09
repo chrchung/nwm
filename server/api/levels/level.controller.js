@@ -28,9 +28,9 @@ var getLevel = function(req, res) {
       var Games = Parse.Object.extend('Games');
       var gamesQuery = new Parse.Query(Games);
       gamesQuery.equalTo('level', parseInt(req.params.id));
-      gamesQuery.find({
-        success: function(games) {
-          var game = randomize(games, 1)[0];
+      gamesQuery.first({
+        success: function(game) {
+          //var game = randomize(game, 1)[0];
           callback(null, game);
         },
         error: function(error) {
@@ -89,7 +89,7 @@ exports.getScoreToBeat = function (req, res) {
   var Games = Parse.Object.extend('Games');
   var gamesQuery = new Parse.Query(Games);
   gamesQuery.equalTo('level', parseInt(req.params.id));
-  gamesQuery.equalTo('name', parseInt(req.params.game));
+  //gamesQuery.equalTo('name', parseInt(req.params.game));
 
   gamesQuery.find({
     success: function (scoreToBeat) {
