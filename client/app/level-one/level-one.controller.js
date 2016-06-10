@@ -334,21 +334,25 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   };
 
   $scope.setBuckets = function(type) {
+    $scope.toggleChooseSolutionPopup();
     if (type == 'best') {
-      Restangular.all('api/scores/best_solution/' + $stateParams.id).post(
-      ).then((function (data) {
-        $scope.initStateBuckets = data;
-      }), function (err) {
-
+      Restangular.all('api/scores/best_solution/' + $stateParams.id)
+        .getList().then(function (serverJson) {
+        $scope.initStateBuckets = serverJson;
       });
     } else if (type == 'saved') {
-      Restangular.all('api/scores/cur_user_solution/' + $stateParams.id).post(
-      ).then((function (data) {
-        $scope.initStateBuckets = data;
-      }), function (err) {
-
+      Restangular.all('api/scores/cur_user_solution/' + $stateParams.id)
+        .getList().then(function (serverJson) {
+        $scope.initStateBuckets = serverJson;
       });
     }
   };
+
+  $scope.toggleChooseSolutionPopup = function () {
+    $("#overlay").toggle();
+    $("#popup2").toggle();
+  };
+
+  $scope.toggleChooseSolutionPopup();
 
 });
