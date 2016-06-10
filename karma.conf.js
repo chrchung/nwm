@@ -18,7 +18,7 @@ module.exports = function(config) {
       'client/bower_components/angular-cookies/angular-cookies.js',
       'client/bower_components/angular-sanitize/angular-sanitize.js',
       'client/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-      'client/bower_components/lodash/dist/lodash.compat.js',
+      'client/bower_components/lodash/lodash.js',
       'client/bower_components/angular-ui-router/release/angular-ui-router.js',
       'client/bower_components/jquery-ui/jquery-ui.js',
       'client/bower_components/angular-dragdrop/src/angular-dragdrop.js',
@@ -26,6 +26,7 @@ module.exports = function(config) {
       'client/bower_components/restangular/dist/restangular.js',
       'client/bower_components/angular-filter-count-to/dist/angular-filter-count-to.min.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
+      'client/bower_components/angular-pageslide-directive/dist/angular-pageslide-directive.js',
       // endbower
       'client/app/app.js',
       'client/app/**/*.js',
