@@ -78,16 +78,6 @@
     </div>
 </div>
 
-<pageslide ps-open="checked" ps-side="bottom" ps-key-listener=true ps-size='220px' ps-speed=0>
-  <div id="zoomin-aliens">
-    <div ng-repeat="alien in zoominAliens"
-         class="model{{get_model(alien)}} zoomin-alien"
-         ng-click="unzoomAlien(alien)">
-      <img ng-src="{{getUrl(get_model(alien), get_alien(alien))}}" />
-    </div>
-  </div>
-</pageslide>
-
 <!--display aliens in grid-->
 <!--ng-mouseenter="highLight(alien.id)"-->
 <!--ng-mouseleave="lowLight()"-->
@@ -111,7 +101,7 @@
 
 <!-- Page slide -->
 <a class="large button" href="" ng-click="togglePageslide()">Open Demo</a>
-<div pageslide ps-open="checked">
+<div pageslide ps-open="checked" ps-side="bottom">
   <div id="zoom-in-area">
     <div ng-repeat="alien in zoominAliens"
          class="zoomed-alien"

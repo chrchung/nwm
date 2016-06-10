@@ -258,14 +258,16 @@ body {
 }
 
 .zoomed-alien img {
-  width: 150px;
+  height: 100%;
+  width: 100%;
 }
 
 // Pageslide
 
 .ng-pageslide {
-  background: #eee;
+  background-color: rgba(0, 0, 0, 0.2);
 }
+
 body.ng-pageslide-body-open::before {
   content: '.';
   display: block;
