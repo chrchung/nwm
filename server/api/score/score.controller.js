@@ -9,9 +9,6 @@ var config = require('../../config/environment');
 var Parse = require('parse/node').Parse;
 var fs = require('fs');
 var async = require('async');
-Parse.initialize(config.PARSE_APPID, config.PARSE_JSKEY);
-Parse.serverURL = 'https://parseapi.back4app.com'
-
 
 // Gets a list of Scores
 exports.index = function (req, res) {
@@ -129,7 +126,7 @@ exports.getBestSolution = function(req, res) {
   if (req.session.user) {
     var Solutions = Parse.Object.extend('Solutions');
     var solutionsQuery = new Parse.Query(Solutions);
-    solutionsQuery.equalTo('level', parseInt(req.params.id));
+    solutionsQuery.equalTo('level', parseInt(req.params.level));
     solutionsQuery.equalTo('partial', false);
 
     solutionsQuery.first({
@@ -147,8 +144,8 @@ exports.getCurUserSolution = function(req, res) {
   if (req.session.user) {
     var Solutions = Parse.Object.extend('Solutions');
     var solutionsQuery = new Parse.Query(Solutions);
-    solutionsQuery.equalTo('level', parseInt(req.params.id));
-    solutionsQuery.equalTo('user', req.session.user);
+    solutionsQuery.equalTo('level', parseInt(req.params.level));
+    solutionsQuery.equalTo('user', req.session.user.username);
     solutionsQuery.equalTo('partial', true);
 
     solutionsQuery.first({

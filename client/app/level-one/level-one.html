@@ -8,12 +8,19 @@
 
 <div id="popup">
   <div id='popup-content'>
+    <p class='alert-msg'></p><br/>
+    <button class="btn menu-button yes-button" ng-click="handleButtonRequest()">Yes</button>
+    <button class="btn menu-button" ng-click="togglePopup('', '')">No</button>
+  </div>
+</div>
+
+<div id="popup2">
+  <div id='popup-content2'>
     <button class="btn menu-button" ng-click="setBuckets('best')">Play from best solution</button>
     <button class="btn menu-button" ng-click="setBuckets('saved')">Play from saved solution</button>
     <button class="btn menu-button" ng-click="setBuckets('scratch')">Play from scratch</button>
   </div>
 </div>
-
 
 
 <span id="feedback">{{feedback}}</span> <span id="small_feedback"></span>
