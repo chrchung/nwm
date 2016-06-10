@@ -9,7 +9,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.initStateBuckets = null;
 
   $scope.currentBucket = function(curBucket) {
-    bucket.currentBucket(curBucket, $scope.alienArray);
+    $scope.zoominAliens = bucket.currentBucket(curBucket, $scope.alienArray);
     update.updateIllegalAlien($scope.alienArray, curBucket);
   };
 
@@ -310,11 +310,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     }
   };
 
-  $scope.size = '100px';
   $scope.togglePageslide = function() {
     $scope.checked = !$scope.checked
-  }
-  $scope.mockRouteChange = function () {
-      $scope.$broadcast('$locationChangeStart');
   }
 });

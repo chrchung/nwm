@@ -236,7 +236,7 @@ levelOne.service('update',function(helper, bucket, aliens) {
 /*******************************************************************
   Handles highlighting
 *******************************************************************/
-levelOne.service('style', function(aliens) {
+levelOne.service('style', function(aliens, helper) {
 
   this.lowLight = function (alienArray) {
     for (var j = 0; j < alienArray.length; j++) {
@@ -244,22 +244,27 @@ levelOne.service('style', function(aliens) {
     }
   };
 
-  this.highLight = function(alien_id, alienArray) {
+  /* highlight similar aliesn and returns the array */
+  this.highLight = function(alien_id, alienArray, similar_aliens) {
     var current_prop = aliens.alienData[alien_id.split("_")[0]].alien[alien_id.split("_")[1]].prop;
 
     for (var j = 0; j < alienArray.length; j++) {
-      var model_num = alienArray[j].id.split("_")[0];
-      var alien_num = alienArray[j].id.split("_")[1];
+      var model_num = helper.get_model(alienArray[j].id);
+      var alien_num = helper.get_alien(alienArray[j].id);
 
       // a list of properties of the current alien
       var cur_properties = aliens.alienData[model_num].alien[alien_num].prop;
       for (var k = 0; k < cur_properties.length; k++) {
-        if (current_prop.indexOf(cur_properties[k]) != -1) {
+        if (current_prop.indexOf(cur_properties[k]) != -1 &&
+            similar_aliens.indexOf(alienArray[j].id) == -1) {
+          similar_aliens.push(alienArray[j].id);
           $("#" + alienArray[j].id).css('box-shadow', '#FFD736 0 0 10px');
           $("#" + alienArray[j].id).css('border-radius', '10px');
+          break;
         }
       }
     }
+    return similar_aliens;
   };
 
 });
@@ -300,19 +305,22 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
     }
   };
 
+  /* Returns an array of all highlighted aliens */
   this.currentBucket = function(curBucket, alienArray) {
     this.current_bucket = curBucket;
 
     // Lowlight all aliens
     style.lowLight(alienArray);
 
-    // Highlight aliens that similar to aliens in current bucket
+    // Highlight aliens that are similar to aliens in current bucket
     var cur_alien_list = this.buckets[curBucket].alien;
+    var similar_aliens = [];
     for (var j = 0; j < cur_alien_list.length; j++) {
-      style.highLight(cur_alien_list[j], alienArray);
+      similar_aliens = style.highLight(cur_alien_list[j], alienArray, similar_aliens));
     }
 
     this.updateBucket();
+    return similar_aliens;
   };
 
   /* Update the array of colours and returns. */
