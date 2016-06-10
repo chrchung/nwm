@@ -7,6 +7,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.zoominAliens = [];
   $scope.checked = false;
   $scope.colorArray = [];
+  $scope.initStateBuckets = null;
 
   $scope.currentBucket = function(curBucket) {
     bucket.currentBucket(curBucket, $scope.alienArray);
@@ -179,15 +180,16 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   }
 
   $scope.get_highest_score = function (){
-    // Restangular.all('api/scores/game_scoreboard/' + parseInt($scope.cur_level) + '/' + $scope.cur_game)
-    //   .getList().then(function (serverJson) {
-    //     $scope.highest_score = serverJson[0].score;
-    //   });
+    Restangular.all('api/scores/game_scoreboard/' + parseInt($scope.cur_level))
+      .getList().then(function (serverJson) {
+        // $scope.highest_score = serverJson[0].score;
+        $scope.highest_score = 1000;
+      });
   };
   $scope.get_greedy = function() {
-    Restangular.all('api/levels/getBeat/' + parseInt($scope.cur_level) + '/' + parseInt($scope.cur_game))
+    Restangular.all('api/levels/getBeat/' + parseInt($scope.cur_level))
       .getList().then(function (serverJson) {
-        $scope.beat = serverJson[0].scoreToBeat;
+        $scope.beat = 1000;
       });
   };
 
@@ -311,7 +313,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   // Save the score to the database
   $scope.saveScore = function () {
     Restangular.all('/api/scores/').post(
-      {score: $scope.score, game: $scope.cur_game, level: parseInt($scope.cur_level)}).then(
+      {score: $scope.score, game: $scope.cur_game, level: parseInt($scope.cur_level), solution: bucket.buckets}).then(
       (function (data) {
         $state.go('levelcomplete', {level_id: parseInt($scope.cur_level), game_id: $scope.cur_game, score: $scope.score});
       }), function (err) {
@@ -325,10 +327,28 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       }), function (err) {
 
       });
-  }
+  };
 
   $scope.quit = function (){
     $state.go('scoreboard');
-  }
+  };
+
+  $scope.setBuckets = function(type) {
+    if (type == 'best') {
+      Restangular.all('api/scores/best_solution/' + $stateParams.id).post(
+      ).then((function (data) {
+        $scope.initStateBuckets = data;
+      }), function (err) {
+
+      });
+    } else if (type == 'saved') {
+      Restangular.all('api/scores/cur_user_solution/' + $stateParams.id).post(
+      ).then((function (data) {
+        $scope.initStateBuckets = data;
+      }), function (err) {
+
+      });
+    }
+  };
 
 });

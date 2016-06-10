@@ -229,7 +229,6 @@ exports.getAllOverall = function (req, res) {
 exports.getGameScoreboard = function (req, res) {
   var Scores = Parse.Object.extend('Scores');
   var scoreQuery = new Parse.Query(Scores);
-  scoreQuery.equalTo('game', parseInt(req.params.game));
   scoreQuery.equalTo('level', parseInt(req.params.level));
   scoreQuery.descending('score');
   scoreQuery.limit(10);
