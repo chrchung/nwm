@@ -19,12 +19,12 @@
     "restangular": "~1.5.2",
     "angular-filter-count-to": "~0.0.3",
     "hover": "^2.0.2",
-    "pageslide-directive": "~1.0.8"
+    "angular-pageslide-directive": "~1.0.8"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.0"
   },
   "resolutions": {
-    "angular": "1.4.8",
+    "angular": "1.4.8"
   }
 }
