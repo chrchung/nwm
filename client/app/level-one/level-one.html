@@ -107,6 +107,20 @@
   </div>
 </div>
 
+<!-- Page slide -->
+<a class="large button" href="" ng-click="togglePageslide()">Open Demo</a>
+<div pageslide ps-open="checked">
+  <div id="zoom-in-area">
+    <div ng-repeat="alien in zoominAliens"
+         class="zoomed-alien"
+         id="zoomed_{{alien.id}}"
+         ng-click="addToBucket(alien.id)">
+      <img src="{{alien.url}}"/>
+    </div>
+    <a ng-click="togglePageslide()" class="button" >Close</a>
+  </div>
+</div>
+
 
 <!--&lt;!&ndash;buckets&ndash;&gt;-->
 <!--<div id="buckets"-->
