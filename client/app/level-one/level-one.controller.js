@@ -3,7 +3,6 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.score = 0;
   $scope.prev_score = $scope.score;
   $scope.dragged = false;  // Disable click event when start dragging
-  $scope.pageslide = false;
   $scope.zoominAliens = [];
   $scope.checked = false;
   $scope.colorArray = [];
@@ -193,49 +192,9 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       });
   };
 
-  // ZOOMING
-
-  // TODO: Add zoomin icon
-  // $scope.onDropZoom = function(event, ui) {
-  //   var alien_id = ui.draggable.attr('id');
-  //   var id = $scope.get_alien(alien_id);
-  //   var model = $scope.get_model(alien_id);
-  //
-  //   var ind = $scope.zoominAliens.indexOf(alien_id);
-  //
-  //   // Already in the zoom-in list
-  //   if (ind < 0) {
-  //     $scope.zoominAliens.push(alien_id);
-  //     $("#" + alien_id).css('box-shadow', 'rgb(178,34,34) 0 0 10px');
-  //     $("#" + alien_id).css('border-radius', '10px');
-  //     //$("#" + alien_id).css('outline-width', '1px');
-  //     //$("#" + alien_id).css('outline-color', 'red');
-  //     //$("#" + alien_id)overlay;
-  //   }
-  //
-  //   $scope.dragged = false;
-  // };
-
   $scope.onStart = function(event) {
     $scope.dragged = true;
   };
-
-  $scope.togglePageslide = function() {
-    $scope.checked = !$scope.checked
-  }
-
-  $scope.unzoomAlien = function(id) {
-    var ind = $scope.zoominAliens.indexOf(id);
-    $scope.zoominAliens.splice(ind, 1);
-    $("#" + id).css('box-shadow', 'none');
-    //$("#" + id).removeClass("zoomin-small-alien");
-  }
-
-
-  //
-  //$scope.$watch('buckets', function() {
-  //  $scope.$digest();
-  //});
 
   $scope.undo = function() {
     bucket.buckets = history.historyBuckets;
@@ -355,4 +314,11 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
   $scope.toggleChooseSolutionPopup();
 
+  $scope.size = '100px';
+  $scope.togglePageslide = function() {
+    $scope.checked = !$scope.checked
+  }
+  $scope.mockRouteChange = function () {
+      $scope.$broadcast('$locationChangeStart');
+  }
 });
