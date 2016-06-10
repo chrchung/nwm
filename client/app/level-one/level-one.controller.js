@@ -166,6 +166,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   }
 
   $scope.newGroup = function() {
+    $scope.zoominAliens = [];
     $scope.colorArray = bucket.addBucket($scope.colorArray, $scope.alienArray);
     $('#new_group').attr('disabled', true);
   }

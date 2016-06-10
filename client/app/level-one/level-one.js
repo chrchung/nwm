@@ -257,14 +257,14 @@ levelOne.service('style', function(aliens, helper) {
       for (var k = 0; k < cur_properties.length; k++) {
         if (current_prop.indexOf(cur_properties[k]) != -1 &&
             similar_aliens.indexOf(alienArray[j].id) == -1) {
-          similar_aliens.push(alienArray[j].id);
+          similar_aliens.push(alienArray[j]);
           $("#" + alienArray[j].id).css('box-shadow', '#FFD736 0 0 10px');
           $("#" + alienArray[j].id).css('border-radius', '10px');
           break;
         }
       }
     }
-    return similar_aliens;
+    return ;
   };
 
 });
@@ -316,7 +316,7 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
     var cur_alien_list = this.buckets[curBucket].alien;
     var similar_aliens = [];
     for (var j = 0; j < cur_alien_list.length; j++) {
-      similar_aliens = style.highLight(cur_alien_list[j], alienArray, similar_aliens));
+      similar_aliens = style.highLight(cur_alien_list[j], alienArray, similar_aliens);
     }
 
     this.updateBucket();
