@@ -245,26 +245,29 @@ levelOne.service('style', function(aliens, helper) {
   };
 
   /* highlight similar aliesn and returns the array */
-  this.highLight = function(alien_id, alienArray, similar_aliens) {
+  this.highLight = function(alien_id, alienArray, similar_aliens, illegals) {
     var current_prop = aliens.alienData[alien_id.split("_")[0]].alien[alien_id.split("_")[1]].prop;
 
     for (var j = 0; j < alienArray.length; j++) {
       var model_num = helper.get_model(alienArray[j].id);
       var alien_num = helper.get_alien(alienArray[j].id);
 
+      if (illegals.indexOf(alienArray[j].id) >= 0) {
+        continue;
+      }
+
       // a list of properties of the current alien
       var cur_properties = aliens.alienData[model_num].alien[alien_num].prop;
       for (var k = 0; k < cur_properties.length; k++) {
-        if (current_prop.indexOf(cur_properties[k]) != -1 &&
-            similar_aliens.indexOf(alienArray[j].id) == -1) {
-          similar_aliens.push(alienArray[j]);
+        if (current_prop.indexOf(cur_properties[k]) != -1) {
+          similar_aliens[alienArray[j].id] = alienArray[j];
           $("#" + alienArray[j].id).css('box-shadow', '#FFD736 0 0 10px');
           $("#" + alienArray[j].id).css('border-radius', '10px');
           break;
         }
       }
     }
-    return ;
+    return similar_aliens;
   };
 
 });
@@ -277,15 +280,15 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
 
   this.colorCounter;
   this.predefinedColors = {
-  'rgba(230, 250, 255, 1)': false,
-  'rgba(255, 230, 255, 1)': false,
-  'rgba(179, 224, 255, 1)': false,
-  'rgba(255, 224, 179, 1)': false,
-  'rgba(255, 204, 204, 1)': false,
-  'rgba(255, 255, 204, 1)': false,
-  'rgba(236, 255, 179, 1)': false,
-  'rgba(236, 217, 198, 1)': false,
-  'rgba(153, 255, 187, 1)': false
+  'rgba(230, 250, 255, 0.8)': false,
+  'rgba(255, 230, 255, 0.8)': false,
+  'rgba(179, 224, 255, 0.8)': false,
+  'rgba(255, 224, 179, 0.8)': false,
+  'rgba(255, 204, 204, 0.8)': false,
+  'rgba(255, 255, 204, 0.8)': false,
+  'rgba(236, 255, 179, 0.8)': false,
+  'rgba(236, 217, 198, 0.8)': false,
+  'rgba(153, 255, 187, 0.8)': false
   };
   this.predefinedColorCounter = 0;
   this.buckets = [];
@@ -314,12 +317,13 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
 
     // Highlight aliens that are similar to aliens in current bucket
     var cur_alien_list = this.buckets[curBucket].alien;
-    var similar_aliens = [];
+    var similar_aliens = {};
     for (var j = 0; j < cur_alien_list.length; j++) {
-      similar_aliens = style.highLight(cur_alien_list[j], alienArray, similar_aliens);
+      similar_aliens = style.highLight(cur_alien_list[j], alienArray, similar_aliens, this.buckets[curBucket].illegal_alien);
     }
 
     this.updateBucket();
+
     return similar_aliens;
   };
 

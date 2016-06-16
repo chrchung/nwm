@@ -8,12 +8,19 @@
 
 <div id="popup">
   <div id='popup-content'>
+    <p class='alert-msg'></p><br/>
+    <button class="btn menu-button yes-button" ng-click="handleButtonRequest()">Yes</button>
+    <button class="btn menu-button" ng-click="togglePopup('', '')">No</button>
+  </div>
+</div>
+
+<div id="popup2">
+  <div id='popup-content2'>
     <button class="btn menu-button" ng-click="setBuckets('best')">Play from best solution</button>
     <button class="btn menu-button" ng-click="setBuckets('saved')">Play from saved solution</button>
     <button class="btn menu-button" ng-click="setBuckets('scratch')">Play from scratch</button>
   </div>
 </div>
-
 
 
 <span id="feedback">{{feedback}}</span> <span id="small_feedback"></span>
@@ -91,28 +98,22 @@
        ng-right-click="showGroup(alien.id)"
        style="display: inline-block;
                 margin-right: 10px;
-                margin-bottom: 10px;"
-       data-drag="true"
-       jqyoui-draggable="{animate: false, onStart:'onStart'}"
-       data-jqyoui-options="{revert: true, revertDuration: 0}">
+                margin-bottom: 10px;">
     <img src="{{alien.url}}"/>
   </div>
 </div>
 
 <!-- Page slide -->
-<a class="large button" href="" ng-click="togglePageslide()">Open Demo</a>
-<div pageslide ps-open="checked" ps-side="bottom">
+<div pageslide ps-open="checked" ps-side="left" ps-squeeze="true" ps-size="200px" ps-key-listener="true">
   <div id="zoom-in-area">
     <div ng-repeat="alien in zoominAliens"
          class="zoomed-alien"
-         id="zoomed_{{alien.id}}"
-         ng-click="addToBucket(alien.id)">
+         id="zoomed{{alien.id}}"
+         ng-click="selectAlien(alien.id)">
       <img src="{{alien.url}}"/>
     </div>
-    <a ng-click="togglePageslide()" class="button" >Close</a>
   </div>
 </div>
-
 
 <!--&lt;!&ndash;buckets&ndash;&gt;-->
 <!--<div id="buckets"-->

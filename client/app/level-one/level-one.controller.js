@@ -3,14 +3,27 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.score = 0;
   $scope.prev_score = $scope.score;
   $scope.dragged = false;  // Disable click event when start dragging
-  $scope.zoominAliens = [];
+  $scope.zoominAliens = {};
   $scope.checked = false;
   $scope.colorArray = [];
   $scope.initStateBuckets = null;
 
   $scope.currentBucket = function(curBucket) {
     $scope.zoominAliens = bucket.currentBucket(curBucket, $scope.alienArray);
+    if (Object.keys($scope.zoominAliens).length > 0) {
+      $scope.checked = true;
+    }
+    else {
+      $scope.checked = false;
+    }
     update.updateIllegalAlien($scope.alienArray, curBucket);
+
+    var zoomin_keys = Object.keys($scope.zoominAliens);
+    for (var i = 0; i < zoomin_keys.length; i++) {
+      if (bucket.buckets[bucket.current_bucket].alien.indexOf(zoomin_keys[i]) > -1) {
+        $("#zoomed" + zoomin_keys[i]).css( "background-color", bucket.buckets[bucket.current_bucket].color);
+      }
+    }
   };
 
   var feedback = function(alienId) {
@@ -97,6 +110,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
         history.historyColor = bucket.buckets[bucket_id].color;
 
         $("#" + alien_id).css( "background-color", bucket.buckets[bucket.current_bucket].color);
+        $("#zoomed" + alien_id).css( "background-color", bucket.buckets[bucket.current_bucket].color);
         // $("#" + alien_id).css( "border", "3px solid" + bucket.buckets[bucket.current_bucket].color);
         // $("#" + alien_id).css( "border-radius", "15px");
 
@@ -119,6 +133,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
             history.historySelectFlag = 1;
 
             $("#" + alien_id).css("background-color", "rgba(255,255,255,.5)");
+            $("#zoomed" + alien_id).css("background-color", "rgba(255,255,255,0)");
             // $("#" + alien_id).css( "border", "0px");
 
             aliens.selectedAliens.splice(ind, 1);
@@ -147,6 +162,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
             history.historyBucketId = bucket.current_bucket;
 
             $("#" + alien_id).css("background-color", bucket.buckets[bucket.current_bucket].color);
+            $("#zoomed" + alien_id).css("background-color", bucket.buckets[bucket.current_bucket].color);
             // $("#" + alien_id).css( "border", "3px solid" + bucket.buckets[bucket.current_bucket].color);
             // $("#" + alien_id).css( "border-radius", "15px");
           }
@@ -166,7 +182,8 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   }
 
   $scope.newGroup = function() {
-    $scope.zoominAliens = [];
+    $scope.zoominAliens = {};
+    $scope.checked = false;
     $scope.colorArray = bucket.addBucket($scope.colorArray, $scope.alienArray);
     $('#new_group').attr('disabled', true);
   }
@@ -294,22 +311,26 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   };
 
   $scope.setBuckets = function(type) {
+    $scope.toggleChooseSolutionPopup();
     if (type == 'best') {
-      Restangular.all('api/scores/best_solution/' + $stateParams.id).post(
-      ).then((function (data) {
-        $scope.initStateBuckets = data;
-      }), function (err) {
-
+      Restangular.all('api/scores/best_solution/' + $stateParams.id)
+        .getList().then(function (serverJson) {
+        $scope.initStateBuckets = serverJson;
       });
     } else if (type == 'saved') {
-      Restangular.all('api/scores/cur_user_solution/' + $stateParams.id).post(
-      ).then((function (data) {
-        $scope.initStateBuckets = data;
-      }), function (err) {
-
+      Restangular.all('api/scores/cur_user_solution/' + $stateParams.id)
+        .getList().then(function (serverJson) {
+        $scope.initStateBuckets = serverJson;
       });
     }
   };
+
+  $scope.toggleChooseSolutionPopup = function () {
+    $("#overlay").toggle();
+    $("#popup2").toggle();
+  };
+
+  $scope.toggleChooseSolutionPopup();
 
   $scope.togglePageslide = function() {
     $scope.checked = !$scope.checked
