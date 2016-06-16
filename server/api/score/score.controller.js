@@ -37,10 +37,11 @@ exports.saveScore = function (req, res) {
 
     solutionsQuery.first({
       success: function (bestSolution) {
-        if (bestSolution.attributes.score < score) {
-          bestSolution.set('user', user);
+        if (bestSolution && bestSolution.attributes.score < score) {
+          bestSolution.set('user', user.username);
           bestSolution.set('solution', solution);
           bestSolution.set('score', score);
+
           bestSolution.save(null, {
             success: function (gameScore) {
 
@@ -49,7 +50,24 @@ exports.saveScore = function (req, res) {
               res.status(400).end();
             }
           });
-        }
+        } else if (!bestSolution) {
+          var sol = new Solutions();
+          sol.set('user', user.username);
+          sol.set('solution', solution);
+          sol.set('score', score);
+          sol.set('level', level);
+          sol.set('partial', false);
+
+          sol.save(null, {
+            success: function (gameScore) {
+
+            },
+            error: function (gameScore, error) {
+              res.status(400).end();
+            }
+          });
+
+        };
       },
       error: function (error) {
         res.status(400).end();
@@ -58,7 +76,7 @@ exports.saveScore = function (req, res) {
 
     newScore.save(null, {
       success: function (gameScore) {
-        //updateOverallScore(user, game, level, score, gameScore.id, req, res);
+        res.status(200).end();
       },
       error: function (gameScore, error) {
         res.status(400).end();
@@ -106,7 +124,7 @@ exports.saveForLater = function (req, res) {
     var newSolution = new Solution();
     newSolution.set('solution', solution);
     newSolution.set('level', level);
-    newSolution.set('user', user);
+    newSolution.set('user', user.username);
     newSolution.set('partial', true);
 
     newSolution.save(null, {
