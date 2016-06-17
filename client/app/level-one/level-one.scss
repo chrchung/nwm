@@ -44,7 +44,7 @@ body {
   background-color: white;
   border-radius: 20px;
   width: 300px;
-  height: 140px;
+  height: 160px;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
@@ -121,7 +121,7 @@ body {
 
 .menu-button {
   margin: 5px;
-  width: 70px;
+  width: 200px;
   display: inline-block;
   color: #fff;
   background-color: #9999ff;
@@ -269,7 +269,7 @@ body {
 
 // Pageslide
 .ng-pageslide {
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0);
   overflow: scroll !important;
 }
 
@@ -281,4 +281,9 @@ body {
 .zoomed-alien img {
   height: 200px;
   width: auto;
+}
+
+.similar-alien {
+  box-shadow: #FFD736 0 0 10px;
+  border-radius: 10px;
 }

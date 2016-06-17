@@ -59,7 +59,6 @@ levelOne.service('aliens', function() {
   this.aliensInBucket = []; //ids of aliens in buckets
   this.alienData = [];
   this.properties = {};
-  this.selectedAliens = [];
 
 });
 
@@ -103,21 +102,22 @@ levelOne.service('update',function(helper, bucket, aliens) {
       }
     }
 
-    for (var i = 0; i < alienArray.length; i++) {
-      var alien_id = alienArray[i].id;
+    var ids = Object.keys(alienArray)
+    for (var i = 0; i < ids.length; i++) {
+      var alien_id = ids[i];
       model_num = helper.get_model(alien_id);
       if (models_in_bucket.indexOf(model_num) != -1 && bucket.buckets[bucketId].alien.indexOf(alien_id) == -1) {
-        $("#" + alien_id).attr('class', 'illegal_alien');
+        $("#" + alien_id).addClass('illegal_alien');
         bucket.buckets[bucketId].illegal_alien.push(alien_id);
       }
       else {
-        $("#" + alien_id).attr('class', "model" + model_num);
+        $("#" + alien_id).removeClass('illegal_alien');
       }
     }
   };
 
   /* Return the new score and gives feedback. */
-  this.getNewScore = function(alien_id, oldScore, maxModels) {
+  this.getNewScore = function(maxModels) {
     // Calculate points for each bucket
     var total_score = 0;
     for (var i = 0; i < bucket.buckets.length; i++) {
@@ -185,24 +185,25 @@ levelOne.service('update',function(helper, bucket, aliens) {
       $("#small_feedback").removeClass('glyphicon glyphicon-arrow-down');
       $("#small_feedback").addClass('glyphicon glyphicon-arrow-up animated rubberBand');
 
-      $("#small_feedback").css({'color': 'rgb(255,101,101)'});
-      $("#small_feedback").css({'position': 'absolute'});
-      $("#small_feedback").css({'left': coord_x});
-      $("#small_feedback").css({'top': coord_y});
-      $("#small_feedback").css({'font-size': '100px'});
-      $("#small_feedback").css({'z-index': '99'});
+      $("#small_feedback").css({'color': 'rgb(255,101,101)',
+                                'position': 'absolute',
+                                'left': coord_x,
+                                'top': coord_y,
+                                'font-size': '100px',
+                                'z-index': '99'});
       $("#small_feedback").show().delay(500).fadeOut();
     }
     else if (oldScore > newScore) {
       var diff = oldScore - newScore;
       $("#small_feedback").html(diff);
       $("#small_feedback").removeClass('glyphicon glyphicon-arrow-up');
-      $("#small_feedback").addClass('glyphicon glyphicon-arrow-down');
-      $("#small_feedback").css({'color': 'rgb(98,133,255)'});
-      $("#small_feedback").css({'position': 'absolute'});
-      $("#small_feedback").css({'left': coord_x});
-      $("#small_feedback").css({'top': coord_y});
-      $("#small_feedback").css({'z-index': '99'});
+      $("#small_feedback").addClass('glyphicon glyphicon-arrow-down animated rubberBand');
+      $("#small_feedback").css({'color': 'rgb(98,133,255)',
+                                'position': 'absolute',
+                                'left': coord_x,
+                                'top': coord_y,
+                                'font-size': '100px',
+                                'z-index': '99'});
       $("#small_feedback").show().delay(500).fadeOut();
     }
   };
@@ -239,20 +240,22 @@ levelOne.service('update',function(helper, bucket, aliens) {
 levelOne.service('style', function(aliens, helper) {
 
   this.lowLight = function (alienArray) {
-    for (var j = 0; j < alienArray.length; j++) {
-      $("#" + alienArray[j].id).css('box-shadow', 'none');
+    var ids = Object.keys(alienArray);
+    for (var j = 0; j < ids.length; j++) {
+      $("#" + ids[j]).removeClass('similar-alien');
     }
   };
 
   /* highlight similar aliesn and returns the array */
-  this.highLight = function(alien_id, alienArray, similar_aliens, illegals) {
-    var current_prop = aliens.alienData[alien_id.split("_")[0]].alien[alien_id.split("_")[1]].prop;
+  this.highLight = function(alien_id, alienArray, similar_aliens, bucket) {
+    var current_prop = aliens.alienData[helper.get_model(alien_id)].alien[helper.get_alien(alien_id)].prop;
+    var ids = Object.keys(alienArray);
 
-    for (var j = 0; j < alienArray.length; j++) {
-      var model_num = helper.get_model(alienArray[j].id);
-      var alien_num = helper.get_alien(alienArray[j].id);
+    for (var j = 0; j < ids.length; j++) {
+      var model_num = helper.get_model(ids[j]);
+      var alien_num = helper.get_alien(ids[j]);
 
-      if (illegals.indexOf(alienArray[j].id) >= 0) {
+      if (bucket.illegal_alien.indexOf(ids[j]) >= 0) {
         continue;
       }
 
@@ -260,9 +263,8 @@ levelOne.service('style', function(aliens, helper) {
       var cur_properties = aliens.alienData[model_num].alien[alien_num].prop;
       for (var k = 0; k < cur_properties.length; k++) {
         if (current_prop.indexOf(cur_properties[k]) != -1) {
-          similar_aliens[alienArray[j].id] = alienArray[j];
-          $("#" + alienArray[j].id).css('box-shadow', '#FFD736 0 0 10px');
-          $("#" + alienArray[j].id).css('border-radius', '10px');
+          $("#" + ids[j]).addClass('similar-alien');
+          similar_aliens[ids[j]] = alienArray[ids[j]];
           break;
         }
       }
@@ -278,7 +280,6 @@ levelOne.service('style', function(aliens, helper) {
 *******************************************************************/
 levelOne.service('bucket', function(style, $timeout, aliens) {
 
-  this.colorCounter;
   this.predefinedColors = {
   'rgba(230, 250, 255, 0.8)': false,
   'rgba(255, 230, 255, 0.8)': false,
@@ -298,12 +299,12 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
   this.updateBucket = function() {
     for (var i = 0; i < this.buckets.length; i++) {
       if (i != this.current_bucket) {
-        $("#color_block_" + i).removeClass("current_bucket").trigger('input');
-        $("#color_block_" + i).html("").trigger('input');
+        $("#color_block_" + i).removeClass("current_bucket");
+        $("#color_block_" + i).html("");
       }
       else {
-        $("#color_block_" + i).addClass("current_bucket").trigger('input');
-        $("#color_block_" + i).html(" ✓").trigger('input');
+        $("#color_block_" + i).addClass("current_bucket");
+        $("#color_block_" + i).html(" ✓");
       }
     }
   };
@@ -319,7 +320,7 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
     var cur_alien_list = this.buckets[curBucket].alien;
     var similar_aliens = {};
     for (var j = 0; j < cur_alien_list.length; j++) {
-      similar_aliens = style.highLight(cur_alien_list[j], alienArray, similar_aliens, this.buckets[curBucket].illegal_alien);
+      similar_aliens = style.highLight(cur_alien_list[j], alienArray, similar_aliens, this.buckets[curBucket]);
     }
 
     this.updateBucket();
@@ -339,7 +340,7 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
       this.buckets.push({alien:[], illegal_alien:[], color:color});
       this.num_buckets++;
       var bucket_ind  = this.num_buckets - 1;
-      colorArray.push({color:this.buckets[bucket_ind].color});
+      colorArray.push(this.buckets[bucket_ind].color);
 
       this.currentBucket(bucket_ind, alienArray);
 
@@ -393,7 +394,6 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
 
 levelOne.service('history', function(bucket, aliens) {
   this.historyBuckets = [];
-  this.historySelectedAliens = [];
   this.historyAliensInBucket = [];
   this.historyAlienId = '';
   this.historyBucketId = '';

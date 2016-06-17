@@ -146,8 +146,9 @@ exports.getBestSolution = function(req, res) {
     var solutionsQuery = new Parse.Query(Solutions);
     solutionsQuery.equalTo('level', parseInt(req.params.level));
     solutionsQuery.equalTo('partial', false);
+    solutionsQuery.descending('score');
 
-    solutionsQuery.first({
+    solutionsQuery.find({
       success: function (sol) {
         res.send(sol);
       },
@@ -160,15 +161,16 @@ exports.getBestSolution = function(req, res) {
 
 exports.getCurUserSolution = function(req, res) {
   if (req.session.user) {
-    var Solutions = Parse.Object.extend('Solutions');
+    var Solutions = Parse.Object.extend('Solution');
     var solutionsQuery = new Parse.Query(Solutions);
     solutionsQuery.equalTo('level', parseInt(req.params.level));
     solutionsQuery.equalTo('user', req.session.user.username);
     solutionsQuery.equalTo('partial', true);
+    solutionsQuery.descending("updatedAt");
 
-    solutionsQuery.first({
-      success: function (sol) {
-        res.send(sol);
+    solutionsQuery.find({
+      success: function (data) {
+        res.json(data);
       },
       error: function (error) {
         res.status(400).end();
