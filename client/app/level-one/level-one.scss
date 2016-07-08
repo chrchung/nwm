@@ -190,63 +190,11 @@ body {
   width: 100%;
 }
 
-.model0, .model1, .model2, .model3, .model4, .model5,
-.model5, .model6, .model7, .model8, .model9, .illegal_alien{
-  width: 100px;
+.alien {
+  width: 200px;
   background-color: rgba(255,255,255,.5);
   border-radius: 10px;
 }
-//
-// .model0 img {
-//   border-radius: 10px;
-//   background-color: rgba(255,255,255,.5);
-//   // background-color: rgba(230, 250, 255, 1);
-// }
-//
-// .model1 img {
-//   border-radius: 10px;
-//   background-color: rgba(255, 230, 255, 1);
-// }
-//
-// .model2 img {
-//   border-radius: 10px;
-//   background-color: rgba(179, 224, 255, 1);
-// }
-//
-// .model3 img {
-//   border-radius: 10px;
-//   background-color: rgba(255, 224, 179, 1);
-// }
-//
-// .model4 img {
-//   border-radius: 10px;
-//   background-color: rgba(255, 204, 204, 1);
-// }
-//
-// .model5 img {
-//   border-radius: 10px;
-//   background-color: rgba(255, 255, 204, 1);
-// }
-//
-// .model6 img {
-//   border-radius: 10px;
-//   background-color: rgba(236, 255, 179, 1);
-// }
-//
-// .model7 img {
-//   border-radius: 10px;
-//   background-color: rgba(236, 217, 198, 1);
-// }
-//
-// .model8 img {
-//   border-radius: 10px;
-//   background-color: rgba(153, 255, 187, 1);
-// }
-//
-// .model9 img {
-//   border-radius: 10px;
-//   background-color: rgba(179, 255, 236, 1);
-// }
 
 .illegal_alien img {
   border-radius: 10px;
@@ -284,6 +232,6 @@ body {
 }
 
 .similar-alien {
-  box-shadow: #FFD736 0 0 10px;
-  border-radius: 10px;
+  // box-shadow: #FFD736 0 0 10px;
+  // border-radius: 10px;
 }

@@ -90,9 +90,9 @@
 <!--ng-mouseenter="highLight(alien.id)"-->
 <!--ng-mouseleave="lowLight()"-->
 <div id="aliens">
-  <div ng-repeat="alien in alienArray"
+  <div ng-repeat="alien in zoominAliens"
        ng-mouseover="selectedAlien(alien.id)"
-       class="{{alien.model}}"
+       class="alien"
        id="{{alien.id}}"
        ng-click="selectAlien(alien.id)"
        ng-right-click="showGroup(alien.id)"
@@ -105,7 +105,7 @@
 </div>
 
 <!-- Page slide -->
-<div pageslide ps-open="checked" ps-side="left" ps-squeeze="true" ps-size="200px" ps-key-listener="true">
+<!-- <div pageslide ps-open="checked" ps-side="left" ps-squeeze="true" ps-size="200px" ps-key-listener="true">
   <div id="zoom-in-area">
     <div ng-repeat="alien in zoominAliens"
          class="zoomed-alien"
@@ -115,7 +115,7 @@
       <img src="{{alien.url}}"/>
     </div>
   </div>
-</div>
+</div> -->
 
 <!--&lt;!&ndash;buckets&ndash;&gt;-->
 <!--<div id="buckets"-->

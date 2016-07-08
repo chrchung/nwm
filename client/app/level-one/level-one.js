@@ -313,9 +313,6 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
   this.currentBucket = function(curBucket, alienArray) {
     this.current_bucket = curBucket;
 
-    // Lowlight all aliens
-    style.lowLight(alienArray);
-
     // Highlight aliens that are similar to aliens in current bucket
     var cur_alien_list = this.buckets[curBucket].alien;
     var similar_aliens = {};
@@ -331,7 +328,7 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
   /* Update the array of colours and returns. */
   this.addBucket = function(colorArray, alienArray) {
     // Cannot add a new bucket
-    if (this.buckets.length == 0 || this.buckets[this.num_buckets - 1].alien.length == 0) {
+    if (this.num_buckets > 0 && this.buckets[this.num_buckets - 1].alien.length == 0) {
       $(".colour-error").css("top", $(".add-colour").position().top - 20);
       $(".colour-error").css("left", $(".add-colour").position().left - 100);
       $(".colour-error").show().delay(1000).fadeOut();
@@ -339,6 +336,8 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
       var color = this.getRandomColor();
       this.buckets.push({alien:[], illegal_alien:[], color:color});
       this.num_buckets++;
+
+      // TODO: fix this to have a unique id, might cause a bug
       var bucket_ind  = this.num_buckets - 1;
       colorArray.push(this.buckets[bucket_ind].color);
 
