@@ -21,6 +21,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     $scope.zoominAliens = {};
     $scope.checked = false;
     $scope.colorArray = [];
+    bucket.initColors();
 
     // modelsName is a string in the form of 'level4b6_9'
     // Get level
