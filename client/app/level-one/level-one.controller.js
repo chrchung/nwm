@@ -59,9 +59,9 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       if (mode == "scratch") {
         $scope.createNewBucket();
       }
-      else if (mode == "saved") {
-        $scope.restoreSavedBucket();
-      }
+      // else if (mode == "saved") {
+      //   $scope.restoreSavedBucket();
+      // }
       else if (mode == "best") {
         $scope.restoreBestGame();
       }
@@ -82,42 +82,42 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     $('#new_group').attr('disabled', true);
   }
 
-  $scope.restoreSavedBucket = function() {
-    Restangular.all('api/scores/cur_user_solution/' + $scope.cur_level)
-      .getList().then(function (serverJson) {
-
-      if (serverJson.length == 0) {
-        $scope.createNewBucket();
-        return;
-      }
-
-      bucket.buckets = serverJson[0].solution;
-
-      // Restore data structures
-      for (var i = 0; i < bucket.buckets.length; i++) {
-        $scope.colorArray.push(bucket.buckets[i].color);
-        aliens.aliensInBucket = aliens.aliensInBucket.concat(bucket.buckets[i].alien);
-        bucket.num_buckets++;
-
-        if (bucket.predefinedColors[bucket.buckets[i].color] == false) {
-          bucket.predefinedColors[bucket.buckets[i].color] = true;
-          bucket.predefinedColorCounter++;
-        }
-      }
-
-      // Color aliens in buckets
-      for (i = 0; i < bucket.buckets.length; i++) {
-        for (var j = 0; j < bucket.buckets[i].alien.length; j++) {
-          var alien_id = bucket.buckets[i].alien[j];
-          $scope.alienArray[alien_id].color = bucket.buckets[i].color;
-        }
-      }
-
-      // Set current bucket to index 0
-      $scope.score = update.getNewScore($scope.maxModels);
-      $('#new_group').attr('disabled', true);
-    });
-  };
+  // $scope.restoreSavedBucket = function() {
+  //   Restangular.all('api/scores/cur_user_solution/' + $scope.cur_level)
+  //     .getList().then(function (serverJson) {
+  //
+  //     if (serverJson.length == 0) {
+  //       $scope.createNewBucket();
+  //       return;
+  //     }
+  //
+  //     bucket.buckets = serverJson[0].solution;
+  //
+  //     // Restore data structures
+  //     for (var i = 0; i < bucket.buckets.length; i++) {
+  //       $scope.colorArray.push(bucket.buckets[i].color);
+  //       aliens.aliensInBucket = aliens.aliensInBucket.concat(bucket.buckets[i].alien);
+  //       bucket.num_buckets++;
+  //
+  //       if (bucket.predefinedColors[bucket.buckets[i].color] == false) {
+  //         bucket.predefinedColors[bucket.buckets[i].color] = true;
+  //         bucket.predefinedColorCounter++;
+  //       }
+  //     }
+  //
+  //     // Color aliens in buckets
+  //     for (i = 0; i < bucket.buckets.length; i++) {
+  //       for (var j = 0; j < bucket.buckets[i].alien.length; j++) {
+  //         var alien_id = bucket.buckets[i].alien[j];
+  //         $scope.alienArray[alien_id].color = bucket.buckets[i].color;
+  //       }
+  //     }
+  //
+  //     // Set current bucket to index 0
+  //     $scope.score = update.getNewScore($scope.maxModels);
+  //     $('#new_group').attr('disabled', true);
+  //   });
+  // };
 
   $scope.restoreBestGame = function() {
     Restangular.all('api/scores/best_solution/' + $scope.cur_level)
@@ -151,8 +151,8 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       }
 
       // Set current bucket to index 0
+      $scope.currentBucket(0);
       $scope.score = update.getNewScore($scope.maxModels);
-      $('#new_group').attr('disabled', true);
     });
   };
 
@@ -250,7 +250,6 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.newGroup = function() {
     $scope.checked = false;
     $scope.colorArray = bucket.addBucket($scope.colorArray, $scope.alienArray);
-    $('#new_group').attr('disabled', true);
 
     for (var i = 0; i < Object.keys($scope.alienArray).length; i++) {
       var key = Object.keys($scope.alienArray)[i];
