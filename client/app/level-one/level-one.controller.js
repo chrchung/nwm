@@ -1,7 +1,7 @@
 angular.module('nwmApp').controller('LevelOneController', function($scope, Restangular, $stateParams, $state, $timeout, update, helper, database, style, bucket, history, aliens) {
 
   $scope.currentBucket = function(curBucket) {
-    update.updateIllegalAlien($scope.alienArray, curBucket);
+    $scope.alienArray = update.updateIllegalAlien($scope.alienArray, curBucket);
     $scope.zoominAliens = bucket.currentBucket(curBucket, $scope.alienArray);
   };
 
@@ -44,7 +44,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
         for (var j = 0; j < $scope.maxAliens; j++){
           var parsed_data = database.parseData(i, j, data, $scope.maxModels, $scope.maxAliens);
           aliens.properties[i + "_" + j] = parsed_data.attributes;
-          $scope.alienArray[i + "_" + j] = {id: i + "_" + j, model: "model" + i, alien: j, url: parsed_data.Alien.url, color: "rgba(255,255,255,0.5)"};
+          $scope.alienArray[i + "_" + j] = {id: i + "_" + j, model: "model" + i, alien: j, url: parsed_data.Alien.url, color: "rgba(255,255,255,0.5)", illegal: "legal-alien"};
           aliens.alienData[i].alien.push({alien:j,
             prop: aliens.properties[i + "_" + j]});
         }

@@ -101,19 +101,20 @@ levelOne.service('update',function(helper, bucket, aliens) {
         models_in_bucket.push(model_num);
       }
     }
-
+    
     var ids = Object.keys(alienArray)
     for (var i = 0; i < ids.length; i++) {
       var alien_id = ids[i];
       model_num = helper.get_model(alien_id);
       if (models_in_bucket.indexOf(model_num) != -1 && bucket.buckets[bucketId].alien.indexOf(alien_id) == -1) {
-        $("#" + alien_id).addClass('illegal_alien');
         bucket.buckets[bucketId].illegal_alien.push(alien_id);
+        alienArray[alien_id].illegal = "illegal_alien";
       }
       else {
-        $("#" + alien_id).removeClass('illegal_alien');
+        alienArray[alien_id].illegal = "legal_alien";
       }
     }
+    return alienArray;
   };
 
   /* Return the new score and gives feedback. */
@@ -255,9 +256,9 @@ levelOne.service('style', function(aliens, helper) {
       var model_num = helper.get_model(ids[j]);
       var alien_num = helper.get_alien(ids[j]);
 
-      if (bucket.illegal_alien.indexOf(ids[j]) >= 0) {
-        continue;
-      }
+      // if (bucket.illegal_alien.indexOf(ids[j]) >= 0) {
+      //   continue;
+      // }
 
       // a list of properties of the current alien
       var cur_properties = aliens.alienData[model_num].alien[alien_num].prop;

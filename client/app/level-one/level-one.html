@@ -62,7 +62,7 @@
     </div>
 
     <!-- colour list -->
-    <div id="group-container"><span class='title-font'>GROUPS
+    <div id="group-container"><span class='title-font'>NEW GROUP
       <span class="add-colour glyphicon glyphicon-plus-sign" ng-click="newGroup()"></span></span></br>
       <div ng-repeat="color in colorArray"
           id="color_block_{{$index}}"
@@ -76,7 +76,7 @@
       </div>
     </div>
     <!-- error message -->
-    <p class='colour-error'>You have an empty bucket!</p>
+    <!-- <p class='colour-error'>You have an empty bucket!</p> -->
 
     <div id="buttons">
       <!-- <button class="btn menu-button" ng-init="moveAliens = false" ng-click="moveAliens = !moveAliens">{{moveAliens}}</button> -->
@@ -92,7 +92,7 @@
 <div id="aliens">
   <div ng-repeat="alien in zoominAliens"
        ng-mouseover="selectedAlien(alien.id)"
-       class="alien"
+       class="alien {{alien.illegal}}"
        id="{{alien.id}}"
        ng-click="selectAlien(alien.id)"
        ng-right-click="showGroup(alien.id)"
