@@ -151,8 +151,9 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       }
 
       // Set current bucket to index 0
-      $scope.currentBucket(0);
       $scope.score = update.getNewScore($scope.maxModels);
+      $('#new_group').attr('disabled', true);
+      $scope.currentBucket(0);
     });
   };
 
@@ -272,8 +273,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.get_highest_score = function (){
     Restangular.all('api/scores/game_scoreboard/' + parseInt($scope.cur_level))
       .getList().then(function (serverJson) {
-        // $scope.highest_score = serverJson[0].score;
-        $scope.highest_score = 1000;
+        $scope.highest_score = serverJson[0].score;
       });
   };
   $scope.get_greedy = function() {
