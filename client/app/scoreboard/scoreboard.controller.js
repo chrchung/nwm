@@ -42,8 +42,8 @@ angular.module('nwmApp')
     $scope.getStats = function () {
       var arr = [1, 2, 3, 4];
       async.each(arr, function(id, callback) {
-        Restangular.all('api/levels/getBeat/' + id + '/1').getList().then(function (serverJson) {
-          Restangular.all('api/scores/cur_user_game_score/' + id + '/1').getList().then(function (serverJson2) {
+        Restangular.all('api/levels/getBeat/' + id + '/10').getList().then(function (serverJson) {
+          Restangular.all('api/scores/cur_user_game_score/' + id + '/10').getList().then(function (serverJson2) {
             $scope.stats[id - 1] = new Object();
             $scope.stats[id - 1].dominator = serverJson[0].highestScorer || "Bob";
             $scope.stats[id - 1].highScore = serverJson[0].scoreToBeat;
