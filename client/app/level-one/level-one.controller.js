@@ -50,7 +50,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
         for (var j = 0; j < $scope.maxAliens; j++){
           var parsed_data = database.parseData(i, j, data, $scope.maxModels, $scope.maxAliens);
           aliens.properties[i + "_" + j] = parsed_data.attributes;
-          $scope.alienArray[i + "_" + j] = {id: i + "_" + j, model: "model" + i, alien: j, url: parsed_data.Alien.url, color: "rgba(255,255,255,0.5)"};
+          $scope.alienArray[i + "_" + j] = {id: i + "_" + j, model: "model" + i, alien: j, url: parsed_data.Alien.url, color: "rgba(218,245,255, 1)"};
           aliens.alienData[i].alien.push({alien:j,
             prop: aliens.properties[i + "_" + j]});
         }
@@ -227,7 +227,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
               bucket.current_bucket = bucket.num_buckets - 1;
             }
 
-            $scope.alienArray[alien_id].color = "rgba(255,255,255,.5)";
+            $scope.alienArray[alien_id].color = "rgba(255,255,255,1)";
 
             $scope.currentBucket(bucket.current_bucket);
             update.updateIllegalAlien($scope.alienArray, bucket.current_bucket);
@@ -305,7 +305,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
     // Previously selected alien, now we want remove it
     else if (history.historySelectFlag == 0) {
-      $("#" + history.historyAlienId).css("background-color", "rgba(255,255,255,.5)");
+      $("#" + history.historyAlienId).css("background-color", "rgba(255,255,255,1)");
       update.updateIllegalAlien($scope.alienArray, history.historyBucketId);
       $scope.currentBucket(history.historyBucketId);
       feedback(history.historyAlienId);

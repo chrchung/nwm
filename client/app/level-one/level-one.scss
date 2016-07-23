@@ -189,9 +189,11 @@
 .model0, .model1, .model2, .model3, .model4, .model5,
 .model5, .model6, .model7, .model8, .model9, .illegal_alien{
   width: 100px;
-  background-color: rgba(255,255,255,.5);
+  background-color: rgba(255,255,255,1);
   border-radius: 10px;
 }
+
+
 //
 // .model0 img {
 //   border-radius: 10px;
@@ -250,8 +252,8 @@
       45deg,
       transparent,
       transparent 10px,
-      rgba(255, 255, 255, .5) 10px,
-      rgba(255, 255, 255, .5) 30px
+      rgba(255, 255, 255, 0.5) 10px,
+      rgba(255, 255, 255, 0.5) 30px
   )
 }
 
@@ -280,6 +282,6 @@
 }
 
 .similar-alien {
-  box-shadow: #FFD736 0 0 10px;
-  border-radius: 10px;
+  //box-shadow: #FFD736 0 0 10px;
+  border: 5px solid rgb(255, 248, 75);
 }

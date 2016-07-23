@@ -1,28 +1,10 @@
 .heading{
-  font-family: 'Londrina Outline';
+  font-family: 'Lovelo Black';
   cursor: pointer;
-  font-weight: bold;
-  color: black;
-  font-size: 56px;
-}
-
-
-#select-level {
-  font-family: 'Londrina Outline';
   font-weight: bold;
   color: white;
-  font-size: 55px;
-}
-
-#settings {
-  position: fixed;
-  right:0;
-  bottom:0;
-  cursor: pointer;
-}
-
-.level {
-  cursor: pointer;
+  font-size: 40px;
+  letter-spacing: -2px;
 }
 
 .inline {
@@ -30,74 +12,6 @@
   display: inline-block;
 }
 
-.logout {
-  margin-top: 10px;
-  width: 100px;
-  display: inline-block;
-  color: #fff;
-  background-color: white;
-  &:hover {
-    color: #fff;
-    background-color: #e55f49;
-  }
-  &:focus {
-    color: #fff;
-    background-color: #e55f49;
-  }
-}
-
-
-.bottom-right {
-  background-color: white;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  margin: 50px;
-  color: white;
-  border-radius: 25px;
-
-  padding-top: 20px;
-  padding-bottom: 20px;
-  padding-left: 0px;
-  padding-right: 0px;
-
-  table {
-    margin: auto;
-    width: 50%;
-  }
-
-  td {
-    padding: 0px;
-    width: 150px;
-    height: 10px;
-    font-size: 12px;
-  }
-}
-
-#select-level {
-  font-family: 'Londrina Outline';
-  font-weight: bold;
-  color: white;
-  font-size: 55px;}
-
-#settings-toggle {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-}
-
-.stats {
-  visibility: hidden;
-  font-family: 'Amatic SC', cursive;
-  font-size: 30px;
-  background-color: rgba(255,255,255,0.3);
-  //border: solid;
-  //border-color: yellow;
-  border-radius: 10px;
-  padding: 5px;
-}
-
-.visible {
-  visibility: visible;
+.planet {
+  cursor: pointer;
 }

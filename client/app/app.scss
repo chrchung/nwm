@@ -3,6 +3,11 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 $fa-font-path: "../bower_components/font-awesome/fonts";
 @import '../bower_components/font-awesome/scss/font-awesome';
 
+@font-face {
+  font-family: 'Lovelo Black';
+  src: url('../assets/fonts/Lovelo Black.otf');
+}
+
 @import url('https://fonts.googleapis.com/css?family=Londrina+Outline');
 @import url('https://fonts.googleapis.com/css?family=Signika');
 
@@ -23,8 +28,16 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 
 
 body {
-  background-color: rgb(241,241,241);
+  //background-color: rgb(29, 31, 44);
+  //background-color: rgb(146, 227, 255);
+
   font-family: "Signika";
+
+  background: url(/assets/images/gamebg.png) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 

@@ -29,10 +29,14 @@ $font_2: sans-serif;
 
 #title{
   //font-family: 'anagram';
-  font-family: 'Londrina Outline';
+  font-family: 'Lovelo Black';
   font-weight: bold;
-  color: black;
+  color: white;
   font-size: 56px;
+
+  span {
+    margin: -7px;
+  }
 }
 
 .center-img {
@@ -84,7 +88,7 @@ $font_2: sans-serif;
     }
   }
   .forget {
-    font-size: 15px;
+    font-size: 20px;
     text-align: center;
     display: block;
   }
@@ -99,10 +103,11 @@ $font_2: sans-serif;
   font-family: $font_1, $font_2;
 }
 
-#sign-up {
+.sign-up {
   font-size: 20px;
   color: black;
   a {
+    text-decoration: none;
     color:  darkgray;
   }
 }
