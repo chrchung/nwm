@@ -281,15 +281,15 @@ levelOne.service('style', function(aliens, helper) {
 levelOne.service('bucket', function(style, $timeout, aliens) {
 
   this.predefinedColors = {
-  'rgba(230, 250, 255, 0.8)': false,
-  'rgba(255, 230, 255, 0.8)': false,
-  'rgba(179, 224, 255, 0.8)': false,
-  'rgba(255, 224, 179, 0.8)': false,
-  'rgba(255, 204, 204, 0.8)': false,
-  'rgba(255, 255, 204, 0.8)': false,
-  'rgba(236, 255, 179, 0.8)': false,
-  'rgba(236, 217, 198, 0.8)': false,
-  'rgba(153, 255, 187, 0.8)': false
+  'rgba(230, 250, 255, 1)': false,
+  'rgba(255, 230, 255, 1)': false,
+  'rgba(179, 224, 255, 1)': false,
+  'rgba(255, 224, 179, 1)': false,
+  'rgba(255, 204, 204, 1)': false,
+  'rgba(255, 255, 204, 1)': false,
+  'rgba(236, 255, 179, 1)': false,
+  'rgba(236, 217, 198, 1)': false,
+  'rgba(153, 255, 187, 1)': false
   };
   this.predefinedColorCounter = 0;
   this.buckets = [];
