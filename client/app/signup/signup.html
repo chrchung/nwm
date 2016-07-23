@@ -2,7 +2,8 @@
   <div class="">
     <div class="">
       <div class="form-wrap">
-        <h1>Please choose a username and password:</h1>
+        <div class="text-center" id="title-normal">Please choose a username and password:</div>
+        <br>
         <form ng-submit="process()">
           <div class="form-group">
             <input id="name" type="text" placeholder="Username" ng-model="username" required="" autofocus="" class="form-control input-lg">
@@ -16,7 +17,9 @@
           <alert type="danger" ng-show="taken">Unfortunately, this account name has already been taken. Please choose another one.</alert>
         </form>
         <div class="forget">
-          <alert type="danger" ng-show="message">{{message}}</alert>Already have an account?<a ui-sref="auth"> Log in!</a>
+          <div class="sign-up">
+            Already have an account?<a ui-sref="auth"> Log in!</a>
+          </div>
         </div>
       </div>
     </div>
