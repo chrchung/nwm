@@ -8,7 +8,7 @@
 
 <div id="popup">
   <div id='popup-content'>
-    <p class='alert-msg'></p><br/>
+    <p class='alert-msg'></p>
     <button class="btn menu-button yes-button" ng-click="handleButtonRequest()">Yes</button>
     <button class="btn menu-button" ng-click="togglePopup('', '')">No</button>
   </div>
@@ -16,9 +16,9 @@
 
 <div id="popup2">
   <div id='popup-content2'>
-    <button class="btn menu-button" ng-click="setBuckets('best')">Play from best solution</button>
-    <button class="btn menu-button" ng-click="setBuckets('saved')">Play from saved solution</button>
-    <button class="btn menu-button" ng-click="setBuckets('scratch')">Play from scratch</button>
+    <button class="btn menu-button" ng-click="setUpGame('best')">Play from best solution</button><br/>
+    <button class="btn menu-button" ng-click="setUpGame('saved')">Play from saved solution</button><br/>
+    <button class="btn menu-button" ng-click="setUpGame('scratch')">Play from scratch</button><br/>
   </div>
 </div>
 
@@ -57,7 +57,7 @@
 <div id="bottom-right">
     <!-- info -->
     <div class="text-center" id="score-board">
-      <span class='title-font'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="0.5"></span></span></br>
+      <span class='title-font'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="0.5"></span></span><br/>
       <span class='title-font'>BEST: {{highest_score}}</span>
     </div>
 
@@ -66,7 +66,7 @@
       <span class="add-colour glyphicon glyphicon-plus-sign" ng-click="newGroup()"></span></span></br>
       <div ng-repeat="color in colorArray"
           id="color_block_{{$index}}"
-          style="background-color: {{color.color}};
+          style="background-color: {{color}};
               cursor:pointer;display:inline-block;
               width:15px;
               height:15px;
@@ -80,20 +80,11 @@
 
     <div id="buttons">
       <!-- <button class="btn menu-button" ng-init="moveAliens = false" ng-click="moveAliens = !moveAliens">{{moveAliens}}</button> -->
-      <button class="btn menu-button" ng-click="togglePopup('Do you want to submit the score?', 'submit')">Submit</button></br>
-      <button class="btn menu-button" ng-click="togglePopup('Do you want to quit the game?', 'quit')">Quit</button>
+      <button class="btn menu-button" ng-click="togglePopup('Do you want to save the score?', 'submit')">Submit</button><br/>
+      <button class="btn menu-button" ng-click="togglePopup('Do you want to save the score?', 'save')">Save</button><br/>
+      <button class="btn menu-button" ng-click="togglePopup('Do you want to quit the game?', 'quit')">Quit</button><br/>
     </div>
 </div>
-
-<pageslide ps-open="checked" ps-side="bottom" ps-key-listener=true ps-size='220px' ps-speed=0>
-  <div id="zoomin-aliens">
-    <div ng-repeat="alien in zoominAliens"
-         class="model{{get_model(alien)}} zoomin-alien"
-         ng-click="unzoomAlien(alien)">
-      <img ng-src="{{getUrl(get_model(alien), get_alien(alien))}}" />
-    </div>
-  </div>
-</pageslide>
 
 <!--display aliens in grid-->
 <!--ng-mouseenter="highLight(alien.id)"-->
@@ -101,35 +92,30 @@
 <div id="aliens">
   <div ng-repeat="alien in alienArray"
        ng-mouseover="selectedAlien(alien.id)"
-
        class="{{alien.model}}"
        id="{{alien.id}}"
        ng-click="selectAlien(alien.id)"
        ng-right-click="showGroup(alien.id)"
        style="display: inline-block;
                 margin-right: 10px;
-                margin-bottom: 10px;"
-       data-drag="true"
-       jqyoui-draggable="{animate: false, onStart:'onStart'}"
-       data-jqyoui-options="{revert: true, revertDuration: 0}">
+                margin-bottom: 10px;
+                background-color: {{alien.color}};">
     <img src="{{alien.url}}"/>
   </div>
 </div>
 
 <!-- Page slide -->
-<a class="large button" href="" ng-click="togglePageslide()">Open Demo</a>
-<div pageslide ps-open="checked">
+<div pageslide ps-open="checked" ps-side="left" ps-squeeze="true" ps-size="200px" ps-key-listener="true">
   <div id="zoom-in-area">
     <div ng-repeat="alien in zoominAliens"
          class="zoomed-alien"
-         id="zoomed_{{alien.id}}"
-         ng-click="addToBucket(alien.id)">
+         id="zoomed{{alien.id}}"
+         style="background-color: {{alien.color}};"
+         ng-click="selectAlien(alien.id)">
       <img src="{{alien.url}}"/>
     </div>
-    <a ng-click="togglePageslide()" class="button" >Close</a>
   </div>
 </div>
-
 
 <!--&lt;!&ndash;buckets&ndash;&gt;-->
 <!--<div id="buckets"-->
