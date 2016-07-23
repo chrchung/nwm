@@ -42,6 +42,7 @@ var getLevel = function(req, res) {
     function (game, callback) {
       var models = game.relation('models');
       var modelsQuery = models.query();
+      modelsQuery.ascending("name");
       modelsQuery.find({
         success: function(models) {
           callback(null, models);
@@ -54,12 +55,27 @@ var getLevel = function(req, res) {
     function (models, callback) {
       var arr = [];
       async.each(models, function(model, callback) {
+        var cur_model = model.get("name");
+
+        var keyExist = _.find(arr, function (element) {
+          return element[0] == cur_model;
+        });
+
+        if (!keyExist) {
+          arr.push([cur_model]);
+        }
         var Model = Parse.Object.extend("Model");
         var aliensQuery = new Parse.Query(Model);
         aliensQuery.equalTo("model", model);
+        aliensQuery.ascending("modelsName");
         aliensQuery.find({
           success: function(aliens) {
-            arr.push(aliens);
+            var mod = _.find(arr, function (element) {
+              if (element[0] == cur_model) {
+                return element;
+              }
+            });
+            mod.push(aliens);
             callback();
           },
           error: function(error) {

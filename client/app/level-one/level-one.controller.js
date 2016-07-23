@@ -35,22 +35,26 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
     // Request data from the server
     Restangular.all('api/levels/level/' + $scope.cur_level).getList().then((function (data) {
-
       $scope.maxModels = data.length;       // number of models
-      $scope.maxAliens = data[0].length;    // number of aliens in a model
       // Get game id
-      if((data[0][0].modelsName).indexOf('a') >= 0){
+      if((data[0][0]).indexOf('a') >= 0){
         $scope.cur_game = 1;
       } else{
         $scope.cur_game = 2;
       }
 
       for (var i = 0; i < $scope.maxModels; i++){
-        aliens.alienData.push({model: i, alien: []});
+        aliens.alienData.push({model: i + 1, alien: []});
+        $scope.maxAliens = data[i][1].length;    // number of aliens in a model
         for (var j = 0; j < $scope.maxAliens; j++){
-          var parsed_data = database.parseData(i, j, data, $scope.maxModels, $scope.maxAliens);
+          //var parsed_data = database.parseData(i + 1, j, data, $scope.maxModels + 1, $scope.maxAliens);
+          var parsed_data = _.find(data[i][1], function (alien) {
+            var m = alien.modelsName.split(/a|b/)[1].split("_")[0];
+            var a = alien.modelsName.split(/a|b/)[1].split("_")[1];
+            return (m == (i + 1)) && (a == j);
+          });
           aliens.properties[i + "_" + j] = parsed_data.attributes;
-          $scope.alienArray[i + "_" + j] = {id: i + "_" + j, model: "model" + i, alien: j, url: parsed_data.Alien.url, color: "rgba(218,245,255, 1)"};
+          $scope.alienArray[i + "_" + j] = {id: i + "_" + j, model: "model" + i, alien: j, url: parsed_data.URL, color: "rgba(255,255,255,0.5)"};
           aliens.alienData[i].alien.push({alien:j,
             prop: aliens.properties[i + "_" + j]});
         }
