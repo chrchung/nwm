@@ -6,7 +6,13 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 @import url('https://fonts.googleapis.com/css?family=Londrina+Outline');
 @import url('https://fonts.googleapis.com/css?family=Indie+Flower');
 @import url('https://fonts.googleapis.com/css?family=Amatic+SC');
+@import url('https://fonts.googleapis.com/css?family=Exo:900');
 
+
+@font-face {
+  font-family: 'Lovelo Black';
+  src: url('../assets/fonts/Lovelo Black.otf');
+}
 //    font-family: 'anagram';
 //    src: url(/assets/Anagram.ttf);
 //}
@@ -24,8 +30,11 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 
 
 body {
-  background-image: url(/assets/images/gamebg.png);
+  //background-image: url(/assets/images/gamebg.png);
   //background-image: url(/assets/images/gamebg.c9fff19b.png);
+  //background-image: url(/assets/images/8.png);
+  //background-size: 100%;
+  background-color: rgb(61, 67,97);
 }
 
 
