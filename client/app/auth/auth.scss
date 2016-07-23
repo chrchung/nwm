@@ -24,15 +24,15 @@ $font_2: sans-serif;
 .a-eleven                         { animation-delay:1.6s; -moz-animation-delay:1.6s; -webkit-animation-delay:1.6s; }
 .a-twelve                         { animation-delay:1.8s; -moz-animation-delay:1.8s; -webkit-animation-delay:1.8s; }
 .a-thirteen                         { animation-delay:2.0s; -moz-animation-delay:2.0s; -webkit-animation-delay:2.0s; }
-.a-fourteen                       { animation-delay:2.2s; -moz-animation-delay:2.2s; -webkit-animation-delay:2.2s; }
+.a-fourteen                       { animation-delay:2.4s; -moz-animation-delay:2.2s; -webkit-animation-delay:2.2s; }
 
 
 #title{
   //font-family: 'anagram';
   font-family: 'Londrina Outline';
   font-weight: bold;
-  color: white;
-  font-size: 55px;
+  color: black;
+  font-size: 56px;
 }
 
 .center-img {
@@ -101,15 +101,15 @@ $font_2: sans-serif;
 
 #sign-up {
   font-size: 20px;
-  color: white;
+  color: black;
   a {
-    color:  #9999ff;
+    color:  darkgray;
   }
 }
 
-.btn-login {
+#btn-login {
   color: $white;
-  background-color: #9999ff;
+  background-color: black;
   &:hover {
     color: $white;
 

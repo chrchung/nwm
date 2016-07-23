@@ -1,32 +1,18 @@
-//#logout-button {
-//  float: right;
-//  font-weight: bold;
-//  padding: 10px;
-//  //margin: 10px;
-//}
-//
-//#tutorial-button{
-//  float: right;
-//  font-weight: bold;
-//}
-//
-//.level {
-//  margin-top: 10px;
-//  width: 200px;
-//  height: 100px;
-//  display: inline-block;
-//  color: #fff;
-//  font-size: 30px;
-//  background-color: #009999;
-//  &:hover {
-//    color: #fff;
-//    background-color: #e55f49;
-//  }
-//  &:focus {
-//    color: #fff;
-//    background-color: #e55f49;
-//  }
-//}
+.heading{
+  font-family: 'Londrina Outline';
+  cursor: pointer;
+  font-weight: bold;
+  color: black;
+  font-size: 56px;
+}
+
+
+#select-level {
+  font-family: 'Londrina Outline';
+  font-weight: bold;
+  color: white;
+  font-size: 55px;
+}
 
 #settings {
   position: fixed;
