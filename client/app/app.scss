@@ -4,8 +4,7 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 @import '../bower_components/font-awesome/scss/font-awesome';
 
 @import url('https://fonts.googleapis.com/css?family=Londrina+Outline');
-@import url('https://fonts.googleapis.com/css?family=Indie+Flower');
-@import url('https://fonts.googleapis.com/css?family=Amatic+SC');
+@import url('https://fonts.googleapis.com/css?family=Signika');
 
 //    font-family: 'anagram';
 //    src: url(/assets/Anagram.ttf);
@@ -17,15 +16,15 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 
 .browserupgrade {
   margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
   padding: 0.2em 0;
+  background: rgb(241,241,241);
+
 }
 
 
 body {
-  background-image: url(/assets/images/gamebg.png);
-  //background-image: url(/assets/images/gamebg.c9fff19b.png);
+  background-color: rgb(241,241,241);
+  font-family: "Signika";
 }
 
 

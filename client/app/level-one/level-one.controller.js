@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('nwmApp').controller('LevelOneController', function($scope, Restangular, $stateParams, $state, $timeout, update, helper, database, style, bucket, history, aliens) {
   $scope.alienArray = [];
   $scope.score = 0;
