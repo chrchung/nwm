@@ -6,7 +6,7 @@ var module = angular.module('nwmApp')
       .state('main', {
         url: '/',
         templateUrl: 'app/main/main.html',
-        controller: 'MainController',
+        controller: 'MainCtrl',
         controllerAs: 'main'
       });
   });

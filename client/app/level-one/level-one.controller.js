@@ -54,7 +54,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
             return (m == (i + 1)) && (a == j);
           });
           aliens.properties[i + "_" + j] = parsed_data.attributes;
-          $scope.alienArray[i + "_" + j] = {id: i + "_" + j, model: "model" + i, alien: j, url: parsed_data.URL, color: "rgba(255,255,255,0.5)"};
+          $scope.alienArray[i + "_" + j] = {id: i + "_" + j, model: "model" + i, alien: j, url: parsed_data.URL, color: "rgba(218,245,255, 1)"};
           aliens.alienData[i].alien.push({alien:j,
             prop: aliens.properties[i + "_" + j]});
         }
@@ -232,7 +232,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
               bucket.current_bucket = bucket.num_buckets - 1;
             }
 
-            $scope.alienArray[alien_id].color = "rgba(255,255,255,1)";
+            $scope.alienArray[alien_id].color = "rgba(218,245,255, 1)";
 
             $scope.currentBucket(bucket.current_bucket);
             update.updateIllegalAlien($scope.alienArray, bucket.current_bucket);
@@ -402,6 +402,11 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.toggleChooseSolutionPopup = function () {
     $("#overlay").toggle();
     $("#popup2").toggle();
+  };
+
+  $scope.endGame = function () {
+    $("#overlay").toggle();
+    $("#popup3").toggle();
   };
 
   $scope.toggleChooseSolutionPopup();
