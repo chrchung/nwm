@@ -99,13 +99,13 @@ body {
   display: none;
 }
 
- #bottom-right {
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  padding: 2px;
-  z-index: 8;
-}
+// #bottom-right {
+//  position: fixed;
+//  width: 100%;
+//  bottom: 0;
+//  padding: 2px;
+//  z-index: 8;
+//}
 
 #bottom-right .title-font {
   font-family: 'Londrina Outline';
@@ -151,11 +151,11 @@ body {
   display: inline-block;
 }
 
-#bottom-right #buttons {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-}
+//#bottom-right #buttons {
+//  position: fixed;
+//  bottom: 0;
+//  right: 0;
+//}
 
 #feedback {
   position: fixed;
