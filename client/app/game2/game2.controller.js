@@ -41,10 +41,11 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
 
       for (var i = 0; i < $scope.maxModels; i++){
         aliens2.alienData.push({model: i, alien: []});
-        for (var j = 0; j < $scope.maxAliens; j++){
-          var parsed_data = database2.parseData(i, j, data, $scope.maxModels, $scope.maxAliens);
+        var maxAliens = data[i][1].length;    // number of aliens in a model
+        for (var j = 0; j < maxAliens; j++){
+          var parsed_data = database2.parseData(data, i, j);
           aliens2.properties[i + "_" + j] = parsed_data.attributes;
-          $scope.alienArray[i + "_" + j] = {id: i + "_" + j, model: "model" + i, alien: j, url: parsed_data.Alien.url, color: "rgba(255,255,255,0.5)", illegal: "legal-alien"};
+          $scope.alienArray[i + "_" + j] = {id: i + "_" + j, model: "model" + i, alien: j, url: parsed_data.URL, color: "rgba(255,255,255,0.5)", illegal: "legal"};
           aliens2.alienData[i].alien.push({alien:j,
             prop: aliens2.properties[i + "_" + j]});
         }
@@ -136,17 +137,15 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
         aliens2.aliensInBucket = aliens2.aliensInBucket.concat(bucket2.buckets[i].alien);
         bucket2.num_buckets++;
 
-        if (bucket2.predefinedColors[bucket2.buckets[i].color] == false) {
-          bucket2.predefinedColors[bucket2.buckets[i].color] = true;
-          bucket2.predefinedColorCounter++;
-        }
-      }
-
-      // Color aliens in buckets
-      for (i = 0; i < bucket2.buckets.length; i++) {
+        // Assign colors to aliens in buckets
         for (var j = 0; j < bucket2.buckets[i].alien.length; j++) {
           var alien_id = bucket2.buckets[i].alien[j];
           $scope.alienArray[alien_id].color = bucket2.buckets[i].color;
+        }
+
+        if (bucket2.predefinedColors[bucket2.buckets[i].color] == false) {
+          bucket2.predefinedColors[bucket2.buckets[i].color] = true;
+          bucket2.predefinedColorCounter++;
         }
       }
 
