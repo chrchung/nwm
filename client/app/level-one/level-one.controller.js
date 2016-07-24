@@ -215,8 +215,8 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
         for (var i = 0; i < bucket.buckets.length; i++) {
           if (bucket.buckets[i].alien.length == 0) {
             bucket.updatePredefinedColor(bucket_id);
-            bucket.buckets.splice(i, 1);
             $scope.colorArray.splice($scope.colorArray.indexOf(bucket.buckets[i].color), 1);
+            bucket.buckets.splice(i, 1);
             bucket.num_buckets--;
             bucket.current_bucket = bucket.num_buckets - 1;
             break;
@@ -244,8 +244,8 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
             if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
               bucket.updatePredefinedColor(bucket.current_bucket);
-              bucket.buckets.splice(bucket.current_bucket, 1);
               $scope.colorArray.splice(bucket.current_bucket, 1);
+              bucket.buckets.splice(bucket.current_bucket, 1);
               bucket.num_buckets--;
               bucket.current_bucket = bucket.num_buckets - 1;
             }

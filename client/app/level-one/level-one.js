@@ -101,7 +101,7 @@ levelOne.service('update',function(helper, bucket, aliens) {
         models_in_bucket.push(model_num);
       }
     }
-    
+
     var ids = Object.keys(alienArray)
     for (var i = 0; i < ids.length; i++) {
       var alien_id = ids[i];
@@ -300,6 +300,7 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
   }
 
   this.updateBucket = function() {
+    $(".add-colour").css("color", this.buckets[this.current_bucket].color);
     for (var i = 0; i < this.buckets.length; i++) {
       if (i != this.current_bucket) {
         $("#color_block_" + i).removeClass("current_bucket");
