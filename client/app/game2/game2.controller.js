@@ -382,18 +382,6 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
     $("#popup").toggle();
   }
 
-  $scope.handleButtonRequest = function() {
-    if ($scope.buttonReq == 'submit') {
-      $scope.submitScore();
-    }
-    else if ($scope.buttonReq == 'save') {
-      $scope.saveScore();
-    }
-    else if ($scope.buttonReq == 'quit') {
-      $scope.quit();
-    }
-  }
-
   // Submit the score to the database
   $scope.submitScore = function () {
     Restangular.all('/api/scores/').post(
@@ -434,7 +422,8 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
 
   $scope.toggleChooseSolutionPopup();
 
-  // $scope.togglePageslide = function() {
-  //   $scope.checked = !$scope.checked
-  // }
+  $scope.endGame = function () {
+    $("#overlay").toggle();
+    $("#popup3").toggle();
+  };
 });
