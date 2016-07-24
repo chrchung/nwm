@@ -131,14 +131,6 @@
   display: none;
 }
 
- #bottom-right {
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  padding: 2px;
-  z-index: 8;
-}
-
 #bottom-right .title-font {
   font-family: 'Lovelo Black';
   font-size: 15px;
@@ -146,10 +138,6 @@
   color: white;
 }
 
-#bottom-right #score-board {
-  left: 0;
-  text-align: left;
-}
 
 .menu-button {
   margin: 5px;
@@ -173,15 +161,6 @@
   position: absolute;
 }
 
-#bottom-right #score-board {
-  margin-bottom: 0;
-  float: left;
-}
-
-#bottom-right #score-board p {
-  margin-top: 5px;
-  display: inline-block;
-}
 
 #buttons {
   position: fixed;
