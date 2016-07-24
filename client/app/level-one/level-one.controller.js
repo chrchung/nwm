@@ -292,6 +292,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   };
 
   $scope.undo = function() {
+
     bucket.buckets = history.historyBuckets;
     aliens.aliensInBucket = history.historyAliensInBucket;
     $scope.colorArray = history.historyColorArray;
