@@ -1,13 +1,6 @@
-body {
-  color: white;
-}
-
 #aliens {
   margin: 10px;
   margin-bottom: 5em;
-  //background-color: rgba(255, 255, 255, 0.5);
-  //border-radius: 5px;
-  //padding: 2px;
 }
 
 #aliens img {
@@ -47,8 +40,4 @@ body {
 .zoomed-alien img {
   height: 200px;
   width: auto;
-}
-
-#end-button {
-  z-index: 1000;
 }
