@@ -265,6 +265,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     $scope.checked = false;
     $scope.colorArray = bucket.addBucket($scope.colorArray, $scope.alienArray);
     $('#new_group').attr('disabled', true);
+    update.updateIllegalAlien($scope.alienArray, bucket.current_bucket);
   }
 
   $scope.showGroup = function(alien_id) {
