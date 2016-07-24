@@ -1,51 +1,7 @@
-.thing-form {
-  margin: 20px 0;
-}
-
-#banner {
-  border-bottom: none;
-  margin-top: -20px;
-}
-
-#banner h1 {
-  font-size: 60px;
-  line-height: 1;
-  letter-spacing: -1px;
-}
-
-.hero-unit {
-  position: relative;
-  padding: 150px 45px 200px 55px;
-  color: #009999;
-  text-align: center;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-  background: #ffffff;
-}
-
-.navbar-text {
-  margin-left: 15px;
-}
-
-.enter {
-  background-color: #CCFE96;
-  margin:40px auto;
-  overflow: hidden;
-  color: #009999;
-  padding: 5px;
-  font-family: "Futura", sans-serif, serif, times;
-  list-style: none;
-  border: 30px;
-  border-radius: 5px;
-  font-size: 20px;
-  width: 140px;
-}
-
-.enter:hover{
+#play-now-button {
+  float: right;
+  margin: 20px;
+  background-color: rgb(250, 83, 95);
   color: white;
+  font-size: 30px;
 }
-
-.enter:active {
-  color: white;
-  background-color: gray;
-}
-

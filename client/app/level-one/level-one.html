@@ -16,9 +16,24 @@
 
 <div id="popup2">
   <div id='popup-content2'>
-    <button class="btn menu-button" ng-click="setUpGame('best')">Play from best solution</button><br/>
-    <button class="btn menu-button" ng-click="setUpGame('saved')">Play from saved solution</button><br/>
-    <button class="btn menu-button" ng-click="setUpGame('scratch')">Play from scratch</button><br/>
+    <button class="btn menu-button" ng-click="setUpGame('best')">Play from best matching so far</button>
+    <br/>
+    <button class="btn menu-button" ng-click="setUpGame('saved')">Continue from saved game</button>
+    <br/>
+    <button class="btn menu-button" ng-click="setUpGame('scratch')">Start from scratch</button>
+    <br/>
+  </div>
+</div>
+
+
+<div id="popup3">
+  <div id='popup-content3'>
+    <button class="btn menu-button" ng-click="submitScore()">Submit score</button>
+    <br/>
+    <button class="btn menu-button" ng-click="saveScore()">Save for later</button>
+    <br/>
+    <button class="btn menu-button" ng-click="quit()">Quit</button>
+    <br/>
   </div>
 </div>
 
@@ -55,40 +70,42 @@
 </div>
 
 <div id="bottom-right">
-    <!-- info -->
-    <div class="text-center" id="score-board">
-      <span class='title-font'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="0.5"></span></span><br/>
-      <span class='title-font'>BEST: {{highest_score}}</span>
-    </div>
+  <!-- info -->
+  <!--<div class="text-center" id="score-board">-->
+  <!--<span class='title-font'>YOUR SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="0.5"></span></span><br/>-->
+  <!--<span class='title-font'>BEST SCORE EVER: {{highest_score}}</span>-->
+  <!--</div>-->
 
-    <!-- colour list -->
-    <div id="group-container"><span class='title-font'>GROUPS
-      <span class="add-colour glyphicon glyphicon-plus-sign" ng-click="newGroup()"></span></span></br>
-      <div ng-repeat="color in colorArray"
-          id="color_block_{{$index}}"
-          style="background-color: {{color}};
-              cursor:pointer;display:inline-block;
-              width:15px;
-              height:15px;
-              margin: 5px;
-              border: solid 1px black;"
-          ng-click="currentBucket($index)">
-      </div>
-    </div>
+  <!-- colour list -->
+  <!--<div id="add-group text-center">-->
+  <!--<p class='colour-error'>You have an empty bucket!</p>-->
+  <!--<button id="add-group-button" class="btn" ng-click="newGroup()">Add new group</button>-->
+  <!--</div>-->
+
+  <div id="buttons">
     <!-- error message -->
-    <p class='colour-error'>You have an empty bucket!</p>
+    <!--<p class='colour-error'>You have an empty bucket!</p>-->
 
-    <div id="buttons">
-      <!-- <button class="btn menu-button" ng-init="moveAliens = false" ng-click="moveAliens = !moveAliens">{{moveAliens}}</button> -->
-      <button class="btn menu-button" ng-click="togglePopup('Do you want to save the score?', 'submit')">Submit</button><br/>
-      <button class="btn menu-button" ng-click="togglePopup('Do you want to save the score?', 'save')">Save</button><br/>
-      <button class="btn menu-button" ng-click="togglePopup('Do you want to quit the game?', 'quit')">Quit</button><br/>
-    </div>
+    <button id="add-group-button" class="btn" ng-click="newGroup()">Add new group</button>
+    <button id="undo-button" class="btn" ng-click="redo()">Redo</button>
+    <button id="redo-button" class="btn" ng-click="undo()">Undo</button>
+    <button id="end-button" class="btn" ng-click="endGame()">End game</button>
+
+    <span class='title-font'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="0.5"></span></span><br/>
+    <span class='title-font'>BEST EVER: {{highest_score}}</span>
+  </div>
+
+
+
+  <!--<div id="buttons">-->
+  <!--&lt;!&ndash; <button class="btn menu-button" ng-init="moveAliens = false" ng-click="moveAliens = !moveAliens">{{moveAliens}}</button> &ndash;&gt;-->
+  <!--<button class="btn menu-button-small" ng-click="togglePopup('Do you want to save the score?', 'submit')">Submit</button><br/>-->
+  <!--<button class="btn menu-button-small" ng-click="togglePopup('Do you want to save the score?', 'save')">Save</button><br/>-->
+  <!--<button class="btn menu-button-small" ng-click="togglePopup('Do you want to quit the game?', 'quit')">Quit</button><br/>-->
+  <!--</div>-->
 </div>
 
-<!--display aliens in grid-->
-<!--ng-mouseenter="highLight(alien.id)"-->
-<!--ng-mouseleave="lowLight()"-->
+
 <div id="aliens">
   <div ng-repeat="alien in alienArray"
        ng-mouseover="selectedAlien(alien.id)"
@@ -97,7 +114,8 @@
        ng-click="selectAlien(alien.id)"
        ng-right-click="showGroup(alien.id)"
        style="display: inline-block;
-                margin-right: 10px;
+                margin-right: 0.25%;
+                margin-left: 0.25%;
                 margin-bottom: 10px;
                 background-color: {{alien.color}};">
     <img src="{{alien.url}}"/>
@@ -116,33 +134,3 @@
     </div>
   </div>
 </div>
-
-<!--&lt;!&ndash;buckets&ndash;&gt;-->
-<!--<div id="buckets"-->
-<!--data-drop="true"-->
-<!--data-jqyoui-options>-->
-<!--<div ng-repeat="b in buckets track by $index" class="bucket" id="bucket_{{$index}}"-->
-<!--ng-click="currentBucket($index)"-->
-<!--data-drop="true"-->
-<!--data-jqyoui-options-->
-<!--jqyoui-droppable="{onDrop:'onDrop'}">-->
-<!--<div ng-repeat="a in b.alien"-->
-<!--ng-mouseover=selectedAlien(a)-->
-<!--ng-dblclick="putBackAlien($event, a)"-->
-<!--ng-click="selectAlien(a)"-->
-<!--class="model{{get_model(a)}}"-->
-<!--id="{{a}}"-->
-<!--style="z-index: 3;-->
-<!--width: 25%;-->
-<!--display: inline-block;-->
-<!--float: left;">-->
-<!--<img style="width: 100%;"-->
-<!--ng-src="{{getUrl(get_model(a), get_alien(a))}}" />-->
-<!--</div>-->
-
-
-<!--<div class="remove_bucket" ng-if="ifNotLast($index)" ng-click="deleteBucket($event)">-->
-<!--×-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->

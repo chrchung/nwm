@@ -14,6 +14,18 @@
 //   display: none;
 // }
 
+
+#info-panel {
+  position: absolute;
+  top: 0px;
+}
+
+#score-info {
+  font-family: "Lovelo Black";
+  font-size: 20px;
+  color: red;
+}
+
 #popup {
   position: fixed;
   background-color: white;
@@ -54,6 +66,30 @@
   padding: 20px;
   color: grey;
 }
+
+
+#popup3 {
+  position: fixed;
+  background-color: white;
+  border-radius: 20px;
+  width: 300px;
+  height: 160px;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-align: center;
+  display: none;
+}
+
+#popup-content3 {
+  padding: 20px;
+  color: grey;
+}
+
+
+
 
 #popup-content .btn {
   bottom: 0;
@@ -105,7 +141,7 @@
 
 #bottom-right .title-font {
   font-family: 'Lovelo Black';
-  font-size: 2em;
+  font-size: 15px;
   font-weight: bold;
   color: white;
 }
@@ -147,10 +183,21 @@
   display: inline-block;
 }
 
-#bottom-right #buttons {
+#buttons {
   position: fixed;
-  bottom: 0;
-  right: 0;
+  bottom: 47px;
+  right: 10px;
+  padding: 15px;
+  border-radius: 5px;
+  display: inline-block;
+  width: 150px;
+  height: 70px;
+
+  img {
+    cursor: pointer;
+  }
+
+  background-color: rgb(250, 196, 238);
 }
 
 #feedback {
@@ -174,8 +221,12 @@
 }
 
 #aliens {
-  margin: 10px;
-  margin-bottom: 5em;
+  width: 97%;
+  margin: 10px 1.5% 100px 1.5%;
+
+
+  //margin: 10px;
+  //margin-bottom: 5em;
   //background-color: rgba(255, 255, 255, 0.5);
   //border-radius: 5px;
   //padding: 2px;
@@ -186,9 +237,11 @@
   width: 100%;
 }
 
+
+// note: margins and in-line block are defined in html
 .model0, .model1, .model2, .model3, .model4, .model5,
 .model5, .model6, .model7, .model8, .model9, .illegal_alien{
-  width: 100px;
+  width: 9.5%;
   background-color: rgba(255,255,255,1);
   border-radius: 10px;
 }
@@ -284,4 +337,59 @@
 .similar-alien {
   //box-shadow: #FFD736 0 0 10px;
   border: 5px solid rgb(255, 248, 75);
+}
+
+.menu-button-small {
+  margin: 5px;
+  width: 200px;
+  display: inline-block;
+  color: #fff;
+  background-color: rgb(69, 182, 138);
+}
+
+
+#add-group-button {
+  width: 150px;
+  background-color: rgb(249,133,141);
+  color: #fff;
+  right: 10px;
+  position: fixed;
+  bottom: 155px;
+}
+
+
+#undo-button {
+  width: 72px;
+  height: 30px;
+  background-color: rgb(255,187,2);
+  color: #fff;
+  right: 6px;
+  position: fixed;
+  bottom: 121px;
+  margin-right: 5px;
+}
+
+#redo-button {
+  width: 72px;
+  height: 30px;
+  margin-left: 5px;
+  background-color: rgb(135, 254, 219);
+  color: #fff;
+  right: 82px;
+  position: fixed;
+  bottom: 121px;
+  margin-right: 5px;
+}
+
+#add-group {
+  display: inline-block;
+}
+
+#end-button {
+  width: 150px;
+  position: fixed;
+  bottom: 10px;
+  background-color: rgb(54, 196, 255);
+  right: 10px;
+  color: #fff;
 }
