@@ -27,15 +27,13 @@ game2.directive('ngRightClick', function($parse) {
 game2.service('database2', function(Restangular, $state, aliens2) {
 
   /* Returns alien data given model and alien numbers. */
-  this.parseData = function(model, alien, data, maxModels, maxAliens){
-    for (var i = 0; i < maxModels; i++){
-      for (var j = 0; j < maxAliens; j++){
-        var split_id = data[i][j].modelsName.split(/a|b/)[1];
-        if (split_id.split("_")[0] == model && split_id.split("_")[1] == alien){
-          return data[i][j];
-        }
-      }
-    }
+  this.parseData = function(data, i, j) {
+    var resAlien = _.find(data[i][1], function (alien) {
+      var m = alien.modelsName.split(/a|b/)[1].split("_")[0];
+      var a = alien.modelsName.split(/a|b/)[1].split("_")[1];
+      return (m == (i + 1)) && (a == j);
+    });
+    return resAlien;
   };
 
   /* Shuffle given array and returns the new array. */
@@ -97,8 +95,8 @@ game2.service('update2',function(helper2, bucket2, aliens2) {
     var models_in_bucket = [];
     for (var i = 0; i < bucket2.buckets[bucketId].alien.length; i++) {
       var model_num = helper2.get_model(bucket2.buckets[bucketId].alien[i]);
-      if (models_in_bucket2.indexOf(model_num) == -1) {
-        models_in_bucket2.push(model_num);
+      if (models_in_bucket.indexOf(model_num) == -1) {
+        models_in_bucket.push(model_num);
       }
     }
 
@@ -106,12 +104,12 @@ game2.service('update2',function(helper2, bucket2, aliens2) {
     for (var i = 0; i < ids.length; i++) {
       var alien_id = ids[i];
       model_num = helper2.get_model(alien_id);
-      if (models_in_bucket2.indexOf(model_num) != -1 && bucket2.buckets[bucketId].alien.indexOf(alien_id) == -1) {
+      if (models_in_bucket.indexOf(model_num) != -1 && bucket2.buckets[bucketId].alien.indexOf(alien_id) == -1) {
         bucket2.buckets[bucketId].illegal_alien.push(alien_id);
-        alienArray[alien_id].illegal = "illegal_alien";
+        alienArray[alien_id].illegal = "illegal";
       }
       else {
-        alienArray[alien_id].illegal = "legal_alien";
+        alienArray[alien_id].illegal = "legal";
       }
     }
     return alienArray;
@@ -121,6 +119,7 @@ game2.service('update2',function(helper2, bucket2, aliens2) {
   this.getNewScore = function(maxModels) {
     // Calculate points for each bucket
     var total_score = 0;
+    console.log(aliens2.properties);
     for (var i = 0; i < bucket2.buckets.length; i++) {
       total_score += calculateScoreByBucket(bucket2.buckets[i].alien, maxModels);
     }
@@ -135,7 +134,8 @@ game2.service('update2',function(helper2, bucket2, aliens2) {
     var prop_list = [];  // a list of unique properties in the bucket
     for (var i = 0; i < alien_list.length; i++) {
       // a list of properties of the current alien
-      var cur_properties = aliens2.alienData[alien_list[i].split("_")[0]].alien[alien_list[i].split("_")[1]].prop;
+      var aid = alien_list[i];
+      var cur_properties = aliens2.alienData[helper2.get_model(aid)].alien[helper2.get_alien(aid)].prop;
       for (var k = 0; k < cur_properties.length; k++) {
         if (prop_list.indexOf(cur_properties[k]) == -1) {
           // the property is not in prop_list yet
