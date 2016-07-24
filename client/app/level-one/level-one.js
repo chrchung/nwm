@@ -201,36 +201,50 @@ levelOne.service('update',function(helper, bucket, aliens) {
   };
 
   this.showSmallFeedback = function(oldScore, newScore, alien_id) {
-    var element = document.getElementById(alien_id);
-    var coord_x = element.offsetLeft - element.scrollLeft + 20;
-    var coord_y = element.offsetTop - element.scrollTop - 20;
+    //var element = document.getElementById(alien_id);
+    //var coord_x = element.offsetLeft - element.scrollLeft + 20;
+    //var coord_y = element.offsetTop - element.scrollTop - 20;
+
+    var coord_x = Math.floor(window.innerWidth/2) - 300;
+    var coord_y = Math.floor(window.innerHeight/2) - 100;
+
+    $("#feedback").css({'font-family': 'Lovelo Black',
+      'text-shadow': 'none',
+      'position': 'absolute',
+      'left': coord_x + 170,
+      'top': coord_y + 60,
+      'font-size': '100px',
+      'z-index': '99'});
 
     // Small feedback
     if (oldScore < newScore) {
       var diff = newScore - oldScore;
-      $("#small_feedback").html(diff);
+      $("#feedback").html(diff);
       $("#small_feedback").removeClass('glyphicon glyphicon-arrow-down');
       $("#small_feedback").addClass('glyphicon glyphicon-arrow-up animated rubberBand');
-
-      $("#small_feedback").css({'color': 'rgb(255,101,101)',
+      $("#small_feedback").css({'color': '#77dd77',
                                 'position': 'absolute',
                                 'left': coord_x,
                                 'top': coord_y,
                                 'font-size': '100px',
                                 'z-index': '99'});
+      $("#feedback").css({'color': '#77dd77'});
+      $("#feedback").show().delay(500).fadeOut();
       $("#small_feedback").show().delay(500).fadeOut();
     }
     else if (oldScore > newScore) {
       var diff = oldScore - newScore;
-      $("#small_feedback").html(diff);
+      $("#feedback").html(diff);
       $("#small_feedback").removeClass('glyphicon glyphicon-arrow-up');
       $("#small_feedback").addClass('glyphicon glyphicon-arrow-down animated rubberBand');
-      $("#small_feedback").css({'color': 'rgb(98,133,255)',
+      $("#small_feedback").css({'color': '#f63c3a',
                                 'position': 'absolute',
                                 'left': coord_x,
                                 'top': coord_y,
                                 'font-size': '100px',
                                 'z-index': '99'});
+      $("#feedback").css({'color': '#f63c3a'});
+      $("#feedback").show().delay(500).fadeOut();
       $("#small_feedback").show().delay(500).fadeOut();
     }
   };
