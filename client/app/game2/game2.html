@@ -1,0 +1,148 @@
+<div id="overlay"></div>
+<!-- menu -->
+<!-- <div id="menu">
+  <button class="btn menu-button" ng-click="toggleMenu()">RESUME</button><br/>
+  <button class="btn menu-button" ng-click="quit()">QUIT GAME</button><br/>
+  <button class="btn menu-button" ng-click="logout()">LOG OUT</button>
+</div> -->
+
+<div id="popup">
+  <div id='popup-content'>
+    <p class='alert-msg'></p>
+    <button class="btn menu-button yes-button" ng-click="handleButtonRequest()">Yes</button>
+    <button class="btn menu-button" ng-click="togglePopup('', '')">No</button>
+  </div>
+</div>
+
+<div id="popup2">
+  <div id='popup-content2'>
+    <button class="btn menu-button" ng-click="setUpGame('best')">Play from best solution</button><br/>
+    <!-- <button class="btn menu-button" ng-click="setUpGame('saved')">Play from saved solution</button><br/> -->
+    <button class="btn menu-button" ng-click="setUpGame('scratch')">Play from scratch</button><br/>
+  </div>
+</div>
+
+
+<span id="feedback">{{feedback}}</span> <span id="small_feedback"></span>
+
+<!-- Zoomed aliens -->
+<!--<div id="selection-screen">-->
+<!--<div ng-repeat="alien in selectedAliens"-->
+<!--class="model{{get_model(alien)}}"-->
+<!--style="white-space: nowrap;-->
+<!--display: inline-block;-->
+<!--width: 22%;-->
+<!--margin: 10px 10px 10px 10px;-->
+<!--background-color: white;-->
+<!--border-radius: 10px;">-->
+<!--<div class="selected-alien"-->
+<!--ng-click="selectAlien(alien)">-->
+<!--<img ng-src="{{getUrl(get_model(alien), get_alien(alien))}}" />-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div id="close-selection-screen" ng-click="toggleSelectionScreen()">×</div>-->
+
+<!-- alien contents -->
+<div id="top-right">
+  <!-- <div class="zoom-in-area"
+          ng-click="togglePageslide()"
+          data-drop="true"
+          jqyoui-droppable="{onDrop:'onDropZoom'}">
+    <span class="glyphicon glyphicon-zoom-in" size='50px'></span>
+  </div> -->
+  <div id="img-container"></div>
+</div>
+
+<div id="bottom-right">
+    <!-- info -->
+    <div class="text-center" id="score-board">
+      <span class='title-font'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="0.5"></span></span><br/>
+      <span class='title-font'>BEST: <span count-to="{{highest_score}}" value="0" duration="0.5"></span>
+    </div>
+
+    <!-- colour list -->
+    <div id="group-container"><span class='title-font'>GROUP
+      <span class="add-colour glyphicon glyphicon-plus-sign" ng-click="newGroup()"></span></span>
+      <!-- <div ng-repeat="color in colorArray"
+          id="color_block_{{$index}}"
+          style="background-color: {{color}};
+              cursor:pointer;display:inline-block;
+              width:15px;
+              height:15px;
+              margin: 5px;
+              border: solid 1px black;"
+          ng-click="currentBucket($index)">
+      </div> -->
+    </div>
+    <!-- error message -->
+    <!-- <p class='colour-error'>You have an empty bucket!</p> -->
+
+    <div id="buttons">
+      <!-- <button class="btn menu-button" ng-init="moveAliens = false" ng-click="moveAliens = !moveAliens">{{moveAliens}}</button> -->
+      <button class="btn menu-button" ng-click="togglePopup('Do you want to save the score?', 'submit')">Submit</button><br/>
+      <!-- <button class="btn menu-button" ng-click="togglePopup('Do you want to save the score?', 'save')">Save</button><br/> -->
+      <button class="btn menu-button" ng-click="togglePopup('Do you want to quit the game?', 'quit')">Quit</button><br/>
+    </div>
+</div>
+
+<!--display aliens in grid-->
+<!--ng-mouseenter="highLight(alien.id)"-->
+<!--ng-mouseleave="lowLight()"-->
+<div id="aliens">
+  <div ng-repeat="alien in zoominAliens"
+       ng-mouseover="selectedAlien(alien.id)"
+       class="alien {{alien.illegal}}"
+       id="{{alien.id}}"
+       ng-click="selectAlien(alien.id)"
+       ng-right-click="showGroup(alien.id)"
+       style="display: inline-block;
+                margin-right: 10px;
+                margin-bottom: 10px;
+                background-color: {{alien.color}};">
+    <img src="{{alien.url}}"/>
+  </div>
+</div>
+
+<!-- Page slide -->
+<!-- <div pageslide ps-open="checked" ps-side="left" ps-squeeze="true" ps-size="200px" ps-key-listener="true">
+  <div id="zoom-in-area">
+    <div ng-repeat="alien in zoominAliens"
+         class="zoomed-alien"
+         id="zoomed{{alien.id}}"
+         style="background-color: {{alien.color}};"
+         ng-click="selectAlien(alien.id)">
+      <img src="{{alien.url}}"/>
+    </div>
+  </div>
+</div> -->
+
+<!--&lt;!&ndash;buckets&ndash;&gt;-->
+<!--<div id="buckets"-->
+<!--data-drop="true"-->
+<!--data-jqyoui-options>-->
+<!--<div ng-repeat="b in buckets track by $index" class="bucket" id="bucket_{{$index}}"-->
+<!--ng-click="currentBucket($index)"-->
+<!--data-drop="true"-->
+<!--data-jqyoui-options-->
+<!--jqyoui-droppable="{onDrop:'onDrop'}">-->
+<!--<div ng-repeat="a in b.alien"-->
+<!--ng-mouseover=selectedAlien(a)-->
+<!--ng-dblclick="putBackAlien($event, a)"-->
+<!--ng-click="selectAlien(a)"-->
+<!--class="model{{get_model(a)}}"-->
+<!--id="{{a}}"-->
+<!--style="z-index: 3;-->
+<!--width: 25%;-->
+<!--display: inline-block;-->
+<!--float: left;">-->
+<!--<img style="width: 100%;"-->
+<!--ng-src="{{getUrl(get_model(a), get_alien(a))}}" />-->
+<!--</div>-->
+
+
+<!--<div class="remove_bucket" ng-if="ifNotLast($index)" ng-click="deleteBucket($event)">-->
+<!--×-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
