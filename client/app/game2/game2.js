@@ -306,7 +306,7 @@ game2.service('bucket2', function(style2, $timeout, aliens2) {
   }
 
   this.updateBucket = function() {
-    $("#add-group-button").css("background-color", this.buckets[this.current_bucket].color);
+    $("#current-group-color").css("background-color", this.buckets[this.current_bucket].color);
     for (var i = 0; i < this.buckets.length; i++) {
       if (i != this.current_bucket) {
         $("#color_block_" + i).removeClass("current_bucket");

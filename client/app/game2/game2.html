@@ -34,14 +34,19 @@
   <div id="buttons">
     <!-- error message -->
     <!--<p class='colour-error'>You have an empty bucket!</p>-->
-
-    <button id="add-group-button" class="btn" ng-click="newGroup()">Add new group</button>
     <button id="undo-button" class="btn" ng-click="redo()">Redo</button>
     <button id="redo-button" class="btn" ng-click="undo()">Undo</button>
-    <button id="end-button" class="btn" ng-click="endGame()">End game</button>
+    <button id="add-group-button" class="btn" ng-click="newGroup()">Add new group</button>
 
-    <span class='title-font'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="0.5"></span></span><br/>
-    <span class='title-font'>BEST EVER: {{highest_score}}</span>
+    <div class='title-font big'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="0.5"></span></div>
+    <div class='title-font small'>(Best player score: {{highest_score}})</div>
+    <button id="end-button" class="btn" ng-click="endGame()">End game</button>
+    <div id="current-group">
+      <span class="title-font">Current group:</span>
+      <div id="current-group-color">
+      </div>
+      <div class="title-font small">(Click to go to group)</div>
+    </div>
   </div>
 </div>
 

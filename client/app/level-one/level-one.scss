@@ -131,9 +131,19 @@
   display: none;
 }
 
-#bottom-right .title-font {
+.big {
+  font-size: 15px !important;
+  color: rgb(252, 61, 93) !important;
+}
+
+.small {
+  font-size: 8px !important;
+  font-family: "Signika" !important;
+}
+
+.title-font {
   font-family: 'Lovelo Black';
-  font-size: 15px;
+  font-size: 12px;
   font-weight: bold;
   color: white;
 }
@@ -164,13 +174,15 @@
 
 #buttons {
   position: fixed;
-  bottom: 47px;
+  bottom: 10px;
   right: 10px;
-  padding: 15px;
+  padding: 7px;
   border-radius: 5px;
   display: inline-block;
   width: 150px;
-  height: 70px;
+  height: 100px;
+  text-align: center;
+  background-color: #fac4ee;
 
   img {
     cursor: pointer;
@@ -331,33 +343,35 @@
   width: 150px;
   background-color: rgb(249,133,141);
   color: #fff;
-  right: 10px;
+  right: 162px;
   position: fixed;
-  bottom: 155px;
+  bottom: 45px;
 }
 
 
 #undo-button {
-  width: 72px;
+  width: 73px;
   height: 30px;
-  background-color: rgb(255,187,2);
+  background-color: #ffbb02;
   color: #fff;
-  right: 6px;
+  right: 234px;
   position: fixed;
-  bottom: 121px;
+  bottom: 80px;
   margin-right: 5px;
+
 }
 
 #redo-button {
-  width: 72px;
+  width: 73px;
   height: 30px;
   margin-left: 5px;
-  background-color: rgb(135, 254, 219);
+  background-color: #87fedb;
   color: #fff;
-  right: 82px;
+  right: 157px;
   position: fixed;
-  bottom: 121px;
+  bottom: 80px;
   margin-right: 5px;
+
 }
 
 #add-group {
@@ -369,6 +383,22 @@
   position: fixed;
   bottom: 10px;
   background-color: rgb(54, 196, 255);
-  right: 10px;
+  right: 162px;
   color: #fff;
+}
+
+#current-group {
+  margin-top: 3px;
+
+}
+
+#current-group-color {
+  width: 50%;
+  height: 20px;
+  margin: 0 25% 0 25%;
+  border-style: solid;
+  border-width: 2px;
+  border-color: white;
+  border-radius: 5px;
+  cursor: pointer;
 }
