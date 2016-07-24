@@ -59,7 +59,8 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
             prop: aliens.properties[i + "_" + j]});
         }
       }
-      database.getShuffledArray($scope.alienArray);
+      console.log($scope.alienArray);
+      $scope.alienArray = database.shuffleProperties($scope.alienArray);
 
       // Set scores
       $scope.get_highest_score();
