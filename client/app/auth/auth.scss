@@ -105,16 +105,16 @@ $font_2: sans-serif;
 
 .sign-up {
   font-size: 20px;
-  color: black;
+  color: white;
   a {
     text-decoration: none;
-    color:  darkgray;
+    color: rgb(255, 248, 75);
   }
 }
 
 #btn-login {
   color: $white;
-  background-color: black;
+  background-color: rgb(69, 182, 138);
   &:hover {
     color: $white;
 
