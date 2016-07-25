@@ -1,0 +1,64 @@
+<div id="leaderboard">
+  <div>
+    <button class="btn hvr-grow-rotate back-button2" ui-sref="scoreboard">Back</button>
+  </div>
+
+  <section id="">
+    <div class="bg">
+      <div class="col-xs-12">
+        <div>
+          <div class="col-xs-3"></div>
+          <div class="col-xs-6">
+
+            <div class="text-center" id="player-results" ng-show="prevState == 'game'">
+              Congratulations, your score is <span id="score">{{ result.score }}</span>!
+              <br>
+              Check whether you appear in the Hall of Fame below!
+            </div>
+
+            <br>
+            <br>
+
+            <!--<img class="center-img img-responsive" src="assets/images/new.75d08d79.png"/>-->
+
+            <div class="title text-center">
+              <span class="animated zoomInDown a-one">H</span>
+              <span class="animated zoomInDown a-two">A</span>
+              <span class="animated zoomInDown a-three">L</span>
+              <span class="animated zoomInDown a-four">L&nbsp;</span>
+              <span class="animated zoomInDown a-five">O</span>
+              <span class="animated zoomInDown a-six">F&nbsp;</span>
+              <span class="animated zoomInDown a-seven">F</span>
+              <span class="animated zoomInDown a-eight">A</span>
+              <span class="animated zoomInDown a-nine">M</span>
+              <span class="animated zoomInDown a-ten">E</span>
+            </div>
+            <br>
+
+            <div id="about">
+              <table class="table text-center">
+                <thead>
+                  <tr>
+                    <th class="text-center">Player</th>
+                    <th class="text-center">Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="score in scores">
+                    <td>{{ score.user }}</td>
+                    <td>{{ score.score }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="col-xs-3"></div>
+        </div>
+      </div>
+    </div>
+
+
+  </section>
+</div>
+

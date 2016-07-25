@@ -78,8 +78,8 @@ angular.module('nwmApp')
     //  $scope.userRecent = serverJson;
     //});
 
-    $scope.getScores();
-    $scope.getUserRecent();
-    $scope.unlockedLevels();
-    $scope.getStats();
+    // $scope.getScores();
+    // $scope.getUserRecent();
+    // $scope.unlockedLevels();
+    // $scope.getStats();
   });
