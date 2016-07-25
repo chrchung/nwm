@@ -148,6 +148,10 @@
   color: white;
 }
 
+#bottom-right #score-board {
+  left: 0;
+  text-align: left;
+}
 
 .menu-button {
   margin: 5px;
@@ -212,7 +216,8 @@
 }
 
 #aliens {
-  width: 97%;
+  position: absolute;
+  right: 0;
   margin: 10px 1.5% 100px 1.5%;
 
 
@@ -321,7 +326,7 @@
 }
 
 .zoomed-alien img {
-  height: 200px;
+  height: 120px;
   width: auto;
 }
 
@@ -401,3 +406,35 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+.highlight-hover {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  -webkit-animation: bounceIn 1.5s;
+  animation: bounceIn 1.5s;
+}
+
+.zoomed-highlight-hover {
+  filter: grayscale(0.5);
+}
+
+#section {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  background: #ffffff;
+  min-width: 150px;
+}
+
+.sidenav {
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+}
+

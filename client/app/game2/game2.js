@@ -254,13 +254,6 @@ game2.service('update2',function(helper2, bucket2, aliens2) {
 *******************************************************************/
 game2.service('style2', function(aliens2, helper2) {
 
-  this.lowLight = function (alienArray) {
-    var ids = Object.keys(alienArray);
-    for (var j = 0; j < ids.length; j++) {
-      $("#" + ids[j]).removeClass('similar-alien');
-    }
-  };
-
   /* highlight similar aliesn and returns the array */
   this.highLight = function(alien_id, alienArray, similar_aliens, bucket) {
     var current_prop = aliens2.alienData[helper2.get_model(alien_id)].alien[helper2.get_alien(alien_id)].prop;
@@ -278,7 +271,6 @@ game2.service('style2', function(aliens2, helper2) {
       var cur_properties = aliens2.alienData[model_num].alien[alien_num].prop;
       for (var k = 0; k < cur_properties.length; k++) {
         if (current_prop.indexOf(cur_properties[k]) != -1) {
-          $("#" + ids[j]).addClass('similar-alien');
           similar_aliens[ids[j]] = alienArray[ids[j]];
           break;
         }
@@ -314,7 +306,7 @@ game2.service('bucket2', function(style2, $timeout, aliens2) {
   }
 
   this.updateBucket = function() {
-    $(".add-colour").css("color", this.buckets[this.current_bucket].color);
+    $("#current-group-color").css("background-color", this.buckets[this.current_bucket].color);
     for (var i = 0; i < this.buckets.length; i++) {
       if (i != this.current_bucket) {
         $("#color_block_" + i).removeClass("current_bucket");
