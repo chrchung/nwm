@@ -1,37 +1,115 @@
-<div>
-  <button class="btn hvr-grow-rotate" id="play-now-button" ui-sref="auth">Play now!</button>
-</div>
+<div id="main-page">
+  <div>
+    <button class="btn hvr-grow-rotate" id="play-now-button" ui-sref="auth">Play now!</button>
+  </div>
 
-<section id="login">
-  <div class="bg">
-    <div class="col-xs-12">
-      <div>
-        <div class="col-xs-3"></div>
-        <div class="col-xs-6">
-          <!--<img class="center-img img-responsive" src="assets/images/new.75d08d79.png"/>-->
+  <section id="login">
+    <div class="bg">
+      <div class="col-xs-12">
+        <div>
+          <div class="col-xs-3"></div>
+          <div class="col-xs-6">
+            <!--<img class="center-img img-responsive" src="assets/images/new.75d08d79.png"/>-->
 
-          <div class="title text-center">
-            <span class="animated zoomInDown a-one">M</span>
-            <span class="animated zoomInDown a-two">A</span>
-            <span class="animated zoomInDown a-three">T</span>
-            <span class="animated zoomInDown a-four">C</span>
-            <span  class="animated zoomInDown a-five">H</span>
-            <span class="animated zoomInDown a-six">M</span>
-            <span class="animated zoomInDown a-seven">A</span>
-            <span class="animated zoomInDown a-eight">K</span>
-            <span class="animated zoomInDown a-nine">E</span>
-            <span class="animated zoomInDown a-ten">R</span>
-            <span class="animated zoomInDown a-ten">S</span>
+            <div class="title text-center">
+              <span class="animated zoomInDown a-one">M</span>
+              <span class="animated zoomInDown a-two">A</span>
+              <span class="animated zoomInDown a-three">T</span>
+              <span class="animated zoomInDown a-four">C</span>
+              <span  class="animated zoomInDown a-five">H</span>
+              <span class="animated zoomInDown a-six">M</span>
+              <span class="animated zoomInDown a-seven">A</span>
+              <span class="animated zoomInDown a-eight">K</span>
+              <span class="animated zoomInDown a-nine">E</span>
+              <span class="animated zoomInDown a-ten">R</span>
+              <span class="animated zoomInDown a-ten">S</span>
+            </div>
+            <br>
+
+            <div id="about">
+              <h1>About Matchmakers</h1>
+              <p>Matchmakers is a matching game that uses human visual cognition in solving a problem, known as “n-way model merging”, that computers cannot efficiently solve. N-way model merging” (nwm) is the process of combining several models of software into one. It is considered an important aspect of software engineering, and has applications in combining opinions from multiple stakeholders, products in a product line, and more.
+              </p>
+              <p>Here’s an example of an nwm problem:</p>
+
+              <p>The following figure depicts three mini models of hospitals.</p>
+
+              <img src="assets/images/hospital_no_merge.png"/>
+
+              <p>Hospital M1 contains the single element “Caretaker” with three properties, its title “Caretaker”, attribute “id”, and attribute “office”.
+              </p>
+
+              <p>Hospital M2 contains three elements, “Physician” and “Nurse”. Physician has three properties, its title “Physician”, attribute “name”, and attribute “office”. Nurse has three attributes as well—namely, it’s title, attribute “id” and attribute “office”.
+              </p>
+
+              <p>Hospital M3 contains only one element, “Nurse” with three properties, it’s title, attribute “name” and attribute “ward”.
+              </p>
+
+              <p>To perform nwm on these three mini hospital models, we look for similar elements (i.e. elements that share common properties) across different models, and group them together. However, to solve nwm problems, we don’t just group any elements that look similar. We try to find the most optimal groupings, i.e. groupings that have the highest degree of similarity between matched elements.
+              </p>
+
+              <p>For instance, one combination of groupings would be to match “Caretaker” from M1 and “Nurse” from M2, since they are similar
+                in that they both have the attribute “id”. We can also combine “Physician” from M2 and
+                “Nurse” form M3, since they both have attribute “name”. This combination of matchings is shown in the figure
+                below.
+              </p>
+
+              <img src="assets/images/suboptimal.png"/>
+
+              <p>
+                However, this combination
+                of groupings is suboptimal.
+                A better combination of groupings can be made (shown in figure below). The optimal
+                solution consists of matching the two “Nurse” elements from M2 and M3, and then “Physician”
+                and “Caretaker”.
+                In this combination of groupings, the matched pairs share two similar attributes,
+                instead of just one as in the previous combination.
+              </p>
+
+              <img src="assets/images/optimal.png"/>
+
+              <p>The example above is a very small case, there were only three models and a small number of elements. A computer can compute optimal solutions to these small cases without a problem. But once the cases become larger, the size of the problem becomes too big and complex for a computer to solve efficiently. For example, the case we use in this game has a total of eight models and 222 elements. For problems of this size, a computer will take several years to arrive at a solution!
+              </p>
+
+              <p>To handle these harder cases, Matchmakers was created, with hopes to leverage human visual processing skills to solve nwm problems and beat existing algorithmic approaches.
+              </p>
+
+              <p>
+                The software models in the game are encoded using various visual objects (see the figure below, which depicts the three mini hospital models encoded as aliens). The goal of the game will be to identify similar objects and grouping them together. The process of grouping together similar objects in the game will correspond to the process of grouping together similar elements in nwm.
+              </p>
+
+              <img class="large" src="assets/images/alien_encoding.png"/>
+
+              <h1>Related papers</h1>
+              <p>Chung C., Matsuoka A., Yang Y., Rubin J., Chechik M. Serious Games for NP-hard Problems: Challenges and Insights. GAS at ICSE’16.</p>
+              <p>Chung C., Rubin J., Chechik M. N-way Model Merging Game. Review of Undergraduate Computer Science. 2016.</p>
+
+
+              <h1>Team</h1>
+              <p>Professor Marsha Chechik, University of Toronto
+                <br>Doctor Julia Rubin, MIT
+                <br>Christina Chung, University of Toronto
+                <br>Si Hua Cao Liu, University of Toronto
+                <br>Fei Huang, University of Guelph
+                <br>Amit Kadan, University of Toronto
+                <br>Asako Matsuoka, University of Toronto
+                <br>Elsie Yang, University of Toronto
+                <br>Angel You, University of Toronto</p>
+
+              <h1>Interested in Contributing?</h1>
+              <p>We are constantly looking for ways to improve the encoding techniques, game design and player aids. If you are interested in contributing, please contact Professor Marsha Chechik at chechik[at]cs[dot]toronto[dot]edu.
+              </p>
+            </div>
+
+
           </div>
-          <br>
 
-
-
+          <div class="col-xs-3"></div>
         </div>
-
-        <div class="col-xs-3"></div>
       </div>
     </div>
-  </div>
-</section>
+
+
+  </section>
+</div>
 
