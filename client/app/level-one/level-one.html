@@ -113,8 +113,7 @@
 
 <div id="aliens">
   <div ng-repeat="alien in alienArray"
-       ng-mouseover="selectedAlien(alien.id)"
-       class="{{alien.model}}"
+       class="alien {{alien.model}} {{alien.illegal}} {{alien.id}}"
        id="{{alien.id}}"
        ng-click="selectAlien(alien.id)"
        ng-right-click="showGroup(alien.id)"
@@ -131,10 +130,13 @@
 <div pageslide ps-open="checked" ps-side="left" ps-squeeze="true" ps-size="200px" ps-key-listener="true">
   <div id="zoom-in-area">
     <div ng-repeat="alien in zoominAliens"
-         class="zoomed-alien"
-         id="zoomed{{alien.id}}"
-         style="background-color: {{alien.color}};cursor:pointer;"
-         ng-click="selectAlien(alien.id)">
+         class="zoomed-alien {{alien.illegal}} {{alien.id}}"
+         ng-click="selectAlien(alien.id)"
+         ng-right-click="showGroup(alien.id)"
+         style="display: inline-block;
+                  margin-right: 10px;
+                  margin-bottom: 10px;
+                  background-color: {{alien.color}};">
       <img src="{{alien.url}}"/>
     </div>
   </div>
