@@ -210,7 +210,7 @@ levelOne.service('update',function(helper, bucket, aliens) {
 
     $("#feedback").css({'font-family': 'Lovelo Black',
       'text-shadow': 'none',
-      'position': 'absolute',
+      'position': 'fixed',
       'left': coord_x + 170,
       'top': coord_y + 60,
       'font-size': '100px',
@@ -223,7 +223,7 @@ levelOne.service('update',function(helper, bucket, aliens) {
       $("#small_feedback").removeClass('glyphicon glyphicon-arrow-down');
       $("#small_feedback").addClass('glyphicon glyphicon-arrow-up animated rubberBand');
       $("#small_feedback").css({'color': '#77dd77',
-                                'position': 'absolute',
+                                'position': 'fixed',
                                 'left': coord_x,
                                 'top': coord_y,
                                 'font-size': '100px',
