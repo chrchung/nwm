@@ -1,6 +1,6 @@
 <div id="how-to-page">
   <div>
-    <button class="btn hvr-grow-rotate back-button" ui-sref="scoreboard">Back</button>
+    <button class="btn hvr-grow-rotate back-button2" ui-sref="scoreboard">Back</button>
   </div>
 
   <section id="login">
@@ -18,51 +18,97 @@
 
             <div id="howto">
               <h1>Game Objective</h1>
-              <p>In the game, you are presented with many aliens are asked to match aliens that share similar properties.
-              The object of the game is to produce optimal groupings—groupings that have the highest degree of similarity.
-                </p>
+              <p>In the game, your task is to match aliens that share similar properties.
+                The object of the game is to produce optimal groupings—groupings that have the highest degree of
+                similarity.
+              </p>
 
               <p>
-                Here is an alien:
+                Here is an alien.
               </p>
-
-              <p>Here is another alien that is similar to the first alien. They both have.</p>
-
-
-              <p>Here is another alien that is even more similar to the first alien. They both have. This pair makes up a more optimal grouping that the previous pair. In the game, you want to match aliens that are as similar as possible.
+              <img class="smaller" src="assets/images/training11.png"/>
+              <p>Here is another alien that is similar to the first alien. They both have a red diamond.</p>
+              <img class="smaller" src="assets/images/training.png"/>
+              <p>Here is another alien that is even more similar to the first alien. They both have the same tail and hairstyle. This pair makes up
+                a more optimal grouping that the previous pair. In the game, you want to match aliens that are as
+                similar as possible.
               </p>
-
+              <img class="smaller" src="assets/images/training12.png"/>
+              <br>
               <h1>What makes aliens similar?
               </h1>
 
-              <p>For aliens to be similar, they have share identical properties (i.e. if two aliens have the exact same bracelet, they are considered similar). Aliens that share similar but not identical properties are not considered similar (i.e. if two aliens are wearing bracelets, but the bracelets are different, they are not considered similar unless they have other features in common).
-</p>
+              <p>For aliens to be similar, they have to share identical properties (i.e. if two aliens have the exact same
+                bracelet, they are considered similar). Aliens that share similar but not identical properties are not
+                considered similar (i.e. if two aliens are wearing bracelets, but the bracelets are different, they are
+                not considered similar unless they have other features in common).
+              </p>
               <p>Furthermore, this is a base alien with no properties.
-</p>
-              <p>As you can see, it is already wear a helmet, shirt, shorts, boots, and socks. These items should not be considered common attributes when you are identifying similar aliens.
-</p>
+              </p>
+              <img class="smaller" src="assets/images/training.png"/>
+              <p>As you can see, it is already wear a helmet, shirt, shorts, boots, and socks. These items should not be
+                considered common attributes when you are looking for similar aliens.
+              </p>
               <h1>Game Walk-through</h1>
               <p>
-              1)	Choose your game version. You can either play from the current best solution, in which the game will be pre-loaded with groupings from the current best solution, continue from your previously saved state, or start from scratch.
-              <br>2)	Scroll through the game screen to look for aliens that share similar properties.
-              <br>3)	Create a new group. (When you start the game, a new empty group is already made for your so you don’t have to make one yourself).
-              <br>4)	Add an alien to a group by clicking on it. Aliens from the same group will have the same colored background.
-              <br>5)	Remove an alien from a grouping by clicking on it again.
-              <br>6)	Aliens that are similar to your current group are highlighted with a yellow border.
+                1) Choose a game setting. You can either play from the current best solution, in which the game will
+                be pre-loaded with groupings from the current best solution, continue from your previously saved state,
+                or start from scratch.
+                <br>
+                <img class="large" src="assets/images/game_versions.png"/>
+                <br>
+                <br>2) Scroll through the game screen to look for aliens that share similar properties.
+                <br>
+                <img class="large" src="assets/images/similar_find.png"/>
+                <br>
+                <br>3) Create a new group. (NOTE: When you start the game, a new empty group is already made for your so you
+                don’t have to make one yourself).
+                <br>
+                <img class="large" src="assets/images/control_panel_create.png"/>
+                <br>
+                You can see what your current group is in the small box below “CURRENT GROUP”, which displays
+                the color of your current group.
+                <br>
+                <img class="large" src="assets/images/control_panel_current.png"/>
+                <br>
+                <br>4) Add aliens to a group by clicking on them. Aliens from the same group will have the same colored
+                background.
+                <br>
+                <img src="assets/images/add.png"/>
+                <br>
+                <br>5) Remove an alien from a grouping by clicking on it again.
+                <br>
+                <img src="assets/images/remove.png"/>
+                <br>
 
+                <br>6) Aliens that are similar to your current group are highlighted with a yellow border.
+                <br>
+                <img src="assets/images/similar_aliens.png"/>
+                <br>
+                <br>You can also view these aliens all at once on an adjustable side panel.
+                <br>
+                <img src="assets/images/panel.png"/>
+                <br>
+                <br>7) Some aliens are enemies, and are not allowed to be placed into the same group. Aliens that are
+                not allowed to be placed into the same group will have a striped background like so:
+                <br>
+                <img src="assets/images/striped_aliens.png"/>
+                <br>
+                <br>You can still add striped aliens to a group, but you will be prompted to remove its enemies first:
+                <br>8) View your score.
+                <br>
+                <img src="assets/images/score.png"/>
+                <br>
+                <br>9) Undo/redo your actions.
+                <br>
+                <img src="assets/images/undo_redo.png"/>
+                <br>
+                <br>10) End game (to either save your game for later, submit your score, or quit the game without saving).
+                <br>
+                <img src="assets/images/end.png"/>
+                <br>
 
-              <br>You can also view these aliens all at once on the side panel.
-
-              <br>7)	Some aliens are enemies, and are not allowed to be placed into the same group. Aliens that are not allowed to be placed into the same group will have a striped background like so:.
-
-              <br>You can still add striped aliens to a group, but you will be prompted to remove its enemies first:
-
-              <br>8)	View your score.
-              <br>9)	Undo/redo your actions.
-              <br>10)	 Select a group that was previously created (do this if you want to go back to a group to add/remove aliens from it).
-
-              <br>You can see what group is selected below your score. The small box below “CURRENT GROUP” displays the color of your current group.
-           </p>
+              </p>
 
             </div>
 
