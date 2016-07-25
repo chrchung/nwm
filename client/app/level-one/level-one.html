@@ -136,7 +136,7 @@
              ng-mouseleave="showHighlightAlien(alien.id, false)"
              class="zoomed-alien"
              id="zoomed{{alien.id}}"
-             style="background-color: {{alien.color}};"
+             style="background-color: {{alien.color}}; cursor:pointer;"
              ng-click="selectAlien(alien.id)">
           <img src="{{alien.url}}"/>
         </div>
