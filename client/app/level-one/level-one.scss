@@ -177,6 +177,7 @@
 
 
 #buttons {
+  z-index: 9;
   position: fixed;
   bottom: 10px;
   right: 10px;
@@ -404,6 +405,7 @@
   border-style: solid;
   border-width: 2px;
   border-radius: 5px;
+  border-color: white;
   cursor: pointer;
 }
 
