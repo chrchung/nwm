@@ -14,9 +14,11 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     $scope.zoominAliens = bucket.currentBucket(curBucket, $scope.alienArray);
     if (Object.keys($scope.zoominAliens).length > 0) {
       $scope.checked = true;
+      $('#aliens').css('width',  $(window).width() - 170);
     }
     else {
       $scope.checked = false;
+      $('#aliens').css('width', '97%');
     }
   };
 
@@ -370,6 +372,21 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     }
   }
 
+  $scope.showHighlightAlien = function(alien_id, enter) {
+    var element = document.getElementById(alien_id);
+
+    if (enter) {
+      style.scrollToItem(element);
+      $("#" + alien_id).addClass('highlight-hover');
+      $("#zoomed" + alien_id).addClass('zoomed-highlight-hover');
+      setTimeout(function(){
+        $("#" + alien_id).removeClass('highlight-hover');
+      }, 2000);
+    } else {
+      $("#zoomed" + alien_id).removeClass('zoomed-highlight-hover');
+    }
+  }
+
   // Submit the score to the database
   $scope.submitScore = function () {
     Restangular.all('/api/scores/').post(
@@ -416,6 +433,19 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.toggleChooseSolutionPopup();
 
   $scope.togglePageslide = function() {
-    $scope.checked = !$scope.checked
+    $scope.checked = !$scope.checked;
   }
+
+  $scope.$watch
+  (
+    function () {
+      return $('#section').width();
+    },
+    function (newValue, oldValue) {
+      if (newValue != oldValue) {
+        $('.sidenav').css('width', newValue);
+        $('#aliens').css('width',  $(window).width() - newValue - 40);
+      }
+    }
+  );
 });
