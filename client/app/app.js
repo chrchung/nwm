@@ -9,7 +9,8 @@ angular.module('nwmApp', [
   'ngDragDrop',
   'restangular',
   'countTo',
-  'pageslide-directive'
+  'pageslide-directive',
+  'angularResizable'
 ])
 
   .config(function($stateProvider, $urlRouterProvider, $locationProvider) {

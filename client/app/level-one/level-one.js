@@ -313,6 +313,16 @@ levelOne.service('style', function(aliens, helper) {
     return similar_aliens;
   };
 
+  this.scrollToItem = function(item) {
+    var diff=(item.offsetTop - window.scrollY)/8;
+    if (Math.abs(diff) > 1) {
+      window.scrollTo(0, (window.scrollY + diff));
+      clearTimeout(window._TO);
+      window._TO=setTimeout(this.scrollToItem, 30, item);
+    } else {
+      window.scrollTo(0, item.offsetTop)
+    }
+  }
 });
 
 
