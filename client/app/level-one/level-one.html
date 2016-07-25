@@ -105,7 +105,6 @@
   <!--</div>-->
 </div>
 
-
 <div id="aliens">
   <div ng-repeat="alien in alienArray"
        ng-mouseover="selectedAlien(alien.id)"
@@ -123,14 +122,19 @@
 </div>
 
 <!-- Page slide -->
-<div pageslide ps-open="checked" ps-side="left" ps-squeeze="true" ps-size="200px" ps-key-listener="true">
-  <div id="zoom-in-area">
-    <div ng-repeat="alien in zoominAliens"
-         class="zoomed-alien"
-         id="zoomed{{alien.id}}"
-         style="background-color: {{alien.color}};"
-         ng-click="selectAlien(alien.id)">
-      <img src="{{alien.url}}"/>
+
+  <div ng-show="checked" class="sidenav">
+      <div id="section" resizable r-directions="['right']" r-width="150">
+        <div ng-repeat="alien in zoominAliens"
+             ng-mouseenter="showHighlightAlien(alien.id, true)"
+             ng-mouseleave="showHighlightAlien(alien.id, false)"
+             class="zoomed-alien"
+             id="zoomed{{alien.id}}"
+             style="background-color: {{alien.color}};"
+             ng-click="selectAlien(alien.id)">
+          <img src="{{alien.url}}"/>
+        </div>
+
+      </div>
     </div>
-  </div>
-</div>
+
