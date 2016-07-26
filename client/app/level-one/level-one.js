@@ -245,7 +245,7 @@ levelOne.service('update',function(helper, bucket, aliens) {
       $("#small_feedback").removeClass('glyphicon glyphicon-arrow-up');
       $("#small_feedback").addClass('glyphicon glyphicon-arrow-down animated rubberBand');
       $("#small_feedback").css({'color': '#f63c3a',
-                                'position': 'absolute',
+                                'position': 'fixed',
                                 'left': coord_x,
                                 'top': coord_y,
                                 'font-size': '100px',
