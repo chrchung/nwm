@@ -90,7 +90,7 @@
     <button id="redo-button" class="btn" ng-click="undo()">Undo</button>
     <button id="add-group-button" class="btn" ng-click="newGroup()">Add new group</button>
 
-    <div class='title-font big'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="0.5"></span></div>
+    <div class='title-font big'>SCORE: {{score}}</div>
     <div class='title-font small'>(Best player score: {{highest_score}})</div>
     <button id="end-button" class="btn" ng-click="endGame()">End game</button>
     <div id="current-group">
@@ -112,10 +112,8 @@
 </div>
 
 <div id="aliens">
-  <div ng-repeat="alien in alienArray | toArray"
-       ng-mouseover="selectedAlien(alien.id)"
-       class="{{alien.model}}"
-       id="{{alien.id}}"
+  <div ng-repeat="alien in aliens.alienArray | toArray"
+       class="alien {{alien.id}} {{alien.illegal}} {{alien.similar}}"
        ng-click="selectAlien(alien.id)"
        ng-right-click="showGroup(alien.id)"
        style="display: inline-block;
@@ -129,13 +127,12 @@
 
 <!-- Page slide -->
 
+<!-- ng-mouseenter="showHighlightAlien(alien.id, true)"
+ng-mouseleave="showHighlightAlien(alien.id, false)" -->
   <div ng-show="checked" class="sidenav">
-      <div id="section" resizable r-directions="['right']" r-width="150">
-        <div ng-repeat="alien in zoominAliens"
-             ng-mouseenter="showHighlightAlien(alien.id, true)"
-             ng-mouseleave="showHighlightAlien(alien.id, false)"
-             class="zoomed-alien"
-             id="zoomed{{alien.id}}"
+      <div id="section" resizable r-directions="['right']" r-width="150" style="background-color: transparent;">
+        <div ng-repeat="alien in aliens.zoominAliens"
+             class="zoomed-alien {{alien.id}} {{alien.illegal}}"
              style="background-color: {{alien.color}}; cursor:pointer;"
              ng-click="selectAlien(alien.id)">
           <img src="{{alien.url}}"/>
@@ -143,4 +140,3 @@
 
       </div>
     </div>
-

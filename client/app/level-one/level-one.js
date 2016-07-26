@@ -34,15 +34,13 @@ levelOne.filter('toArray', function() { return function(obj) {
 levelOne.service('database', function(Restangular, $state, aliens) {
 
   /* Returns alien data given model and alien numbers. */
-  this.parseData = function(model, alien, data, maxModels, maxAliens){
-    for (var i = 0; i < maxModels; i++){
-      for (var j = 0; j < maxAliens; j++){
-        var split_id = data[i][j].modelsName.split(/a|b/)[1];
-        if (split_id.split("_")[0] == model && split_id.split("_")[1] == alien){
-          return data[i][j];
-        }
-      }
-    }
+  this.parseData = function(data, i, j){
+    var retVal = _.find(data[i][1], function (alien) {
+      var m = alien.modelsName.split(/a|b/)[1].split("_")[0];
+      var a = alien.modelsName.split(/a|b/)[1].split("_")[1];
+      return (m == (i + 1)) && (a == j);
+    });
+    return retVal;
   };
 
   /* Shuffle given array and returns the new array. */
@@ -55,15 +53,15 @@ levelOne.service('database', function(Restangular, $state, aliens) {
     }
   }
 
-  this.shuffleProperties = function(obj) {
+  this.shuffleProperties = function() {
     var new_obj = {};
-    var keys = getKeys(obj);
+    var keys = getKeys(aliens.alienArray);
     keys.shuffle();
     for (var key in keys){
       if (key == "shuffle") continue; // skip our prototype method
-      new_obj[keys[key]] = obj[keys[key]];
+      new_obj[keys[key]] = aliens.alienArray[keys[key]];
     }
-    return new_obj;
+    aliens.alienArray = new_obj;
   }
 
   function getKeys(obj){
@@ -90,9 +88,13 @@ levelOne.service('database', function(Restangular, $state, aliens) {
 *******************************************************************/
 levelOne.service('aliens', function() {
 
-  this.aliensInBucket = []; //ids of aliens in buckets
-  this.alienData = [];
-  this.properties = {};
+  this.initAliens = function() {
+    this.aliensInBucket = []; //ids of aliens in buckets
+    this.alienData = [];
+    this.properties = {};
+    this.zoominAliens = {};
+    this.alienArray = {};
+  }
 
 });
 
@@ -120,32 +122,27 @@ levelOne.service('helper', function() {
 /*******************************************************************
   Functions to update data (i.e. illegal aliens)
 *******************************************************************/
-levelOne.service('update',function(helper, bucket, aliens) {
+levelOne.service('update',function(helper, bucket, aliens, style) {
 
   /* Returns an array of illegal aliens. */
-  this.updateIllegalAlien = function(alienArray, bucketId) {
-
-    bucket.buckets[bucketId].illegal_alien = [];
+  this.updateIllegalAlien = function() {
 
     // Array of models that are already in bucket
     var models_in_bucket = [];
-    for (var i = 0; i < bucket.buckets[bucketId].alien.length; i++) {
-      var model_num = helper.get_model(bucket.buckets[bucketId].alien[i]);
+    for (var i = 0; i < bucket.buckets[bucket.current_bucket].alien.length; i++) {
+      var model_num = helper.get_model(bucket.buckets[bucket.current_bucket].alien[i]);
       if (models_in_bucket.indexOf(model_num) == -1) {
         models_in_bucket.push(model_num);
       }
     }
 
-    var ids = Object.keys(alienArray)
-    for (var i = 0; i < ids.length; i++) {
-      var alien_id = ids[i];
-      model_num = helper.get_model(alien_id);
-      if (models_in_bucket.indexOf(model_num) != -1 && bucket.buckets[bucketId].alien.indexOf(alien_id) == -1) {
-        $("#" + alien_id).addClass('illegal_alien');
-        bucket.buckets[bucketId].illegal_alien.push(alien_id);
+    for (var id in aliens.alienArray) {
+      model_num = helper.get_model(id);
+      if (models_in_bucket.indexOf(model_num) != -1 && bucket.buckets[bucket.current_bucket].alien.indexOf(id) == -1) {
+        aliens.alienArray[id].illegal = 'illegal';
       }
       else {
-        $("#" + alien_id).removeClass('illegal_alien');
+        aliens.alienArray[id].illegal = 'legal';
       }
     }
   };
@@ -287,26 +284,30 @@ levelOne.service('update',function(helper, bucket, aliens) {
 *******************************************************************/
 levelOne.service('style', function(aliens, helper) {
 
-  this.lowLight = function (alienArray) {
-    var ids = Object.keys(alienArray);
-    for (var j = 0; j < ids.length; j++) {
-      $("#" + ids[j]).removeClass('similar-alien');
+  this.lowLightLegalAliens = function() {
+    for (var id in aliens.alienArray) {
+      aliens.alienArray[id].illegal = "legal";
     }
   };
 
-  this.highLight = function(alien_id, alienArray, similar_aliens, bucket, method_flag) {
-    var ids = Object.keys(alienArray);
+  this.lowLightSimilarAliens = function() {
+    for (var id in aliens.alienArray) {
+      aliens.alienArray[id].similar = "dissimilar";
+    }
+  }
+
+  this.highLight = function(alien_id, bucket, method_flag) {
     // Get all aliens in current bucket.
     var members = bucket.alien;
 
-    for (var j = 0; j < ids.length; j++) {
-      // If it is already in current bucket or it is an illegal alien, we don't want it.
-      if (bucket.illegal_alien.indexOf(ids[j]) >= 0 || members.indexOf(ids[j]) >= 0) {
-        continue;
-      }
+    for (var id in aliens.alienArray) {
+      // If it is already in current bucket, we don't want it.
+      // if (members.indexOf(id) >= 0) {
+      //   continue;
+      // }
 
-      var model_num = helper.get_model(ids[j]);
-      var alien_num = helper.get_alien(ids[j]);
+      var model_num = helper.get_model(id);
+      var alien_num = helper.get_alien(id);
       // a list of properties of the current alien
       var cur_properties = aliens.alienData[model_num].alien[alien_num].prop;
 
@@ -341,11 +342,10 @@ levelOne.service('style', function(aliens, helper) {
           current bucket >= the # of members in group */
           (method_flag == 3 && similarCounter >= members.length)
       ) {
-        $("#" + ids[j]).addClass('similar-alien');
-        similar_aliens[ids[j]] = alienArray[ids[j]];
+        aliens.alienArray[id].similar = 'similar';
+        aliens.zoominAliens[id] = aliens.alienArray[id];
       }
     }
-    return similar_aliens;
   };
 
   this.scrollToItem = function(item) {
@@ -366,106 +366,90 @@ levelOne.service('style', function(aliens, helper) {
 *******************************************************************/
 levelOne.service('bucket', function(style, $timeout, aliens) {
 
-  this.predefinedColors = {
-    'rgba(255, 230, 255, 1)': false,
-    'rgba(179, 224, 255, 1)': false,
-    'rgba(255, 224, 179, 1)': false,
-    'rgba(255, 204, 204, 1)': false,
-    'rgba(255, 255, 204, 1)': false,
-    'rgba(236, 255, 179, 1)': false,
-    'rgba(236, 217, 198, 1)': false,
-    'rgba(153, 255, 187, 1)': false,
-    'rgba(59, 148, 250, 1)': false,
-    'rgba(227, 196, 255, 1)': false,
-    'rgba(206, 255, 143, 1)': false,
-    'rgba(255, 75, 105, 1)': false,
-    'rgba(246, 165, 178, 1)': false,
-    'rgba(140, 154, 255, 108)': false,
-    'rgba(194, 221, 227, 1)': false,
-  'rgba(255, 179, 179, 1)': false,
-  'rgba(221, 223, 185, 179, 1)': false,
-  'rgba(248, 255, 105, 1)': false,
-  'rgba(210, 210, 255, 1)': false,
-  'rgba(158, 209, 212, 1)': false,
-  'rgba(141, 150, 204, 1)': false,
-  'rgba(255, 209, 179, 1)': false,
-    'rgba(160, 163, 255, 1)': false,
-    'rgba(160, 185, 208, 1)': false,
-    'rgba(154, 251, 100, 1)': false,
-    'rgba(202, 202, 201, 1)': false,
-    'rgba(251, 255, 172, 1)': false,
-    'rgba(255, 134, 101, 1)': false,
-    'rgba(255, 199, 46, 1)': false,
-    'rgba(255, 79, 44, 1)': false,
-    'rgba(205, 255, 240, 1)': false,
-    'rgba(169, 131, 180, 1)': false,
-    'rgba(242, 221, 225, 1)': false,
-    'rgba(178, 255, 225, 108)': false,
-    'rgba(254, 91, 224, 108)': false,
-    'rgba(148, 26, 255, 108)': false,
-    'rgba(255, 111, 15, 108)': false,
-    'rgba(171, 158, 96, 108)': false,
-    'rgba(238, 160, 224, 108)': false,
-  };
-  this.predefinedColorCounter = 0;
-  this.buckets = [];
-  this.num_buckets = 0;
-  this.current_bucket = 0;
-
-  this.updateBucket = function() {
-    for (var i = 0; i < this.buckets.length; i++) {
-      if (i != this.current_bucket) {
-        $("#color_block_" + i).removeClass("current_bucket");
-        $("#color_block_" + i).html("");
-      }
-      else {
-        $("#color_block_" + i).addClass("current_bucket");
-        $("#color_block_" + i).html(" ✓");
-      }
-    }
-  };
+  this.initColors = function() {
+    this.predefinedColors = {
+      'rgba(255, 230, 255, 1)': false,
+      'rgba(179, 224, 255, 1)': false,
+      'rgba(255, 224, 179, 1)': false,
+      'rgba(255, 204, 204, 1)': false,
+      'rgba(255, 255, 204, 1)': false,
+      'rgba(236, 255, 179, 1)': false,
+      'rgba(236, 217, 198, 1)': false,
+      'rgba(153, 255, 187, 1)': false,
+      'rgba(59, 148, 250, 1)': false,
+      'rgba(227, 196, 255, 1)': false,
+      'rgba(206, 255, 143, 1)': false,
+      'rgba(255, 75, 105, 1)': false,
+      'rgba(246, 165, 178, 1)': false,
+      'rgba(140, 154, 255, 108)': false,
+      'rgba(194, 221, 227, 1)': false,
+    'rgba(255, 179, 179, 1)': false,
+    'rgba(221, 223, 185, 179, 1)': false,
+    'rgba(248, 255, 105, 1)': false,
+    'rgba(210, 210, 255, 1)': false,
+    'rgba(158, 209, 212, 1)': false,
+    'rgba(141, 150, 204, 1)': false,
+    'rgba(255, 209, 179, 1)': false,
+      'rgba(160, 163, 255, 1)': false,
+      'rgba(160, 185, 208, 1)': false,
+      'rgba(154, 251, 100, 1)': false,
+      'rgba(202, 202, 201, 1)': false,
+      'rgba(251, 255, 172, 1)': false,
+      'rgba(255, 134, 101, 1)': false,
+      'rgba(255, 199, 46, 1)': false,
+      'rgba(255, 79, 44, 1)': false,
+      'rgba(205, 255, 240, 1)': false,
+      'rgba(169, 131, 180, 1)': false,
+      'rgba(242, 221, 225, 1)': false,
+      'rgba(178, 255, 225, 108)': false,
+      'rgba(254, 91, 224, 108)': false,
+      'rgba(148, 26, 255, 108)': false,
+      'rgba(255, 111, 15, 108)': false,
+      'rgba(171, 158, 96, 108)': false,
+      'rgba(238, 160, 224, 108)': false,
+    };
+    this.predefinedColorCounter = 0;
+    this.buckets = [];
+    this.num_buckets = 0;
+    this.current_bucket = 0;
+    this.colorArray = [];
+  }
 
   /* Returns an array of all highlighted aliens */
-  this.currentBucket = function(curBucket, alienArray, method_flag) {
+  this.currentBucket = function(curBucket, method_flag) {
     this.current_bucket = curBucket;
 
-    // Lowlight all aliens
-    style.lowLight(alienArray);
+    // Free illegal/similar aliens
+    style.lowLightLegalAliens();
+    aliens.zoominAliens = {};
 
     // Highlight aliens that are similar to aliens in current bucket
     var cur_alien_list = this.buckets[curBucket].alien;
-    var similar_aliens = {};
     for (var j = 0; j < cur_alien_list.length; j++) {
-      similar_aliens = style.highLight(cur_alien_list[j], alienArray, similar_aliens, this.buckets[curBucket], method_flag);
+      style.highLight(cur_alien_list[j], this.buckets[curBucket], method_flag);
     }
-
-    this.updateBucket();
-
-    return similar_aliens;
   };
 
   /* Update the array of colours and returns. */
-  this.addBucket = function(colorArray, alienArray) {
+  this.addBucket = function() {
     // Cannot add a new bucket
-    if (this.buckets.length == 0 || this.buckets[this.num_buckets - 1].alien.length == 0) {
+    if (this.buckets.num_buckets > 0 && this.buckets[this.num_buckets - 1].alien.length == 0) {
       $(".colour-error").css("top", $(".add-colour").position().top - 20);
       $(".colour-error").css("left", $(".add-colour").position().left - 100);
       $(".colour-error").show().delay(1000).fadeOut();
     } else {
       var color = this.getRandomColor();
-      this.buckets.push({alien:[], illegal_alien:[], color:color});
+      this.buckets.push({alien:[], color:color});
       this.num_buckets++;
       var bucket_ind  = this.num_buckets - 1;
-      colorArray.push(this.buckets[bucket_ind].color);
+      this.colorArray.push(color);
 
-      this.currentBucket(bucket_ind, alienArray);
+      this.currentBucket(bucket_ind);
 
       $timeout(function() {
         angular.element('#color_block_' + bucket_ind).triggerHandler('click');
       }, 0);
     }
-
-    return colorArray;
   };
 
   this.getRandomColor = function() {
