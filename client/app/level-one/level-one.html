@@ -111,13 +111,23 @@
   <!--</div>-->
 </div>
 
-<div id="aliens">
+<!-- <div id="aliens">
   <div ng-repeat="alien in aliens.alienArray | toArray"
        class="alien {{alien.id}} {{alien.illegal}} {{alien.similar}}"
        ng-click="selectAlien(alien.id)"
        ng-right-click="showGroup(alien.id)"
        style="background-color: {{alien.color}};">
     <img src="{{alien.url}}"/>
+  </div>
+</div> -->
+
+<div id="aliens">
+  <div ng-repeat="id in bucket.orderedIds"
+       class="alien {{id}} {{aliens.alienArray[id].illegal}} {{aliens.alienArray[id].similar}}"
+       ng-click="selectAlien(id)"
+       ng-right-click="showGroup(id)"
+       style="background-color: {{aliens.alienArray[id].color}};">
+    <img src="{{aliens.alienArray[id].url}}"/>
   </div>
 </div>
 
