@@ -270,6 +270,10 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   }
 
   $scope.showGroup = function(alien_id) {
+    // If alien not in bucket
+    if (!aliens.alienArray[alien_id].in) {
+      return;
+    }
     // If no alien in the current bucket, remove it
     if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
       bucket.removeBucket(bucket.current_bucket);
