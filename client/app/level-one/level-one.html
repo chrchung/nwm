@@ -116,11 +116,7 @@
        class="alien {{alien.id}} {{alien.illegal}} {{alien.similar}}"
        ng-click="selectAlien(alien.id)"
        ng-right-click="showGroup(alien.id)"
-       style="display: inline-block;
-                margin-right: 0.25%;
-                margin-left: 0.25%;
-                margin-bottom: 10px;
-                background-color: {{alien.color}}; cursor:pointer;">
+       style="background-color: {{alien.color}};">
     <img src="{{alien.url}}"/>
   </div>
 </div>
@@ -133,7 +129,7 @@ ng-mouseleave="showHighlightAlien(alien.id, false)" -->
       <div id="section" resizable r-directions="['right']" r-width="150" style="background-color: transparent;">
         <div ng-repeat="alien in aliens.zoominAliens"
              class="zoomed-alien {{alien.id}} {{alien.illegal}}"
-             style="background-color: {{alien.color}}; cursor:pointer;"
+             style="background-color: {{alien.color}};"
              ng-click="selectAlien(alien.id)">
           <img src="{{alien.url}}"/>
         </div>
