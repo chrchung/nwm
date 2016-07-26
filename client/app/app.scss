@@ -5,7 +5,7 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 
 @font-face {
   font-family: 'Lovelo Black';
-  src: url('../assets/fonts/Lovelo Black.otf');
+  src: url('../assets/fonts/Lovelo Black.fca6bef8.otf');
 }
 
 @import url('https://fonts.googleapis.com/css?family=Londrina+Outline');
@@ -33,11 +33,15 @@ body {
 
   font-family: "Signika";
 
-  background: url(/assets/images/gamebg.png) no-repeat center center fixed;
+  background: url(http://individual.utoronto.ca/myricecrispi/game/gamebg.png) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 
@@ -48,6 +52,7 @@ body {
 @import 'auth/auth.scss';
 @import 'game2/game2.scss';
 @import 'howto/howto.scss';
+@import 'leaderboard/leaderboard.scss';
 @import 'level-one/level-one.scss';
 @import 'levelcomplete/levelcomplete.scss';
 @import 'main/main.scss';
