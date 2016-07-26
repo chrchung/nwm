@@ -89,10 +89,9 @@ levelOne.service('database', function(Restangular, $state, aliens) {
 levelOne.service('aliens', function() {
 
   this.initAliens = function() {
-    this.aliensInBucket = []; //ids of aliens in buckets
     this.alienData = [];
     this.properties = {};
-    this.zoominAliens = {};
+    this.zoominAliens = [];
     this.alienArray = {};
   }
 
@@ -284,12 +283,6 @@ levelOne.service('update',function(helper, bucket, aliens, style) {
 *******************************************************************/
 levelOne.service('style', function(aliens, helper) {
 
-  this.lowLightLegalAliens = function() {
-    for (var id in aliens.alienArray) {
-      aliens.alienArray[id].illegal = "legal";
-    }
-  };
-
   this.lowLightSimilarAliens = function() {
     for (var id in aliens.alienArray) {
       aliens.alienArray[id].similar = "dissimilar";
@@ -305,6 +298,9 @@ levelOne.service('style', function(aliens, helper) {
       // if (members.indexOf(id) >= 0) {
       //   continue;
       // }
+      if (aliens.zoominAliens.indexOf(id) >= 0) {
+        continue;
+      }
 
       var model_num = helper.get_model(id);
       var alien_num = helper.get_alien(id);
@@ -343,7 +339,7 @@ levelOne.service('style', function(aliens, helper) {
           (method_flag == 3 && similarCounter >= members.length)
       ) {
         aliens.alienArray[id].similar = 'similar';
-        aliens.zoominAliens[id] = aliens.alienArray[id];
+        aliens.zoominAliens.push(id);
       }
     }
   };
@@ -419,9 +415,9 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
   this.currentBucket = function(curBucket, method_flag) {
     this.current_bucket = curBucket;
 
-    // Free illegal/similar aliens
-    style.lowLightLegalAliens();
-    aliens.zoominAliens = {};
+    // Free similar aliens
+    style.lowLightSimilarAliens();
+    aliens.zoominAliens = [];
 
     // Highlight aliens that are similar to aliens in current bucket
     var cur_alien_list = this.buckets[curBucket].alien;
@@ -443,12 +439,7 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
       this.num_buckets++;
       var bucket_ind  = this.num_buckets - 1;
       this.colorArray.push(color);
-
       this.currentBucket(bucket_ind);
-
-      $timeout(function() {
-        angular.element('#color_block_' + bucket_ind).triggerHandler('click');
-      }, 0);
     }
   };
 
@@ -479,33 +470,44 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
     }
   };
 
+  this.removeBucket = function(bid) {
+    this.updatePredefinedColor(bid);
+    this.buckets.splice(bid, 1);
+    this.colorArray.splice(bid, 1);
+    this.num_buckets--;
+  }
+
   /* Returns a bucket ID which alien_id belongs to */
   this.getBucketByAlienId = function(alien_id) {
     for (var i = 0; i < this.buckets.length; i++) {
-      for (var j = 0; j < this.buckets[i].alien.length; j++) {
-        if (this.buckets[i].alien[j] == alien_id) {
-          return i;
-        }
+      if (aliens.alienArray[alien_id].color == this.buckets[i].color) {
+        return i;
       }
     }
   };
 
   this.orderAlienArray = function() {
     this.orderedIds = [];
+    var bucketInserted = [];
 
-    // Add all aliens in buckets
-    for (var i=0; i < this.buckets.length; i++) {
-      this.orderedIds = this.orderedIds.concat(this.buckets[i].alien);
-    }
-
-    // Add aliens not in buckets
     for (var id in aliens.alienArray) {
-      if (aliens.aliensInBucket.indexOf(id) < 0) {
+      if (aliens.alienArray[id].in) {
+        // Already inserted
+        if (bucketInserted.indexOf(aliens.alienArray[id].color) >= 0) {
+          continue;
+        }
+        else {
+          bucketInserted.push(aliens.alienArray[id].color);
+          var bid = this.getBucketByAlienId(id);
+          this.orderedIds = this.orderedIds.concat(this.buckets[bid].alien);
+        }
+      }
+      // Add aliens not in buckets
+      else {
         this.orderedIds.push(id);
       }
     }
   };
-
 });
 
 levelOne.service('history', function(bucket, aliens) {
