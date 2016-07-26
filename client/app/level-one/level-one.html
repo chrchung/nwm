@@ -88,7 +88,8 @@
     <!--<p class='colour-error'>You have an empty bucket!</p>-->
     <button id="undo-button" class="btn" ng-click="redo()">Redo</button>
     <button id="redo-button" class="btn" ng-click="undo()">Undo</button>
-    <button id="add-group-button" class="btn" ng-click="newGroup()">Add new group</button>
+    <button ng-disabled="{{bucket.buckets[bucket.current_bucket].alien.length == 0}}"
+            id="add-group-button" class="btn" ng-click="newGroup()">Add new group</button>
 
     <div class='title-font big'>SCORE: {{score}}</div>
     <div class='title-font small'>(Best player score: {{highest_score}})</div>
@@ -137,11 +138,12 @@
 ng-mouseleave="showHighlightAlien(alien.id, false)" -->
   <div ng-show="checked" class="sidenav">
       <div id="section" resizable r-directions="['right']" r-width="150" style="background-color: transparent;">
-        <div ng-repeat="alien in aliens.zoominAliens"
-             class="zoomed-alien {{alien.id}} {{alien.illegal}}"
-             style="background-color: {{alien.color}};"
-             ng-click="selectAlien(alien.id)">
-          <img src="{{alien.url}}"/>
+        <div ng-repeat="id in aliens.zoominAliens"
+             class="zoomed-alien {{id}} {{aliens.alienArray[id].illegal}}"
+             style="background-color: {{aliens.alienArray[id].color}};"
+             ng-click="selectAlien(id)"
+             ng-right-click="showGroup(id)">
+          <img src="{{aliens.alienArray[id].url}}"/>
         </div>
 
       </div>
