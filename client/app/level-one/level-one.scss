@@ -95,30 +95,15 @@
   bottom: 0;
 }
 
-// #selection-screen {
+// #close-selection-screen {
 //   position: fixed;
-//   width: 90%;
-//   z-index: 10;
-//   top: 50%;
-//   left: 50%;
-//   -webkit-transform: translate(-50%, -50%);
-//   transform: translate(-50%, -50%);
-//   text-align: center;
+//   bottom: 10px;
+//   right: 10px;
+//   font-size: 50px;
+//   color: white;
+//   z-index: 20;
+//   font-weight: bold;
 // }
-
-.selected-alien img {
-  width: 100%;
-}
-
-#close-selection-screen {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  font-size: 50px;
-  color: white;
-  z-index: 20;
-  font-weight: bold;
-}
 
 #overlay {
   position: fixed;
@@ -236,8 +221,7 @@
 
 
 // note: margins and in-line block are defined in html
-.model0, .model1, .model2, .model3, .model4, .model5,
-.model5, .model6, .model7, .model8, .model9, .illegal_alien{
+.alien {
   width: 9.5%;
   background-color: rgba(255,255,255,1);
   border-radius: 10px;
@@ -296,8 +280,7 @@
 //   background-color: rgba(179, 255, 236, 1);
 // }
 
-.illegal_alien img {
-  border-radius: 10px;
+.illegal {
   background: repeating-linear-gradient(
       45deg,
       transparent,
@@ -307,19 +290,19 @@
   )
 }
 
-.current_bucket {
-  transform: scale(1.6);
-  text-align: center;
-  text-shadow: 0.2px 0 0 #000, -0.2px 0 0 #000, 0 0.2px 0 #000, 0 -0.2px 0 #000, 0.2px 0.2px #000,
-  -0.2px -0.2px 0 #000, 0.2px -0.2px 0 #000, -0.2px 0.2px 0 #000;
-  color: white;
-}
+// .current_bucket {
+//   transform: scale(1.6);
+//   text-align: center;
+//   text-shadow: 0.2px 0 0 #000, -0.2px 0 0 #000, 0 0.2px 0 #000, 0 -0.2px 0 #000, 0.2px 0.2px #000,
+//   -0.2px -0.2px 0 #000, 0.2px -0.2px 0 #000, -0.2px 0.2px 0 #000;
+//   color: white;
+// }
 
-// Pageslide
-.ng-pageslide {
-  background-color: rgba(255, 255, 255, 0);
-  overflow: scroll !important;
-}
+// // Pageslide
+// .ng-pageslide {
+//   background-color: rgba(255, 255, 255, 0);
+//   overflow: scroll !important;
+// }
 
 
 .zoomed-alien {
@@ -329,10 +312,10 @@
 .zoomed-alien img {
   height: 120px;
   width: auto;
+  border-radius: 10px;
 }
 
-.similar-alien {
-  //box-shadow: #FFD736 0 0 10px;
+.similar {
   border: 5px solid rgb(255, 248, 75);
 }
 
@@ -438,6 +421,3 @@
   left: 0;
   transition: transform 0.3s;
 }
-
-
-
