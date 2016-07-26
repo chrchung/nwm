@@ -5,8 +5,8 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.currentBucket = function(curBucket) {
     // Currently we are using the FIRST highlighting algorithm. Second => 2, Third => 3.
     bucket.currentBucket(curBucket, 1);
+    bucket.orderAlienArray();
     update.updateIllegalAlien();
-    console.log(aliens.zoominAliens);
     if (Object.keys(aliens.zoominAliens).length > 0) {
       $scope.checked = true;
       $('#aliens').css('width',  $(window).width() - $('#section').width());
@@ -128,7 +128,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
       // Set current bucket to index 0
       $scope.score = update.getNewScore($scope.maxModels);
-      $scope.currentBucket(0);
+      $scope.currentBucket(bucket.num_buckets-1);
       $('#new_group').attr('disabled', true);
     });
   };

@@ -490,6 +490,22 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
     }
   };
 
+  this.orderAlienArray = function() {
+    this.orderedIds = [];
+
+    // Add all aliens in buckets
+    for (var i=0; i < this.buckets.length; i++) {
+      this.orderedIds = this.orderedIds.concat(this.buckets[i].alien);
+    }
+
+    // Add aliens not in buckets
+    for (var id in aliens.alienArray) {
+      if (aliens.aliensInBucket.indexOf(id) < 0) {
+        this.orderedIds.push(id);
+      }
+    }
+  };
+
 });
 
 levelOne.service('history', function(bucket, aliens) {
