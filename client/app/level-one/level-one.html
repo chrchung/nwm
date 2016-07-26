@@ -112,7 +112,7 @@
 </div>
 
 <div id="aliens">
-  <div ng-repeat="alien in alienArray"
+  <div ng-repeat="alien in alienArray | toArray"
        ng-mouseover="selectedAlien(alien.id)"
        class="{{alien.model}}"
        id="{{alien.id}}"
