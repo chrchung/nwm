@@ -14,7 +14,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     $scope.zoominAliens = bucket.currentBucket(curBucket, $scope.alienArray);
     if (Object.keys($scope.zoominAliens).length > 0) {
       $scope.checked = true;
-      $('#aliens').css('width',  $(window).width() - 170);
+      $('#aliens').css('width',  $(window).width() - $('#section').width());
     }
     else {
       $scope.checked = false;
@@ -63,7 +63,6 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
             prop: aliens.properties[i + "_" + j]});
         }
       }
-      console.log($scope.alienArray);
       $scope.alienArray = database.shuffleProperties($scope.alienArray);
 
       // Set scores
