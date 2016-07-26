@@ -488,20 +488,26 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
 
   this.orderAlienArray = function() {
     this.orderedIds = [];
+    var bucketInserted = [];
 
-    // Add all aliens in buckets
-    for (var i=0; i < this.buckets.length; i++) {
-      this.orderedIds = this.orderedIds.concat(this.buckets[i].alien);
-    }
-
-    // Add aliens not in buckets
     for (var id in aliens.alienArray) {
-      if (!aliens.alienArray[id].in) {
+      if (aliens.alienArray[id].in) {
+        // Already inserted
+        if (bucketInserted.indexOf(aliens.alienArray[id].color) >= 0) {
+          continue;
+        }
+        else {
+          bucketInserted.push(aliens.alienArray[id].color);
+          var bid = this.getBucketByAlienId(id);
+          this.orderedIds = this.orderedIds.concat(this.buckets[bid].alien);
+        }
+      }
+      // Add aliens not in buckets
+      else {
         this.orderedIds.push(id);
       }
     }
   };
-
 });
 
 levelOne.service('history', function(bucket, aliens) {
