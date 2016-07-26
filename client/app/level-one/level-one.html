@@ -134,11 +134,11 @@
 
 <!-- Page slide -->
 
-<!-- ng-mouseenter="showHighlightAlien(alien.id, true)"
-ng-mouseleave="showHighlightAlien(alien.id, false)" -->
   <div ng-show="checked" class="sidenav">
       <div id="section" resizable r-directions="['right']" r-width="150" style="background-color: transparent;">
         <div ng-repeat="id in aliens.zoominAliens"
+              ng-mouseenter="showHighlightAlien(id, true)"
+              ng-mouseleave="showHighlightAlien(id, false)"
              class="zoomed-alien {{id}} {{aliens.alienArray[id].illegal}}"
              style="background-color: {{aliens.alienArray[id].color}};"
              ng-click="selectAlien(id)"
