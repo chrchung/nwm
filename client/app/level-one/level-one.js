@@ -294,27 +294,55 @@ levelOne.service('style', function(aliens, helper) {
     }
   };
 
-  /* highlight similar aliesn and returns the array */
-  this.highLight = function(alien_id, alienArray, similar_aliens, bucket) {
-    var current_prop = aliens.alienData[helper.get_model(alien_id)].alien[helper.get_alien(alien_id)].prop;
+  this.highLight = function(alien_id, alienArray, similar_aliens, bucket, method_flag) {
     var ids = Object.keys(alienArray);
+    // Get all aliens in current bucket.
+    var members = bucket.alien;
 
     for (var j = 0; j < ids.length; j++) {
-      var model_num = helper.get_model(ids[j]);
-      var alien_num = helper.get_alien(ids[j]);
-
-      if (bucket.illegal_alien.indexOf(ids[j]) >= 0) {
+      // If it is already in current bucket or it is an illegal alien, we don't want it.
+      if (bucket.illegal_alien.indexOf(ids[j]) >= 0 || members.indexOf(ids[j]) >= 0) {
         continue;
       }
 
+      var model_num = helper.get_model(ids[j]);
+      var alien_num = helper.get_alien(ids[j]);
       // a list of properties of the current alien
       var cur_properties = aliens.alienData[model_num].alien[alien_num].prop;
-      for (var k = 0; k < cur_properties.length; k++) {
-        if (current_prop.indexOf(cur_properties[k]) != -1) {
-          $("#" + ids[j]).addClass('similar-alien');
-          similar_aliens[ids[j]] = alienArray[ids[j]];
-          break;
+
+
+      var checkAnyFlag = false;
+      var checkAllFlag = true;
+      var similarCounter = 0;
+      // Loop over all aliens in current group and compare with current alien in outer for loop.
+      _.each(members, function(member) { // Each memeber here is an alien ID
+        var member_model_num = helper.get_model(member);
+        var member_alien_num = helper.get_alien(member);
+        var member_props = aliens.alienData[member_model_num].alien[member_alien_num].prop;
+
+        if (!_.isEmpty(_.intersection(cur_properties, member_props))) {
+          // If the current alien has a common attribute with a member, we want it for method_flag = 1.
+          checkAnyFlag = true;
+          similarCounter += (_.intersection(cur_properties, member_props)).length;
         }
+
+        else {
+          // If the current alien has no common attribute with a member, we don't want it for method_flag = 2.
+          checkAllFlag = false;
+        }
+      });
+
+      if (
+          /* highlight only if alien has at least one same attribute with ANY alien in current bucket*/
+          (method_flag == 1 && checkAnyFlag) ||
+          /* highlight only if alien has at least one same attribute with ALL aliens in current bucket */
+          (method_flag == 2 && checkAllFlag) ||
+          /* highlight only if alien’s # of similar attributes across all members of
+          current bucket >= the # of members in group */
+          (method_flag == 3 && similarCounter >= members.length)
+      ) {
+        $("#" + ids[j]).addClass('similar-alien');
+        similar_aliens[ids[j]] = alienArray[ids[j]];
       }
     }
     return similar_aliens;
@@ -398,7 +426,7 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
   };
 
   /* Returns an array of all highlighted aliens */
-  this.currentBucket = function(curBucket, alienArray) {
+  this.currentBucket = function(curBucket, alienArray, method_flag) {
     this.current_bucket = curBucket;
 
     // Lowlight all aliens
@@ -408,7 +436,7 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
     var cur_alien_list = this.buckets[curBucket].alien;
     var similar_aliens = {};
     for (var j = 0; j < cur_alien_list.length; j++) {
-      similar_aliens = style.highLight(cur_alien_list[j], alienArray, similar_aliens, this.buckets[curBucket]);
+      similar_aliens = style.highLight(cur_alien_list[j], alienArray, similar_aliens, this.buckets[curBucket], method_flag);
     }
 
     this.updateBucket();

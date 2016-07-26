@@ -11,7 +11,8 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
   $scope.currentBucket = function(curBucket) {
     update.updateIllegalAlien($scope.alienArray, curBucket);
-    $scope.zoominAliens = bucket.currentBucket(curBucket, $scope.alienArray);
+    // Currently we are using the FIRST highlighting algorithm. Second => 2, Third => 3.
+    $scope.zoominAliens = bucket.currentBucket(curBucket, $scope.alienArray, 1);
     if (Object.keys($scope.zoominAliens).length > 0) {
       $scope.checked = true;
       $('#aliens').css('width',  $(window).width() - $('#section').width());
