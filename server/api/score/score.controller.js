@@ -319,11 +319,10 @@ exports.getCurUserRecentScores = function (req, res) {
         var Scores = Parse.Object.extend('Scores');
         var scoreQuery = new Parse.Query(Scores);
         scoreQuery.equalTo('user', req.session.user.username);
-        scoreQuery.limit(10);
 
-        scoreQuery.find({
-          success: function (scores) {
-            res.json(scores);
+        scoreQuery.first({
+          success: function (score) {
+            res.send(score);
           },
           error: function (error) {
             res.status(400).end();

@@ -391,7 +391,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     Restangular.all('/api/scores/').post(
       {score: $scope.score, game: $scope.cur_game, level: parseInt($scope.cur_level), solution: bucket.buckets}).then(
       (function (data) {
-        $state.go('levelcomplete', {level_id: parseInt($scope.cur_level), game_id: $scope.cur_game, score: $scope.score});
+        $state.go('leaderboard', {prevState: 'game'});
       }), function (err) {
       });
   }
@@ -402,7 +402,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       {level: parseInt($scope.cur_level), solution: bucket.buckets}).then(
       (function (data) {
       }), function (err) {
-        $state.go('levelcomplete', {level_id: parseInt($scope.cur_level), game_id: $scope.cur_game, score: $scope.score});
+        $state.go('leaderboard', {prevState: 'game'});
       });
   }
 
