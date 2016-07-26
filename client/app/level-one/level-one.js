@@ -242,7 +242,7 @@ levelOne.service('update',function(helper, bucket, aliens, style) {
       $("#small_feedback").removeClass('glyphicon glyphicon-arrow-up');
       $("#small_feedback").addClass('glyphicon glyphicon-arrow-down animated rubberBand');
       $("#small_feedback").css({'color': '#f63c3a',
-                                'position': 'absolute',
+                                'position': 'fixed',
                                 'left': coord_x,
                                 'top': coord_y,
                                 'font-size': '100px',
@@ -486,6 +486,22 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
         if (this.buckets[i].alien[j] == alien_id) {
           return i;
         }
+      }
+    }
+  };
+
+  this.orderAlienArray = function() {
+    this.orderedIds = [];
+
+    // Add all aliens in buckets
+    for (var i=0; i < this.buckets.length; i++) {
+      this.orderedIds = this.orderedIds.concat(this.buckets[i].alien);
+    }
+
+    // Add aliens not in buckets
+    for (var id in aliens.alienArray) {
+      if (aliens.aliensInBucket.indexOf(id) < 0) {
+        this.orderedIds.push(id);
       }
     }
   };
