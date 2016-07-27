@@ -97,7 +97,7 @@
       <span class="title-font">Current group:</span>
       <div id="current-group-color" style="background:{{bucket.buckets[bucket.current_bucket].color}}">
       </div>
-      <div class="title-font small">(Click to go to group)</div>
+      <!--<div class="title-font small">(Click to go to group)</div>-->
     </div>
   </div>
 
@@ -138,7 +138,7 @@
         <div ng-repeat="id in aliens.zoominAliens"
               ng-mouseenter="showHighlightAlien(id, true)"
               ng-mouseleave="showHighlightAlien(id, false)"
-             class="zoomed-alien {{id}} {{aliens.alienArray[id].illegal}}"
+             class="zoomed-alien {{aliens.alienArray[id].illegal}}"
              style="background-color: {{aliens.alienArray[id].color}};"
              ng-click="selectAlien(id)"
              ng-right-click="showGroup(id)">
