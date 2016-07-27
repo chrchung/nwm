@@ -164,8 +164,6 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
   $scope.selectAlien = function (alien_id) {
     // Illegal Aliens
-    console.log(aliens.alienArray[alien_id].color);
-    console.log(bucket.buckets[bucket.current_bucket].color);
     if (aliens.alienArray[alien_id].illegal == 'illegal') {
        // Aliens in other buckets, can be switched to current bucket when being clicked
        if (aliens.alienArray[alien_id].in) {
@@ -259,14 +257,13 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
         }
       }
     }
-    $scope.dragged = false;
   }
 
   $scope.newGroup = function() {
-    $scope.checked = false;
     bucket.addBucket();
     bucket.orderAlienArray();
     update.updateIllegalAlien();
+    $scope.checked = false;
   }
 
   $scope.showGroup = function(alien_id) {
