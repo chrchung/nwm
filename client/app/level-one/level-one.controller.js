@@ -165,30 +165,19 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.selectAlien = function (alien_id) {
     // Illegal Aliens
     if (aliens.alienArray[alien_id].illegal == 'illegal') {
-       // Aliens in other buckets, can be switched to current bucket when being clicked
-       if (aliens.alienArray[alien_id].in) {
-         var bucket_id = bucket.getBucketByAlienId(alien_id);
-         bucket.buckets[bucket_id].alien.splice(bucket.buckets[bucket_id].alien.indexOf(alien_id), 1);
-       }
-
-       // Identify overlapping model and replace
-       var model_num = helper.get_model(alien_id);
-       var bucket_aliens = bucket.buckets[bucket.current_bucket].alien;
-       for (var i = 0; i < bucket_aliens.length; i++) {
-         var temp_alien_id = bucket_aliens[i];
-         var temp_model_num =helper.get_model(temp_alien_id);
-         if (temp_model_num == model_num) {
-           bucket.buckets[bucket.current_bucket].alien[i] = alien_id;
-           aliens.alienArray[temp_alien_id].color = "rgba(208,235,250, 1)";
-           aliens.alienArray[temp_alien_id].in = false;
-           break;
-         }
-       }
-
-       aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
-       aliens.alienArray[alien_id].in = true;
-       $scope.currentBucket(bucket.current_bucket);
-       feedback(alien_id);
+      // Find the alien that conflicts with the given alien
+      var currentAliens = bucket.buckets[bucket.current_bucket].alien;
+      for (var i = 0; i < currentAliens.length; i++) {
+        var oldId = currentAliens[i];
+        if (helper.get_model(alien_id) == helper.get_model(oldId)) {
+          aliens.newId = alien_id;
+          aliens.oldId = oldId;
+          break;
+        }
+      }
+      var oldAlien = document.getElementsByClassName("alien " + oldId)[0];
+      window.scrollTo(0, oldAlien.offsetTop);
+      $scope.toggleIllegalAlert();
     }
     else {
       history.historyBuckets = bucket.buckets;
@@ -257,8 +246,28 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
         }
       }
     }
-    $scope.dragged = false;
-  }
+  };
+
+  $scope.selectIllegalAlien = function(opt) {
+    $scope.toggleIllegalAlert();
+    if (!opt) {
+      return;
+    }
+    // Aliens in other buckets, can be switched to current bucket when being clicked
+    if (aliens.alienArray[aliens.newId].in) {
+      var bucket_id = bucket.getBucketByAlienId(aliens.newId);
+      bucket.buckets[bucket_id].alien.splice(bucket.buckets[bucket_id].alien.indexOf(aliens.newId), 1);
+    }
+
+    bucket.buckets[bucket.current_bucket].alien[bucket.buckets[bucket.current_bucket].alien.indexOf(aliens.oldId)] = aliens.newId;
+    aliens.alienArray[aliens.oldId].color = "rgba(208,235,250, 1)";
+    aliens.alienArray[aliens.oldId].in = false;
+
+    aliens.alienArray[aliens.newId].color = bucket.buckets[bucket.current_bucket].color;
+    aliens.alienArray[aliens.newId].in = true;
+    $scope.currentBucket(bucket.current_bucket);
+    feedback(aliens.newId);
+  };
 
   $scope.newGroup = function() {
     $scope.checked = false;
@@ -387,20 +396,19 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   //   }
   // }
   $scope.showHighlightAlien = function(alien_id, enter) {
-  var element = document.getElementsByClassName("alien " + alien_id)[0];
-  console.log(element);
+    var element = document.getElementsByClassName("alien " + alien_id)[0];
 
-  if (enter) {
-    style.scrollToItem(element);
-    $("." + alien_id).addClass('highlight-hover');
-    $(".zoomed-alien." + alien_id).addClass('zoomed-highlight-hover');
-    setTimeout(function(){
-      $("." + alien_id).removeClass('highlight-hover');
-    }, 2000);
-  } else {
-    $(".zoomed-alien." + alien_id).removeClass('zoomed-highlight-hover');
+    if (enter) {
+      style.scrollToItem(element);
+      $("." + alien_id).addClass('highlight-hover');
+      $(".zoomed-alien." + alien_id).addClass('zoomed-highlight-hover');
+      setTimeout(function(){
+        $("." + alien_id).removeClass('highlight-hover');
+      }, 2000);
+    } else {
+      $(".zoomed-alien." + alien_id).removeClass('zoomed-highlight-hover');
+    }
   }
-}
 
   // Submit the score to the database
   $scope.submitScore = function () {
@@ -463,4 +471,10 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       }
     }
   );
+
+  $scope.toggleIllegalAlert = function() {
+    $(".alien." + aliens.oldId).toggleClass("replaced");
+    $("#clear-overlay").toggle();
+    $("#replace-popup").toggle();
+  }
 });

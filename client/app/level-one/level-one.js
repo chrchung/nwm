@@ -94,7 +94,6 @@ levelOne.service('aliens', function() {
     this.zoominAliens = [];
     this.alienArray = {};
   }
-
 });
 
 
