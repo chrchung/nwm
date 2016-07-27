@@ -1,4 +1,5 @@
 <div id="overlay"></div>
+<div id="clear-overlay" ng-click="toggleIllegalAlert()"></div>
 <!-- menu -->
 <!-- <div id="menu">
   <button class="btn menu-button" ng-click="toggleMenu()">RESUME</button><br/>
@@ -35,6 +36,18 @@
     <br/>
     <button class="btn menu-button" ng-click="quit()">Quit</button>
     <br/>
+  </div>
+</div>
+
+<div id="replace-popup">
+  <div id='replace-popup-content'><br/>
+    <img ng-src="{{aliens.alienArray[aliens.newId].url}}"
+          style="background-color: {{bucket.buckets[bucket.current_bucket].color;}}"/>
+    <span class="glyphicon glyphicon-share-alt"></span>
+    <img ng-src="{{aliens.alienArray[aliens.oldId].url}}" class='replaced'
+          style="background-color: {{bucket.buckets[bucket.current_bucket].color;}}"/><br/>
+    <button class="btn menu-button" ng-click="selectIllegalAlien(true)">Replace</button>
+    <button class="btn menu-button" ng-click="selectIllegalAlien(false)">Close</button>
   </div>
 </div>
 
