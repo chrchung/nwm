@@ -88,8 +88,7 @@
     <!--<p class='colour-error'>You have an empty bucket!</p>-->
     <button id="undo-button" class="btn" ng-click="redo()">Redo</button>
     <button id="redo-button" class="btn" ng-click="undo()">Undo</button>
-    <button ng-disabled="{{bucket.buckets[bucket.current_bucket].alien.length == 0}}"
-            id="add-group-button" class="btn" ng-click="newGroup()">Add new group</button>
+    <button id="add-group-button" class="btn" ng-click="newGroup()" ng-disabled="!checked">Add new group</button>
 
     <div class='title-font big'>SCORE: {{score}}</div>
     <div class='title-font small'>(Best player score: {{highest_score}})</div>
