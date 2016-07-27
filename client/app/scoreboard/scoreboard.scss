@@ -15,3 +15,45 @@
 .planet {
   cursor: pointer;
 }
+
+.choose-mode {
+  div {
+    border-radius: 5px;
+    border-style: solid;
+    border-color: rgb(69, 182, 138);
+    background-color: #bbe5fc;
+    border-wdith: 5px;
+    font-family: "Signika";
+    font-size: 10px;
+    color: rgb(69, 182, 138);
+    padding: 2px;
+
+    cursor: pointer;
+
+    /* Safari */
+    -webkit-transform: rotate(-30deg);
+
+    /* Firefox */
+    -moz-transform: rotate(-30deg);
+
+    /* IE */
+    -ms-transform: rotate(-30deg);
+
+    /* Opera */
+    -o-transform: rotate(-30deg);
+  }
+}
+
+
+#mode1 {
+  position: fixed;
+  bottom: 120px;
+  left: 150px;
+}
+
+#mode2 {
+  position: fixed;
+  bottom: 75px;
+  left: 160px;
+
+}

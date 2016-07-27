@@ -319,8 +319,8 @@
 .sidenav {
   height: 100%;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 5px;
+  left: 5px;
   transition: transform 0.3s;
 
   ::-webkit-scrollbar {

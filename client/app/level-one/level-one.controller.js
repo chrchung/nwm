@@ -60,7 +60,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
             model: "model" + i,
             alien: j,
             url: parsed_data.URL,
-            color: "rgba(255,255,255, 0)",
+            color: "rgba(208,235,250, 1)",
             illegal: "legal-alien",
             similar: "not-simialr",
             in: false};
@@ -177,9 +177,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       }
       var oldAlien = document.getElementsByClassName("alien " + oldId)[0];
       window.scrollTo(0, oldAlien.offsetTop);
-      $(".alien." + oldId).addClass("replaced");
-      $("#clear-overlay").toggle();
-      $("#replace-popup").toggle();
+      $scope.toggleIllegalAlert();
     }
     else {
       history.historyBuckets = bucket.buckets;
@@ -228,7 +226,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
               $scope.checked = false;
             }
 
-            aliens.alienArray[alien_id].color = "rgba(255,255,255, 0)";
+            aliens.alienArray[alien_id].color = "rgba(208,235,250, 1)";
             $scope.currentBucket(bucket.current_bucket);
             feedback(alien_id);
           }
@@ -262,7 +260,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     }
 
     bucket.buckets[bucket.current_bucket].alien[bucket.buckets[bucket.current_bucket].alien.indexOf(aliens.oldId)] = aliens.newId;
-    aliens.alienArray[aliens.oldId].color = "rgba(255,255,255,0)";
+    aliens.alienArray[aliens.oldId].color = "rgba(208,235,250, 1)";
     aliens.alienArray[aliens.oldId].in = false;
 
     aliens.alienArray[aliens.newId].color = bucket.buckets[bucket.current_bucket].color;
@@ -272,10 +270,10 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   };
 
   $scope.newGroup = function() {
+    $scope.checked = false;
     bucket.addBucket();
     bucket.orderAlienArray();
     update.updateIllegalAlien();
-    $scope.checked = false;
   }
 
   $scope.showGroup = function(alien_id) {
@@ -327,7 +325,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
     // Previously selected alien, now we want remove it
     else if (history.historySelectFlag == 0) {
-      $("#" + history.historyAlienId).css("background-color", "rgba(255,255,255,1)");
+      $("#" + history.historyAlienId).css("background-color", "rgba(208,235,250, 1)");
       update.updateIllegalAlien($scope.alienArray, history.historyBucketId);
       $scope.currentBucket(history.historyBucketId);
       feedback(history.historyAlienId);
@@ -475,7 +473,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   );
 
   $scope.toggleIllegalAlert = function() {
-    $(".alien." + aliens.oldId).removeClass("replaced");
+    $(".alien." + aliens.oldId).toggleClass("replaced");
     $("#clear-overlay").toggle();
     $("#replace-popup").toggle();
   }
