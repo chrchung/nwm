@@ -60,7 +60,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
             model: "model" + i,
             alien: j,
             url: parsed_data.URL,
-            color: "rgba(255,255,255, 0)",
+            color: "rgba(208,235,250, 1)",
             illegal: "legal-alien",
             similar: "not-simialr",
             in: false};
@@ -179,7 +179,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
          var temp_model_num =helper.get_model(temp_alien_id);
          if (temp_model_num == model_num) {
            bucket.buckets[bucket.current_bucket].alien[i] = alien_id;
-           aliens.alienArray[temp_alien_id].color = "rgba(255,255,255,0)";
+           aliens.alienArray[temp_alien_id].color = "rgba(208,235,250, 1)";
            aliens.alienArray[temp_alien_id].in = false;
            break;
          }
@@ -237,7 +237,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
               $scope.checked = false;
             }
 
-            aliens.alienArray[alien_id].color = "rgba(255,255,255, 0)";
+            aliens.alienArray[alien_id].color = "rgba(208,235,250, 1)";
             $scope.currentBucket(bucket.current_bucket);
             feedback(alien_id);
           }
@@ -316,7 +316,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
     // Previously selected alien, now we want remove it
     else if (history.historySelectFlag == 0) {
-      $("#" + history.historyAlienId).css("background-color", "rgba(255,255,255,1)");
+      $("#" + history.historyAlienId).css("background-color", "rgba(208,235,250, 1)");
       update.updateIllegalAlien($scope.alienArray, history.historyBucketId);
       $scope.currentBucket(history.historyBucketId);
       feedback(history.historyAlienId);
