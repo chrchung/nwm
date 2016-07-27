@@ -255,9 +255,6 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       // $timeout(function () {
       //   $("."  + alien_id).fadeIn();
       // }, 3000);
-
-
-
     } , 500);
   };
 
@@ -489,5 +486,12 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     $(".alien." + aliens.oldId).toggleClass("replaced");
     $("#clear-overlay").toggle();
     $("#replace-popup").toggle();
-  }
+  };
+
+  $scope.goToGroup = function () {
+    var alien_id = bucket.buckets[bucket.current_bucket].alien[0];
+    var element = document.getElementsByClassName(alien_id)[0];
+    style.scrollToItem(element);
+  };
+
 });

@@ -40,6 +40,7 @@
 </div>
 
 <div id="replace-popup">
+  <div class="replace-title">This alien has enemies.</div>
   <div id='replace-popup-content'><br/>
     <img ng-src="{{aliens.alienArray[aliens.newId].url}}"
           style="background-color: {{bucket.buckets[bucket.current_bucket].color;}}"/>
@@ -47,7 +48,7 @@
     <img ng-src="{{aliens.alienArray[aliens.oldId].url}}" class='replaced'
           style="background-color: {{bucket.buckets[bucket.current_bucket].color;}}"/><br/>
     <button class="btn menu-button" ng-click="selectIllegalAlien(true)">Replace</button>
-    <button class="btn menu-button" ng-click="selectIllegalAlien(false)">Close</button>
+    <button class="btn menu-button" ng-click="selectIllegalAlien(false)">Cancel</button>
   </div>
 </div>
 
@@ -108,7 +109,7 @@
     <button id="end-button" class="btn" ng-click="endGame()">End game</button>
     <div id="current-group">
       <span class="title-font">Current group:</span>
-      <div id="current-group-color" style="background:{{bucket.buckets[bucket.current_bucket].color}}">
+      <div ng-click="goToGroup()" id="current-group-color" style="background:{{bucket.buckets[bucket.current_bucket].color}}">
       </div>
       <!--<div class="title-font small">(Click to go to group)</div>-->
     </div>
