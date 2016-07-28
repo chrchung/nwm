@@ -1,29 +1,43 @@
 'use strict';
 
-angular.module('nwmApp').controller('game2Controller', function($scope, Restangular, $stateParams, $state, $timeout, update2, helper2, database2, style2, bucket2, history2, aliens2) {
+angular.module('nwmApp').controller('game2Controller', function($scope, Restangular, $stateParams, $state, $timeout, update, helper, database, style, bucket, history, aliens) {
 
   $scope.currentBucket = function(curBucket) {
-    $scope.alienArray = update2.updateIllegalAlien($scope.alienArray, curBucket);
-    $scope.zoominAliens = bucket2.currentBucket(curBucket, $scope.alienArray);
+    // Currently we are using the FIRST highlighting algorithm. Second => 2, Third => 3.
+    bucket.currentBucket(curBucket, 1);
+    bucket.orderAlienArray();
+    update.updateIllegalAlien();
+    if (aliens.zoominAliens.length > 0) {
+      $scope.checked = true;
+      $('#aliens').css('width',  $(window).width() - $('#section').width());
+    }
+    else {
+      $scope.checked = false;
+      $('#aliens').css('width', '97%');
+    }
   };
 
   var feedback = function(alienId) {
     $scope.prev_score = $scope.score;
-    $scope.score = update2.getNewScore($scope.maxModels);
-    update2.showSmallFeedback($scope.prev_score, $scope.score, alienId);
-    update2.showBigFeedback($scope.prev_score, $scope.score, $scope.beat, $scope.highest_score);
+    $scope.score = update.getNewScore($scope.maxModels);
+    update.showSmallFeedback($scope.prev_score, $scope.score, alienId);
+    update.showBigFeedback($scope.prev_score, $scope.score, $scope.beat, $scope.highest_score);
   };
 
   /* Start a new game */
   $scope.setUpGame = function(mode) {
-    $scope.toggleChooseSolutionPopup();
+    $scope.bucket = bucket;
+    $scope.aliens = aliens;
 
-    $scope.alienArray = {};
+    $scope.toggleChooseSolutionPopup();
     $scope.dragged = false;  // Disable click event when start dragging
-    $scope.zoominAliens = {};
     $scope.checked = false;
-    $scope.colorArray = [];
-    bucket2.initColors();
+    bucket.initColors();
+    aliens.initAliens();
+
+    // Get top window's height
+    $scope.topWindowHeight = window.innerWidth * 0.095 + 20;
+    console.log($scope.topWindowHeight);
 
     // modelsName is a string in the form of 'level4b6_9'
     // Get level
@@ -40,17 +54,25 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
       }
 
       for (var i = 0; i < $scope.maxModels; i++){
-        aliens2.alienData.push({model: i, alien: []});
+        aliens.alienData.push({model: i + 1, alien: []});
         var maxAliens = data[i][1].length;    // number of aliens in a model
         for (var j = 0; j < maxAliens; j++){
-          var parsed_data = database2.parseData(data, i, j);
-          aliens2.properties[i + "_" + j] = parsed_data.attributes;
-          $scope.alienArray[i + "_" + j] = {id: i + "_" + j, model: "model" + i, alien: j, url: parsed_data.URL, color: "rgba(255,255,255,0.5)", illegal: "legal"};
-          aliens2.alienData[i].alien.push({alien:j,
-            prop: aliens2.properties[i + "_" + j]});
+          var parsed_data = database.parseData(data, i, j);
+          aliens.properties[i + "_" + j] = parsed_data.attributes;
+          aliens.alienArray[i + "_" + j] = {
+            id: i + "_" + j,
+            model: "model" + i,
+            alien: j,
+            url: parsed_data.URL,
+            color: "rgba(232,245,252, 1)",
+            illegal: "legal-alien",
+            similar: "not-simialr",
+            in: false};
+          aliens.alienData[i].alien.push({alien:j,
+            prop: aliens.properties[i + "_" + j]});
         }
       }
-      database2.getShuffledArray($scope.alienArray);
+      database.shuffleProperties();
 
       // Set scores
       $scope.get_highest_score();
@@ -60,9 +82,9 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
       if (mode == "scratch") {
         $scope.createNewBucket();
       }
-      // else if (mode == "saved") {
-      //   $scope.restoreSavedBucket();
-      // }
+      else if (mode == "saved") {
+        $scope.restoreSavedBucket();
+      }
       else if (mode == "best") {
         $scope.restoreBestGame();
       }
@@ -73,52 +95,42 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
   };
 
   $scope.createNewBucket = function() {
-    aliens2.aliensInBucket = [];
-    $scope.score = 0;
-    $scope.prev_score = $scope.score;
-    $scope.zoominAliens = {};
-
-    // Set current bucket to index 0
     $scope.newGroup();
-    $('#new_group').attr('disabled', true);
   }
 
-  // $scope.restoreSavedBucket = function() {
-  //   Restangular.all('api/scores/cur_user_solution/' + $scope.cur_level)
-  //     .getList().then(function (serverJson) {
-  //
-  //     if (serverJson.length == 0) {
-  //       $scope.createNewBucket();
-  //       return;
-  //     }
-  //
-  //     bucket2.buckets = serverJson[0].solution;
-  //
-  //     // Restore data structures
-  //     for (var i = 0; i < bucket2.buckets.length; i++) {
-  //       $scope.colorArray.push(bucket2.buckets[i].color);
-  //       aliens2.aliensInBucket = aliens2.aliensInBucket.concat(bucket2.buckets[i].alien);
-  //       bucket2.num_buckets++;
-  //
-  //       if (bucket2.predefinedColors[bucket2.buckets[i].color] == false) {
-  //         bucket2.predefinedColors[bucket2.buckets[i].color] = true;
-  //         bucket2.predefinedColorCounter++;
-  //       }
-  //     }
-  //
-  //     // Color aliens in buckets
-  //     for (i = 0; i < bucket2.buckets.length; i++) {
-  //       for (var j = 0; j < bucket2.buckets[i].alien.length; j++) {
-  //         var alien_id = bucket2.buckets[i].alien[j];
-  //         $scope.alienArray[alien_id].color = bucket2.buckets[i].color;
-  //       }
-  //     }
-  //
-  //     // Set current bucket to index 0
-  //     $scope.score = update2.getNewScore($scope.maxModels);
-  //     $('#new_group').attr('disabled', true);
-  //   });
-  // };
+  $scope.restoreSavedBucket = function() {
+    Restangular.all('api/scores/cur_user_solution/' + $scope.cur_level)
+      .getList().then(function (serverJson) {
+
+      if (serverJson.length == 0) {
+        $scope.createNewBucket();
+        return;
+      }
+
+      bucket.buckets = serverJson[0].solution;
+
+      // Restore data structures
+      for (var i = 0; i < bucket.buckets.length; i++) {
+        bucket.colorArray.push(bucket.buckets[i].color);
+        bucket.num_buckets++;
+
+        if (bucket.predefinedColors[bucket.buckets[i].color] == false) {
+          bucket.predefinedColors[bucket.buckets[i].color] = true;
+          bucket.predefinedColorCounter++;
+        }
+
+        for (var j = 0; j < bucket.buckets[i].alien.length; j++) {
+          var alien_id = bucket.buckets[i].alien[j];
+          aliens.alienArray[alien_id].color = bucket.buckets[i].color;
+          aliens.alienArray[alien_id].in = true;
+        }
+      }
+
+      // Create a new bucket
+      $scope.score = update.getNewScore($scope.maxModels);
+      $scope.newGroup();
+    });
+  };
 
   $scope.restoreBestGame = function() {
     Restangular.all('api/scores/best_solution/' + $scope.cur_level)
@@ -129,177 +141,174 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
         return;
       }
 
-      bucket2.buckets = serverJson[0].solution;
+      bucket.buckets = serverJson[0].solution;
 
       // Restore data structures
-      for (var i = 0; i < bucket2.buckets.length; i++) {
-        $scope.colorArray.push(bucket2.buckets[i].color);
-        aliens2.aliensInBucket = aliens2.aliensInBucket.concat(bucket2.buckets[i].alien);
-        bucket2.num_buckets++;
+      for (var i = 0; i < bucket.buckets.length; i++) {
+        bucket.colorArray.push(bucket.buckets[i].color);
+        bucket.num_buckets++;
 
-        // Assign colors to aliens in buckets
-        for (var j = 0; j < bucket2.buckets[i].alien.length; j++) {
-          var alien_id = bucket2.buckets[i].alien[j];
-          $scope.alienArray[alien_id].color = bucket2.buckets[i].color;
+        if (bucket.predefinedColors[bucket.buckets[i].color] == false) {
+          bucket.predefinedColors[bucket.buckets[i].color] = true;
+          bucket.predefinedColorCounter++;
         }
 
-        if (bucket2.predefinedColors[bucket2.buckets[i].color] == false) {
-          bucket2.predefinedColors[bucket2.buckets[i].color] = true;
-          bucket2.predefinedColorCounter++;
+        for (var j = 0; j < bucket.buckets[i].alien.length; j++) {
+          var alien_id = bucket.buckets[i].alien[j];
+          aliens.alienArray[alien_id].color = bucket.buckets[i].color;
+          aliens.alienArray[alien_id].in = true;
         }
       }
 
       // Set current bucket to index 0
-      $scope.score = update2.getNewScore($scope.maxModels);
-      $('#new_group').attr('disabled', true);
-      $scope.currentBucket(0);
+      $scope.score = update.getNewScore($scope.maxModels);
+      $scope.newGroup();
     });
   };
 
   $scope.selectAlien = function (alien_id) {
+
     // Illegal Aliens
-    if (bucket2.buckets[bucket2.current_bucket].illegal_alien.indexOf(alien_id) != -1) {
-      // Aliens in other buckets, can be switched to current bucket when being clicked
-      if (aliens2.aliensInBucket.indexOf(alien_id) != -1 && bucket2.buckets[bucket2.current_bucket].alien.indexOf(alien_id) == -1) {
-        var bucket_id = bucket2.getBucketByAlienId(alien_id);
-        bucket2.buckets[bucket_id].alien.splice(bucket2.buckets[bucket_id].alien.indexOf(alien_id), 1);
-        aliens2.aliensInBucket.splice(aliens2.aliensInBucket.indexOf(alien_id), 1);
-      }
-
-      // Identify overlapping model and replace
-      var model_num = helper2.get_model(alien_id);
-      var bucket_aliens = bucket2.buckets[bucket2.current_bucket].alien;
-      for (var i = 0; i < bucket_aliens.length; i++) {
-        var temp_alien_id = bucket_aliens[i];
-        var temp_model_num =helper2.get_model(temp_alien_id);
-        if (temp_model_num == model_num) {
-          bucket2.buckets[bucket2.current_bucket].alien[i] = alien_id;
-          aliens2.aliensInBucket[aliens2.aliensInBucket.indexOf(temp_alien_id)] = alien_id;
-          $scope.alienArray[temp_alien_id].color = "rgba(255,255,255,.5)";
+    if (aliens.alienArray[alien_id].illegal == 'illegal') {
+      // Find the alien that conflicts with the given alien
+      var currentAliens = bucket.buckets[bucket.current_bucket].alien;
+      for (var i = 0; i < currentAliens.length; i++) {
+        var oldId = currentAliens[i];
+        if (helper.get_model(alien_id) == helper.get_model(oldId)) {
+          aliens.newId = alien_id;
+          aliens.oldId = oldId;
           break;
         }
       }
-
-      for (i = 0; i < bucket2.buckets.length; i++) {
-        if (bucket2.buckets[i].alien.length == 0) {
-          bucket2.updatePredefinedColor(bucket_id);
-          $scope.colorArray.splice($scope.colorArray.indexOf(bucket2.buckets[i].color), 1);
-          bucket2.buckets.splice(i, 1);
-          bucket2.num_buckets--;
-          break;
-        }
-      }
-
-      $scope.alienArray[alien_id].color = bucket2.buckets[bucket2.current_bucket].color;
-      $scope.currentBucket(bucket2.current_bucket);
-      feedback(alien_id);
+      var oldAlien = document.getElementsByClassName("alien " + oldId)[0];
+      //window.scrollTo(0, oldAlien.offsetTop);
+      $scope.toggleIllegalAlert();
     }
     else {
-      history2.historyBuckets = bucket2.buckets;
-      history2.historyAliensInBucket = aliens2.aliensInBucket;
-      history2.historyAlienId = alien_id;
-      history2.historyColorArray = $scope.colorArray;
+      history.historyBuckets = bucket.buckets;
+      history.historyAliensInBucket = aliens.aliensInBucket;
+      history.historyAlienId = alien_id;
+      history.historyColorArray = bucket.colorArray;
 
       // Aliens in other buckets, can be switched to current bucket when being clicked
-      if (aliens2.aliensInBucket.indexOf(alien_id) != -1 && bucket2.buckets[bucket2.current_bucket].alien.indexOf(alien_id) == -1) {
-        var bucket_id = bucket2.getBucketByAlienId(alien_id);
-        bucket2.buckets[bucket_id].alien.splice(bucket2.buckets[bucket_id].alien.indexOf(alien_id), 1);
-        bucket2.buckets[bucket2.current_bucket].alien.push(alien_id);
+      if (aliens.alienArray[alien_id].in && bucket.buckets[bucket.current_bucket].color != aliens.alienArray[alien_id].color) {
+        var bucket_id = bucket.getBucketByAlienId(alien_id);
+        bucket.buckets[bucket_id].alien.splice(bucket.buckets[bucket_id].alien.indexOf(alien_id), 1);
+        bucket.buckets[bucket.current_bucket].alien.push(alien_id);
 
-        history2.historyBucketId = bucket2.current_bucket;
-        history2.historySwappedBucketId = bucket_id;
-        history2.historySelectFlag = 2;
-        history2.historyColor = bucket2.buckets[bucket_id].color;
+        history.historyBucketId = bucket.current_bucket;
+        history.historySwappedBucketId = bucket_id;
+        history.historySelectFlag = 2;
+        history.historyColor = bucket.buckets[bucket_id].color;
 
-        for (var i = 0; i < bucket2.buckets.length; i++) {
-          if (bucket2.buckets[i].alien.length == 0) {
-            bucket2.updatePredefinedColor(bucket_id);
-            $scope.colorArray.splice($scope.colorArray.indexOf(bucket2.buckets[i].color), 1);
-            bucket2.buckets.splice(i, 1);
-            bucket2.num_buckets--;
-            bucket2.current_bucket = bucket2.num_buckets - 1;
-            break;
+        if (bucket.buckets[bucket_id].alien.length == 0) {
+          bucket.removeBucket(bucket_id);
+          if (bucket_id < bucket.current_bucket) {
+            bucket.current_bucket--;
           }
         }
 
-        $scope.alienArray[alien_id].color = bucket2.buckets[bucket2.current_bucket].color;
-        $scope.currentBucket(bucket2.current_bucket);
+        aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
+        $scope.currentBucket(bucket.current_bucket);
         feedback(alien_id);
       }
 
       // Normal aliens
       else {
         if (!$scope.dragged) {
-          history2.historySelectFlag = false;
-          var ind = bucket2.buckets[bucket2.current_bucket].alien.indexOf(alien_id);
+          history.historySelectFlag = false;
 
-          //Deselect aliens
-          if (ind >= 0) {
-            history2.historySelectFlag = 1;
+          // Alien already in bucket, Deselect aliens
+          if (aliens.alienArray[alien_id].color == bucket.buckets[bucket.current_bucket].color) {
+            history.historySelectFlag = 1;
 
             // Remove the alien from the bucket
-            aliens2.aliensInBucket.splice(aliens2.aliensInBucket.indexOf(alien_id), 1);
-            bucket2.buckets[bucket2.current_bucket].alien.splice(ind, 1);
+            var ind = bucket.buckets[bucket.current_bucket].alien.indexOf(alien_id);
+            aliens.alienArray[alien_id].in = false;
+            bucket.buckets[bucket.current_bucket].alien.splice(ind, 1);
 
-            if (bucket2.buckets[bucket2.current_bucket].alien.length == 0) {
-              bucket2.updatePredefinedColor(bucket2.current_bucket);
-              $scope.colorArray.splice(bucket2.current_bucket, 1);
-              bucket2.buckets.splice(bucket2.current_bucket, 1);
-              bucket2.num_buckets--;
-              bucket2.current_bucket = bucket2.num_buckets - 1;
+            if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
+              $scope.checked = false;
             }
 
-            if (bucket2.buckets.length == 0) {
-              $scope.newGroup();
-            }
-            else {
-              $scope.alienArray[alien_id].color = "rgba(255,255,255,.5)";
-              $scope.currentBucket(bucket2.current_bucket);
-            }
+            aliens.alienArray[alien_id].color = "rgba(232,245,252, 1)";
+            $scope.currentBucket(bucket.current_bucket);
             feedback(alien_id);
+
+            if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
+              for (var id in aliens.alienArray) {
+                if (!aliens.alienArray[id].in) {
+                  $scope.selectAlien(id);
+                  break;
+                }
+              }
+            }
           }
 
           // Select aliens
           else {
-            history2.historySelectFlag = 0;
-            aliens2.aliensInBucket.push(alien_id);
-            bucket2.buckets[bucket2.current_bucket].alien.push(alien_id);
+            history.historySelectFlag = 0;
+            bucket.buckets[bucket.current_bucket].alien.push(alien_id);
 
-            history2.historyBucketId = bucket2.current_bucket;
+            history.historyBucketId = bucket.current_bucket;
 
-            $scope.alienArray[alien_id].color = bucket2.buckets[bucket2.current_bucket].color;
-
-            $scope.currentBucket(bucket2.current_bucket);
+            aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
+            aliens.alienArray[alien_id].in = true;
+            $scope.currentBucket(bucket.current_bucket);
             feedback(alien_id);
           }
         }
       }
     }
-    if (Object.keys($scope.zoominAliens).length == 0) {
-      $scope.newGroup();
+    $("." + alien_id).addClass('highlight-hover');
+    setTimeout(function(){
+      $("." + alien_id).removeClass('highlight-hover');
+    }, 2000);
+  };
+
+  $scope.selectIllegalAlien = function(opt) {
+    $scope.toggleIllegalAlert();
+    if (!opt) {
+      return;
     }
-  }
+    // Aliens in other buckets, can be switched to current bucket when being clicked
+    if (aliens.alienArray[aliens.newId].in) {
+      var bucket_id = bucket.getBucketByAlienId(aliens.newId);
+      bucket.buckets[bucket_id].alien.splice(bucket.buckets[bucket_id].alien.indexOf(aliens.newId), 1);
+    }
+
+    bucket.buckets[bucket.current_bucket].alien[bucket.buckets[bucket.current_bucket].alien.indexOf(aliens.oldId)] = aliens.newId;
+    aliens.alienArray[aliens.oldId].color = "rgba(232,245,252, 1)";
+    aliens.alienArray[aliens.oldId].in = false;
+
+    aliens.alienArray[aliens.newId].color = bucket.buckets[bucket.current_bucket].color;
+    aliens.alienArray[aliens.newId].in = true;
+    $scope.currentBucket(bucket.current_bucket);
+    feedback(aliens.newId);
+  };
 
   $scope.newGroup = function() {
     $scope.checked = false;
-    $scope.colorArray = bucket2.addBucket($scope.colorArray, $scope.alienArray);
+    bucket.addBucket();
 
-    for (var i = 0; i < Object.keys($scope.alienArray).length; i++) {
-      var key = Object.keys($scope.alienArray)[i];
-      if (bucket2.buckets[bucket2.current_bucket].illegal_alien.indexOf(key) < 0 &&
-          aliens2.aliensInBucket.indexOf(key) < 0) {
-        $scope.selectAlien(key);
+    for (var id in aliens.alienArray) {
+      if (!aliens.alienArray[id].in) {
+        $scope.selectAlien(id);
         break;
       }
     }
   }
 
   $scope.showGroup = function(alien_id) {
-    for (var i = 0;i< bucket2.buckets.length; i++) {
-      if (bucket2.buckets[i].alien.indexOf(alien_id) != -1) {
-        $scope.currentBucket(i);
-      }
+    // If alien not in bucket
+    if (!aliens.alienArray[alien_id].in) {
+      return;
     }
+    // If no alien in the current bucket, remove it
+    if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
+      bucket.removeBucket(bucket.current_bucket);
+    }
+    $scope.currentBucket(bucket.getBucketByAlienId(alien_id));
   }
 
   $scope.get_highest_score = function (){
@@ -320,31 +329,32 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
   };
 
   $scope.undo = function() {
-    bucket2.buckets = history2.historyBuckets;
-    aliens2.aliensInBucket = history2.historyAliensInBucket;
-    $scope.colorArray = history2.historyColorArray;
+
+    bucket.buckets = history.historyBuckets;
+    aliens.aliensInBucket = history.historyAliensInBucket;
+    $scope.colorArray = history.historyColorArray;
 
     // Previously unselected alien, now we want to add it back
-    if (history2.historySelectFlag == 1) {
-      $("#" + history2.historyAlienId).css("background-color", bucket2.buckets[bucket2.current_bucket].color);
-      update2.updateIllegalAlien($scope.alienArray, history2.historyBucketId);
-      $scope.currentBucket(history2.historyBucketId);
-      feedback(history2.historyAlienId);
+    if (history.historySelectFlag == 1) {
+      $("#" + history.historyAlienId).css("background-color", bucket.buckets[bucket.current_bucket].color);
+      update.updateIllegalAlien($scope.alienArray, history.historyBucketId);
+      $scope.currentBucket(history.historyBucketId);
+      feedback(history.historyAlienId);
 
       $timeout(function() {
-        angular.element('#color_block_' + history2.historyBucketId).triggerHandler('click');
+        angular.element('#color_block_' + history.historyBucketId).triggerHandler('click');
       }, 0);
     }
 
     // Previously selected alien, now we want remove it
-    else if (history2.historySelectFlag == 0) {
-      $("#" + history2.historyAlienId).css("background-color", "rgba(255,255,255,.5)");
-      update2.updateIllegalAlien($scope.alienArray, history2.historyBucketId);
-      $scope.currentBucket(history2.historyBucketId);
-      feedback(history2.historyAlienId);
+    else if (history.historySelectFlag == 0) {
+      $("#" + history.historyAlienId).css("background-color", "rgba(232,245,252,, 1)");
+      update.updateIllegalAlien($scope.alienArray, history.historyBucketId);
+      $scope.currentBucket(history.historyBucketId);
+      feedback(history.historyAlienId);
 
       $timeout(function() {
-        angular.element('#color_block_' + history2.historyBucketId).triggerHandler('click');
+        angular.element('#color_block_' + history.historyBucketId).triggerHandler('click');
       }, 0);
     }
 
@@ -353,25 +363,25 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
     // If previous bucket was unfortunately removed, we want to add it back
 
     else {
-      $("#" + history2.historyAlienId).css("background-color", history2.historyColor);
-      update2.updateIllegalAlien($scope.alienArray, history2.historySwappedBucketId);
-      $scope.currentBucket(history2.historySwappedBucketId);
-      feedback(history2.historyAlienId);
+      $("#" + history.historyAlienId).css("background-color", history.historyColor);
+      update.updateIllegalAlien($scope.alienArray, history.historySwappedBucketId);
+      $scope.currentBucket(history.historySwappedBucketId);
+      feedback(history.historyAlienId);
 
       $timeout(function() {
-        angular.element('#color_block_' + history2.historySwappedBucketId).triggerHandler('click');
+        angular.element('#color_block_' + history.historySwappedBucketId).triggerHandler('click');
       }, 0);
     }
 
-    if (bucket2.buckets[history2.historyBucketId].alien.length == 0 && bucket2.buckets.length > 1) {
+    if (bucket.buckets[history.historyBucketId].alien.length == 0 && bucket.buckets.length > 1) {
       // Check if removing a predefined color
-      bucket2.updatePredefinedColor(history2.historyBucketId);
-      bucket2.buckets.splice(history2.historyBucketId, 1);
-      $scope.colorArray.splice(bucket2.buckets[history2.historyBucketId].color, 1);
-      bucket2.num_buckets--;
+      bucket.updatePredefinedColor(history.historyBucketId);
+      bucket.buckets.splice(history.historyBucketId, 1);
+      $scope.colorArray.splice(bucket.buckets[history.historyBucketId].color, 1);
+      bucket.num_buckets--;
     }
 
-    bucket2.num_buckets = bucket2.buckets.length;
+    bucket.num_buckets = bucket.buckets.length;
   }
 
   $scope.buttonReq = '';
@@ -382,12 +392,53 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
     $("#popup").toggle();
   }
 
+  $scope.handleButtonRequest = function() {
+    if ($scope.buttonReq == 'submit') {
+      $scope.submitScore();
+    }
+    else if ($scope.buttonReq == 'save') {
+      $scope.saveScore();
+    }
+    else if ($scope.buttonReq == 'quit') {
+      $scope.quit();
+    }
+  }
+
+  // $scope.showHighlightAlien = function(alien_id, enter) {
+  //   var element = document.getElementById(alien_id);
+  //
+  //   if (enter) {
+  //     style.scrollToItem(element);
+  //     aliens.alienArray[alien_id].highlightHover = 'highlight-hover';
+  //     aliens.alienArray[alien_id].zoomedHighlightHover = 'zoomed-highlight-hover';
+  //     setTimeout(function(){
+  //       aliens.alienArray[alien_id].highlightHover = '';
+  //     }, 2000);
+  //   } else {
+  //     aliens.alienArray[alien_id].zoomedHighlightHover = '';
+  //   }
+  // }
+  $scope.showHighlightAlien = function(alien_id, enter) {
+    var element = document.getElementsByClassName("alien " + alien_id)[0];
+
+    if (enter) {
+      style.scrollToItem(element);
+      $("." + alien_id).addClass('highlight-hover');
+      $(".zoomed-alien." + alien_id).addClass('zoomed-highlight-hover');
+      setTimeout(function(){
+        $("." + alien_id).removeClass('highlight-hover');
+      }, 2000);
+    } else {
+      $(".zoomed-alien." + alien_id).removeClass('zoomed-highlight-hover');
+    }
+  }
+
   // Submit the score to the database
   $scope.submitScore = function () {
     Restangular.all('/api/scores/').post(
-      {score: $scope.score, game: $scope.cur_game, level: parseInt($scope.cur_level), solution: bucket2.buckets}).then(
+      {score: $scope.score, game: $scope.cur_game, level: parseInt($scope.cur_level), solution: bucket.buckets}).then(
       (function (data) {
-        $state.go('levelcomplete', {level_id: parseInt($scope.cur_level), game_id: $scope.cur_game, score: $scope.score});
+        $state.go('leaderboard', {prevState: 'game'});
       }), function (err) {
       });
   }
@@ -395,10 +446,10 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
   // Save the score to the database
   $scope.saveScore = function () {
     Restangular.all('/api/scores/save_for_later').post(
-      {level: parseInt($scope.cur_level), solution: bucket2.buckets}).then(
+      {level: parseInt($scope.cur_level), solution: bucket.buckets}).then(
       (function (data) {
       }), function (err) {
-        $state.go('levelcomplete', {level_id: parseInt($scope.cur_level), game_id: $scope.cur_game, score: $scope.score});
+        $state.go('leaderboard', {prevState: 'game'});
       });
   }
 
@@ -420,10 +471,44 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
     $("#popup2").toggle();
   };
 
-  $scope.toggleChooseSolutionPopup();
-
   $scope.endGame = function () {
     $("#overlay").toggle();
     $("#popup3").toggle();
   };
+
+  $scope.toggleChooseSolutionPopup();
+
+  $scope.togglePageslide = function() {
+    $scope.checked = !$scope.checked;
+  }
+
+  $scope.$watch
+  (
+    function () {
+      return $('#section').width();
+    },
+    function (newValue, oldValue) {
+      if (newValue != oldValue) {
+        $('.sidenav').css('width', newValue);
+        $('#aliens').css('width',  $(window).width() - newValue - 40);
+      }
+    }
+  );
+
+  $scope.toggleIllegalAlert = function() {
+    $(".current-alien." + aliens.oldId).toggleClass("replaced");
+    $("#clear-overlay").toggle();
+    $("#replace-popup").toggle();
+  };
+
+  $scope.goToGroup = function () {
+    var alien_id = bucket.buckets[bucket.current_bucket].alien[0];
+    var element = document.getElementsByClassName(alien_id)[0];
+    style.scrollToItem(element);
+  };
+
+  window.onresize = function(event) {
+    $scope.topWindowHeight = window.innerWidth * 0.095 + 20;
+  };
+
 });

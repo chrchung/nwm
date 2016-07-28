@@ -168,98 +168,96 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
   $scope.selectAlien = function (alien_id) {
 
-    $("."  + alien_id).fadeOut();
+    $("." + alien_id).addClass('highlight-hover');
+    $("." + alien_id).removeClass('highlight-hover');
 
-    $timeout(function () {
+    // Illegal Aliens
+    if (aliens.alienArray[alien_id].illegal == 'illegal') {
+      // Find the alien that conflicts with the given alien
+      var currentAliens = bucket.buckets[bucket.current_bucket].alien;
+      for (var i = 0; i < currentAliens.length; i++) {
+        var oldId = currentAliens[i];
+        if (helper.get_model(alien_id) == helper.get_model(oldId)) {
+          aliens.newId = alien_id;
+          aliens.oldId = oldId;
+          break;
+        }
+      }
+      var oldAlien = document.getElementsByClassName("alien " + oldId)[0];
+      //window.scrollTo(0, oldAlien.offsetTop);
+      $scope.toggleIllegalAlert();
+    }
+    else {
+      history.historyBuckets = bucket.buckets;
+      history.historyAliensInBucket = aliens.aliensInBucket;
+      history.historyAlienId = alien_id;
+      history.historyColorArray = bucket.colorArray;
 
-      // Illegal Aliens
-      if (aliens.alienArray[alien_id].illegal == 'illegal') {
-        // Find the alien that conflicts with the given alien
-        var currentAliens = bucket.buckets[bucket.current_bucket].alien;
-        for (var i = 0; i < currentAliens.length; i++) {
-          var oldId = currentAliens[i];
-          if (helper.get_model(alien_id) == helper.get_model(oldId)) {
-            aliens.newId = alien_id;
-            aliens.oldId = oldId;
-            break;
+      // Aliens in other buckets, can be switched to current bucket when being clicked
+      if (aliens.alienArray[alien_id].in && bucket.buckets[bucket.current_bucket].color != aliens.alienArray[alien_id].color) {
+        var bucket_id = bucket.getBucketByAlienId(alien_id);
+        bucket.buckets[bucket_id].alien.splice(bucket.buckets[bucket_id].alien.indexOf(alien_id), 1);
+        bucket.buckets[bucket.current_bucket].alien.push(alien_id);
+
+        history.historyBucketId = bucket.current_bucket;
+        history.historySwappedBucketId = bucket_id;
+        history.historySelectFlag = 2;
+        history.historyColor = bucket.buckets[bucket_id].color;
+
+        if (bucket.buckets[bucket_id].alien.length == 0) {
+          bucket.removeBucket(bucket_id);
+          if (bucket_id < bucket.current_bucket) {
+            bucket.current_bucket--;
           }
         }
-        var oldAlien = document.getElementsByClassName("alien " + oldId)[0];
-        //window.scrollTo(0, oldAlien.offsetTop);
-        $scope.toggleIllegalAlert();
+
+        aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
+        $scope.currentBucket(bucket.current_bucket);
+        feedback(alien_id);
       }
+
+      // Normal aliens
       else {
-        history.historyBuckets = bucket.buckets;
-        history.historyAliensInBucket = aliens.aliensInBucket;
-        history.historyAlienId = alien_id;
-        history.historyColorArray = bucket.colorArray;
+        if (!$scope.dragged) {
+          history.historySelectFlag = false;
 
-        // Aliens in other buckets, can be switched to current bucket when being clicked
-        if (aliens.alienArray[alien_id].in && bucket.buckets[bucket.current_bucket].color != aliens.alienArray[alien_id].color) {
-          var bucket_id = bucket.getBucketByAlienId(alien_id);
-          bucket.buckets[bucket_id].alien.splice(bucket.buckets[bucket_id].alien.indexOf(alien_id), 1);
-          bucket.buckets[bucket.current_bucket].alien.push(alien_id);
+          // Alien already in bucket, Deselect aliens
+          if (aliens.alienArray[alien_id].color == bucket.buckets[bucket.current_bucket].color) {
+            history.historySelectFlag = 1;
 
-          history.historyBucketId = bucket.current_bucket;
-          history.historySwappedBucketId = bucket_id;
-          history.historySelectFlag = 2;
-          history.historyColor = bucket.buckets[bucket_id].color;
+            // Remove the alien from the bucket
+            var ind = bucket.buckets[bucket.current_bucket].alien.indexOf(alien_id);
+            aliens.alienArray[alien_id].in = false;
+            bucket.buckets[bucket.current_bucket].alien.splice(ind, 1);
 
-          if (bucket.buckets[bucket_id].alien.length == 0) {
-            bucket.removeBucket(bucket_id);
-            if (bucket_id < bucket.current_bucket) {
-              bucket.current_bucket--;
+            if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
+              $scope.checked = false;
             }
+
+            aliens.alienArray[alien_id].color = "rgba(232,245,252, 1)";
+            $scope.currentBucket(bucket.current_bucket);
+            feedback(alien_id);
           }
 
-          aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
-          $scope.currentBucket(bucket.current_bucket);
-          feedback(alien_id);
-        }
+          // Select aliens
+          else {
+            history.historySelectFlag = 0;
+            bucket.buckets[bucket.current_bucket].alien.push(alien_id);
 
-        // Normal aliens
-        else {
-          if (!$scope.dragged) {
-            history.historySelectFlag = false;
+            history.historyBucketId = bucket.current_bucket;
 
-            // Alien already in bucket, Deselect aliens
-            if (aliens.alienArray[alien_id].color == bucket.buckets[bucket.current_bucket].color) {
-              history.historySelectFlag = 1;
-
-              // Remove the alien from the bucket
-              var ind = bucket.buckets[bucket.current_bucket].alien.indexOf(alien_id);
-              aliens.alienArray[alien_id].in = false;
-              bucket.buckets[bucket.current_bucket].alien.splice(ind, 1);
-
-              if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
-                $scope.checked = false;
-              }
-
-              aliens.alienArray[alien_id].color = "rgba(232,245,252, 1)";
-              $scope.currentBucket(bucket.current_bucket);
-              feedback(alien_id);
-            }
-
-            // Select aliens
-            else {
-              history.historySelectFlag = 0;
-              bucket.buckets[bucket.current_bucket].alien.push(alien_id);
-
-              history.historyBucketId = bucket.current_bucket;
-
-              aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
-              aliens.alienArray[alien_id].in = true;
-              $scope.currentBucket(bucket.current_bucket);
-              feedback(alien_id);
-            }
+            aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
+            aliens.alienArray[alien_id].in = true;
+            $scope.currentBucket(bucket.current_bucket);
+            feedback(alien_id);
           }
         }
       }
-
-      // $timeout(function () {
-      //   $("."  + alien_id).fadeIn();
-      // }, 3000);
-    } , 500);
+    }
+    $("." + alien_id).addClass('highlight-hover');
+    setTimeout(function(){
+      $("." + alien_id).removeClass('highlight-hover');
+    }, 2000);
   };
 
   $scope.selectIllegalAlien = function(opt) {
@@ -286,8 +284,13 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.newGroup = function() {
     $scope.checked = false;
     bucket.addBucket();
-    bucket.orderAlienArray();
-    update.updateIllegalAlien();
+
+    for (var id in aliens.alienArray) {
+      if (!aliens.alienArray[id].in) {
+        $scope.selectAlien(id);
+        break;
+      }
+    }
   }
 
   $scope.showGroup = function(alien_id) {
@@ -487,7 +490,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   );
 
   $scope.toggleIllegalAlert = function() {
-    $(".alien." + aliens.oldId).toggleClass("replaced");
+    $(".current-alien." + aliens.oldId).toggleClass("replaced");
     $("#clear-overlay").toggle();
     $("#replace-popup").toggle();
   };

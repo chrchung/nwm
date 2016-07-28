@@ -137,7 +137,7 @@
 
 <div id='current-aliens' style='height: {{topWindowHeight}}px;'>
   <div ng-repeat="id in bucket.buckets[bucket.current_bucket].alien"
-       class="alien {{id}}"
+       class="current-alien alien {{id}}"
        ng-click="selectAlien(id)"
        style="background-color: {{aliens.alienArray[id].color}};">
     <img src="{{aliens.alienArray[id].url}}"/>
