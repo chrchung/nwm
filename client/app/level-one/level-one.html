@@ -135,7 +135,16 @@
   </div>
 </div> -->
 
-<div id="aliens">
+<div id='current-aliens' style='height: {{topWindowHeight}}px;'>
+  <div ng-repeat="id in bucket.buckets[bucket.current_bucket].alien"
+       class="alien {{id}}"
+       ng-click="selectAlien(id)"
+       style="background-color: {{aliens.alienArray[id].color}};">
+    <img src="{{aliens.alienArray[id].url}}"/>
+  </div>
+</div>
+
+<div id="aliens" style='margin-top: {{topWindowHeight + 10}}px;'>
   <div ng-repeat="id in bucket.orderedIds"
        class="alien {{id}} {{aliens.alienArray[id].illegal}} {{aliens.alienArray[id].similar}}"
        ng-click="selectAlien(id)"
@@ -147,7 +156,7 @@
 
 <!-- Page slide -->
 
-  <div ng-show="checked" class="sidenav">
+  <!-- <div ng-show="checked" class="sidenav">
       <div id="section" resizable r-directions="['right']" r-width="150" style="background-color: transparent;">
         <div ng-repeat="id in aliens.zoominAliens"
               ng-mouseenter="showHighlightAlien(id, true)"
@@ -160,4 +169,4 @@
         </div>
 
       </div>
-    </div>
+    </div> -->

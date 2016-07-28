@@ -35,6 +35,10 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     bucket.initColors();
     aliens.initAliens();
 
+    // Get top window's height
+    $scope.topWindowHeight = window.innerWidth * 0.095 + 20;
+    console.log($scope.topWindowHeight);
+
     // modelsName is a string in the form of 'level4b6_9'
     // Get level
     $scope.cur_level = $stateParams.id;
@@ -181,7 +185,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
           }
         }
         var oldAlien = document.getElementsByClassName("alien " + oldId)[0];
-        window.scrollTo(0, oldAlien.offsetTop);
+        //window.scrollTo(0, oldAlien.offsetTop);
         $scope.toggleIllegalAlert();
       }
       else {
@@ -492,6 +496,10 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     var alien_id = bucket.buckets[bucket.current_bucket].alien[0];
     var element = document.getElementsByClassName(alien_id)[0];
     style.scrollToItem(element);
+  };
+
+  window.onresize = function(event) {
+    $scope.topWindowHeight = window.innerWidth * 0.095 + 20;
   };
 
 });
