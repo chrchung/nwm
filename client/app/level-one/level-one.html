@@ -138,7 +138,7 @@
 <div id='current-aliens' style='height: {{topWindowHeight}}px;'>
   <div ng-repeat="id in bucket.buckets[bucket.current_bucket].alien"
        class="current-alien alien {{id}}"
-       ng-click="selectAlien(id)"
+       ng-click="showHighlightAlien(id)"
        style="background-color: {{aliens.alienArray[id].color}};">
     <img src="{{aliens.alienArray[id].url}}"/>
   </div>
@@ -146,7 +146,7 @@
 
 <div id="aliens" style='margin-top: {{topWindowHeight + 10}}px;'>
   <div ng-repeat="id in bucket.orderedIds"
-       class="alien {{id}} {{aliens.alienArray[id].illegal}} {{aliens.alienArray[id].similar}}"
+       class="an-alien alien {{id}} {{aliens.alienArray[id].illegal}} {{aliens.alienArray[id].similar}}"
        ng-click="selectAlien(id)"
        ng-right-click="showGroup(id)"
        style="background-color: {{aliens.alienArray[id].color}};">

@@ -254,6 +254,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
         }
       }
     }
+    $("." + alien_id).removeClass('highlight-hover');
     $("." + alien_id).addClass('highlight-hover');
     setTimeout(function(){
       $("." + alien_id).removeClass('highlight-hover');
@@ -284,13 +285,6 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.newGroup = function() {
     $scope.checked = false;
     bucket.addBucket();
-
-    for (var id in aliens.alienArray) {
-      if (!aliens.alienArray[id].in) {
-        $scope.selectAlien(id);
-        break;
-      }
-    }
   }
 
   $scope.showGroup = function(alien_id) {
@@ -412,19 +406,26 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   //     aliens.alienArray[alien_id].zoomedHighlightHover = '';
   //   }
   // }
-  $scope.showHighlightAlien = function(alien_id, enter) {
-    var element = document.getElementsByClassName("alien " + alien_id)[0];
+  $scope.showHighlightAlien = function(alien_id) {
+    var target = document.getElementsByClassName("an-alien " + alien_id)[0];
+    window.scrollTo(0, target.offsetTop - $scope.topWindowHeight - 10);
 
-    if (enter) {
-      style.scrollToItem(element);
-      $("." + alien_id).addClass('highlight-hover');
-      $(".zoomed-alien." + alien_id).addClass('zoomed-highlight-hover');
-      setTimeout(function(){
-        $("." + alien_id).removeClass('highlight-hover');
-      }, 2000);
-    } else {
-      $(".zoomed-alien." + alien_id).removeClass('zoomed-highlight-hover');
-    }
+    $(".an-alien." + alien_id).removeClass('highlight-hover');
+    $(".an-alien." + alien_id).addClass('highlight-hover');
+    setTimeout(function(){
+      $(".an-alien." + alien_id).removeClass('highlight-hover');
+    }, 2000);
+
+    // if (enter) {
+    //   style.scrollToItem(element);
+    //   $("." + alien_id).addClass('highlight-hover');
+    //   $(".zoomed-alien." + alien_id).addClass('zoomed-highlight-hover');
+    //   setTimeout(function(){
+    //     $("." + alien_id).removeClass('highlight-hover');
+    //   }, 2000);
+    // } else {
+    //   $(".zoomed-alien." + alien_id).removeClass('zoomed-highlight-hover');
+    // }
   }
 
   // Submit the score to the database
