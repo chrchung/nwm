@@ -104,7 +104,7 @@
     <button id="redo-button" class="btn" ng-click="undo()">Undo</button>
     <button id="add-group-button" class="btn" ng-click="newGroup()" ng-disabled="!checked">Add new group</button>
 
-    <div class='title-font big'>SCORE: {{score}}</div>
+    <div class='title-font big'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="1"></span></div>
     <div class='title-font small'>(Best player score: {{highest_score}})</div>
     <button id="end-button" class="btn" ng-click="endGame()">End game</button>
     <div id="current-group">

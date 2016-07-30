@@ -28,6 +28,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
   $scope.setUpGame = function(mode) {
     $scope.bucket = bucket;
     $scope.aliens = aliens;
+    $scope.history = history;
 
     $scope.toggleChooseSolutionPopup();
     $scope.dragged = false;  // Disable click event when start dragging
@@ -214,6 +215,8 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
         aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
         $scope.currentBucket(bucket.current_bucket);
         feedback(alien_id);
+        history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket_id);
+        history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
       }
 
       // Normal aliens
@@ -237,6 +240,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
             aliens.alienArray[alien_id].color = "rgba(232,245,252, 1)";
             $scope.currentBucket(bucket.current_bucket);
             feedback(alien_id);
+            history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
           }
 
           // Select aliens
@@ -250,6 +254,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
             aliens.alienArray[alien_id].in = true;
             $scope.currentBucket(bucket.current_bucket);
             feedback(alien_id);
+            history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
           }
         }
       }
@@ -266,20 +271,32 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     if (!opt) {
       return;
     }
-    // Aliens in other buckets, can be switched to current bucket when being clicked
+    // Aliens in some other bucket, can be switched to current bucket when being clicked
     if (aliens.alienArray[aliens.newId].in) {
       var bucket_id = bucket.getBucketByAlienId(aliens.newId);
       bucket.buckets[bucket_id].alien.splice(bucket.buckets[bucket_id].alien.indexOf(aliens.newId), 1);
-    }
+      history.userActions.push("Remove alien " + aliens.newId + " from bucket " + bucket_id);
 
-    bucket.buckets[bucket.current_bucket].alien[bucket.buckets[bucket.current_bucket].alien.indexOf(aliens.oldId)] = aliens.newId;
-    aliens.alienArray[aliens.oldId].color = "rgba(232,245,252, 1)";
-    aliens.alienArray[aliens.oldId].in = false;
+      if (bucket.buckets[bucket_id].alien.length == 0) {
+        bucket.removeBucket(bucket_id);
+        if (bucket_id < bucket.current_bucket) {
+          bucket.current_bucket--;
+        }
+      }
+    }
+    else {
+      bucket.buckets[bucket.current_bucket].alien[bucket.buckets[bucket.current_bucket].alien.indexOf(aliens.oldId)] = aliens.newId;
+      aliens.alienArray[aliens.oldId].color = "rgba(232,245,252, 1)";
+      aliens.alienArray[aliens.oldId].in = false;
+      history.userActions.push("Remove alien " + aliens.oldId + " from bucket " + bucket.current_bucket);
+    }
 
     aliens.alienArray[aliens.newId].color = bucket.buckets[bucket.current_bucket].color;
     aliens.alienArray[aliens.newId].in = true;
     $scope.currentBucket(bucket.current_bucket);
     feedback(aliens.newId);
+
+    history.userActions.push("Add alien " + aliens.newId + " to bucket " + bucket.current_bucket);
   };
 
   $scope.newGroup = function() {
@@ -296,7 +313,9 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
       bucket.removeBucket(bucket.current_bucket);
     }
-    $scope.currentBucket(bucket.getBucketByAlienId(alien_id));
+    var bid = bucket.getBucketByAlienId(alien_id);
+    history.userActions.push("Go to bucket " + bid);
+    $scope.currentBucket(bid);
   }
 
   $scope.get_highest_score = function (){

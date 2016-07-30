@@ -359,7 +359,7 @@ levelOne.service('style', function(aliens, helper) {
 /*******************************************************************
   Handles buckets, colour array, predefined colours
 *******************************************************************/
-levelOne.service('bucket', function(style, $timeout, aliens) {
+levelOne.service('bucket', function(style, $timeout, aliens, history) {
 
   this.initColors = function() {
     this.predefinedColors = {
@@ -427,19 +427,12 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
 
   /* Update the array of colours and returns. */
   this.addBucket = function() {
-    // Cannot add a new bucket
-    if (this.buckets.num_buckets > 0 && this.buckets[this.num_buckets - 1].alien.length == 0) {
-      $(".colour-error").css("top", $(".add-colour").position().top - 20);
-      $(".colour-error").css("left", $(".add-colour").position().left - 100);
-      $(".colour-error").show().delay(1000).fadeOut();
-    } else {
-      var color = this.getRandomColor();
-      this.buckets.push({alien:[], color:color});
-      this.num_buckets++;
-      var bucket_ind  = this.num_buckets - 1;
-      this.colorArray.push(color);
-      this.currentBucket(bucket_ind);
-    }
+    var color = this.getRandomColor();
+    this.buckets.push({alien:[], color:color});
+    this.num_buckets++;
+    var bucket_ind  = this.num_buckets - 1;
+    this.colorArray.push(color);
+    this.currentBucket(bucket_ind);
   };
 
   this.getRandomColor = function() {
@@ -470,6 +463,7 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
   };
 
   this.removeBucket = function(bid) {
+    history.userActions.push("Remove bucket " + bid);
     this.updatePredefinedColor(bid);
     this.buckets.splice(bid, 1);
     this.colorArray.splice(bid, 1);
@@ -505,7 +499,7 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
   };
 });
 
-levelOne.service('history', function(bucket, aliens) {
+levelOne.service('history', function(aliens) {
   this.historyBuckets = [];
   this.historyAliensInBucket = [];
   this.historyAlienId = '';
@@ -514,4 +508,5 @@ levelOne.service('history', function(bucket, aliens) {
   this.historyColor = '';
   this.historySwappedBucketId = '';
   this.historyColorArray = [];
+  this.userActions = [];
 });
