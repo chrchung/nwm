@@ -19,6 +19,7 @@ exports.saveScore = function (req, res) {
   if (req.session.user) {
     var solution = req.body.solution;
     var score = req.body.score;
+    var actions = req.body.actions;
    // var game = req.body.game;
     var level = req.body.level;
     var user = req.session.user;
@@ -41,6 +42,7 @@ exports.saveScore = function (req, res) {
           bestSolution.set('user', user.username);
           bestSolution.set('solution', solution);
           bestSolution.set('score', score);
+          bestSolution.set('actions', actions);
 
           bestSolution.save(null, {
             success: function (gameScore) {
@@ -56,6 +58,7 @@ exports.saveScore = function (req, res) {
           sol.set('solution', solution);
           sol.set('score', score);
           sol.set('level', level);
+          sol.set('actions', actions);
           sol.set('partial', false);
 
           sol.save(null, {
@@ -92,6 +95,7 @@ exports.saveForLater = function (req, res) {
     var solution = req.body.solution;
     //var score = req.body.score;
     var level = req.body.level;
+    var actions = req.body.actions;
     var user = req.session.user;
 
     //delete last save if found
@@ -126,6 +130,7 @@ exports.saveForLater = function (req, res) {
     newSolution.set('level', level);
     newSolution.set('user', user.username);
     newSolution.set('partial', true);
+    newSolution.set('actions', actions);
 
     newSolution.save(null, {
       success: function (gameScore) {

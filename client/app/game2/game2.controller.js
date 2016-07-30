@@ -34,10 +34,10 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
     $scope.checked = false;
     bucket.initColors();
     aliens.initAliens();
+    history.initHistory();
 
     // Get top window's height
     $scope.topWindowHeight = window.innerWidth * 0.095 + 20;
-    console.log($scope.topWindowHeight);
 
     // modelsName is a string in the form of 'level4b6_9'
     // Get level
@@ -108,6 +108,9 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
       }
 
       bucket.buckets = serverJson[0].solution;
+      if (serverJson[0].actions != null) {
+        history.userActions = serverJson[0].actions;
+      }
 
       // Restore data structures
       for (var i = 0; i < bucket.buckets.length; i++) {
@@ -142,6 +145,9 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
       }
 
       bucket.buckets = serverJson[0].solution;
+      if (serverJson[0].actions != null) {
+        history.userActions = serverJson[0].actions;
+      }
 
       // Restore data structures
       for (var i = 0; i < bucket.buckets.length; i++) {
@@ -195,6 +201,7 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
         var bucket_id = bucket.getBucketByAlienId(alien_id);
         bucket.buckets[bucket_id].alien.splice(bucket.buckets[bucket_id].alien.indexOf(alien_id), 1);
         bucket.buckets[bucket.current_bucket].alien.push(alien_id);
+        history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket_id);
 
         history.historyBucketId = bucket.current_bucket;
         history.historySwappedBucketId = bucket_id;
@@ -212,7 +219,6 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
         $scope.currentBucket(bucket.current_bucket);
         feedback(alien_id);
 
-        history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket_id);
         history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
       }
 
@@ -460,8 +466,11 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
 
   // Submit the score to the database
   $scope.submitScore = function () {
+    if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
+      bucket.removeBucket(bucket.current_bucket);
+    }
     Restangular.all('/api/scores/').post(
-      {score: $scope.score, game: $scope.cur_game, level: parseInt($scope.cur_level), solution: bucket.buckets}).then(
+      {score: $scope.score, game: $scope.cur_game, level: parseInt($scope.cur_level), solution: bucket.buckets, actions: history.userActions}).then(
       (function (data) {
         $state.go('leaderboard', {prevState: 'game'});
       }), function (err) {
@@ -470,8 +479,11 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
 
   // Save the score to the database
   $scope.saveScore = function () {
+    if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
+      bucket.removeBucket(bucket.current_bucket);
+    }
     Restangular.all('/api/scores/save_for_later').post(
-      {level: parseInt($scope.cur_level), solution: bucket.buckets}).then(
+      {level: parseInt($scope.cur_level), solution: bucket.buckets, actions: history.userActions}).then(
       (function (data) {
       }), function (err) {
         $state.go('leaderboard', {prevState: 'game'});

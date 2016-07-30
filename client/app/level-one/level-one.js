@@ -432,7 +432,9 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
     this.num_buckets++;
     var bucket_ind  = this.num_buckets - 1;
     this.colorArray.push(color);
+    history.userActions.push("Create bucket " + bucket_ind);
     this.currentBucket(bucket_ind);
+    this.orderAlienArray();
   };
 
   this.getRandomColor = function() {
@@ -500,13 +502,16 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
 });
 
 levelOne.service('history', function(aliens) {
-  this.historyBuckets = [];
-  this.historyAliensInBucket = [];
-  this.historyAlienId = '';
-  this.historyBucketId = '';
-  this.historySelectFlag = 0; // 0 means previously selected, 1 means previously unselected, 2 means previously swapped
-  this.historyColor = '';
-  this.historySwappedBucketId = '';
-  this.historyColorArray = [];
-  this.userActions = [];
+
+  this.initHistory = function() {
+    this.historyBuckets = [];
+    this.historyAliensInBucket = [];
+    this.historyAlienId = '';
+    this.historyBucketId = '';
+    this.historySelectFlag = 0; // 0 means previously selected, 1 means previously unselected, 2 means previously swapped
+    this.historyColor = '';
+    this.historySwappedBucketId = '';
+    this.historyColorArray = [];
+    this.userActions = [];
+  }
 });
