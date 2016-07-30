@@ -231,14 +231,20 @@ angular.module('nwmApp').controller('game2Controller', function($scope, Restangu
           if (aliens.alienArray[alien_id].color == bucket.buckets[bucket.current_bucket].color) {
             history.historySelectFlag = 1;
 
+            // Only one alien in the current bucket, don't remove alien
+            if (bucket.buckets[bucket.current_bucket].alien.length == 1) {
+              $("." + alien_id).removeClass('highlight-hover');
+              $("." + alien_id).addClass('highlight-hover');
+              setTimeout(function(){
+                $("." + alien_id).removeClass('highlight-hover');
+              }, 2000);
+              return;
+            }
+
             // Remove the alien from the bucket
             var ind = bucket.buckets[bucket.current_bucket].alien.indexOf(alien_id);
             aliens.alienArray[alien_id].in = false;
             bucket.buckets[bucket.current_bucket].alien.splice(ind, 1);
-
-            if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
-              $scope.checked = false;
-            }
 
             aliens.alienArray[alien_id].color = "rgba(232,245,252, 1)";
             $scope.currentBucket(bucket.current_bucket);
