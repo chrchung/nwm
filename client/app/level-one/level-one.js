@@ -379,7 +379,7 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
       'rgba(140, 154, 255, 108)': false,
       'rgba(194, 221, 227, 1)': false,
     'rgba(255, 179, 179, 1)': false,
-    'rgba(221, 223, 185, 179, 1)': false,
+    'rgba(221, 223, 185, 1)': false,
     'rgba(248, 255, 105, 1)': false,
     'rgba(210, 210, 255, 1)': false,
     'rgba(158, 209, 212, 1)': false,
@@ -513,5 +513,12 @@ levelOne.service('history', function(aliens) {
     this.historySwappedBucketId = '';
     this.historyColorArray = [];
     this.userActions = [];
+    // 0:'add-alien'
+    // 1:'illegal-alien'
+    // 2:'create-group'
+    // 3:'switch-aliens'
+    // 4:'removing alien'
+    // 5:'highlight'
+    this.tutorials = [false, false, false, false, false, false];
   }
 });

@@ -52,7 +52,6 @@
   </div>
 </div>
 
-
 <span id="feedback">{{feedback}}</span> <span id="small_feedback"></span>
 
 <!-- Zoomed aliens -->
@@ -102,7 +101,7 @@
     <!--<p class='colour-error'>You have an empty bucket!</p>-->
     <button id="undo-button" class="btn" ng-click="redo()">Redo</button>
     <button id="redo-button" class="btn" ng-click="undo()">Undo</button>
-    <button id="add-group-button" class="btn" ng-click="newGroup()" ng-disabled="!checked">Add new group</button>
+    <button id="add-group-button" class="btn" ng-click="newGroup(true)" ng-disabled="!checked">Add new group</button>
 
     <div class='title-font big'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="1"></span></div>
     <div class='title-font small'>(Best player score: {{highest_score}})</div>
@@ -147,10 +146,58 @@
 <div id="aliens" style='margin-top: {{topWindowHeight + 10}}px;'>
   <div ng-repeat="id in aliens.zoominAliens"
        class="an-alien alien {{id}} {{aliens.alienArray[id].illegal}}"
-       ng-click="selectAlien(id)"
+       ng-click="selectAlien(id, true)"
        ng-right-click="showGroup(id)"
        style="background-color: {{aliens.alienArray[id].color}};">
     <img src="{{aliens.alienArray[id].url}}"/>
+  </div>
+</div>
+
+<!-- Tutorial -->
+<div ng-show='tutorial' class="ui styled accordion panel panel-default" id='tutorial'>
+  <!-- add-alien: id 0 -->
+  <div id="tut-add-alien" class="active tut-title panel-heading">
+    Add an alien
+  </div>
+  <div class="active tut-content panel-body">
+    <p>Click on an alien to add the alien to the current bucket</p>
+    <button class="btn menu-button" ng-click="closeTutorial()">OK</button>
+  </div>
+
+  <!-- create-group: id 1 -->
+  <div id="tut-create-group" class="tut-title panel-heading">
+    Create a new group
+  </div>
+  <div class="tut-content panel-body">
+    <p>Click on "Add new group" button to create a new group.</p>
+    <button class="btn menu-button" ng-click="closeTutorial()">OK</button>
+  </div>
+
+  <!-- illegal-alien: id 2 -->
+  <div id="tut-illegal-alien" class="tut-title panel-heading">
+    Illegal alien
+  </div>
+  <div class="tut-content panel-body">
+    <p>You can switch an illegal alien with an alien that is alredy in the current bucket.</p>
+    <button class="btn menu-button" ng-click="closeTutorial()">OK</button>
+  </div>
+
+  <!-- switch-aliens: id 3 -->
+  <div id="tut-switchh-aliens" class="tut-title panel-heading">
+    Switch aliens
+  </div>
+  <div class="tut-content panel-body">
+    <p>You can swicth aliens by clicking on an alien that is already in another bucket.</p>
+    <button class="btn menu-button" ng-click="closeTutorial()">OK</button>
+  </div>
+
+  <!-- removing-aliens: id 4 -->
+  <div id="tut-switch-aliens" class="tut-title panel-heading">
+    Remove an alien
+  </div>
+  <div class="tut-content panel-body">
+    <p>Click on an alien to remove from the current bucket.</p>
+    <button class="btn menu-button" ng-click="closeTutorial()">OK</button>
   </div>
 </div>
 
