@@ -1,13 +1,27 @@
 'use strict';
 
 angular.module('nwmApp').controller('LevelOneController', function($scope, Restangular, $stateParams, $state, $timeout, update, helper, database, style, bucket, history, aliens) {
-  $('.ui.accordion')
-    .accordion()
-  ;
+  // $('.ui.accordion')
+  //   .accordion()
+  // ;
+
+  $scope.tutorialState = 'objective';
+  
+
+  /// check whether it's the player's first time playing
+  // Restangular.all('api/scores/')
+  //   .get('cur_user_recent').then(function (serverJson) {
+  //   //alert(serverJson);
+  //   if (serverJson.score != null) {
+  //     $scope.tutorialState = 'none';
+  //   }
+  // });
+  ///
+
 
   $scope.currentBucket = function(curBucket) {
     // Currently we are using the FIRST highlighting algorithm. Second => 2, Third => 3.
-    bucket.currentBucket(curBucket, 1);
+    bucket.currentBucket(curBucket, 2);
     bucket.orderAlienArray();
     update.updateIllegalAlien();
     if (aliens.zoominAliens.length > 0) {
@@ -166,6 +180,7 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
         for (var j = 0; j < bucket.buckets[i].alien.length; j++) {
           var alien_id = bucket.buckets[i].alien[j];
+          console.log(alien_id);
           aliens.alienArray[alien_id].color = bucket.buckets[i].color;
           aliens.alienArray[alien_id].in = true;
         }
@@ -186,11 +201,11 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     if (aliens.alienArray[alien_id].illegal == 'illegal') {
 
       // Show tutorial if illegal alien tut not done
-      if (!history.tutorials[2]) {
-        $('#tutorial').accordion({active: 2});
-        $scope.tutorial = true;
-        history.tutorials[2] = true;
-      }
+      // if (!history.tutorials[2]) {
+      //   $('#tutorial').accordion({active: 2});
+      //   $scope.tutorial = true;
+      //   history.tutorials[2] = true;
+      // }
 
       // Find the alien that conflicts with the given alien
       var currentAliens = bucket.buckets[bucket.current_bucket].alien;
@@ -215,12 +230,12 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
       // Aliens in other buckets, can be switched to current bucket when being clicked
       if (aliens.alienArray[alien_id].in && bucket.buckets[bucket.current_bucket].color != aliens.alienArray[alien_id].color) {
 
-        // Show tutorial if switching aliens tut not done
-        if (!history.tutorials[3]) {
-          $scope.tutorial = true;
-          $('#tutorial').accordion({active: 3});
-          history.tutorials[3] = true;
-        }
+        // // Show tutorial if switching aliens tut not done
+        // if (!history.tutorials[3]) {
+        //   $scope.tutorial = true;
+        //   $('#tutorial').accordion({active: 3});
+        //   history.tutorials[3] = true;
+        // }
 
         var bucket_id = bucket.getBucketByAlienId(alien_id);
         bucket.buckets[bucket_id].alien.splice(bucket.buckets[bucket_id].alien.indexOf(alien_id), 1);
@@ -253,11 +268,11 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
           // Alien already in bucket, Deselect aliens
           if (aliens.alienArray[alien_id].color == bucket.buckets[bucket.current_bucket].color) {
             // Show tutorial if removing alien tut not done
-            if (!history.tutorials[4]) {
-              $scope.tutorial = true;
-              $('#tutorial').accordion({active: 4});
-              history.tutorials[4] = true;
-            }
+            // if (!history.tutorials[4]) {
+            //   $scope.tutorial = true;
+            //   $('#tutorial').accordion({active: 4});
+            //   history.tutorials[4] = true;
+            // }
 
             history.historySelectFlag = 1;
 
@@ -279,11 +294,11 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
           // Select aliens
           else {
             // Show tutorial if adding alien tut not done
-            if (!history.tutorials[0]) {
-              $scope.tutorial = true;
-              $('#tutorial').accordion({active: 0});
-              history.tutorials[0] = true;
-            }
+            // if (!history.tutorials[0]) {
+            //   $scope.tutorial = true;
+            //   $('#tutorial').accordion({active: 0});
+            //   history.tutorials[0] = true;
+            // }
 
             history.historySelectFlag = 0;
             bucket.buckets[bucket.current_bucket].alien.push(alien_id);
@@ -341,11 +356,11 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
 
   $scope.newGroup = function(tut) {
     // Show tutorial if adding bucket tut not done
-    if (!history.tutorials[1] && tut) {
-      $scope.tutorial = true;
-      $('#tutorial').accordion({active: 1});
-      history.tutorials[1] = true;
-    }
+    // if (!history.tutorials[1] && tut) {
+    //   $scope.tutorial = true;
+    //   $('#tutorial').accordion({active: 1});
+    //   history.tutorials[1] = true;
+    // }
     $scope.checked = false;
     bucket.addBucket();
     update.updateIllegalAlien();
@@ -577,8 +592,6 @@ angular.module('nwmApp').controller('LevelOneController', function($scope, Resta
     $scope.topWindowHeight = window.innerWidth * 0.095 + 20;
   };
 
-  $scope.closeTutorial = function() {
-    $scope.tutorial = false;
-  };
+
 
 });

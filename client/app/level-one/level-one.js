@@ -519,6 +519,26 @@ levelOne.service('history', function(aliens) {
     // 3:'switch-aliens'
     // 4:'removing alien'
     // 5:'highlight'
-    this.tutorials = [false, false, false, false, false, false];
+    this.tutorials = {'add': 'Pick an alien to add to your current group (to add, click on the alien).',
+                      'added': 'Once an alien is added to your current group, it\'s background color' +
+                       'will change to the color of the group (in this case, it\'s blue). You can also view what' +
+                      'aliens are in your current group at the top panel.',
+                      'add_similar': 'Aliens similar to other aliens in your current group are highlighted' +
+                      'yellow. Pick a highlighted alien and add it to a group.',
+      'good_matching': 'If your score went up, then you made a good choice.' + 'Your score can ' +
+      'increase much more if you pick aliens that share even more properties with the aliens' +
+      'in your current group.',
+      'add_illegal': 'All aliens have enemies. Aliens that are enemies of an alien in your current' +
+      'group are shown with a striped background. Enemy aliens cannot be placed into the same group. Click on an enemy' +
+      'alien now.',
+    'new_group':'Now create a new group by clicking the \'Add new group \' button at the bottom right.' +
+    'Note that you can only create new groups if your current group is non-empty.',
+      'return2':'Aliens that are already in groups will have a green background. If you would like to go back and modify a previously created group, simply click on an alien from that' +
+      'group. Return to and old group now.',
+      'return': 'If you would like to go back and modify a previously created group, simply click on an alien from that' +
+    'group. Return to and old group now.',
+    'undo': 'Lastly, you can undo/redo your moves by clicking the \'Undo\' and \'Redo\' bottoms on the bottom right.',
+      'play': 'You are now ready to play! Click to start playing.'}
+
   }
 });
