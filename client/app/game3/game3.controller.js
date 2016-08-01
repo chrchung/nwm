@@ -1,37 +1,14 @@
 'use strict';
 
-angular.module('nwmApp').controller('LevelOneController',
-  function($scope, Restangular, $stateParams, $state, $timeout, update, helper, database, style, bucket, history, aliens, $localStorage) {
+angular.module('nwmApp').controller('game3Controller', function($scope, Restangular, $stateParams, $state, $timeout, update, helper, database, style, bucket, history, aliens) {
   // $('.ui.accordion')
   //   .accordion()
   // ;
 
-  $scope.tutorialState = 'objective';
-
-    $scope.$storage = $localStorage;
-    $scope.undo_key_pointer = 0;
-
-    // Clear the undo storage
-    $( document ).ready(function() {
-      delete $scope.$storage.buckets;
-      delete $scope.$storage.aliens;
-    });
-
-  /// check whether it's the player's first time playing
-  // Restangular.all('api/scores/')
-  //   .get('cur_user_recent').then(function (serverJson) {
-  //   //alert(serverJson);
-  //   if (serverJson.score != null) {
-  //     $scope.tutorialState = 'none';
-  //   }
-  // });
-  ///
-
-
   $scope.currentBucket = function(curBucket) {
     // Currently we are using the FIRST highlighting algorithm. Second => 2, Third => 3.
-    bucket.currentBucket(curBucket, 2);
-    //bucket.orderAlienArray();
+    bucket.currentBucket(curBucket, 1);
+    bucket.orderAlienArray();
     update.updateIllegalAlien();
     if (aliens.zoominAliens.length > 0) {
       $scope.checked = true;
@@ -189,7 +166,6 @@ angular.module('nwmApp').controller('LevelOneController',
 
         for (var j = 0; j < bucket.buckets[i].alien.length; j++) {
           var alien_id = bucket.buckets[i].alien[j];
-          console.log(alien_id);
           aliens.alienArray[alien_id].color = bucket.buckets[i].color;
           aliens.alienArray[alien_id].in = true;
         }
@@ -239,7 +215,7 @@ angular.module('nwmApp').controller('LevelOneController',
       // Aliens in other buckets, can be switched to current bucket when being clicked
       if (aliens.alienArray[alien_id].in && bucket.buckets[bucket.current_bucket].color != aliens.alienArray[alien_id].color) {
 
-        // // Show tutorial if switching aliens tut not done
+        // Show tutorial if switching aliens tut not done
         // if (!history.tutorials[3]) {
         //   $scope.tutorial = true;
         //   $('#tutorial').accordion({active: 3});
@@ -405,132 +381,63 @@ angular.module('nwmApp').controller('LevelOneController',
     $scope.dragged = true;
   };
 
-    /*
-     * ==========================================
-     * ||             UNDO / REDO              ||
-     * ==========================================
-     */
+  $scope.undo = function() {
 
-    // Undo structure: [NEW, OLD, OLD, OLD...]
-    //                   ↑ current pointer
+    bucket.buckets = history.historyBuckets;
+    aliens.aliensInBucket = history.historyAliensInBucket;
+    $scope.colorArray = history.historyColorArray;
 
-    // SCENARIO 1:
-    // User clicks UNDO => [NEW, OLD, OLD, OLD...] and update view to current pointer
-    //                            ↑ moves pointer backward
-    // User clicks REDO => [NEW, OLD, OLD, OLD...] and update view to current pointer
-    //                      ↑ moves pointer forward
+    // Previously unselected alien, now we want to add it back
+    if (history.historySelectFlag == 1) {
+      $("#" + history.historyAlienId).css("background-color", bucket.buckets[bucket.current_bucket].color);
+      update.updateIllegalAlien($scope.alienArray, history.historyBucketId);
+      $scope.currentBucket(history.historyBucketId);
+      feedback(history.historyAlienId);
 
-    // SCENARIO 2:
-    // User clicks UNDO  => [NEW, OLD, OLD, OLD...] and update view to current pointer
-    //                             ↑ moves pointer backward
-    // User makes change => [NEW', OLD, OLD, OLD...] and update view to current pointer
-    //                        ↑ moves pointer forward, 'NEW' gets overwritten
+      $timeout(function() {
+        angular.element('#color_block_' + history.historyBucketId).triggerHandler('click');
+      }, 0);
+    }
 
-    $scope.$watch(angular.bind(bucket, function (buckets) {
-      return bucket.buckets;
-    }), function (newVal, oldVal) {
-      if (!newVal || !oldVal) {
-        return;
-      }
-      console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal));
-      console.log("newVal (buckets) is =>" + JSON.stringify(newVal));
-      if (!$scope.$storage.buckets) {
-        $scope.$storage.buckets = {};
-      }
+    // Previously selected alien, now we want remove it
+    else if (history.historySelectFlag == 0) {
+      $("#" + history.historyAlienId).css("background-color", "rgba(232,245,252,, 1)");
+      update.updateIllegalAlien($scope.alienArray, history.historyBucketId);
+      $scope.currentBucket(history.historyBucketId);
+      feedback(history.historyAlienId);
 
-      // Iterate over storage to see if this newVal is from an UNDO (code 1) or from user's new action (code 0)
-      var identical_bucket_flag = 1;
-      _.forEach($scope.$storage.buckets, function(b, t) { // Caution: value first, key second!
-        console.log("COMPARE newval", b[0] == JSON.stringify(newVal));
-        console.log("COMPARE undo_key_pointer", Number(t) == $scope.undo_key_pointer);
-        if (b[0] == JSON.stringify(newVal) && Number(t) == $scope.undo_key_pointer) {
-          identical_bucket_flag = 0;
-          return false;
-        } else if (b[0] == JSON.stringify(newVal) && Number(t) != $scope.undo_key_pointer) {
-          identical_bucket_flag = 1;
-        }
-      });
-      // If it is a new action, simply add it to the storage
-      if (identical_bucket_flag == 1) {
-        var newStamp = new Date().valueOf(); // current timestamp as an integer
+      $timeout(function() {
+        angular.element('#color_block_' + history.historyBucketId).triggerHandler('click');
+      }, 0);
+    }
 
-        // First bucket
-        if (_.keys($scope.$storage.buckets).length == 0) {
-          $scope.$storage.buckets[newStamp] =
-            [JSON.stringify(newVal), bucket.current_bucket, null,  null];
-        }
+    // Previously swapped alien, now we want to move it back to previous bucket
+    // This includes change alien's color to previous bucket's color
+    // If previous bucket was unfortunately removed, we want to add it back
 
-        // Not first bucket
-        else {
-          // bucket storage data structure: {timestampKey: [buckets, current_bucket, lastState, nextState]}
-          // Now we want to find the key to lastState
-          _.forEach($scope.$storage.buckets, function(b, t) {
-            if (b[0] == JSON.stringify(oldVal) && t == $scope.undo_key_pointer) { // Note that the key pointer is still the old one
-              // Set lastStep flag for current state and nextStep pointer for last state
-              b[3] = newStamp;
-              $scope.$storage.buckets[newStamp] =
-                [JSON.stringify(newVal), bucket.current_bucket, $scope.undo_key_pointer,  null];
-            }
-          });
-        }
-        // Finally update the key pointer
-        $scope.undo_key_pointer = newStamp;
-        console.log("current index =>" + $scope.undo_key_pointer);
-      }
-      console.log("storage.buckets => ", $scope.$storage.buckets);
-    }, true);
+    else {
+      $("#" + history.historyAlienId).css("background-color", history.historyColor);
+      update.updateIllegalAlien($scope.alienArray, history.historySwappedBucketId);
+      $scope.currentBucket(history.historySwappedBucketId);
+      feedback(history.historyAlienId);
 
+      $timeout(function() {
+        angular.element('#color_block_' + history.historySwappedBucketId).triggerHandler('click');
+      }, 0);
+    }
 
-    $scope.undo = function() {
-      var last_key = $scope.$storage.buckets[$scope.undo_key_pointer][2];
-      if (!last_key) {
-        alert("No more UNDOs, man :/");
-        return;
-      }
-      var last_buckets = $scope.$storage.buckets[Number(last_key)];
+    if (bucket.buckets[history.historyBucketId].alien.length == 0 && bucket.buckets.length > 1) {
+      // Check if removing a predefined color
+      bucket.updatePredefinedColor(history.historyBucketId);
+      bucket.buckets.splice(history.historyBucketId, 1);
+      $scope.colorArray.splice(bucket.buckets[history.historyBucketId].color, 1);
+      bucket.num_buckets--;
+    }
 
-      // Update key pointer
-      $scope.undo_key_pointer = last_key;
-      console.log("current index =>" + $scope.undo_key_pointer);
+    bucket.num_buckets = bucket.buckets.length;
+  }
 
-      if (!last_buckets) {
-        alert("undo error");
-      }
-
-      bucket.restoreBucketsHelper(last_buckets);
-      $scope.currentBucket(bucket.current_bucket);
-    };
-
-    $scope.redo = function() {
-      var next_key = $scope.$storage.buckets[$scope.undo_key_pointer][3];
-      if (!next_key) {
-        alert("No more REDOs, man :/");
-        return;
-      }
-      var next_buckets = $scope.$storage.buckets[Number(next_key)];
-
-      // Update key pointer
-      $scope.undo_key_pointer = next_key;
-      console.log("UNDO (buckets) =>" + next_buckets);
-
-      if (!next_buckets) {
-        alert("redo error");
-      }
-
-      bucket.restoreBucketsHelper(next_buckets);
-      $scope.currentBucket(bucket.current_bucket);
-    };
-
-    $scope.$on("$destroy", function () {
-      console.log("delete all undo data now...");
-      delete $scope.$storage.buckets;
-    });
-
-    /*
-     * ===========================================
-     */
-
-    $scope.buttonReq = '';
+  $scope.buttonReq = '';
   $scope.togglePopup = function(msg, req) {
     $("#overlay").toggle();
     $scope.buttonReq = req;
@@ -670,6 +577,8 @@ angular.module('nwmApp').controller('LevelOneController',
     $scope.topWindowHeight = window.innerWidth * 0.095 + 20;
   };
 
-
+  // $scope.closeTutorial = function() {
+  //   $scope.tutorial = false;
+  // };
 
 });

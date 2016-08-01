@@ -7,53 +7,6 @@
   <button class="btn menu-button" ng-click="logout()">LOG OUT</button>
 </div> -->
 
-<div ng-show="false" class="tutorial text-center">
-
-  <div ng-show="tutorialState == 'objective'">
-    <h1>Game Objective</h1>
-    <p>In the game, your task is to match aliens that share similar properties.
-      The object of the game is to produce optimal groupings—groupings that have the highest degree of
-      similarity.
-    </p>
-
-    <p>
-      Here is an alien.
-    </p>
-    <img class="smaller" src="http://individual.utoronto.ca/myricecrispi/game/training11.png"/>
-    <p>Here is another alien that is similar to the first alien. They both have a red diamond.</p>
-    <img class="smaller" src="http://individual.utoronto.ca/myricecrispi/game/training.png"/>
-    <p>Here is another alien that is even more similar to the first alien. They both have the same tail and hairstyle. This pair makes up
-      a more optimal grouping that the previous pair. In the game, you want to match aliens that are as
-      similar as possible.
-    </p>
-    <img class="smaller" src="http://individual.utoronto.ca/myricecrispi/game/training12.png"/>
-    <br>
-    <h1>What makes aliens similar?
-    </h1>
-
-    <p>For aliens to be similar, they have to share identical properties (i.e. if two aliens have the exact same
-      bracelet, they are considered similar). Aliens that share similar but not identical properties are not
-      considered similar (i.e. if two aliens are wearing bracelets, but the bracelets are different, they are
-      not considered similar unless they have other features in common).
-    </p>
-    <p>Furthermore, this is a base alien with no properties.
-    </p>
-    <img class="smaller" src="http://individual.utoronto.ca/myricecrispi/game/none2.png"/>
-    <p>As you can see, it is already wear a helmet, shirt, shorts, boots, and socks. These items should not be
-      considered common attributes when you are looking for similar aliens.
-    </p>
-    <br>
-    <button ng-click="tutorialState='add'" class="btn menu-button">Okay</button>
-  </div>
-
-  <div ng-show="tutorialState != 'objective'">
-    {{ content }}
-  </div>
-
-  <div ng-show="showOk">
-    <button ng-click="changeTutorialState()" class="btn menu-button">Okay</button>
-  </div>
-</div>
 
 <div id="popup">
   <div id='popup-content'>
@@ -192,16 +145,16 @@
 </div>
 
 <div id="aliens" style='margin-top: {{topWindowHeight + 10}}px;'>
-  <div ng-repeat="id in bucket.orderedIds"
-       class="an-alien alien {{id}} {{aliens.alienArray[id].illegal}} {{aliens.alienArray[id].similar}}"
-       ng-click="selectAlien(id)"
-       ng-right-click="showGroup(id)"
-       style="background-color: {{aliens.alienArray[id].color}};">
-    <img src="{{aliens.alienArray[id].url}}"/>
+  <div ng-repeat="alien in aliens.alienArray"
+       class="an-alien alien {{alien.id}} {{alien.illegal}} {{alien.similar}}"
+       ng-click="selectAlien(alien.id)"
+       ng-right-click="showGroup(alien.id)"
+       style="background-color: {{alien.color}};">
+    <img src="{{alien.url}}"/>
   </div>
 </div>
 
-<!--&lt;!&ndash; Tutorial &ndash;&gt;-->
+<!-- Tutorial -->
 <!--<div ng-show='tutorial' class="ui styled accordion panel panel-default" id='tutorial'>-->
   <!--&lt;!&ndash; add-alien: id 0 &ndash;&gt;-->
   <!--<div id="tut-add-alien" class="active tut-title panel-heading">-->

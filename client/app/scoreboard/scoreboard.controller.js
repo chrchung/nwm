@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('nwmApp')
-  .controller('ScoreboardCtrl', function ($scope, $state, Restangular) {
+  .controller('ScoreboardCtrl', function ($scope, $state, Restangular, $timeout) {
 
     $scope.stats = [];
+    $scope.chooseMode = false;
 
     $scope.logout = function (scores) {
       Restangular.all('api/auths/logout').post(
@@ -82,4 +83,15 @@ angular.module('nwmApp')
     // $scope.getUserRecent();
     // $scope.unlockedLevels();
     // $scope.getStats();
+
+
+    $scope.removeModeSelection = function () {
+
+      $timeout(function () {
+        $scope.chooseMode = false;
+      }, 4000);
+
+
+    };
+
   });

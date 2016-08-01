@@ -5,8 +5,17 @@
   <div class="text-center">
 
     <div class="inline a-one animated bounceInDown hvr-grow-rotate">
+
       <div class="hvr-grow-rotate">
-        <div class="heading" ui-sref="game({id: 10})">START GAME</div>
+        <div ng-show="chooseMode" id="mode1" class="hvr-pulse-shrink choose-mode">
+          <div ui-sref="game({id: 10})">Version 1</div>
+        </div>
+        <div ng-show="chooseMode" id="mode2" class="hvr-pulse-shrink choose-mode">
+          <div ui-sref="game2({id: 10})">Version 2</div>
+      </div>
+
+        <!--<div class="heading" ui-sref="game({id: 10})">START GAME</div>-->
+        <div ng-click="chooseMode = true" class="heading">START GAME</div>
       </div>
     </div>
 

@@ -1,4 +1,12 @@
 <div id="overlay"></div>
+<div id="clear-overlay" ng-click="toggleIllegalAlert()"></div>
+<!-- menu -->
+<!-- <div id="menu">
+  <button class="btn menu-button" ng-click="toggleMenu()">RESUME</button><br/>
+  <button class="btn menu-button" ng-click="quit()">QUIT GAME</button><br/>
+  <button class="btn menu-button" ng-click="logout()">LOG OUT</button>
+</div> -->
+
 
 <div id="popup">
   <div id='popup-content'>
@@ -12,58 +20,200 @@
   <div id='popup-content2'>
     <button class="btn menu-button" ng-click="setUpGame('best')">Play from best matching so far</button>
     <br/>
+    <button class="btn menu-button" ng-click="setUpGame('saved')">Continue from saved game</button>
+    <br/>
     <button class="btn menu-button" ng-click="setUpGame('scratch')">Start from scratch</button>
     <br/>
   </div>
 </div>
 
+
 <div id="popup3">
   <div id='popup-content3'>
     <button class="btn menu-button" ng-click="submitScore()">Submit score</button>
     <br/>
-    <button class="btn menu-button" ng-click="endGame()">Resume</button>
+    <button class="btn menu-button" ng-click="saveScore()">Save for later</button>
     <br/>
     <button class="btn menu-button" ng-click="quit()">Quit</button>
     <br/>
   </div>
 </div>
 
+<div id="replace-popup">
+  <div class="replace-title">This alien has enemies.</div>
+  <div id='replace-popup-content'><br/>
+    <img ng-src="{{aliens.alienArray[aliens.newId].url}}"
+          style="background-color: {{bucket.buckets[bucket.current_bucket].color;}}"/>
+    <span class="glyphicon glyphicon-share-alt"></span>
+    <img ng-src="{{aliens.alienArray[aliens.oldId].url}}" class='replaced'
+          style="background-color: {{bucket.buckets[bucket.current_bucket].color;}}"/><br/>
+    <button class="btn menu-button" ng-click="selectIllegalAlien(true)">Replace</button>
+    <button class="btn menu-button" ng-click="selectIllegalAlien(false)">Cancel</button>
+  </div>
+</div>
+
 <span id="feedback">{{feedback}}</span> <span id="small_feedback"></span>
 
+<!-- Zoomed aliens -->
+<!--<div id="selection-screen">-->
+<!--<div ng-repeat="alien in selectedAliens"-->
+<!--class="model{{get_model(alien)}}"-->
+<!--style="white-space: nowrap;-->
+<!--display: inline-block;-->
+<!--width: 22%;-->
+<!--margin: 10px 10px 10px 10px;-->
+<!--background-color: white;-->
+<!--border-radius: 10px;">-->
+<!--<div class="selected-alien"-->
+<!--ng-click="selectAlien(alien)">-->
+<!--<img ng-src="{{getUrl(get_model(alien), get_alien(alien))}}" />-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div id="close-selection-screen" ng-click="toggleSelectionScreen()">×</div>-->
+
+<!-- alien contents -->
+<div id="top-right">
+  <!-- <div class="zoom-in-area"
+          ng-click="togglePageslide()"
+          data-drop="true"
+          jqyoui-droppable="{onDrop:'onDropZoom'}">
+    <span class="glyphicon glyphicon-zoom-in" size='50px'></span>
+  </div> -->
+  <div id="img-container"></div>
+</div>
+
 <div id="bottom-right">
+  <!-- info -->
+  <!--<div class="text-center" id="score-board">-->
+  <!--<span class='title-font'>YOUR SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="0.5"></span></span><br/>-->
+  <!--<span class='title-font'>BEST SCORE EVER: {{highest_score}}</span>-->
+  <!--</div>-->
+
+  <!-- colour list -->
+  <!--<div id="add-group text-center">-->
+  <!--<p class='colour-error'>You have an empty bucket!</p>-->
+  <!--<button id="add-group-button" class="btn" ng-click="newGroup()">Add new group</button>-->
+  <!--</div>-->
+
   <div id="buttons">
     <!-- error message -->
     <!--<p class='colour-error'>You have an empty bucket!</p>-->
     <button id="undo-button" class="btn" ng-click="redo()">Redo</button>
     <button id="redo-button" class="btn" ng-click="undo()">Undo</button>
-    <button id="add-group-button" class="btn" ng-click="newGroup()">Add new group</button>
+    <button id="add-group-button" class="btn" ng-click="newGroup(true)" ng-disabled="!checked">Add new group</button>
 
-    <div class='title-font big'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="0.5"></span></div>
+    <div class='title-font big'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="1"></span></div>
     <div class='title-font small'>(Best player score: {{highest_score}})</div>
     <button id="end-button" class="btn" ng-click="endGame()">End game</button>
     <div id="current-group">
       <span class="title-font">Current group:</span>
-      <div id="current-group-color">
+      <div ng-click="goToGroup()" id="current-group-color" style="background:{{bucket.buckets[bucket.current_bucket].color}}">
       </div>
-      <div class="title-font small">(Click to go to group)</div>
+      <!--<div class="title-font small">(Click to go to group)</div>-->
     </div>
+  </div>
+
+
+
+  <!--<div id="buttons">-->
+  <!--&lt;!&ndash; <button class="btn menu-button" ng-init="moveAliens = false" ng-click="moveAliens = !moveAliens">{{moveAliens}}</button> &ndash;&gt;-->
+  <!--<button class="btn menu-button-small" ng-click="togglePopup('Do you want to save the score?', 'submit')">Submit</button><br/>-->
+  <!--<button class="btn menu-button-small" ng-click="togglePopup('Do you want to save the score?', 'save')">Save</button><br/>-->
+  <!--<button class="btn menu-button-small" ng-click="togglePopup('Do you want to quit the game?', 'quit')">Quit</button><br/>-->
+  <!--</div>-->
+</div>
+
+<!-- <div id="aliens">
+  <div ng-repeat="alien in aliens.alienArray | toArray"
+       class="alien {{alien.id}} {{alien.illegal}} {{alien.similar}}"
+       ng-click="selectAlien(alien.id)"
+       ng-right-click="showGroup(alien.id)"
+       style="background-color: {{alien.color}};">
+    <img src="{{alien.url}}"/>
+  </div>
+</div> -->
+
+<div id='current-aliens' style='height: {{topWindowHeight}}px;'>
+  <div ng-repeat="id in bucket.buckets[bucket.current_bucket].alien"
+       class="current-alien alien {{id}}"
+       ng-click="showHighlightAlien(id)"
+       style="background-color: {{aliens.alienArray[id].color}};">
+    <img src="{{aliens.alienArray[id].url}}"/>
   </div>
 </div>
 
-<!--display aliens in grid-->
-<!--ng-mouseenter="highLight(alien.id)"-->
-<!--ng-mouseleave="lowLight()"-->
-<div id="aliens">
-  <div ng-repeat="alien in zoominAliens"
-       ng-mouseover="selectedAlien(alien.id)"
-       class="alien {{alien.illegal}}"
-       id="{{alien.id}}"
-       ng-click="selectAlien(alien.id)"
-       ng-right-click="showGroup(alien.id)"
-       style="display: inline-block;
-                margin-right: 10px;
-                margin-bottom: 10px;
-                background-color: {{alien.color}};">
-    <img src="{{alien.url}}"/>
+<div id="aliens" style='margin-top: {{topWindowHeight + 10}}px;'>
+  <div ng-repeat="id in aliens.zoominAliens"
+       class="an-alien alien {{id}} {{aliens.alienArray[id].illegal}}"
+       ng-click="selectAlien(id, true)"
+       ng-right-click="showGroup(id)"
+       style="background-color: {{aliens.alienArray[id].color}};">
+    <img src="{{aliens.alienArray[id].url}}"/>
   </div>
 </div>
+
+<!--&lt;!&ndash; Tutorial &ndash;&gt;-->
+<!--<div ng-show='tutorial' class="ui styled accordion panel panel-default" id='tutorial'>-->
+  <!--&lt;!&ndash; add-alien: id 0 &ndash;&gt;-->
+  <!--<div id="tut-add-alien" class="active tut-title panel-heading">-->
+    <!--Add an alien-->
+  <!--</div>-->
+  <!--<div class="active tut-content panel-body">-->
+    <!--<p>Click on an alien to add the alien to the current bucket</p>-->
+    <!--<button class="btn menu-button" ng-click="closeTutorial()">OK</button>-->
+  <!--</div>-->
+
+  <!--&lt;!&ndash; create-group: id 1 &ndash;&gt;-->
+  <!--<div id="tut-create-group" class="tut-title panel-heading">-->
+    <!--Create a new group-->
+  <!--</div>-->
+  <!--<div class="tut-content panel-body">-->
+    <!--<p>Click on "Add new group" button to create a new group.</p>-->
+    <!--<button class="btn menu-button" ng-click="closeTutorial()">OK</button>-->
+  <!--</div>-->
+
+  <!--&lt;!&ndash; illegal-alien: id 2 &ndash;&gt;-->
+  <!--<div id="tut-illegal-alien" class="tut-title panel-heading">-->
+    <!--Illegal alien-->
+  <!--</div>-->
+  <!--<div class="tut-content panel-body">-->
+    <!--<p>You can switch an illegal alien with an alien that is alredy in the current bucket.</p>-->
+    <!--<button class="btn menu-button" ng-click="closeTutorial()">OK</button>-->
+  <!--</div>-->
+
+  <!--&lt;!&ndash; switch-aliens: id 3 &ndash;&gt;-->
+  <!--<div id="tut-switchh-aliens" class="tut-title panel-heading">-->
+    <!--Switch aliens-->
+  <!--</div>-->
+  <!--<div class="tut-content panel-body">-->
+    <!--<p>You can swicth aliens by clicking on an alien that is already in another bucket.</p>-->
+    <!--<button class="btn menu-button" ng-click="closeTutorial()">OK</button>-->
+  <!--</div>-->
+
+  <!--&lt;!&ndash; removing-aliens: id 4 &ndash;&gt;-->
+  <!--<div id="tut-switch-aliens" class="tut-title panel-heading">-->
+    <!--Remove an alien-->
+  <!--</div>-->
+  <!--<div class="tut-content panel-body">-->
+    <!--<p>Click on an alien to remove from the current bucket.</p>-->
+    <!--<button class="btn menu-button" ng-click="closeTutorial()">OK</button>-->
+  <!--</div>-->
+<!--</div>-->
+
+<!-- Page slide -->
+
+  <!-- <div ng-show="checked" class="sidenav">
+      <div id="section" resizable r-directions="['right']" r-width="150" style="background-color: transparent;">
+        <div ng-repeat="id in aliens.zoominAliens"
+              ng-mouseenter="showHighlightAlien(id, true)"
+              ng-mouseleave="showHighlightAlien(id, false)"
+             class="zoomed-alien {{aliens.alienArray[id].illegal}}"
+             style="background-color: {{aliens.alienArray[id].color}};"
+             ng-click="selectAlien(id)"
+             ng-right-click="showGroup(id)">
+          <img src="{{aliens.alienArray[id].url}}"/>
+        </div>
+
+      </div>
+    </div> -->

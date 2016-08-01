@@ -360,7 +360,7 @@ levelOne.service('style', function(aliens, helper) {
 /*******************************************************************
   Handles buckets, colour array, predefined colours
 *******************************************************************/
-levelOne.service('bucket', function(style, $timeout, aliens) {
+levelOne.service('bucket', function(style, $timeout, aliens, history) {
 
   this.initColors = function() {
     this.predefinedColors = {
@@ -380,7 +380,7 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
       'rgba(140, 154, 255, 108)': false,
       'rgba(194, 221, 227, 1)': false,
     'rgba(255, 179, 179, 1)': false,
-    'rgba(221, 223, 185, 179, 1)': false,
+    'rgba(221, 223, 185, 1)': false,
     'rgba(248, 255, 105, 1)': false,
     'rgba(210, 210, 255, 1)': false,
     'rgba(158, 209, 212, 1)': false,
@@ -459,19 +459,14 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
 
   /* Update the array of colours and returns. */
   this.addBucket = function() {
-    // Cannot add a new bucket
-    if (this.buckets.num_buckets > 0 && this.buckets[this.num_buckets - 1].alien.length == 0) {
-      $(".colour-error").css("top", $(".add-colour").position().top - 20);
-      $(".colour-error").css("left", $(".add-colour").position().left - 100);
-      $(".colour-error").show().delay(1000).fadeOut();
-    } else {
-      var color = this.getRandomColor();
-      this.buckets.push({alien:[], color:color});
-      this.num_buckets++;
-      var bucket_ind  = this.num_buckets - 1;
-      this.colorArray.push(color);
-      this.currentBucket(bucket_ind, 1);
-    }
+    var color = this.getRandomColor();
+    this.buckets.push({alien:[], color:color});
+    this.num_buckets++;
+    var bucket_ind  = this.num_buckets - 1;
+    this.colorArray.push(color);
+    history.userActions.push("Create bucket " + bucket_ind);
+    this.currentBucket(bucket_ind);
+    this.orderAlienArray();
   };
 
   this.getRandomColor = function() {
@@ -502,6 +497,7 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
   };
 
   this.removeBucket = function(bid) {
+    history.userActions.push("Remove bucket " + bid);
     this.updatePredefinedColor(bid);
     this.buckets.splice(bid, 1);
     this.colorArray.splice(bid, 1);
@@ -535,4 +531,46 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
       }
     }
   };
+});
+
+levelOne.service('history', function(aliens) {
+
+  this.initHistory = function() {
+    this.historyBuckets = [];
+    this.historyAliensInBucket = [];
+    this.historyAlienId = '';
+    this.historyBucketId = '';
+    this.historySelectFlag = 0; // 0 means previously selected, 1 means previously unselected, 2 means previously swapped
+    this.historyColor = '';
+    this.historySwappedBucketId = '';
+    this.historyColorArray = [];
+    this.userActions = [];
+    // 0:'add-alien'
+    // 1:'illegal-alien'
+    // 2:'create-group'
+    // 3:'switch-aliens'
+    // 4:'removing alien'
+    // 5:'highlight'
+    this.tutorials = {'add': 'Pick an alien to add to your current group (to add, click on the alien).',
+                      'added': 'Once an alien is added to your current group, it\'s background color' +
+                       'will change to the color of the group (in this case, it\'s blue). You can also view what' +
+                      'aliens are in your current group at the top panel.',
+                      'add_similar': 'Aliens similar to other aliens in your current group are highlighted' +
+                      'yellow. Pick a highlighted alien and add it to a group.',
+      'good_matching': 'If your score went up, then you made a good choice.' + 'Your score can ' +
+      'increase much more if you pick aliens that share even more properties with the aliens' +
+      'in your current group.',
+      'add_illegal': 'All aliens have enemies. Aliens that are enemies of an alien in your current' +
+      'group are shown with a striped background. Enemy aliens cannot be placed into the same group. Click on an enemy' +
+      'alien now.',
+    'new_group':'Now create a new group by clicking the \'Add new group \' button at the bottom right.' +
+    'Note that you can only create new groups if your current group is non-empty.',
+      'return2':'Aliens that are already in groups will have a green background. If you would like to go back and modify a previously created group, simply click on an alien from that' +
+      'group. Return to and old group now.',
+      'return': 'If you would like to go back and modify a previously created group, simply click on an alien from that' +
+    'group. Return to and old group now.',
+    'undo': 'Lastly, you can undo/redo your moves by clicking the \'Undo\' and \'Redo\' bottoms on the bottom right.',
+      'play': 'You are now ready to play! Click to start playing.'}
+
+  }
 });
