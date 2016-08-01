@@ -26,6 +26,7 @@ module.exports = function(config) {
       'client/bower_components/restangular/dist/restangular.js',
       'client/bower_components/angular-filter-count-to/dist/angular-filter-count-to.min.js',
       'client/bower_components/angular-pageslide-directive/dist/angular-pageslide-directive.js',
+      'client/bower_components/ngstorage/ngStorage.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'client/app/app.js',

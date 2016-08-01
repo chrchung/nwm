@@ -411,6 +411,37 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
     this.colorArray = [];
   }
 
+  this.restoreBucketsHelper= function (data) {
+    this.predefinedColorCounter = 0;
+    this.num_buckets = 0;
+    this.current_bucket = data[1];
+    this.colorArray = [];
+    this.buckets = JSON.parse(data[0]);
+
+    // Clear all the previous alien color background and in attributes
+    _.each(aliens.alienArray, function (a) {
+      a.color = "rgba(255,255,255, 0)";
+      a.in = false;
+    });
+
+    // Restore data structures
+    for (var i = 0; i < this.buckets.length; i++) {
+      this.colorArray.push(this.buckets[i].color);
+      this.num_buckets++;
+
+      if (this.predefinedColors[this.buckets[i].color] == false) {
+        this.predefinedColors[this.buckets[i].color] = true;
+        this.predefinedColorCounter++;
+      }
+
+      for (var j = 0; j < this.buckets[i].alien.length; j++) {
+        var alien_id = this.buckets[i].alien[j];
+        aliens.alienArray[alien_id].color = this.buckets[i].color;
+        aliens.alienArray[alien_id].in = true;
+      }
+    }
+  }
+
   /* Returns an array of all highlighted aliens */
   this.currentBucket = function(curBucket, method_flag) {
     this.current_bucket = curBucket;
@@ -439,7 +470,7 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
       this.num_buckets++;
       var bucket_ind  = this.num_buckets - 1;
       this.colorArray.push(color);
-      this.currentBucket(bucket_ind);
+      this.currentBucket(bucket_ind, 1);
     }
   };
 
@@ -504,15 +535,4 @@ levelOne.service('bucket', function(style, $timeout, aliens) {
       }
     }
   };
-});
-
-levelOne.service('history', function(bucket, aliens) {
-  this.historyBuckets = [];
-  this.historyAliensInBucket = [];
-  this.historyAlienId = '';
-  this.historyBucketId = '';
-  this.historySelectFlag = 0; // 0 means previously selected, 1 means previously unselected, 2 means previously swapped
-  this.historyColor = '';
-  this.historySwappedBucketId = '';
-  this.historyColorArray = [];
 });
