@@ -31,7 +31,7 @@ angular.module('nwmApp').controller('LevelOneController',
   $scope.currentBucket = function(curBucket) {
     // Currently we are using the FIRST highlighting algorithm. Second => 2, Third => 3.
     bucket.currentBucket(curBucket, 2);
-    //bucket.orderAlienArray();
+    bucket.orderAlienArray();
     update.updateIllegalAlien();
     if (aliens.zoominAliens.length > 0) {
       $scope.checked = true;
@@ -339,7 +339,9 @@ angular.module('nwmApp').controller('LevelOneController',
     if (aliens.alienArray[aliens.newId].in) {
       var bucket_id = bucket.getBucketByAlienId(aliens.newId);
       bucket.buckets[bucket_id].alien.splice(bucket.buckets[bucket_id].alien.indexOf(aliens.newId), 1);
+      bucket.buckets[bucket.current_bucket].alien[bucket.buckets[bucket.current_bucket].alien.indexOf(aliens.oldId)] = aliens.newId;
       history.userActions.push("Remove alien " + aliens.newId + " from bucket " + bucket_id);
+      history.userActions.push("Remove alien " + aliens.oldId + " from bucket " + bucket.current_bucket);
 
       if (bucket.buckets[bucket_id].alien.length == 0) {
         bucket.removeBucket(bucket_id);
@@ -350,10 +352,11 @@ angular.module('nwmApp').controller('LevelOneController',
     }
     else {
       bucket.buckets[bucket.current_bucket].alien[bucket.buckets[bucket.current_bucket].alien.indexOf(aliens.oldId)] = aliens.newId;
-      aliens.alienArray[aliens.oldId].color = "rgba(232,245,252, 1)";
-      aliens.alienArray[aliens.oldId].in = false;
       history.userActions.push("Remove alien " + aliens.oldId + " from bucket " + bucket.current_bucket);
     }
+
+    aliens.alienArray[aliens.oldId].color = "rgba(232,245,252, 1)";
+    aliens.alienArray[aliens.oldId].in = false;
 
     aliens.alienArray[aliens.newId].color = bucket.buckets[bucket.current_bucket].color;
     aliens.alienArray[aliens.newId].in = true;
