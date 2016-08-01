@@ -31,9 +31,9 @@ angular.module('nwmApp').controller('LevelOneController',
   $scope.currentBucket = function(curBucket) {
     // Currently we are using the FIRST highlighting algorithm. Second => 2, Third => 3.
     bucket.currentBucket(curBucket, 2);
-    bucket.orderAlienArray();
+    bucket.updateAlienArray();
     update.updateIllegalAlien();
-    if (aliens.zoominAliens.length > 0) {
+    if (bucket.buckets[bucket.current_bucket].alien.length > 0) {
       $scope.checked = true;
       $('#aliens').css('width',  $(window).width() - $('#section').width());
     }
@@ -189,7 +189,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
         for (var j = 0; j < bucket.buckets[i].alien.length; j++) {
           var alien_id = bucket.buckets[i].alien[j];
-          console.log(alien_id);
+          //console.log(alien_id);
           aliens.alienArray[alien_id].color = bucket.buckets[i].color;
           aliens.alienArray[alien_id].in = true;
         }
@@ -389,6 +389,8 @@ angular.module('nwmApp').controller('LevelOneController',
     }
     var bid = bucket.getBucketByAlienId(alien_id);
     $scope.currentBucket(bid);
+    bucket.orderAlienArray();
+    bucket.updateAlienArray();
   }
 
   $scope.get_highest_score = function (){
@@ -435,8 +437,8 @@ angular.module('nwmApp').controller('LevelOneController',
       if (!newVal || !oldVal) {
         return;
       }
-      console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal));
-      console.log("newVal (buckets) is =>" + JSON.stringify(newVal));
+      //console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal));
+      //console.log("newVal (buckets) is =>" + JSON.stringify(newVal));
       if (!$scope.$storage.buckets) {
         $scope.$storage.buckets = {};
       }
@@ -444,8 +446,8 @@ angular.module('nwmApp').controller('LevelOneController',
       // Iterate over storage to see if this newVal is from an UNDO (code 1) or from user's new action (code 0)
       var identical_bucket_flag = 1;
       _.forEach($scope.$storage.buckets, function(b, t) { // Caution: value first, key second!
-        console.log("COMPARE newval", b[0] == JSON.stringify(newVal));
-        console.log("COMPARE undo_key_pointer", Number(t) == $scope.undo_key_pointer);
+        //console.log("COMPARE newval", b[0] == JSON.stringify(newVal));
+        //console.log("COMPARE undo_key_pointer", Number(t) == $scope.undo_key_pointer);
         if (b[0] == JSON.stringify(newVal) && Number(t) == $scope.undo_key_pointer) {
           identical_bucket_flag = 0;
           return false;
@@ -478,9 +480,9 @@ angular.module('nwmApp').controller('LevelOneController',
         }
         // Finally update the key pointer
         $scope.undo_key_pointer = newStamp;
-        console.log("current index =>" + $scope.undo_key_pointer);
+        //console.log("current index =>" + $scope.undo_key_pointer);
       }
-      console.log("storage.buckets => ", $scope.$storage.buckets);
+      //console.log("storage.buckets => ", $scope.$storage.buckets);
     }, true);
 
 
@@ -494,7 +496,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
       // Update key pointer
       $scope.undo_key_pointer = last_key;
-      console.log("current index =>" + $scope.undo_key_pointer);
+      //console.log("current index =>" + $scope.undo_key_pointer);
 
       if (!last_buckets) {
         alert("undo error");
@@ -514,7 +516,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
       // Update key pointer
       $scope.undo_key_pointer = next_key;
-      console.log("UNDO (buckets) =>" + next_buckets);
+      //console.log("UNDO (buckets) =>" + next_buckets);
 
       if (!next_buckets) {
         alert("redo error");
@@ -525,7 +527,7 @@ angular.module('nwmApp').controller('LevelOneController',
     };
 
     $scope.$on("$destroy", function () {
-      console.log("delete all undo data now...");
+      //console.log("delete all undo data now...");
       delete $scope.$storage.buckets;
     });
 

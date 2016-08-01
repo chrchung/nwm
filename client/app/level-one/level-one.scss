@@ -189,15 +189,25 @@
 }
 
 .alien {
-  width: 9.5%;
+  width: 9vw;
+  height: 9vw;
   z-index: 8;
   background-color: rgba(255,255,255,1);
   border-radius: 10px;
   display: inline-block;
-  margin-right: 0.25%;
-  margin-left: 0.25%;
-  margin-bottom: 10px;
+  margin: 0.25vw;
   cursor:pointer;
+  float: left;
+}
+
+.empty-alien {
+  width: 9vw;
+  height: 9vw;
+  z-index: 8;
+  background-color: transparent;
+  display: inline-block;
+  margin: 0.25vw;
+  float: left;
 }
 
 .illegal {

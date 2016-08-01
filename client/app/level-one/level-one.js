@@ -513,23 +513,48 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
     }
   };
 
+  this.updateAlienArray  = function() {
+    for (var i = 0; i < this.orderedIds.length; i++) {
+      var aid = this.orderedIds[i];
+      // Alien in current bucket: should display an empty space
+      if (aid[0] != "_" && aliens.alienArray[aid].color == this.buckets[this.current_bucket].color) {
+        this.orderedIds[i] = "_" + aid;
+      }
+      // Alien not in current bucket: put it back to the list
+      else if (aid[0] == "_" && aliens.alienArray[strippedAid = aid.substr(1)].color != this.buckets[this.current_bucket].color) {
+        this.orderedIds[i] = strippedAid;
+      }
+    }
+  }
+
   this.orderAlienArray = function() {
     this.orderedIds = [];
-    // Mapping id of the first alien in the bucket to list of aliens in the bucket
-    var families = {};
 
     for (var i = 0; i < this.buckets.length; i++) {
-      families[this.buckets[i].alien[0]] = this.buckets[i].alien;
+      this.orderedIds = this.orderedIds.concat(this.buckets[i].alien);
     }
 
     for (var id in aliens.alienArray) {
       if (!aliens.alienArray[id].in) {
         this.orderedIds.push(id);
       }
-      else if (id in families) {
-        this.orderedIds = this.orderedIds.concat(families[id])
-      }
     }
+
+    // // Mapping id of the first alien in the bucket to list of aliens in the bucket
+    // var families = {};
+    //
+    // for (var i = 0; i < this.buckets.length; i++) {
+    //   families[this.buckets[i].alien[0]] = this.buckets[i].alien;
+    // }
+    //
+    // for (var id in aliens.alienArray) {
+    //   if (!aliens.alienArray[id].in) {
+    //     this.orderedIds.push(id);
+    //   }
+    //   else if (id in families) {
+    //     this.orderedIds = this.orderedIds.concat(families[id])
+    //   }
+    // }
   };
 });
 
