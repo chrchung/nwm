@@ -192,7 +192,7 @@
 #aliens {
   margin-left: 2.6%;
   margin-right: 1.5%;
-  margin-bottom: 110px;
+  margin-bottom: 120px;
   width: 97%;
   margin-top: 14vw;
 
@@ -204,8 +204,8 @@
 }
 
 .alien {
-  width: 13vw;
-  height: 13vw;
+  width: 15vw;
+  height: 15vw;
   z-index: 8;
   border-radius: 10px;
   display: inline-block;
@@ -215,8 +215,8 @@
 }
 
 .empty-alien {
-  width: 13vw !important;
-  height: 13vw !important;
+  width: 15vw !important;
+  height: 15vw !important;
   z-index: 8;
   background-color: transparent;
   display: inline-block;
