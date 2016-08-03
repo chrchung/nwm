@@ -5,6 +5,8 @@ angular.module('nwmApp').controller('LevelOneController',
   // $('.ui.accordion')
   //   .accordion()
   // ;
+
+  $scope.maxScore = 0;
   $scope.tutorialState = 'objective';
 
     $scope.$storage = $localStorage;
@@ -47,6 +49,11 @@ angular.module('nwmApp').controller('LevelOneController',
   var feedback = function(alienId) {
     $scope.prev_score = $scope.score;
     $scope.score = update.getNewScore($scope.maxModels);
+
+    if ($scope.score > $scope.maxScore) {
+      $scope.maxScore = $scope.score;
+    }
+
     update.showSmallFeedback($scope.prev_score, $scope.score, alienId);
     update.showBigFeedback($scope.prev_score, $scope.score, $scope.beat, $scope.highest_score);
   };
@@ -160,6 +167,9 @@ angular.module('nwmApp').controller('LevelOneController',
 
       // Create a new bucket
       $scope.score = update.getNewScore($scope.maxModels);
+      if ($scope.score > $scope.maxScore) {
+        $scope.maxScore = $scope.score;
+      }
       $scope.newGroup(false);
     });
   };
@@ -198,15 +208,14 @@ angular.module('nwmApp').controller('LevelOneController',
 
       // Set current bucket to index 0
       $scope.score = update.getNewScore($scope.maxModels);
+      if ($scope.score > $scope.maxScore) {
+        $scope.maxScore = $scope.score;
+      }
       $scope.newGroup(false);
     });
   };
 
   $scope.selectAlien = function (alien_id) {
-
-    $("." + alien_id).addClass('highlight-hover');
-    $("." + alien_id).removeClass('highlight-hover');
-
     // Illegal Aliens
     if (aliens.alienArray[alien_id].illegal == 'illegal') {
 
@@ -324,11 +333,6 @@ angular.module('nwmApp').controller('LevelOneController',
         }
       }
     }
-    $("." + alien_id).removeClass('highlight-hover');
-    $("." + alien_id).addClass('highlight-hover');
-    setTimeout(function(){
-      $("." + alien_id).removeClass('highlight-hover');
-    }, 2000);
   };
 
   $scope.selectIllegalAlien = function(opt) {
