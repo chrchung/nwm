@@ -182,21 +182,21 @@
   </div>
 </div> -->
 
-<div id='current-aliens' style='height: {{topWindowHeight}}px;'>
+<div id='current-aliens' style=''>
   <div ng-repeat="id in bucket.buckets[bucket.current_bucket].alien"
-       class="current-alien alien {{id}}"
+       class="current-alien {{id}}"
        ng-click="selectAlien(id)"
-       style="background-color: {{aliens.alienArray[id].color}};">
+       style="border-style:solid; border-width: 7px; border-color: {{aliens.alienArray[id].color}};">
     <img src="{{aliens.alienArray[id].url}}"/>
   </div>
 </div>
 
-<div id="aliens" style='margin-top: {{topWindowHeight + 10}}px;'>
+<div id="aliens" style=''>
   <div ng-repeat="id in bucket.orderedIds">
     <div class="an-alien alien {{id}} {{aliens.alienArray[id].illegal}} {{aliens.alienArray[id].similar}}"
          ng-click="selectAlien(id)"
          ng-right-click="showGroup(id)"
-         style="background-color: {{aliens.alienArray[id].color}};"
+         style="border-style:solid; border-width: 7px; border-color: {{aliens.alienArray[id].color}};"
          ng-if="id[0] != '_'">
       <img src="{{aliens.alienArray[id].url}}"/>
     </div>

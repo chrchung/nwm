@@ -5,7 +5,6 @@ angular.module('nwmApp').controller('LevelOneController',
   // $('.ui.accordion')
   //   .accordion()
   // ;
-
   $scope.tutorialState = 'objective';
 
     $scope.$storage = $localStorage;
@@ -41,6 +40,8 @@ angular.module('nwmApp').controller('LevelOneController',
       $scope.checked = false;
       $('#aliens').css('width', '97%');
     }
+
+    $("#myDiv").height();
   };
 
   var feedback = function(alienId) {

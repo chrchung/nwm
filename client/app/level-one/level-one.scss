@@ -4,6 +4,8 @@
 }
 
 
+
+
 .tutorial {
   padding: 30px;
   background: rgba(255, 255, 255, 0.8);
@@ -177,22 +179,34 @@
   }
 }
 
+.similar {
+  background-color: rgba(255, 248, 75, 1) !important;
+}
+
+.dissimilar {
+  background-color: #E8FAFF !important;
+}
+
+
+
 #aliens {
-  margin-left: 1.5%;
+  margin-left: 2.6%;
   margin-right: 1.5%;
-  margin-bottom: 100px;
+  margin-bottom: 110px;
+  width: 97%;
+  margin-top: 14vw;
 
   img {
     z-index: 8;
     width: 100%;
+    //background-color: #E8FAFF;
   }
 }
 
 .alien {
-  width: 9vw;
-  height: 9vw;
+  width: 13vw;
+  height: 13vw;
   z-index: 8;
-  background-color: rgba(255,255,255,1);
   border-radius: 10px;
   display: inline-block;
   margin: 0.25vw;
@@ -201,8 +215,8 @@
 }
 
 .empty-alien {
-  width: 9vw;
-  height: 9vw;
+  width: 13vw !important;
+  height: 13vw !important;
   z-index: 8;
   background-color: transparent;
   display: inline-block;
@@ -234,9 +248,6 @@
   }
 }
 
-.similar {
-  border: 5px solid rgb(255, 248, 75);
-}
 
 .menu-button-small {
   margin: 5px;
@@ -390,14 +401,25 @@
   position: fixed;
   right: 0;
   top: 0;
+  height: 13vw;
   width: 100%;
-  height: 70px;
   background-color: rgba(255, 255, 255, 0.3);
-  padding: 10px 1.5% 0 1.5%;
+  padding: 10px 1.5% 0 1.8%;
+
+  div {
+    width: 11vw;
+    z-index: 8;
+    border-radius: 10px;
+    display: inline-block;
+    margin: 0.25vw;
+    cursor:pointer;
+    float: left;
+  }
 
   img {
     z-index: 8;
     width: 100%;
+    background-color: #E8FAFF;
   }
 }
 
