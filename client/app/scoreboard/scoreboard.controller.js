@@ -84,6 +84,16 @@ angular.module('nwmApp')
     // $scope.unlockedLevels();
     // $scope.getStats();
 
+    $scope.startGame = function () {
+      Restangular.all('api/users').get('current_user').then(function (serverJson) {
+        if (serverJson.seenTut == false) {
+          $state.go('tut', {id: 10});
+        } else {
+          $state.go('game', {id: 10});
+        };
+      });
+    };
+
 
     $scope.removeModeSelection = function () {
 

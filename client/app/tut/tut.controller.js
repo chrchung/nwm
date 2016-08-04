@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('nwmApp').controller('LevelOneController',
+angular.module('nwmApp').controller('TutController',
   function($scope, Restangular, $stateParams, $state, $timeout, update, helper, database, style, bucket, history, aliens, $localStorage) {
 
     var tutorial = false;
   $scope.maxScore = 0;
-  $scope.tutState = -1;
+  $scope.tutState = 0;
 
     $scope.$storage = $localStorage;
     $scope.undo_key_pointer = 0;
@@ -393,6 +393,11 @@ angular.module('nwmApp').controller('LevelOneController',
   $scope.showGroup = function(alien_id) {
     if ($scope.tutState == 7) {
       $scope.tutState = 8;
+
+      Restangular.all('/api/users/tut').post().then(
+        (function (data) {
+        }), function (err) {
+        });
     }
 
     // If alien not in bucket
@@ -689,22 +694,8 @@ angular.module('nwmApp').controller('LevelOneController',
     $scope.topWindowHeight = window.innerWidth * 0.095 + 20;
   };
 
-    // var setUpTutorial = function () {
-    //   tutorial = true;
-    //   $scope.tutState = 0;
-    //
-    //   /// check whether it's the player's first time playing
-    //   // Restangular.all('api/scores/')
-    //   //   .get('cur_user_recent').then(function (serverJson) {
-    //   //   //alert(serverJson);
-    //   //   if (serverJson.score != null) {
-    //   //     $scope.tutorialState = 'none';
-    //   //   }
-    //   // });
-    //   ///
-    // };
 
     ///set up game from best solution
     $scope.setUpGame('best');
-    // setUpTutorial();
+    //setUpTutorial();
 });

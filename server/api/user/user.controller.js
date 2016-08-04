@@ -23,6 +23,7 @@ exports.create = function(req, res) {
         var user = new Parse.User();
         user.set('username', req.body.username);
         user.set('password', req.body.password);
+        user.set('seenTut', false);
 
         user.signUp(null, {
           success: function(user) {
@@ -60,4 +61,34 @@ exports.current = function (req, res) {
   };
 };
 
+
+
+exports.seenTut = function(req, res) {
+  if (req.session.user) {
+    var User = Parse.Object.extend('User');
+    var userQuery = new Parse.Query(User);
+    userQuery.equalTo('username', req.session.user.username);
+    userQuery.first({
+      success: function (user) {
+        user.set('seenTut', true);
+        user.save(null, {
+          success: function (gameScore) {
+            res.status(200).end();
+          },
+          error: function (gameScore, error) {
+            res.status(400).end();
+          }
+        });
+
+      },
+      error: function (error) {
+        res.status(400).end();
+      }
+    });
+  } else {
+    res.status(400).end();
+  }
+  ;
+
+};
 

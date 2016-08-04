@@ -322,6 +322,15 @@ exports.getCurUserRecentScores = function (req, res) {
     userQuery.equalTo('username', req.session.user.username);
     userQuery.find({
       success: function (user) {
+        newScore.save(null, {
+          success: function (gameScore) {
+            res.status(200).end();
+          },
+          error: function (gameScore, error) {
+            res.status(400).end();
+          }
+        });
+
         var Scores = Parse.Object.extend('Scores');
         var scoreQuery = new Parse.Query(Scores);
         scoreQuery.equalTo('user', req.session.user.username);

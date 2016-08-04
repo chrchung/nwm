@@ -7,7 +7,6 @@
   <button class="btn menu-button" ng-click="logout()">LOG OUT</button>
 </div> -->
 
-
 <div id="popup">
   <div id='popup-content'>
     <p class='alert-msg'></p>
@@ -43,15 +42,14 @@
   <div class="replace-title">This alien has enemies.</div>
   <div id='replace-popup-content'><br/>
     <img ng-src="{{aliens.alienArray[aliens.newId].url}}"
-          style=""/>
+         style=""/>
     <span class="glyphicon glyphicon-share-alt"></span>
     <img ng-src="{{aliens.alienArray[aliens.oldId].url}}" class='replaced'
-          style=""/><br/>
+         style=""/><br/>
     <button class="btn menu-button" ng-click="selectIllegalAlien(true)">Replace</button>
     <button class="btn menu-button" ng-click="selectIllegalAlien(false)">Cancel</button>
   </div>
 </div>
-
 
 <span id="feedback">{{feedback}}</span> <span id="small_feedback"></span>
 
@@ -283,7 +281,7 @@
 <div class="tutorial text-center" id="tutEight" ng-show="tutState==8">
   You are now well-equiped to play! Click to start playing:
   <br>
-  <button class="btn menu-button" ng-click="game({id: 10})">Play!</button>
+  <button class="btn menu-button" ui-sref="game({id: 10})">Play!</button>
 </div>
 
 
