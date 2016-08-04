@@ -491,6 +491,18 @@ angular.module('nwmApp').controller('LevelOneController',
     }, true);
 
 
+    /** SUBTRACT ARRAYS **/
+    function subtractarrays(array1, array2){
+      var difference = [];
+      for( var i = 0; i < array1.length; i++ ) {
+        if( $.inArray( array1[i], array2 ) == -1 ) {
+          difference.push(array1[i]);
+        }
+      }
+
+      return difference;
+    }
+
     $scope.undo = function() {
       var last_key = $scope.$storage.buckets[$scope.undo_key_pointer][2];
       if (!last_key) {
@@ -498,6 +510,13 @@ angular.module('nwmApp').controller('LevelOneController',
         return;
       }
       var last_buckets = $scope.$storage.buckets[Number(last_key)];
+
+      var compare_current_buckets = _.pluck(JSON.parse($scope.$storage.buckets[$scope.undo_key_pointer][0]), 'alien').join().split(",");
+      var compare_last_buckets = _.pluck(JSON.parse($scope.$storage.buckets[Number(last_key)][0]), 'alien').join().split(",");
+      var diff_alien = _.difference(compare_current_buckets, compare_last_buckets);
+      //console.log("DIFF1 => " + compare_current_buckets);
+      //console.log("DIFF2 => " + compare_last_buckets);
+      //console.log("DIFF3 => " + diff_alien);
 
       // Update key pointer
       $scope.undo_key_pointer = last_key;
@@ -509,6 +528,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
       bucket.restoreBucketsHelper(last_buckets);
       $scope.currentBucket(bucket.current_bucket);
+      feedback(diff_alien);
     };
 
     $scope.redo = function() {
@@ -518,6 +538,10 @@ angular.module('nwmApp').controller('LevelOneController',
         return;
       }
       var next_buckets = $scope.$storage.buckets[Number(next_key)];
+
+      var compare_current_buckets = _.pluck(JSON.parse($scope.$storage.buckets[$scope.undo_key_pointer][0]), 'alien').join().split(",");
+      var compare_next_buckets = _.pluck(JSON.parse($scope.$storage.buckets[Number(next_key)][0]), 'alien').join().split(",");
+      var diff_alien = _.difference(compare_current_buckets, compare_next_buckets);
 
       // Update key pointer
       $scope.undo_key_pointer = next_key;
@@ -529,6 +553,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
       bucket.restoreBucketsHelper(next_buckets);
       $scope.currentBucket(bucket.current_bucket);
+      feedback(diff_alien);
     };
 
     $scope.$on("$destroy", function () {
