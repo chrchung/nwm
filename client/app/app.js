@@ -10,7 +10,6 @@ angular.module('nwmApp', [
   'restangular',
   'countTo',
   'pageslide-directive',
-  'angularResizable',
   'ngStorage'
 ])
 

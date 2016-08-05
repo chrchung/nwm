@@ -29,6 +29,7 @@ exports.saveScore = function (req, res) {
     newScore.set('level', level);
     newScore.set('user', user.username);
     newScore.set('score', score);
+    newScore.set('initialScore', req.body.initialScore);
 
     // get current best solution and replace if higher
     var Solutions = Parse.Object.extend('Solutions');
@@ -42,7 +43,12 @@ exports.saveScore = function (req, res) {
           bestSolution.set('user', user.username);
           bestSolution.set('solution', solution);
           bestSolution.set('score', score);
+          bestSolution.set('level', level);
           bestSolution.set('actions', actions);
+          bestSolution.set('partial', false);
+          bestSolution.set('initialScore', req.body.initialScore);
+          bestSolution.set('duration', req.body.duration);
+
 
           bestSolution.save(null, {
             success: function (gameScore) {
@@ -60,6 +66,8 @@ exports.saveScore = function (req, res) {
           sol.set('level', level);
           sol.set('actions', actions);
           sol.set('partial', false);
+          sol.set('initialScore', req.body.initialScore);
+          sol.set('duration', req.body.duration);
 
           sol.save(null, {
             success: function (gameScore) {
