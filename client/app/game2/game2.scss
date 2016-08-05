@@ -186,7 +186,7 @@
   z-index: 8;
   background-color: rgba(255,255,255,1);
   border-radius: 10px;
-  display: inline-block;
+
   margin-right: 0.25%;
   margin-left: 0.25%;
   margin-bottom: 10px;
@@ -390,4 +390,10 @@
   top: 10px;
   width: 300px;
   z-index: 20;
+}
+
+.divider {
+  display: flex;
+  width: 100%;
+  height: 10%;
 }
