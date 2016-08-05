@@ -23,23 +23,23 @@ exports.create = function(req, res) {
         var user = new Parse.User();
         user.set('username', req.body.username);
         user.set('password', req.body.password);
-        user.set('seenTut', false);
-
         user.signUp(null, {
           success: function(user) {
             req.session.user = user;
-            var OverallScores = Parse.Object.extend('OverallScores');
-            var newScore = new OverallScores();
-            newScore.set('overallScore', 0);
-            newScore.set('user', req.body.username);
-            newScore.save(null, {
-              success: function (gameScore) {
+            var UserData = Parse.Object.extend('UserData');
+            var data = new UserData();
+            data.set('overallScore', 0);
+            data.set('seenTut', false);
+            data.set('user', req.body.username);
+            data.save(null, {
+              success: function (result) {
                 res.status(200).end();
               },
-              error: function (gameScore, error) {
+              error: function (result, error) {
                 res.status(400).end();
               }
             });
+            res.status(200).end();
           },
           error: function(user, error) {
             res.sendStatus(400);
@@ -62,20 +62,42 @@ exports.current = function (req, res) {
 };
 
 
+exports.getSeenTut = function(req, res) {
+  if (req.session.user) {
+    var UserData = Parse.Object.extend('UserData');
+    var userDataQuery = new Parse.Query(UserData);
+    userDataQuery.equalTo('user', req.session.user.username);
+    userDataQuery.first({
+      success: function (user) {
+        res.send(user);
+      },
+      error: function (error) {
+        res.status(400).end();
+      }
+    });
+  } else {
+    res.status(400).end();
+  }
+  ;
+
+};
+
+
+
 
 exports.seenTut = function(req, res) {
   if (req.session.user) {
-    var User = Parse.Object.extend('User');
-    var userQuery = new Parse.Query(User);
-    userQuery.equalTo('username', req.session.user.username);
-    userQuery.first({
+    var UserData = Parse.Object.extend('UserData');
+    var userDataQuery = new Parse.Query(UserData);
+    userDataQuery.equalTo('user', req.session.user.username);
+    userDataQuery.first({
       success: function (user) {
         user.set('seenTut', true);
         user.save(null, {
-          success: function (gameScore) {
+          success: function (result) {
             res.status(200).end();
           },
-          error: function (gameScore, error) {
+          error: function (result, error) {
             res.status(400).end();
           }
         });
