@@ -89,7 +89,6 @@ levelOne.service('database', function(Restangular, $state, aliens) {
 levelOne.service('aliens', function() {
 
   this.initAliens = function() {
-    this.alienData = [];
     this.properties = {};
     this.zoominAliens = [];
     this.alienArray = {};
@@ -164,7 +163,7 @@ levelOne.service('update',function(helper, bucket, aliens, style) {
     var prop_list = [];  // a list of unique properties in the bucket
     for (var i = 0; i < alien_list.length; i++) {
       // a list of properties of the current alien
-      var cur_properties = aliens.alienData[alien_list[i].split("_")[0]].alien[alien_list[i].split("_")[1]].prop;
+      var cur_properties = aliens.properties[alien_list[i]];
       for (var k = 0; k < cur_properties.length; k++) {
         if (prop_list.indexOf(cur_properties[k]) == -1) {
           // the property is not in prop_list yet
@@ -195,7 +194,7 @@ levelOne.service('update',function(helper, bucket, aliens, style) {
   var compare = function(prop_id, alien_list) {
     var num_occurrence = 0;
     for (var i = 0; i < alien_list.length; i++) {
-      var cur_properties = aliens.alienData[alien_list[i].split("_")[0]].alien[alien_list[i].split("_")[1]].prop;
+      var cur_properties = aliens.properties[alien_list[i]];
       if (cur_properties.indexOf(prop_id) != -1) {
         num_occurrence++;
       }
@@ -305,7 +304,7 @@ levelOne.service('style', function(aliens, helper) {
       var model_num = helper.get_model(id);
       var alien_num = helper.get_alien(id);
       // a list of properties of the current alien
-      var cur_properties = aliens.alienData[model_num].alien[alien_num].prop;
+      var cur_properties = aliens.properties[id];
 
 
       var checkAnyFlag = false;
@@ -315,7 +314,7 @@ levelOne.service('style', function(aliens, helper) {
       _.each(members, function(member) { // Each memeber here is an alien ID
         var member_model_num = helper.get_model(member);
         var member_alien_num = helper.get_alien(member);
-        var member_props = aliens.alienData[member_model_num].alien[member_alien_num].prop;
+        var member_props = aliens.properties[member];
 
         if (!_.isEmpty(_.intersection(cur_properties, member_props))) {
           // If the current alien has a common attribute with a member, we want it for method_flag = 1.

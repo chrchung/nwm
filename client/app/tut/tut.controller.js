@@ -79,7 +79,6 @@ angular.module('nwmApp').controller('TutController',
       }
 
       for (var i = 0; i < $scope.maxModels; i++){
-        aliens.alienData.push({model: i + 1, alien: []});
         var maxAliens = data[i][1].length;    // number of aliens in a model
         for (var j = 0; j < maxAliens; j++){
           var parsed_data = database.parseData(data, i, j);
@@ -93,8 +92,6 @@ angular.module('nwmApp').controller('TutController',
             illegal: "legal-alien",
             similar: "not-simialr",
             in: false};
-          aliens.alienData[i].alien.push({alien:j,
-            prop: aliens.properties[i + "_" + j]});
         }
       }
       database.shuffleProperties();
