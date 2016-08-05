@@ -10,14 +10,6 @@ angular.module('nwmApp').controller('LevelOneController',
     $scope.$storage = $localStorage;
     $scope.undo_key_pointer = 0;
 
-    // Clear the undo storage
-    $( document ).ready(function() {
-      delete $scope.$storage.buckets;
-      delete $scope.$storage.aliens;
-      $scope.setUpGame('best');
-    });
-
-
 
   $scope.currentBucket = function(curBucket) {
     // Currently we are using the FIRST highlighting algorithm. Second => 2, Third => 3.
@@ -719,4 +711,12 @@ angular.module('nwmApp').controller('LevelOneController',
 
     ///set up game from best solution
     // setUpTutorial();
-});
+
+    // Clear the undo storage
+    $( document ).ready(function() {
+      delete $scope.$storage.buckets;
+      delete $scope.$storage.aliens;
+      $scope.setUpGame('best');
+    });
+
+  });
