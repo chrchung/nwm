@@ -449,11 +449,11 @@ angular.module('nwmApp').controller('LevelOneController',
     $scope.$watch(angular.bind(bucket, function (buckets) {
       return bucket.buckets;
     }), function (newVal, oldVal) {
-      if (!newVal || !oldVal) {
+      if (!newVal || !oldVal || oldVal == []) {
         return;
       }
-      //console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal));
-      //console.log("newVal (buckets) is =>" + JSON.stringify(newVal));
+      console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal));
+      console.log("newVal (buckets) is =>" + JSON.stringify(newVal));
       if (!$scope.$storage.buckets) {
         $scope.$storage.buckets = {};
       }
@@ -500,19 +500,6 @@ angular.module('nwmApp').controller('LevelOneController',
       //console.log("storage.buckets => ", $scope.$storage.buckets);
     }, true);
 
-
-    /** SUBTRACT ARRAYS **/
-    function subtractarrays(array1, array2){
-      var difference = [];
-      for( var i = 0; i < array1.length; i++ ) {
-        if( $.inArray( array1[i], array2 ) == -1 ) {
-          difference.push(array1[i]);
-        }
-      }
-
-      return difference;
-    }
-
     $scope.undo = function() {
       var last_key = $scope.$storage.buckets[$scope.undo_key_pointer][2];
       if (!last_key) {
@@ -538,6 +525,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
       bucket.restoreBucketsHelper(last_buckets);
       $scope.currentBucket(bucket.current_bucket);
+      bucket.orderAlienArray();
       feedback(diff_alien);
     };
 
@@ -563,6 +551,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
       bucket.restoreBucketsHelper(next_buckets);
       $scope.currentBucket(bucket.current_bucket);
+      bucket.orderAlienArray();
       feedback(diff_alien);
     };
 
