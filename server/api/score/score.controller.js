@@ -53,6 +53,32 @@ exports.saveScore = function (req, res) {
           bestSolution.save(null, {
             success: function (gameScore) {
 
+              if (req.body.initialScore < req.body.score) {
+                var UserData = Parse.Object.extend('UserData');
+                var userDataQuery = new Parse.Query(UserData);
+                userDataQuery.equalTo('user', req.session.user.username);
+                userDataQuery.first({
+                  success: function (user) {
+                    user.set('overallScore', user.attributes.overallScore  + req.body.score - req.body.initialScore);
+                    user.save(null, {
+                      success: function (result) {
+                        res.status(200).end();
+                      },
+                      error: function (result, error) {
+                        res.status(400).end();
+                      }
+                    });
+
+                  },
+                  error: function (error) {
+                    res.status(400).end();
+                  }
+                });
+              } else {
+                res.status(200).end();
+              }
+
+
             },
             error: function (gameScore, error) {
               res.status(400).end();
@@ -71,6 +97,31 @@ exports.saveScore = function (req, res) {
 
           sol.save(null, {
             success: function (gameScore) {
+              if (req.body.initialScore < req.body.score) {
+                var UserData = Parse.Object.extend('UserData');
+                var userDataQuery = new Parse.Query(UserData);
+                userDataQuery.equalTo('user', req.session.user.username);
+                userDataQuery.first({
+                  success: function (user) {
+                    user.set('overallScore', user.attributes.overallScore  + req.body.score - req.body.initialScore);
+                    user.save(null, {
+                      success: function (result) {
+                        res.status(200).end();
+                      },
+                      error: function (result, error) {
+                        res.status(400).end();
+                      }
+                    });
+
+                  },
+                  error: function (error) {
+                    res.status(400).end();
+                  }
+                });
+              } else {
+                res.status(200).end();
+              }
+
 
             },
             error: function (gameScore, error) {
@@ -330,14 +381,7 @@ exports.getCurUserRecentScores = function (req, res) {
     userQuery.equalTo('username', req.session.user.username);
     userQuery.find({
       success: function (user) {
-        newScore.save(null, {
-          success: function (gameScore) {
-            res.status(200).end();
-          },
-          error: function (gameScore, error) {
-            res.status(400).end();
-          }
-        });
+
 
         var Scores = Parse.Object.extend('Scores');
         var scoreQuery = new Parse.Query(Scores);
