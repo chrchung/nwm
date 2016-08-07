@@ -381,7 +381,6 @@ exports.getCurUserRecentScores = function (req, res) {
     solQuery.descending('createdAt');
     solQuery.first({
       success: function (sol) {
-        console.log(sol);
         res.send(sol);
       },
       error: function (error) {
@@ -400,7 +399,6 @@ exports.getCurUserOverall = function (req, res) {
     userQuery.equalTo('user', req.session.user.username);
     userQuery.first({
       success: function (user) {
-        console.log(user);
         res.send(user);
       },
       error: function (error) {

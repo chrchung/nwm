@@ -91,10 +91,6 @@ angular.module('nwmApp').controller('LevelOneController',
         }
         database.shuffleProperties();
 
-        // Set scores
-        $scope.get_highest_score();
-
-
         $scope.get_greedy();
 
         // Set buckets
@@ -165,6 +161,8 @@ angular.module('nwmApp').controller('LevelOneController',
           $scope.createNewBucket();
           return;
         }
+
+        $scope.highest_score = serverJson[0].score;
 
         bucket.buckets = serverJson[0].solution;
         if (serverJson[0].actions != null) {
@@ -401,12 +399,12 @@ angular.module('nwmApp').controller('LevelOneController',
       bucket.updateAlienArray();
     }
 
-    $scope.get_highest_score = function () {
-      Restangular.all('api/scores/game_scoreboard/' + parseInt($scope.cur_level))
-        .getList().then(function (serverJson) {
-        $scope.highest_score = serverJson[0].score;
-      });
-    };
+    // $scope.get_highest_score = function () {
+    //   Restangular.all('api/scores/')
+    //     .get("game_bestScore/" + parseInt($scope.cur_level)).then(function (serverJson) {
+    //     $scope.highest_score = serverJson.score;
+    //   });
+    // };
     $scope.get_greedy = function () {
       Restangular.all('api/levels/getBeat/' + parseInt($scope.cur_level))
         .getList().then(function (serverJson) {
@@ -637,7 +635,11 @@ angular.module('nwmApp').controller('LevelOneController',
           actions: history.userActions
         }).then(
         (function (data) {
-          $state.go('leaderboard', {prevState: 'game'});
+          var finalScore = $scope.score - $scope.highest_score;
+          if (finalScore < 0) {
+            finalScore = 0;
+          }
+          $state.go('leaderboard', {prevState: 'game', score: finalScore});
         }), function (err) {
         });
     }

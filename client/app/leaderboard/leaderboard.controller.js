@@ -5,15 +5,7 @@ angular.module('nwmApp')
     $scope.prevState = $stateParams.prevState;
 
     if ($scope.prevState == 'game') {
-      Restangular.all('api/scores/').get('cur_user_recent').then(function (serverJson) {
-        var result = serverJson.score - serverJson.initialScore;
-        if (result > 0) {
-          $scope.result = result;
-        }
-        else {
-          $scope.result = 0;
-        }
-      });
+      $scope.result = $stateParams.score;
       Restangular.all('api/scores/').get('cur_user_overall').then(function (serverJson) {
         $scope.overallScore = serverJson.overallScore;
       });
