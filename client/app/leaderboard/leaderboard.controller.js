@@ -5,13 +5,19 @@ angular.module('nwmApp')
     $scope.prevState = $stateParams.prevState;
 
     if ($scope.prevState == 'game') {
-      Restangular.all('api/scores/')
-        .get('cur_user_recent').then(function (serverJson) {
-        //alert(serverJson);
-        $scope.result = serverJson;
+      Restangular.all('api/scores/').get('cur_user_recent').then(function (serverJson) {
+        var result = serverJson.endScore - serverJson.initialScore;
+        if (result > 0) {
+          $scope.result = result;
+        }
+        else {
+          $scope.result = 0;
+        }
+      });
+      Restangular.all('api/scores/').get('cur_user_overall').then(function (serverJson) {
+        $scope.overallScore = serverJson.overallScore;
       });
     }
-
 
     var getScores = function (scores) {
       Restangular.all('api/scores/game_scoreboard/10')

@@ -309,13 +309,12 @@ exports.getAllOverall = function (req, res) {
 };
 
 exports.getGameScoreboard = function (req, res) {
-  var Scores = Parse.Object.extend('Scores');
-  var scoreQuery = new Parse.Query(Scores);
-  scoreQuery.equalTo('level', parseInt(req.params.level));
-  scoreQuery.descending('score');
-  scoreQuery.limit(10);
+  var UserData = Parse.Object.extend('UserData');
+  var userDataQuery = new Parse.Query(UserData);
+  userDataQuery.descending('overallScore');
+  userDataQuery.limit(10);
 
-  scoreQuery.find({
+  userDataQuery.find({
     success: function (scores) {
       res.json(scores);
     },
@@ -376,26 +375,14 @@ exports.getCurUserGameScoreBest = function (req, res) {
 
 exports.getCurUserRecentScores = function (req, res) {
   if (req.session.user) {
-    var User = Parse.Object.extend('User');
-    var userQuery = new Parse.Query(User);
-    userQuery.equalTo('username', req.session.user.username);
-    userQuery.find({
-      success: function (user) {
-
-
-        var Scores = Parse.Object.extend('Scores');
-        var scoreQuery = new Parse.Query(Scores);
-        scoreQuery.equalTo('user', req.session.user.username);
-        scoreQuery.descending('createdAt');
-
-        scoreQuery.first({
-          success: function (score) {
-            res.send(score);
-          },
-          error: function (error) {
-            res.status(400).end();
-          }
-        });
+    var Solution = Parse.Object.extend('Solutions');
+    var solQuery = new Parse.Query(Solution);
+    solQuery.equalTo('user', req.session.user.username);
+    solQuery.descending('createdAt');
+    solQuery.first({
+      success: function (sol) {
+        console.log(sol);
+        res.send(sol);
       },
       error: function (error) {
         res.status(400).end();
@@ -403,6 +390,24 @@ exports.getCurUserRecentScores = function (req, res) {
     });
   } else {
     res.status(400).end();
-  }
-  ;
+  };
+};
+
+exports.getCurUserOverall = function (req, res) {
+  if (req.session.user) {
+    var userData = Parse.Object.extend('UserData');
+    var userQuery = new Parse.Query(userData);
+    userQuery.equalTo('user', req.session.user.username);
+    userQuery.first({
+      success: function (user) {
+        console.log(user);
+        res.send(user);
+      },
+      error: function (error) {
+        res.status(400).end();
+      }
+    });
+  } else {
+    res.status(400).end();
+  };
 };

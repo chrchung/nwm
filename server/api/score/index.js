@@ -12,6 +12,7 @@ router.get('/all_overall', controller.getAllOverall);
 router.get('/cur_user_game_score/:level/:game', controller.getCurUserGameScore);
 router.get('/game_scoreboard/:level', controller.getGameScoreboard);
 router.get('/cur_user_recent', controller.getCurUserRecentScores);
+router.get('/cur_user_overall', controller.getCurUserOverall);
 router.get('/best_solution/:level', controller.getBestSolution);
 router.get('/cur_user_solution/:level', controller.getCurUserSolution);
 
