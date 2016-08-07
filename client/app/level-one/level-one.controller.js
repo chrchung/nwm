@@ -49,6 +49,8 @@ angular.module('nwmApp').controller('LevelOneController',
       $scope.dragged = false;  // Disable click event when start dragging
       $scope.checked = false;
       $scope.tutorial = false;
+      $scope.disableRedo = true;
+      $scope.disableUndo = true;
       bucket.initColors();
       aliens.initAliens();
       history.initHistory();
@@ -58,7 +60,6 @@ angular.module('nwmApp').controller('LevelOneController',
 
       // modelsName is a string in the form of 'level4b6_9'
       // Get level
-      console.log($stateParams.id);
       $scope.cur_level = $stateParams.id;
 
       // Request data from the server
@@ -235,11 +236,6 @@ angular.module('nwmApp').controller('LevelOneController',
         $scope.toggleIllegalAlert();
       }
       else {
-        history.historyBuckets = bucket.buckets;
-        history.historyAliensInBucket = aliens.aliensInBucket;
-        history.historyAlienId = alien_id;
-        history.historyColorArray = bucket.colorArray;
-
         // Aliens in other buckets, can be switched to current bucket when being clicked
         if (aliens.alienArray[alien_id].in && bucket.buckets[bucket.current_bucket].color != aliens.alienArray[alien_id].color) {
 
@@ -331,6 +327,8 @@ angular.module('nwmApp').controller('LevelOneController',
             }
           }
         }
+        $scope.disableUndo = false;
+        $scope.disableRedo = true;
       }
     };
 
@@ -367,6 +365,8 @@ angular.module('nwmApp').controller('LevelOneController',
       $scope.currentBucket(bucket.current_bucket);
       feedback(aliens.newId);
 
+      $scope.disableUndo = false;
+      $scope.disableRedo = true;
       history.userActions.push("Add alien " + aliens.newId + " to bucket " + bucket.current_bucket);
     };
 
@@ -445,8 +445,8 @@ angular.module('nwmApp').controller('LevelOneController',
       if (!newVal || !oldVal || oldVal == []) {
         return;
       }
-      console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal));
-      console.log("newVal (buckets) is =>" + JSON.stringify(newVal));
+      // console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal));
+      // console.log("newVal (buckets) is =>" + JSON.stringify(newVal));
       if (!$scope.$storage.buckets) {
         $scope.$storage.buckets = {};
       }
@@ -496,7 +496,6 @@ angular.module('nwmApp').controller('LevelOneController',
     $scope.undo = function () {
       var last_key = $scope.$storage.buckets[$scope.undo_key_pointer][2];
       if (!last_key) {
-        alert("No more UNDOs, man :/");
         return;
       }
       var last_buckets = $scope.$storage.buckets[Number(last_key)];
@@ -512,20 +511,21 @@ angular.module('nwmApp').controller('LevelOneController',
       $scope.undo_key_pointer = last_key;
       //console.log("current index =>" + $scope.undo_key_pointer);
 
-      if (!last_buckets) {
-        alert("undo error");
-      }
-
       bucket.restoreBucketsHelper(last_buckets);
       $scope.currentBucket(bucket.current_bucket);
       bucket.orderAlienArray();
       feedback(diff_alien);
+
+      $scope.disableRedo = false;
+
+      if (!$scope.$storage.buckets[$scope.undo_key_pointer][2]) {
+        $scope.disableUndo = true;
+      }
     };
 
     $scope.redo = function () {
       var next_key = $scope.$storage.buckets[$scope.undo_key_pointer][3];
       if (!next_key) {
-        alert("No more REDOs, man :/");
         return;
       }
       var next_buckets = $scope.$storage.buckets[Number(next_key)];
@@ -546,6 +546,12 @@ angular.module('nwmApp').controller('LevelOneController',
       $scope.currentBucket(bucket.current_bucket);
       bucket.orderAlienArray();
       feedback(diff_alien);
+
+      $scope.disableUndo = false;
+
+      if (!$scope.$storage.buckets[$scope.undo_key_pointer][3]) {
+        $scope.disableRedo = true;
+      }
     };
 
     $scope.$on("$destroy", function () {
