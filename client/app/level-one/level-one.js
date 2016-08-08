@@ -515,12 +515,13 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
   this.updateAlienArray  = function() {
     for (var i = 0; i < this.orderedIds.length; i++) {
       var aid = this.orderedIds[i];
+      var strippedAid = aid.substr(1);
       // Alien in current bucket: should display an empty space
       if (aid[0] != "_" && aliens.alienArray[aid].color == this.buckets[this.current_bucket].color) {
         this.orderedIds[i] = "_" + aid;
       }
       // Alien not in current bucket: put it back to the list
-      else if (aid[0] == "_" && aliens.alienArray[strippedAid = aid.substr(1)].color != this.buckets[this.current_bucket].color) {
+      else if (aid[0] == "_" && aliens.alienArray[strippedAid].color != this.buckets[this.current_bucket].color) {
         this.orderedIds[i] = strippedAid;
       }
     }
