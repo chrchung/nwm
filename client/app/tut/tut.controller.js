@@ -658,6 +658,14 @@ angular.module('nwmApp').controller('TutController',
     $("#popup3").toggle();
   };
 
+    $scope.imageLoadedIncrementCount = function () {
+      $scope.numImagesLoaded ++;
+
+      if ($scope.numImagesLoaded == 220) {
+        $scope.loaded = true;
+      }
+    };
+
   $scope.togglePageslide = function() {
     $scope.checked = !$scope.checked;
   }

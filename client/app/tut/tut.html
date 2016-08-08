@@ -149,7 +149,7 @@
          ng-right-click="showGroup(id)"
          style="border-style:solid; border-width: 13px; border-color: {{aliens.alienArray[id].color}};"
          ng-if="id[0] != '_'">
-      <img src="{{aliens.alienArray[id].url}}"/>
+      <img src="{{aliens.alienArray[id].url}}"  imageonload="imageLoadedIncrementCount()"/>
     </div>
     <div class="empty-alien" ng-if="id[0] == '_'"></div>
   </div>
@@ -285,6 +285,5 @@
 </div>
 
 
-
-
+<img class="loading" ng-show="!loaded" src="https://d13yacurqjgara.cloudfront.net/users/12755/screenshots/1037374/hex-loader2.gif"/>
 

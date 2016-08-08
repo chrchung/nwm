@@ -3,7 +3,8 @@
 angular.module('nwmApp').controller('LevelOneController',
   function ($scope, Restangular, $stateParams, $state, $timeout, update, helper, database, style, bucket, history, aliens, $localStorage) {
 
-
+    $scope.numImagesLoaded = 0;
+    $scope.loaded = false;
     $scope.maxScore = 0;
     $scope.$storage = $localStorage;
     $scope.undo_key_pointer = 0;
@@ -64,6 +65,11 @@ angular.module('nwmApp').controller('LevelOneController',
 
       // Request data from the server
       Restangular.all('api/levels/level/' + $scope.cur_level).getList().then((function (data) {
+        // $(window).on("load", function() {
+        //   $scope.loaded = true;
+        // });
+
+
         $scope.maxModels = data.length;       // number of models
         // Get game id
         if ((data[0][0]).indexOf('a') >= 0) {
@@ -713,6 +719,14 @@ angular.module('nwmApp').controller('LevelOneController',
       $scope.topWindowHeight = window.innerWidth * 0.095 + 20;
     };
 
+    $scope.imageLoadedIncrementCount = function () {
+      $scope.numImagesLoaded ++;
+
+      if ($scope.numImagesLoaded == 220) {
+        $scope.loaded = true;
+      }
+    };
+
     // var setUpTutorial = function () {
     //   tutorial = true;
     //   $scope.tutState = 0;
@@ -740,5 +754,6 @@ angular.module('nwmApp').controller('LevelOneController',
 
 
     $scope.$broadcast('timer-start');
+
 
   });
