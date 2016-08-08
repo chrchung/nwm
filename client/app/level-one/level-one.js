@@ -152,7 +152,7 @@ levelOne.service('update',function(helper, bucket, aliens, style) {
     for (var i = 0; i < bucket.buckets.length; i++) {
       total_score += calculateScoreByBucket(bucket.buckets[i].alien, maxModels);
     }
-    return Math.ceil(total_score * 10000);
+    return Math.ceil(total_score);
   };
 
   /* Calculate the score of the bucket that contains the
@@ -184,9 +184,9 @@ levelOne.service('update',function(helper, bucket, aliens, style) {
 
     var score = 0;
     for (var j in num_dup) {
-      score += j * j * num_dup[j];
+      score += j * j * num_dup[j] / (maxModels * maxModels * prop_list.length) * 10000;
     }
-    return score / (maxModels * maxModels * prop_list.length);
+    return score;
   };
 
   /* Returns the number of aliens in the given bucket
