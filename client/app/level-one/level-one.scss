@@ -147,6 +147,9 @@
   position: absolute;
 }
 
+.score {
+  margin-top: 7px;
+}
 
 #buttons {
   z-index: 9;
@@ -157,7 +160,7 @@
   border-radius: 5px;
   display: inline-block;
   width: 150px;
-  height: 100px;
+  height: 65px;
   text-align: center;
   background-color: #fac4ee;
 
@@ -447,3 +450,11 @@
   padding: 20px;
 }
 
+#done-button {
+  width: 150px;
+  position: fixed;
+  bottom: 77px;
+  background-color: palevioletred;
+  right: 10px;
+  color: #fff;
+}

@@ -10,6 +10,16 @@ angular.module('nwmApp').controller('LevelOneController',
     $scope.undo_key_pointer = 0;
     var startTime = (new Date()).getMinutes();
 
+    $scope.doneBucket = function () {
+      var old = $scope.score;
+      $scope.score = update.getNewScore($scope.maxModels);
+      if ($scope.score > $scope.maxScore) {
+        $scope.maxScore = $scope.score;
+      }
+
+      update.showSmallFeedback(old, $scope.score, 'd_d');
+
+    }
 
     $scope.currentBucket = function (curBucket) {
       // Currently we are using the FIRST highlighting algorithm. Second => 2, Third => 3.
@@ -151,10 +161,10 @@ angular.module('nwmApp').controller('LevelOneController',
         }
 
         // Create a new bucket
-        $scope.score = update.getNewScore($scope.maxModels);
-        if ($scope.score > $scope.maxScore) {
-          $scope.maxScore = $scope.score;
-        }
+        // $scope.score = update.getNewScore($scope.maxModels);
+        // if ($scope.score > $scope.maxScore) {
+        //   $scope.maxScore = $scope.score;
+        // }
         $scope.newGroup(false);
       });
     };
@@ -193,7 +203,7 @@ angular.module('nwmApp').controller('LevelOneController',
           }
         }
 
-        // Set current bucket to index 0
+        //Set current bucket to index 0
         $scope.score = update.getNewScore($scope.maxModels);
         if ($scope.score > $scope.maxScore) {
           $scope.maxScore = $scope.score;
@@ -269,7 +279,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
           aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
           $scope.currentBucket(bucket.current_bucket);
-          feedback(alien_id);
+          // feedback(alien_id);
           history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
         }
 
@@ -305,7 +315,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
               aliens.alienArray[alien_id].color = "rgba(232, 250, 255, 0)";
               $scope.currentBucket(bucket.current_bucket);
-              feedback(alien_id);
+              // feedback(alien_id);
               history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
             }
 
@@ -326,7 +336,7 @@ angular.module('nwmApp').controller('LevelOneController',
               aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
               aliens.alienArray[alien_id].in = true;
               $scope.currentBucket(bucket.current_bucket);
-              feedback(alien_id);
+              // feedback(alien_id);
               history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
             }
           }
@@ -367,7 +377,7 @@ angular.module('nwmApp').controller('LevelOneController',
       aliens.alienArray[aliens.newId].color = bucket.buckets[bucket.current_bucket].color;
       aliens.alienArray[aliens.newId].in = true;
       $scope.currentBucket(bucket.current_bucket);
-      feedback(aliens.newId);
+      // feedback(aliens.newId);
 
       $scope.disableUndo = false;
       $scope.disableRedo = true;
@@ -518,7 +528,7 @@ angular.module('nwmApp').controller('LevelOneController',
       bucket.restoreBucketsHelper(last_buckets);
       $scope.currentBucket(bucket.current_bucket);
       bucket.orderAlienArray();
-      feedback(diff_alien);
+      // feedback(diff_alien);
 
       $scope.disableRedo = false;
 
@@ -549,7 +559,7 @@ angular.module('nwmApp').controller('LevelOneController',
       bucket.restoreBucketsHelper(next_buckets);
       $scope.currentBucket(bucket.current_bucket);
       bucket.orderAlienArray();
-      feedback(diff_alien);
+      // feedback(diff_alien);
 
       $scope.disableUndo = false;
 

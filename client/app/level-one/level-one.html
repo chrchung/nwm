@@ -103,16 +103,16 @@
     <button id="undo-button" class="btn" ng-click="redo()" ng-disabled="disableRedo">Redo</button>
     <button id="redo-button" class="btn" ng-click="undo()" ng-disabled="disableUndo">Undo</button>
     <button id="add-group-button" class="btn" ng-click="newGroup(true)" ng-disabled="!checked">Add new group</button>
-
-    <div class='title-font big'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="1"></span></div>
+    <button id="done-button" class="btn" ng-click="doneBucket()">Unselect group</button>
+    <div class='title-font score big'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="1"></span></div>
     <div class='title-font small'>(Best score so far: {{maxScore}})</div>
     <button id="end-button" class="btn" ng-click="endGame()">End game</button>
-    <div id="current-group">
-      <span class="title-font">Current group:</span>
-      <div ng-click="goToGroup()" id="current-group-color" style="background:{{bucket.buckets[bucket.current_bucket].color}}">
-      </div>
-      <!--<div class="title-font small">(Click to go to group)</div>-->
-    </div>
+    <!--<div id="current-group">-->
+      <!--<span class="title-font">Current group:</span>-->
+      <!--<div ng-click="goToGroup()" id="current-group-color" style="background:{{bucket.buckets[bucket.current_bucket].color}}">-->
+      <!--</div>-->
+      <!--&lt;!&ndash;<div class="title-font small">(Click to go to group)</div>&ndash;&gt;-->
+    <!--</div>-->
   </div>
 
 
