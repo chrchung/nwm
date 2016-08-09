@@ -288,6 +288,19 @@
 
 }
 
+#dummy-undo-button {
+  width: 73px;
+  height: 30px;
+  opacity: 0.6;
+  background-color: #ffbb02;
+  color: #fff;
+  right: 234px;
+  position: fixed;
+  bottom: 80px;
+  margin-right: 5px;
+  z-index: 999;
+}
+
 #redo-button {
   width: 73px;
   height: 30px;
@@ -299,6 +312,20 @@
   bottom: 80px;
   margin-right: 5px;
 
+}
+
+#dummy-redo-button {
+  width: 73px;
+  height: 30px;
+  opacity: 0.6;
+  margin-left: 5px;
+  background-color: #87fedb;
+  color: #fff;
+  right: 157px;
+  position: fixed;
+  bottom: 80px;
+  margin-right: 5px;
+  z-index: 999;
 }
 
 #add-group {

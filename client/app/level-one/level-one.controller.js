@@ -449,8 +449,8 @@ angular.module('nwmApp').controller('LevelOneController',
       if (!newVal || !oldVal || oldVal == []) {
         return;
       }
-      // console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal));
-      // console.log("newVal (buckets) is =>" + JSON.stringify(newVal));
+       //console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal));
+       //console.log("newVal (buckets) is =>" + JSON.stringify(newVal));
       if (!$scope.$storage.buckets) {
         $scope.$storage.buckets = {};
       }
@@ -507,9 +507,9 @@ angular.module('nwmApp').controller('LevelOneController',
       var compare_current_buckets = _.pluck(JSON.parse($scope.$storage.buckets[$scope.undo_key_pointer][0]), 'alien').join().split(",");
       var compare_last_buckets = _.pluck(JSON.parse($scope.$storage.buckets[Number(last_key)][0]), 'alien').join().split(",");
       var diff_alien = _.difference(compare_current_buckets, compare_last_buckets);
-      //console.log("DIFF1 => " + compare_current_buckets);
-      //console.log("DIFF2 => " + compare_last_buckets);
-      //console.log("DIFF3 => " + diff_alien);
+      console.log("DIFF1 => " + compare_current_buckets);
+      console.log("DIFF2 => " + compare_last_buckets);
+      console.log("DIFF3 => " + diff_alien);
 
       // Update key pointer
       $scope.undo_key_pointer = last_key;
@@ -517,7 +517,6 @@ angular.module('nwmApp').controller('LevelOneController',
 
       bucket.restoreBucketsHelper(last_buckets);
       $scope.currentBucket(bucket.current_bucket);
-      bucket.orderAlienArray();
       feedback(diff_alien);
 
       $scope.disableRedo = false;
@@ -548,7 +547,6 @@ angular.module('nwmApp').controller('LevelOneController',
 
       bucket.restoreBucketsHelper(next_buckets);
       $scope.currentBucket(bucket.current_bucket);
-      bucket.orderAlienArray();
       feedback(diff_alien);
 
       $scope.disableUndo = false;
