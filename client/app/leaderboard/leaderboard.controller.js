@@ -4,12 +4,7 @@ angular.module('nwmApp')
   .controller('LeaderboardCtrl', function ($scope, $stateParams, Restangular) {
     $scope.prevState = $stateParams.prevState;
 
-    if ($scope.prevState == 'game') {
-      $scope.result = $stateParams.score;
-      Restangular.all('api/scores/').get('cur_user_overall').then(function (serverJson) {
-        $scope.overallScore = serverJson.overallScore;
-      });
-    }
+
 
     var getScores = function (scores) {
       Restangular.all('api/scores/game_scoreboard/10')
@@ -19,4 +14,11 @@ angular.module('nwmApp')
       });
     };
     getScores();
+
+    if ($scope.prevState == 'game') {
+      $scope.result = $stateParams.score;
+      Restangular.all('api/scores/').get('cur_user_overall').then(function (serverJson) {
+        $scope.overallScore = serverJson.overallScore;
+      });
+    }
   });

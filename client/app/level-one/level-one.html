@@ -139,7 +139,7 @@
   <div ng-repeat="id in bucket.buckets[bucket.current_bucket].alien"
        class="current-alien {{id}}"
        ng-click="selectAlien(id)"
-       style="border-style:solid; border-width: 13px; border-color: {{aliens.alienArray[id].color}};">
+       style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};">
     <img src="{{aliens.alienArray[id].url}}"/>
   </div>
 </div>
@@ -149,7 +149,7 @@
     <div class="an-alien alien {{id}} {{aliens.alienArray[id].illegal}} {{aliens.alienArray[id].similar}}"
          ng-click="selectAlien(id)"
          ng-right-click="showGroup(id)"
-         style="border-style:solid; border-width: 13px; border-color: {{aliens.alienArray[id].color}};"
+         style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};"
          ng-if="id[0] != '_'">
       <img src="{{aliens.alienArray[id].url}}" imageonload="imageLoadedIncrementCount()"/>
     </div>
