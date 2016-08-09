@@ -528,7 +528,7 @@ angular.module('nwmApp').controller('LevelOneController',
       bucket.restoreBucketsHelper(last_buckets);
       $scope.currentBucket(bucket.current_bucket);
       //bucket.orderAlienArray();
-       feedback(diff_alien);
+      // feedback(diff_alien);
       feedback(diff_alien);
 
       $scope.disableRedo = false;
@@ -559,7 +559,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
       bucket.restoreBucketsHelper(next_buckets);
       $scope.currentBucket(bucket.current_bucket);
-      feedback(diff_alien);
+      //feedback(diff_alien);
       //bucket.orderAlienArray();
        feedback(diff_alien);
 
