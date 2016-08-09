@@ -100,8 +100,10 @@
   <div id="buttons" ng-show="loaded">
     <!-- error message -->
     <!--<p class='colour-error'>You have an empty bucket!</p>-->
-    <button id="undo-button" class="btn" ng-click="redo()" ng-disabled="disableRedo">Redo</button>
-    <button id="redo-button" class="btn" ng-click="undo()" ng-disabled="disableUndo">Undo</button>
+    <button id="redo-button" class="btn" ng-click="redo()" ng-if="!disableRedo">Redo</button>
+    <button id="dummy-redo-button" class="btn" ng-if="disableRedo">Redo</button>
+    <button id="undo-button" class="btn" ng-click="undo()" ng-if="!disableUndo">Undo</button>
+    <button id="dummy-undo-button" class="btn" ng-if="disableUndo">Undo</button>
     <button id="add-group-button" class="btn" ng-click="newGroup(true)" ng-disabled="!checked">Add new group</button>
     <button id="done-button" class="btn" ng-click="doneBucket()">Unselect group</button>
     <div class='title-font score big'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="1"></span></div>
