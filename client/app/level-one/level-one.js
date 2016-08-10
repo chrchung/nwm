@@ -563,9 +563,22 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
       }
     }
 
+    var sortedBucket = [];
     for (var i = 0; i < this.buckets.length; i++) {
-      this.orderedIds = this.orderedIds.concat(this.buckets[this.buckets.length - 1 - i].alien);
+      sortedBucket.push(this.buckets[i]);
     }
+
+    sortedBucket.sort(function(a, b) {
+      return b.similarity - a.similarity;
+    });
+
+    for (i = 0; i < sortedBucket.length; i++) {
+      this.orderedIds = this.orderedIds.concat(sortedBucket[i].alien);
+    }
+
+    // for (var i = 0; i < this.buckets.length; i++) {
+    //   this.orderedIds = this.orderedIds.concat(this.buckets[this.buckets.length - 1 - i].alien);
+    // }
 
     // No buckt selected
     if (this.current_bucket == -1) {
