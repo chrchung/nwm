@@ -530,14 +530,14 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
   this.orderAlienArray = function() {
     this.orderedIds = [];
 
-    for (var i = 0; i < this.buckets.length; i++) {
-      this.orderedIds = this.orderedIds.concat(this.buckets[i].alien);
-    }
-
     for (var id in aliens.alienArray) {
       if (!aliens.alienArray[id].in) {
         this.orderedIds.push(id);
       }
+    }
+
+    for (var i = 0; i < this.buckets.length; i++) {
+      this.orderedIds = this.orderedIds.concat(this.buckets[this.buckets.length - 1 - i].alien);
     }
 
     // // Mapping id of the first alien in the bucket to list of aliens in the bucket
