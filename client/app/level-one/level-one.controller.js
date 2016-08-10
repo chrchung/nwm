@@ -304,19 +304,37 @@ angular.module('nwmApp').controller('LevelOneController',
 
               history.historySelectFlag = 1;
 
-              // Remove the alien from the bucket
-              var ind = bucket.buckets[bucket.current_bucket].alien.indexOf(alien_id);
-              aliens.alienArray[alien_id].in = false;
-              bucket.buckets[bucket.current_bucket].alien.splice(ind, 1);
+			  // Retrieve alien's last bucket.
+			  var cur_undo_index = $scope.undo_key_pointer;
+			  var cur_bucket_storage = JSON.parse($scope.$storage.buckets[cur_undo_index][0]);
+			  var cur_bucket_ind = $scope.$storage.buckets[cur_undo_index][1];
+			  var last_key = cur_undo_index;
+			  while (_.include(cur_bucket_storage[cur_bucket_ind].alien, alien_id)) {
+			    last_key = $scope.$storage.buckets[last_key][2];
+			    cur_bucket_storage = JSON.parse($scope.$storage.buckets[last_key][0]);
+			  }
+			  var last_bucket_ind = 0;
+			  _.each(cur_bucket_storage, function (b) {
+			    if (b.alien.indexOf(alien_id) != -1) {
+			      last_bucket_ind = cur_bucket_storage.indexOf(b);
+			    }
+			  });
+			  var last_bucket_color = cur_bucket_storage[last_bucket_ind].color;
 
-              if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
-                $scope.checked = false;
-              }
+			  // Remove the alien from the bucket
+			  var ind = bucket.buckets[bucket.current_bucket].alien.indexOf(alien_id);
+			  //aliens.alienArray[alien_id].in = false;
+			  bucket.buckets[bucket.current_bucket].alien.splice(ind, 1);
+			  bucket.buckets[last_bucket_ind].alien.push(alien_id);
 
-              aliens.alienArray[alien_id].color = "rgba(232, 250, 255, 0)";
-              $scope.currentBucket(bucket.current_bucket);
-              // feedback(alien_id);
-              history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
+			  if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
+			    $scope.checked = false;
+			  }
+
+			  aliens.alienArray[alien_id].color = last_bucket_color;
+			  $scope.currentBucket(bucket.current_bucket);
+			  // feedback(alien_id);
+			  history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
             }
 
             // Select aliens
