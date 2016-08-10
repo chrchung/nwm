@@ -3,8 +3,50 @@
   in the bottom left panel to revert your moves and try again.
 </div>
 
+<div id="overlay"></div>
+<div id="clear-overlay" ng-click="toggleIllegalAlert()"></div>
+<div id="clear-nobucket-alert-overlay" ng-click="toggleNoBucketAlert()"></div>
+<!-- menu -->
+<!-- <div id="menu">
+  <button class="btn menu-button" ng-click="toggleMenu()">RESUME</button><br/>
+  <button class="btn menu-button" ng-click="quit()">QUIT GAME</button><br/>
+  <button class="btn menu-button" ng-click="logout()">LOG OUT</button>
+</div> -->
+
+
+<div id="popup">
+  <div id='popup-content'>
+    <p class='alert-msg'></p>
+    <button class="btn menu-button yes-button" ng-click="handleButtonRequest()">Yes</button>
+    <button class="btn menu-button" ng-click="togglePopup('', '')">No</button>
+  </div>
+</div>
+
+<!--<div id="popup2">-->
+<!--<div id='popup-content2'>-->
+<!--<button class="btn menu-button" ng-click="setUpGame('best')">Play from best matching so far</button>-->
+<!--<br/>-->
+<!--<button class="btn menu-button" ng-click="setUpGame('saved')">Continue from saved game</button>-->
+<!--<br/>-->
+<!--<button class="btn menu-button" ng-click="setUpGame('scratch')">Start from scratch</button>-->
+<!--<br/>-->
+<!--</div>-->
+<!--</div>-->
+<!--<h3><timer/></h3>-->
+
+<div id="popup3">
+  <div id='popup-content3'>
+    <button class="btn menu-button" ng-click="submitScore()">Submit score</button>
+    <br/>
+    <!--<button class="btn menu-button" ng-click="saveScore()">Save for later</button>-->
+    <!--<br/>-->
+    <button class="btn menu-button" ng-click="quit()">Quit</button>
+    <br/>
+  </div>
+</div>
+
 <div id="replace-popup">
-  <div class="replace-title">This alien has enemies.</div>
+  <div class="popup-title">This alien has enemies.</div>
   <div id='replace-popup-content'><br/>
     <img ng-src="{{aliens.alienArray[aliens.newId].url}}"
          style=""/>
@@ -16,29 +58,105 @@
   </div>
 </div>
 
+<div id="tut-feedback" class="no-bucket text-center">
+  Sorry, this action cannot be completed.<br>
+  You did not have a group selected.
+</div>
+
+
 <span id="feedback">{{feedback}}</span> <span id="small_feedback"></span>
 
+<!-- Zoomed aliens -->
+<!--<div id="selection-screen">-->
+<!--<div ng-repeat="alien in selectedAliens"-->
+<!--class="model{{get_model(alien)}}"-->
+<!--style="white-space: nowrap;-->
+<!--display: inline-block;-->
+<!--width: 22%;-->
+<!--margin: 10px 10px 10px 10px;-->
+<!--background-color: white;-->
+<!--border-radius: 10px;">-->
+<!--<div class="selected-alien"-->
+<!--ng-click="selectAlien(alien)">-->
+<!--<img ng-src="{{getUrl(get_model(alien), get_alien(alien))}}" />-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div id="close-selection-screen" ng-click="toggleSelectionScreen()">×</div>-->
+
+<!-- alien contents -->
+<div id="top-right">
+  <!-- <div class="zoom-in-area"
+          ng-click="togglePageslide()"
+          data-drop="true"
+          jqyoui-droppable="{onDrop:'onDropZoom'}">
+    <span class="glyphicon glyphicon-zoom-in" size='50px'></span>
+  </div> -->
+  <div id="img-container"></div>
+</div>
+
 <div id="bottom-right">
+  <!-- info -->
+  <!--<div class="text-center" id="score-board">-->
+  <!--<span class='title-font'>YOUR SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="0.5"></span></span><br/>-->
+  <!--<span class='title-font'>BEST SCORE EVER: {{highest_score}}</span>-->
+  <!--</div>-->
+
+  <!-- colour list -->
+  <!--<div id="add-group text-center">-->
+  <!--<p class='colour-error'>You have an empty bucket!</p>-->
+  <!--<button id="add-group-button" class="btn" ng-click="newGroup()">Add new group</button>-->
+  <!--</div>-->
 
   <div id="buttons2" ng-show="loaded">
     <!-- error message -->
     <!--<p class='colour-error'>You have an empty bucket!</p>-->
-    <button id="undo-button2" class="btn" ng-click="redo()">Redo</button>
-    <button id="redo-button2" class="btn" ng-click="undo()">Undo</button>
+    <button id="redo-button2" class="btn" ng-click="redo()" ng-if="!disableRedo">Redo</button>
+    <button id="dummy-redo-button2" class="btn" ng-if="disableRedo">Redo</button>
+    <button id="undo-button2" class="btn" ng-click="undo()" ng-if="!disableUndo">Undo</button>
+    <button id="dummy-undo-button2" class="btn" ng-if="disableUndo">Undo</button>
     <button id="add-group-button2" class="btn" ng-click="newGroup(true)" ng-disabled="!checked">Add new group</button>
-    <!--<button id="end-button" class="btn" ng-click="endGame()">End game</button>-->
-    <div class='title-font big'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="1"></span></div>
+    <!--<button id="done-button" class="btn" ng-click="doneBucket()">Calculate Score</button>-->
+    <div class='title-font score big'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="1"></span></div>
     <div class='title-font small'>(Best score so far: {{maxScore}})</div>
+    <button id="end-button2" class="btn" ng-click="endGame()" ng-disabled="true">End game</button>
+    <!--<div id="current-group">-->
+    <!--<span class="title-font">Current group:</span>-->
+    <!--<div ng-click="goToGroup()" id="current-group-color" style="background:{{bucket.buckets[bucket.current_bucket].color}}">-->
+    <!--</div>-->
+    <!--&lt;!&ndash;<div class="title-font small">(Click to go to group)</div>&ndash;&gt;-->
+    <!--</div>-->
   </div>
 
+
+
+  <!--<div id="buttons">-->
+  <!--&lt;!&ndash; <button class="btn menu-button" ng-init="moveAliens = false" ng-click="moveAliens = !moveAliens">{{moveAliens}}</button> &ndash;&gt;-->
+  <!--<button class="btn menu-button-small" ng-click="togglePopup('Do you want to save the score?', 'submit')">Submit</button><br/>-->
+  <!--<button class="btn menu-button-small" ng-click="togglePopup('Do you want to save the score?', 'save')">Save</button><br/>-->
+  <!--<button class="btn menu-button-small" ng-click="togglePopup('Do you want to quit the game?', 'quit')">Quit</button><br/>-->
+  <!--</div>-->
 </div>
 
-<div id='current-aliens' style=''>
-  <div ng-repeat="id in bucket.buckets[bucket.current_bucket].alien"
+<!-- <div id="aliens">
+  <div ng-repeat="alien in aliens.alienArray | toArray"
+       class="alien {{alien.id}} {{alien.illegal}} {{alien.similar}}"
+       ng-click="selectAlien(alien.id)"
+       ng-right-click="showGroup(alien.id)"
+       style="background-color: {{alien.color}};">
+    <img src="{{alien.url}}"/>
+  </div>
+</div> -->
+
+<div id='current-aliens'>
+  <div ng-repeat="id in bucket.currentAliens"
        class="current-alien {{id}}"
        ng-click="selectAlien(id)"
-       style="border-style:solid; border-width: 20px; border-color: {{aliens.alienArray[id].color}};">
+       style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};">
     <img src="{{aliens.alienArray[id].url}}"/>
+    <div class="simialrity-bar" ng-show='{{bucket.getBucketScore(id) != -1}}'>
+      <div class="similarity" style="width: {{bucket.getAlienScore(id)}}%;"></div>
+    </div>
   </div>
 </div>
 
@@ -47,13 +165,19 @@
     <div class="an-alien alien {{id}} {{aliens.alienArray[id].illegal}} {{aliens.alienArray[id].similar}}"
          ng-click="selectAlien(id)"
          ng-right-click="showGroup(id)"
-         style="border-style:solid; border-width: 20px; border-color: {{aliens.alienArray[id].color}};"
+         style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};"
          ng-if="id[0] != '_'">
-      <img src="{{aliens.alienArray[id].url}}"  imageonload="imageLoadedIncrementCount()"/>
+      <img src="{{aliens.alienArray[id].url}}" imageonload="imageLoadedIncrementCount()"/>
+      <div class="simialrity-bar" ng-show='{{bucket.getAlienScore(id) != -1}}'>
+        <div class="similarity" style="width: {{bucket.getAlienScore(id)}}%;"></div>
+      </div>
     </div>
     <div class="empty-alien" ng-if="id[0] == '_'"></div>
   </div>
 </div>
+
+<img class="loading" ng-show="!loaded" src="https://d13yacurqjgara.cloudfront.net/users/12755/screenshots/1037374/hex-loader2.gif"/>
+
 
 <div class="tutorial text-center" id="objective" ng-show="tutState==0">
   The goal of this game is to group together similar aliens.
@@ -75,9 +199,10 @@
 </div>
 
 <div class="tutorial text-center" ng-show="tutState==2">
-  The percentage bar below each alien indicates how much it is contributing to your
-  total score.
-  For instance, #2 is about 30% similar to it's current group.<br>
+  The red bar below each alien indicates how much it contributes to your
+  total score. A full bar means that the alien contributes a lot of
+  the total score, while an empty bar means that the alien doesn't
+  contribute a lot to the total score.
   In the game, try to increase the percentage bars of each alien by
   coming up with more optimal groupings.
   <br>

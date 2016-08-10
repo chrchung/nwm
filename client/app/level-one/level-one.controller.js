@@ -46,9 +46,9 @@ angular.module('nwmApp').controller('LevelOneController',
         $scope.maxScore = $scope.score;
       }
 
-      if ($scope.prev_score < $scope.score) {
+      //if ($scope.prev_score < $scope.score) {
         update.showSmallFeedback($scope.prev_score, $scope.score, alienId);
-      }
+      //}
       update.showBigFeedback($scope.prev_score, $scope.score, $scope.beat, $scope.highest_score);
     };
 
@@ -225,8 +225,8 @@ angular.module('nwmApp').controller('LevelOneController',
 
       // No bucket is currently selected
       if (bucket.current_bucket == -1) {
-        $scope.toggleNoBucketAlert();
-        return;
+        $(".no-bucket").fadeIn();
+        setTimeout(function(){ $(".no-bucket").fadeOut(); }, 3000);
       }
 
       // Illegal Aliens
