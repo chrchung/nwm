@@ -100,7 +100,7 @@ angular.module('nwmApp').controller('LevelOneController',
               url: parsed_data.URL,
               color: "rgba(232, 250, 255, 0)",
               illegal: "legal-alien",
-              similar: "not-simialr",
+              similar: "dissimilar",
               in: false
             };
           }
@@ -200,17 +200,15 @@ angular.module('nwmApp').controller('LevelOneController',
             //console.log(alien_id);
             aliens.alienArray[alien_id].color = bucket.buckets[i].color;
             aliens.alienArray[alien_id].in = true;
+            aliens.alienArray[alien_id].illegal = 'legal';
           }
         }
 
-        //Set current bucket to index 0
         $scope.score = update.getNewScore($scope.maxModels);
         if ($scope.score > $scope.maxScore) {
           $scope.maxScore = $scope.score;
         }
-        $scope.newGroup(false);
-        $scope.checked = true;
-        bucket.ifCurrentBucketSelected = false;
+        bucket.orderAlienArray();
       });
     };
 
@@ -224,7 +222,7 @@ angular.module('nwmApp').controller('LevelOneController',
       }
 
       // No bucket is currently selected
-      if (!bucket.ifCurrentBucketSelected) {
+      if (bucket.current_bucket == -1) {
         $scope.toggleNoBucketAlert();
         return;
       }
@@ -412,11 +410,6 @@ angular.module('nwmApp').controller('LevelOneController',
 
     $scope.newGroup = function (tut) {
       $scope.checked = false;
-      // No bucket is selected at the beginnig of the game
-      if (!bucket.ifCurrentBucketSelected) {
-        bucket.ifCurrentBucketSelected = true;
-        return;
-      }
       bucket.addBucket();
       update.updateIllegalAlien();
     }
@@ -430,9 +423,7 @@ angular.module('nwmApp').controller('LevelOneController',
       if (!aliens.alienArray[alien_id].in) {
         return;
       }
-      if (!bucket.ifCurrentBucketSelected) {
-        bucket.ifCurrentBucketSelected = true;
-      }
+
       // If no alien in the current bucket, remove it
       if (bucket.current_bucket != -1 && bucket.buckets[bucket.current_bucket].alien.length == 0) {
         bucket.removeBucket(bucket.current_bucket);
@@ -545,9 +536,9 @@ angular.module('nwmApp').controller('LevelOneController',
       var compare_current_buckets = _.pluck(JSON.parse($scope.$storage.buckets[$scope.undo_key_pointer][0]), 'alien').join().split(",");
       var compare_last_buckets = _.pluck(JSON.parse($scope.$storage.buckets[Number(last_key)][0]), 'alien').join().split(",");
       var diff_alien = _.difference(compare_current_buckets, compare_last_buckets);
-      console.log("DIFF1 => " + compare_current_buckets);
-      console.log("DIFF2 => " + compare_last_buckets);
-      console.log("DIFF3 => " + diff_alien);
+      // console.log("DIFF1 => " + compare_current_buckets);
+      // console.log("DIFF2 => " + compare_last_buckets);
+      // console.log("DIFF3 => " + diff_alien);
 
       // Update key pointer
       $scope.undo_key_pointer = last_key;
@@ -559,7 +550,7 @@ angular.module('nwmApp').controller('LevelOneController',
       // feedback(diff_alien);
       feedback(diff_alien);
 
-      $scope.disableRedo = false;
+      $scope.current_bucket = false;
 
       if (!$scope.$storage.buckets[$scope.undo_key_pointer][2]) {
         $scope.disableUndo = true;

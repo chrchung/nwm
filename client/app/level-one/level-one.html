@@ -147,7 +147,7 @@
 </div> -->
 
 <div id='current-aliens'>
-  <div ng-repeat="id in bucket.buckets[bucket.current_bucket].alien"
+  <div ng-repeat="id in bucket.currentAliens"
        class="current-alien {{id}}"
        ng-click="selectAlien(id)"
        style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};">

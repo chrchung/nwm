@@ -411,10 +411,9 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
     this.predefinedColorCounter = 0;
     this.buckets = [];
     this.num_buckets = 0;
-    this.current_bucket = 0;
+    this.current_bucket = -1;
     this.colorArray = [];
     this.highestBucketScore = 0;
-    this.ifCurrentBucketSelected = true;
   }
 
   this.restoreBucketsHelper= function (data) {
@@ -532,6 +531,14 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
         this.orderedIds[i] = strippedAid;
       }
     }
+
+    // No buckt selected
+    if (this.current_bucket == -1) {
+      this.currentAliens = [];
+    }
+    else {
+      this.currentAliens = this.buckets[this.current_bucket].alien;
+    }
   }
 
   this.orderAlienArray = function() {
@@ -545,6 +552,14 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
 
     for (var i = 0; i < this.buckets.length; i++) {
       this.orderedIds = this.orderedIds.concat(this.buckets[this.buckets.length - 1 - i].alien);
+    }
+
+    // No buckt selected
+    if (this.current_bucket == -1) {
+      this.currentAliens = [];
+    }
+    else {
+      this.currentAliens = this.buckets[this.current_bucket].alien;
     }
   };
 
