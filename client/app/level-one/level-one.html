@@ -166,8 +166,8 @@
          style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};"
          ng-if="id[0] != '_'">
       <img src="{{aliens.alienArray[id].url}}" imageonload="imageLoadedIncrementCount()"/>
-      <div class="simialrity-bar" ng-show='{{bucket.getBucketScore(id) != 0}}'>
-        <div class="similarity" style="width: {{bucket.getBucketScore(id)}}%;"></div>
+      <div class="simialrity-bar" ng-show='{{bucket.getAlienScore(id) != -1}}'>
+        <div class="similarity" style="width: {{bucket.getAlienScore(id)}}%;"></div>
       </div>
     </div>
     <div class="empty-alien" ng-if="id[0] == '_'"></div>

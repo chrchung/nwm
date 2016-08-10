@@ -149,12 +149,23 @@ levelOne.service('update',function(helper, bucket, aliens, style) {
   this.getNewScore = function(maxModels) {
     // Calculate points for each bucket
     var total_score = 0;
+    bucket.highestAlienScore = 0;
     for (var i = 0; i < bucket.buckets.length; i++) {
       bucket_score  = calculateScoreByBucket(bucket.buckets[i].alien, maxModels);
-      bucket.buckets[i].similarity = Math.ceil(bucket_score);
+      ceil_bucket_score = Math.ceil(bucket_score);
+      for (var j = 0; j < bucket.buckets[i].alien.length; j++) {
+        var curAlien = bucket.buckets[i].alien.splice(j, 1)[0];
+        alienScore = ceil_bucket_score - Math.ceil(calculateScoreByBucket(bucket.buckets[i].alien, maxModels))
+        if (alienScore > bucket.highestAlienScore) {
+          bucket.highestAlienScore = alienScore;
+        }
+        aliens.alienArray[curAlien].score = alienScore;
+        bucket.buckets[i].alien.splice(j, 0, curAlien);
+      }
+      bucket.buckets[i].similarity = ceil_bucket_score;
       total_score += bucket_score;
       if (bucket_score > bucket.highestBucketScore) {
-        bucket.highestBucketScore = Math.ceil(bucket_score);
+        bucket.highestBucketScore = ceil_bucket_score;
       }
     }
     return Math.ceil(total_score);
@@ -193,6 +204,8 @@ levelOne.service('update',function(helper, bucket, aliens, style) {
     }
     return score;
   };
+
+
 
   /* Returns the number of aliens in the given bucket
      that have the given attribute. */
@@ -572,6 +585,16 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
       return 0;
     }
     return this.buckets[bucketId].similarity/this.highestBucketScore * 100;
+  };
+
+  this.getAlienScore = function(alienId) {
+    if (!aliens.alienArray[alienId].in) {
+      return -1;
+    }
+    if (aliens.alienArray[alienId].score < 0) {
+      return 0;
+    }
+    return aliens.alienArray[alienId].score/this.highestAlienScore * 100;
   };
 });
 
