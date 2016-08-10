@@ -46,7 +46,9 @@ angular.module('nwmApp').controller('LevelOneController',
         $scope.maxScore = $scope.score;
       }
 
-      update.showSmallFeedback($scope.prev_score, $scope.score, alienId);
+      if ($scope.prev_score < $scope.score) {
+        update.showSmallFeedback($scope.prev_score, $scope.score, alienId);
+      }
       update.showBigFeedback($scope.prev_score, $scope.score, $scope.beat, $scope.highest_score);
     };
 
@@ -285,7 +287,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
           aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
           $scope.currentBucket(bucket.current_bucket);
-          // feedback(alien_id);
+          feedback(alien_id);
           history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
         }
 
@@ -339,7 +341,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
 			  aliens.alienArray[alien_id].color = last_bucket_color;
 			  $scope.currentBucket(bucket.current_bucket);
-			  // feedback(alien_id);
+			  feedback(alien_id);
 			  history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
             }
 
@@ -360,7 +362,7 @@ angular.module('nwmApp').controller('LevelOneController',
               aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
               aliens.alienArray[alien_id].in = true;
               $scope.currentBucket(bucket.current_bucket);
-              // feedback(alien_id);
+              feedback(alien_id);
               history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
             }
           }
@@ -401,7 +403,7 @@ angular.module('nwmApp').controller('LevelOneController',
       aliens.alienArray[aliens.newId].color = bucket.buckets[bucket.current_bucket].color;
       aliens.alienArray[aliens.newId].in = true;
       $scope.currentBucket(bucket.current_bucket);
-      // feedback(aliens.newId);
+      feedback(aliens.newId);
 
       $scope.disableUndo = false;
       $scope.disableRedo = true;
