@@ -1,5 +1,6 @@
 <div id="overlay"></div>
 <div id="clear-overlay" ng-click="toggleIllegalAlert()"></div>
+<div id="clear-nobucket-alert-overlay" ng-click="toggleNoBucketAlert()"></div>
 <!-- menu -->
 <!-- <div id="menu">
   <button class="btn menu-button" ng-click="toggleMenu()">RESUME</button><br/>
@@ -40,7 +41,7 @@
 </div>
 
 <div id="replace-popup">
-  <div class="replace-title">This alien has enemies.</div>
+  <div class="popup-title">This alien has enemies.</div>
   <div id='replace-popup-content'><br/>
     <img ng-src="{{aliens.alienArray[aliens.newId].url}}"
           style=""/>
@@ -49,6 +50,14 @@
           style=""/><br/>
     <button class="btn menu-button" ng-click="selectIllegalAlien(true)">Replace</button>
     <button class="btn menu-button" ng-click="selectIllegalAlien(false)">Cancel</button>
+  </div>
+</div>
+
+<div id="nobucket-popup">
+  <div class="popup-title">No group is selected.</div>
+  <div id='nobucket-popup-content'>
+    <button class="btn menu-button" ng-click="noBucketAlert(true)">Add new group</button>
+    <button class="btn menu-button" ng-click="noBucketAlert(false)">Close</button>
   </div>
 </div>
 

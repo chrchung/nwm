@@ -58,7 +58,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
       // $scope.toggleChooseSolutionPopup();
       $scope.dragged = false;  // Disable click event when start dragging
-      $scope.checked = false;
+      $scope.checked = true;
       $scope.tutorial = false;
       $scope.disableRedo = true;
       $scope.disableUndo = true;
@@ -209,6 +209,8 @@ angular.module('nwmApp').controller('LevelOneController',
           $scope.maxScore = $scope.score;
         }
         $scope.newGroup(false);
+        $scope.checked = true;
+        bucket.ifCurrentBucketSelected = false;
       });
     };
 
@@ -219,6 +221,12 @@ angular.module('nwmApp').controller('LevelOneController',
 
       if ($scope.tutState == 5) {
         $scope.tutState = 6;
+      }
+
+      // No bucket is currently selected
+      if (!bucket.ifCurrentBucketSelected) {
+        $scope.toggleNoBucketAlert();
+        return;
       }
 
       // Illegal Aliens
@@ -403,13 +411,12 @@ angular.module('nwmApp').controller('LevelOneController',
     };
 
     $scope.newGroup = function (tut) {
-      // Show tutorial if adding bucket tut not done
-      // if (!history.tutorials[1] && tut) {
-      //   $scope.tutorial = true;
-      //   $('#tutorial').accordion({active: 1});
-      //   history.tutorials[1] = true;
-      // }
       $scope.checked = false;
+      // No bucket is selected at the beginnig of the game
+      if (!bucket.ifCurrentBucketSelected) {
+        bucket.ifCurrentBucketSelected = true;
+        return;
+      }
       bucket.addBucket();
       update.updateIllegalAlien();
     }
@@ -423,8 +430,11 @@ angular.module('nwmApp').controller('LevelOneController',
       if (!aliens.alienArray[alien_id].in) {
         return;
       }
+      if (!bucket.ifCurrentBucketSelected) {
+        bucket.ifCurrentBucketSelected = true;
+      }
       // If no alien in the current bucket, remove it
-      if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
+      if (bucket.current_bucket != -1 && bucket.buckets[bucket.current_bucket].alien.length == 0) {
         bucket.removeBucket(bucket.current_bucket);
       }
       var bid = bucket.getBucketByAlienId(alien_id);
@@ -737,6 +747,18 @@ angular.module('nwmApp').controller('LevelOneController',
       $(".current-alien." + aliens.oldId).toggleClass("replaced");
       $("#clear-overlay").toggle();
       $("#replace-popup").toggle();
+    };
+
+    $scope.noBucketAlert = function(opt) {
+      $scope.toggleNoBucketAlert();
+      if (opt) {
+        $scope.newGroup();
+      }
+    }
+
+    $scope.toggleNoBucketAlert = function () {
+      $("#clear-nobucket-alert-overlay").toggle();
+      $("#nobucket-popup").toggle();
     };
 
     $scope.goToGroup = function () {

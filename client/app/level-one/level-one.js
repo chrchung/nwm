@@ -414,6 +414,7 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
     this.current_bucket = 0;
     this.colorArray = [];
     this.highestBucketScore = 0;
+    this.ifCurrentBucketSelected = true;
   }
 
   this.restoreBucketsHelper= function (data) {
@@ -545,22 +546,6 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
     for (var i = 0; i < this.buckets.length; i++) {
       this.orderedIds = this.orderedIds.concat(this.buckets[this.buckets.length - 1 - i].alien);
     }
-
-    // // Mapping id of the first alien in the bucket to list of aliens in the bucket
-    // var families = {};
-    //
-    // for (var i = 0; i < this.buckets.length; i++) {
-    //   families[this.buckets[i].alien[0]] = this.buckets[i].alien;
-    // }
-    //
-    // for (var id in aliens.alienArray) {
-    //   if (!aliens.alienArray[id].in) {
-    //     this.orderedIds.push(id);
-    //   }
-    //   else if (id in families) {
-    //     this.orderedIds = this.orderedIds.concat(families[id])
-    //   }
-    // }
   };
 
   this.getBucketScore = function(alienId) {
