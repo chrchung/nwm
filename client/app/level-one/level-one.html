@@ -154,10 +154,12 @@
          style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};"
          ng-if="id[0] != '_'">
       <img src="{{aliens.alienArray[id].url}}" imageonload="imageLoadedIncrementCount()"/>
+      <div class="simialrity-bar" ng-show='{{bucket.getBucketScore(id) != 0}}'>
+        <div class="similarity" style="width: {{bucket.getBucketScore(id)}}%;"></div>
+      </div>
     </div>
     <div class="empty-alien" ng-if="id[0] == '_'"></div>
   </div>
 </div>
 
 <img class="loading" ng-show="!loaded" src="https://d13yacurqjgara.cloudfront.net/users/12755/screenshots/1037374/hex-loader2.gif"/>
-

@@ -150,7 +150,12 @@ levelOne.service('update',function(helper, bucket, aliens, style) {
     // Calculate points for each bucket
     var total_score = 0;
     for (var i = 0; i < bucket.buckets.length; i++) {
-      total_score += calculateScoreByBucket(bucket.buckets[i].alien, maxModels);
+      bucket_score  = calculateScoreByBucket(bucket.buckets[i].alien, maxModels);
+      bucket.buckets[i].similarity = Math.ceil(bucket_score);
+      total_score += bucket_score;
+      if (bucket_score > bucket.highestBucketScore) {
+        bucket.highestBucketScore = Math.ceil(bucket_score);
+      }
     }
     return Math.ceil(total_score);
   };
@@ -408,6 +413,7 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
     this.num_buckets = 0;
     this.current_bucket = 0;
     this.colorArray = [];
+    this.highestBucketScore = 0;
   }
 
   this.restoreBucketsHelper= function (data) {
@@ -459,7 +465,7 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
   /* Update the array of colours and returns. */
   this.addBucket = function() {
     var color = this.getRandomColor();
-    this.buckets.push({alien:[], color:color});
+    this.buckets.push({alien:[], color:color, similarity:0});
     this.num_buckets++;
     var bucket_ind  = this.num_buckets - 1;
     this.colorArray.push(color);
@@ -555,6 +561,17 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
     //     this.orderedIds = this.orderedIds.concat(families[id])
     //   }
     // }
+  };
+
+  this.getBucketScore = function(alienId) {
+    if (!aliens.alienArray[alienId].in) {
+      return 0;
+    }
+    var bucketId = this.getBucketByAlienId(alienId);
+    if (alienId != this.buckets[bucketId].alien[0]) {
+      return 0;
+    }
+    return this.buckets[bucketId].similarity/this.highestBucketScore * 100;
   };
 });
 

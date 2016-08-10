@@ -603,3 +603,15 @@
 
   background-color: rgb(250, 196, 238);
 }
+
+.simialrity-bar {
+  background-color: white;
+  width: 100%;
+  display: block;
+  height: 1vw;
+
+  .similarity {
+    background-color: red;
+    height: 100%;
+  }
+}
