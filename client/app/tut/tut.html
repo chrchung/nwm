@@ -1,41 +1,6 @@
-<div id="overlay"></div>
-<div id="clear-overlay" ng-click="toggleIllegalAlert()"></div>
-<!-- menu -->
-<!-- <div id="menu">
-  <button class="btn menu-button" ng-click="toggleMenu()">RESUME</button><br/>
-  <button class="btn menu-button" ng-click="quit()">QUIT GAME</button><br/>
-  <button class="btn menu-button" ng-click="logout()">LOG OUT</button>
-</div> -->
-
-<div id="popup">
-  <div id='popup-content'>
-    <p class='alert-msg'></p>
-    <button class="btn menu-button yes-button" ng-click="handleButtonRequest()">Yes</button>
-    <button class="btn menu-button" ng-click="togglePopup('', '')">No</button>
-  </div>
-</div>
-
-<!--<div id="popup2">-->
-  <!--<div id='popup-content2'>-->
-    <!--<button class="btn menu-button" ng-click="setUpGame('best')">Play from best matching so far</button>-->
-    <!--<br/>-->
-    <!--<button class="btn menu-button" ng-click="setUpGame('saved')">Continue from saved game</button>-->
-    <!--<br/>-->
-    <!--<button class="btn menu-button" ng-click="setUpGame('scratch')">Start from scratch</button>-->
-    <!--<br/>-->
-  <!--</div>-->
-<!--</div>-->
-
-
-<div id="popup3">
-  <div id='popup-content3'>
-    <button class="btn menu-button" ng-click="submitScore()">Submit score</button>
-    <br/>
-    <button class="btn menu-button" ng-click="saveScore()">Save for later</button>
-    <br/>
-    <button class="btn menu-button" ng-click="quit()">Quit</button>
-    <br/>
-  </div>
+<div id="tut-feedback" class="text-center">
+  Sorry, you did not make the right move. Click the "Undo" button
+  in the bottom left panel to revert your moves and try again.
 </div>
 
 <div id="replace-popup">
@@ -53,91 +18,26 @@
 
 <span id="feedback">{{feedback}}</span> <span id="small_feedback"></span>
 
-<!-- Zoomed aliens -->
-<!--<div id="selection-screen">-->
-<!--<div ng-repeat="alien in selectedAliens"-->
-<!--class="model{{get_model(alien)}}"-->
-<!--style="white-space: nowrap;-->
-<!--display: inline-block;-->
-<!--width: 22%;-->
-<!--margin: 10px 10px 10px 10px;-->
-<!--background-color: white;-->
-<!--border-radius: 10px;">-->
-<!--<div class="selected-alien"-->
-<!--ng-click="selectAlien(alien)">-->
-<!--<img ng-src="{{getUrl(get_model(alien), get_alien(alien))}}" />-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div id="close-selection-screen" ng-click="toggleSelectionScreen()">×</div>-->
-
-<!-- alien contents -->
-<div id="top-right">
-  <!-- <div class="zoom-in-area"
-          ng-click="togglePageslide()"
-          data-drop="true"
-          jqyoui-droppable="{onDrop:'onDropZoom'}">
-    <span class="glyphicon glyphicon-zoom-in" size='50px'></span>
-  </div> -->
-  <div id="img-container"></div>
-</div>
-
 <div id="bottom-right">
-  <!-- info -->
-  <!--<div class="text-center" id="score-board">-->
-  <!--<span class='title-font'>YOUR SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="0.5"></span></span><br/>-->
-  <!--<span class='title-font'>BEST SCORE EVER: {{highest_score}}</span>-->
-  <!--</div>-->
 
-  <!-- colour list -->
-  <!--<div id="add-group text-center">-->
-  <!--<p class='colour-error'>You have an empty bucket!</p>-->
-  <!--<button id="add-group-button" class="btn" ng-click="newGroup()">Add new group</button>-->
-  <!--</div>-->
-
-  <div id="buttons">
+  <div id="buttons2" ng-show="loaded">
     <!-- error message -->
     <!--<p class='colour-error'>You have an empty bucket!</p>-->
-    <button id="undo-button" class="btn" ng-click="redo()">Redo</button>
-    <button id="redo-button" class="btn" ng-click="undo()">Undo</button>
-    <button id="add-group-button" class="btn" ng-click="newGroup(true)" ng-disabled="!checked">Add new group</button>
-
+    <button id="undo-button2" class="btn" ng-click="redo()">Redo</button>
+    <button id="redo-button2" class="btn" ng-click="undo()">Undo</button>
+    <button id="add-group-button2" class="btn" ng-click="newGroup(true)" ng-disabled="!checked">Add new group</button>
+    <!--<button id="end-button" class="btn" ng-click="endGame()">End game</button>-->
     <div class='title-font big'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="1"></span></div>
     <div class='title-font small'>(Best score so far: {{maxScore}})</div>
-    <button id="end-button" class="btn" ng-click="endGame()">End game</button>
-    <div id="current-group">
-      <span class="title-font">Current group:</span>
-      <div ng-click="goToGroup()" id="current-group-color" style="background:{{bucket.buckets[bucket.current_bucket].color}}">
-      </div>
-      <!--<div class="title-font small">(Click to go to group)</div>-->
-    </div>
   </div>
 
-
-
-  <!--<div id="buttons">-->
-  <!--&lt;!&ndash; <button class="btn menu-button" ng-init="moveAliens = false" ng-click="moveAliens = !moveAliens">{{moveAliens}}</button> &ndash;&gt;-->
-  <!--<button class="btn menu-button-small" ng-click="togglePopup('Do you want to save the score?', 'submit')">Submit</button><br/>-->
-  <!--<button class="btn menu-button-small" ng-click="togglePopup('Do you want to save the score?', 'save')">Save</button><br/>-->
-  <!--<button class="btn menu-button-small" ng-click="togglePopup('Do you want to quit the game?', 'quit')">Quit</button><br/>-->
-  <!--</div>-->
 </div>
-
-<!-- <div id="aliens">
-  <div ng-repeat="alien in aliens.alienArray | toArray"
-       class="alien {{alien.id}} {{alien.illegal}} {{alien.similar}}"
-       ng-click="selectAlien(alien.id)"
-       ng-right-click="showGroup(alien.id)"
-       style="background-color: {{alien.color}};">
-    <img src="{{alien.url}}"/>
-  </div>
-</div> -->
 
 <div id='current-aliens' style=''>
   <div ng-repeat="id in bucket.buckets[bucket.current_bucket].alien"
        class="current-alien {{id}}"
        ng-click="selectAlien(id)"
-       style="border-style:solid; border-width: 13px; border-color: {{aliens.alienArray[id].color}};">
+       style="border-style:solid; border-width: 20px; border-color: {{aliens.alienArray[id].color}};">
     <img src="{{aliens.alienArray[id].url}}"/>
   </div>
 </div>
@@ -147,7 +47,7 @@
     <div class="an-alien alien {{id}} {{aliens.alienArray[id].illegal}} {{aliens.alienArray[id].similar}}"
          ng-click="selectAlien(id)"
          ng-right-click="showGroup(id)"
-         style="border-style:solid; border-width: 13px; border-color: {{aliens.alienArray[id].color}};"
+         style="border-style:solid; border-width: 20px; border-color: {{aliens.alienArray[id].color}};"
          ng-if="id[0] != '_'">
       <img src="{{aliens.alienArray[id].url}}"  imageonload="imageLoadedIncrementCount()"/>
     </div>
@@ -155,130 +55,70 @@
   </div>
 </div>
 
-<!--&lt;!&ndash; Tutorial &ndash;&gt;-->
-<!--<div ng-show='tutorial' class="ui styled accordion panel panel-default" id='tutorial'>-->
-  <!--&lt;!&ndash; add-alien: id 0 &ndash;&gt;-->
-  <!--<div id="tut-add-alien" class="active tut-title panel-heading">-->
-    <!--Add an alien-->
-  <!--</div>-->
-  <!--<div class="active tut-content panel-body">-->
-    <!--<p>Click on an alien to add the alien to the current bucket</p>-->
-    <!--<button class="btn menu-button" ng-click="closeTutorial()">OK</button>-->
-  <!--</div>-->
-
-  <!--&lt;!&ndash; create-group: id 1 &ndash;&gt;-->
-  <!--<div id="tut-create-group" class="tut-title panel-heading">-->
-    <!--Create a new group-->
-  <!--</div>-->
-  <!--<div class="tut-content panel-body">-->
-    <!--<p>Click on "Add new group" button to create a new group.</p>-->
-    <!--<button class="btn menu-button" ng-click="closeTutorial()">OK</button>-->
-  <!--</div>-->
-
-  <!--&lt;!&ndash; illegal-alien: id 2 &ndash;&gt;-->
-  <!--<div id="tut-illegal-alien" class="tut-title panel-heading">-->
-    <!--Illegal alien-->
-  <!--</div>-->
-  <!--<div class="tut-content panel-body">-->
-    <!--<p>You can switch an illegal alien with an alien that is alredy in the current bucket.</p>-->
-    <!--<button class="btn menu-button" ng-click="closeTutorial()">OK</button>-->
-  <!--</div>-->
-
-  <!--&lt;!&ndash; switch-aliens: id 3 &ndash;&gt;-->
-  <!--<div id="tut-switchh-aliens" class="tut-title panel-heading">-->
-    <!--Switch aliens-->
-  <!--</div>-->
-  <!--<div class="tut-content panel-body">-->
-    <!--<p>You can swicth aliens by clicking on an alien that is already in another bucket.</p>-->
-    <!--<button class="btn menu-button" ng-click="closeTutorial()">OK</button>-->
-  <!--</div>-->
-
-  <!--&lt;!&ndash; removing-aliens: id 4 &ndash;&gt;-->
-  <!--<div id="tut-switch-aliens" class="tut-title panel-heading">-->
-    <!--Remove an alien-->
-  <!--</div>-->
-  <!--<div class="tut-content panel-body">-->
-    <!--<p>Click on an alien to remove from the current bucket.</p>-->
-    <!--<button class="btn menu-button" ng-click="closeTutorial()">OK</button>-->
-  <!--</div>-->
-<!--</div>-->
-
-<!-- Page slide -->
-
-  <!-- <div ng-show="checked" class="sidenav">
-      <div id="section" resizable r-directions="['right']" r-width="150" style="background-color: transparent;">
-        <div ng-repeat="id in aliens.zoominAliens"
-              ng-mouseenter="showHighlightAlien(id, true)"
-              ng-mouseleave="showHighlightAlien(id, false)"
-             class="zoomed-alien {{aliens.alienArray[id].illegal}}"
-             style="background-color: {{aliens.alienArray[id].color}};"
-             ng-click="selectAlien(id)"
-             ng-right-click="showGroup(id)">
-          <img src="{{aliens.alienArray[id].url}}"/>
-        </div>
-
-      </div>
-    </div> -->
-
 <div class="tutorial text-center" id="objective" ng-show="tutState==0">
   The goal of this game is to group together similar aliens.
-  Aliens are similar if they share identical properties such as facial features, hair, shirt patterns, etc.
-  You may view the set of all alien properties <a target="_blank" ui-sref="properties">here</a>.
-  The best groupings, in which aliens of the same group are as similar as possible, are awarded the highest scores.
+  Aliens are similar if they share identical properties. Properties can be facial features, hair, apparel, etc.
+  You may view the full set of all alien properties <a target="_blank" ui-sref="properties">here</a>.
   In the game, you will be presented with the current best combination of groupings created by previous players.
-  Your goal is to beat the existing combination's score to
-  the best of your ability. Have fun!
-  <br><br>
+  Your goal is to beat the current best score by coming up with even better groupings.
+  <br>
   <button class="btn menu-button" ng-click="tutState=1">Next</button>
 </div>
 
 
-<div class="tutorial text-center" id="tutOne" ng-show="tutState==1">
-  Aliens that belong to the same group are placed in boxes with borders of the same color. E.g.
-  The following three aliens with a salmon-pink border are in the same group:
-  <br><br>
-  <img class="smaller" src="http://individual.utoronto.ca/myricecrispi/game/same_group.png"/>
-  <br><br>
-  Aliens that have not yet been put into a group appear in a box with no border:
-  <br><br>
-  <img class="smaller" src="http://individual.utoronto.ca/myricecrispi/game/no_group.png"/>
-  <br><br>
+<div class="tutorial text-center" ng-show="tutState==1">
+  Groupings are represented by colored borders around the aliens. Aliens in
+  the same group have a border of the same color. For instance,
+  #2 and #9 both have a pink background color so they are in the same group.
+  <br>
   <button class="btn menu-button" ng-click="tutState=2">Next</button>
 </div>
 
-<div class="tutorial text-center" id="tutTwo" ng-show="tutState==2">
-  You may create new groups by clicking on the “Create new group” button in the bottom right panel. When you start the game, a new group is already made for you.
-  <br><br>
+<div class="tutorial text-center" ng-show="tutState==2">
+  The percentage bar below each alien indicates how similar it is to its current group.
+  For instance, #2 is about 30% similar to it's current group.
+  <br>
   <button class="btn menu-button" ng-click="tutState=3">Next</button>
 </div>
 
-<div class="tutorial text-center" id="tutThree" ng-show="tutState==3">
-  Click on an alien to add it to your currently selected group. You may view the aliens in your current group at the top panel. Click on any alien now.
+<div class="tutorial text-center" ng-show="tutState==3">
+  To modify a group, right click on any alien inside the group
+  you want to change. The group you selected will appear in the top panel.
+  <b>Right click on the pink group now.</b>
 </div>
 
-<div class="tutorial text-center" id="tutFour" ng-show="tutState==4">
-  Enemies of aliens in your currently selected group are in striped boxes. Enemy aliens cannot be grouped together. If you choose to add such aliens to a group, you will be prompted to remove its enemy. Click on an enemy alien now.
+<div class="tutorial text-center" ng-show="tutState==4">
+  Aliens that share many similar features to your selected group are
+  highlighted with a yellow background, like #1, #3, #4, and #6. These
+  aliens have potential to increase your score if you add them to your group.
+  Left click on an alien to add it to your group. #4 shares
+  identical properties with #2 and #9 and might be
+  able to improve your score. <b>Now add #4 to your group.</b> Notice that
+  your score has gone up!
 </div>
 
-<div class="tutorial text-center" id="tutFive" ng-show="tutState==5">
-  Aliens that are similar to your current group appear in yellow boxes. Adding these aliens to
-  your group are more likely to increase your score. Your score can still go down
-  if you add yellow aliens to your group, if the alien was already in a group that
-  resulted in a higher score, or if adding the alien caused its enemy, which may have been a better match
-  , to be removed from the group. Add a yellow alien to your current group now.
+<div class="tutorial text-center" ng-show="tutState==5">
+  It seems like we can improve our score even more.
+  #6 looks exactly the same as #2, so let's add it to our group. Notice that #6
+  has a striped background. This indicates that it is an enemy
+  with an alien in your current group. Enemy aliens cannot be placed
+  into the same group. If you choose to add such aliens to your group,
+  you will be prompted to remove them. <b>Left click on #6.</b> Notice
+  that your score increased even more!
 </div>
 
-<div class="tutorial text-center" id="tutSix" ng-show="tutState==6">
-  To remove an alien from a group, click on it on the top panel. Remove an alien from your current group now.
+<div class="tutorial text-center" ng-show="tutState==6">
+  Left click on an alien in the top panel to remove it put it back to its previous group.
+  <b>Left click on any alien in the top panel now.</b>
 </div>
 
-
-<div class="tutorial text-center" id="tutSeven" ng-show="tutState==7">
-  If you would like to make changes to an existing group, right click on any alien from that group. Right click on an existing group now.
-</div>
-
-
-<div class="tutorial text-center" id="tutEight" ng-show="tutState==8">
+<div class="tutorial text-center" ng-show="tutState==7">
+  <!--Some tips:<br>-->
+  <!-- - try to put aliens with low similarity to their current group into better groups.<br>-->
+  <!-- - adding highlighted aliens to your current group-->
+  <!--will not always increase your score.<br>-->
+  <!-- - as you modify the groupings, your score-->
+  <!--may temporarily decrease but don't be discouraged.<br><br>-->
   You are now well-equiped to play! Click to start playing:
   <br>
   <button class="btn menu-button" ui-sref="game({id: 10})">Play!</button>

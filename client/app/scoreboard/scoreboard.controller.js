@@ -87,7 +87,7 @@ angular.module('nwmApp')
     $scope.startGame = function () {
       Restangular.all('api/users').get('has_seen_tut').then(function (serverJson) {
         if (serverJson.seenTut == false) {
-          $state.go('tut', {id: 10});
+          $state.go('tut', {id: 11});
         } else {
           $state.go('game', {id: 10});
         };

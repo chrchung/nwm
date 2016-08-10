@@ -3,22 +3,52 @@
   top: 0px;
 }
 
+//.tutorial {
+//  z-index: 20;
+//  position: fixed;
+//  top: 30px;
+//  width: 50%;
+//  margin-left: 25%;
+//  margin-right: 25%;
+//  font-family:  "Signika";
+//  font-size: 15px;
+//  color: gray;
+//  background-color: rgba(255, 255, 255, 0.8);
+//  border-radius: 5px;
+//  padding: 20px;
+//  //box-shadow: 5px 5px 5px rgba(255, 255, 255, 0.5);
+//}
+
 .tutorial {
-  z-index: 20;
   position: fixed;
-  top: 30px;
-  width: 50%;
-  margin-left: 25%;
-  margin-right: 25%;
-  font-family:  "Signika";
-  font-size: 15px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  background-color: #FFFC8A;
+  padding: 15px;
+  font-size: 14px;
   color: gray;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 5px;
-  padding: 20px;
-  //box-shadow: 5px 5px 5px rgba(255, 255, 255, 0.5);
+  height: 120px;
+
+  b {
+    color: indianred;
+  }
 }
 
+
+#tut-feedback {
+  background-color: #FFFC8A;
+  border-radius: 5px;
+  padding: 30px;
+  font-size: 17px;
+  color: gray;
+  width: 40%;
+  margin-left: 30%;
+  margin-right: 30%;
+  position: absolute;
+  z-index: 50;
+  display: none;
+}
 
 #score-info {
   font-family: "Lovelo Black";
@@ -484,4 +514,92 @@
   background-color: palevioletred;
   right: 10px;
   color: #fff;
+}
+
+// for tutorial
+
+#add-group-button2 {
+  width: 150px;
+  background-color: rgb(249,133,141);
+  color: #fff;
+  right: 162px;
+  position: fixed;
+  bottom: 145px;
+}
+
+
+#undo-button2 {
+  width: 73px;
+  height: 30px;
+  background-color: #ffbb02;
+  color: #fff;
+  right: 234px;
+  position: fixed;
+  bottom: 180px;
+  margin-right: 5px;
+
+}
+
+#dummy-undo-button2 {
+  width: 73px;
+  height: 30px;
+  opacity: 0.6;
+  background-color: #ffbb02;
+  color: #fff;
+  right: 234px;
+  position: fixed;
+  bottom: 180px;
+  margin-right: 5px;
+  z-index: 999;
+}
+
+#redo-button2 {
+  width: 73px;
+  height: 30px;
+  margin-left: 5px;
+  background-color: #87fedb;
+  color: #fff;
+  right: 157px;
+  position: fixed;
+  bottom: 180px;
+  margin-right: 5px;
+
+}
+
+#dummy-redo-button2 {
+  width: 73px;
+  height: 30px;
+  opacity: 0.6;
+  margin-left: 5px;
+  background-color: #87fedb;
+  color: #fff;
+  right: 157px;
+  position: fixed;
+  bottom: 180px;
+  margin-right: 5px;
+  z-index: 999;
+}
+
+#add-group2 {
+  display: inline-block;
+}
+
+#buttons2 {
+  z-index: 9;
+  position: fixed;
+  bottom: 146px;
+  right: 10px;
+  padding: 7px;
+  border-radius: 5px;
+  display: inline-block;
+  width: 150px;
+  height: 65px;
+  text-align: center;
+  background-color: #fac4ee;
+
+  img {
+    cursor: pointer;
+  }
+
+  background-color: rgb(250, 196, 238);
 }

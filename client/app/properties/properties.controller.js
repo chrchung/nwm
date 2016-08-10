@@ -3,7 +3,7 @@
 angular.module('nwmApp')
   .controller('PropertiesCtrl', function ($scope) {
     $scope.properties = [];
-    var path = 'assets/aliens/';
+    var path = 'http://individual.utoronto.ca/elsieyoung/FeiAliens/';
 
     var i;
     for (i = 1; i <= 162; i++) {

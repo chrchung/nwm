@@ -174,7 +174,7 @@ angular.module('nwmApp').controller('LevelOneController',
         .getList().then(function (serverJson) {
 
         if (serverJson.length == 0) {
-          $scope.createNewBucket();
+          // $scope.createNewBucket();
           return;
         }
 
