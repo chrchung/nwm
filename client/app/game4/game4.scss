@@ -37,17 +37,35 @@
 
 
 #no-buck {
-  background-color: #FFFC8A;
-  border-radius: 5px;
+   background-color: #FFFC8A;
+   border-radius: 5px;
+   padding: 30px;
+   font-size: 17px;
+   color: gray;
+   width: 40%;
+   margin-left: 30%;
+   margin-right: 30%;
+   position: absolute;
+   z-index: 50;
+   display: none;
+ }
+
+#target-reached {
+  background-color: rgb(249,133,141);
+  border-radius: 10px;
   padding: 30px;
-  font-size: 17px;
-  color: gray;
-  width: 40%;
-  margin-left: 30%;
-  margin-right: 30%;
+  font-size: 30px;
+  color: white;
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
   position: absolute;
-  z-index: 50;
+  z-index: 51;
   display: none;
+
+   p {
+     font-size: 17px;
+   }
 }
 
 #tut-feedback {
@@ -667,4 +685,96 @@
     height: 100%;
     border-radius: 30px;
   }
+}
+
+
+// game version where alien seeded
+
+#buttons3 {
+  z-index: 9;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  padding: 7px;
+  border-radius: 5px;
+  display: inline-block;
+  width: 150px;
+  height: 64px;
+  text-align: center;
+  background-color: #fac4ee;
+
+  img {
+    cursor: pointer;
+  }
+
+  background-color: rgb(250, 196, 238);
+}
+
+.score3 {
+  margin-top: 1px;
+}
+
+#undo-button3 {
+  width: 73px;
+  height: 30px;
+  background-color: #ffbb02;
+  color: #fff;
+  right: 234px;
+  position: fixed;
+  bottom: 44px;
+  margin-right: 5px;
+
+}
+
+#dummy-undo-button3 {
+  width: 73px;
+  height: 30px;
+  opacity: 0.6;
+  background-color: #ffbb02;
+  color: #fff;
+  right: 234px;
+  position: fixed;
+  bottom: 44px;
+  margin-right: 5px;
+  z-index: 999;
+}
+
+#redo-button3 {
+  width: 73px;
+  height: 30px;
+  margin-left: 5px;
+  background-color: #87fedb;
+  color: #fff;
+  right: 157px;
+  position: fixed;
+  bottom: 44px;
+  margin-right: 5px;
+
+}
+
+#dummy-redo-button3 {
+  width: 73px;
+  height: 30px;
+  opacity: 0.6;
+  margin-left: 5px;
+  background-color: #87fedb;
+  color: #fff;
+  right: 157px;
+  position: fixed;
+  bottom: 44px;
+  margin-right: 5px;
+  z-index: 999;
+}
+
+#add-group3 {
+  display: inline-block;
+}
+
+#end-button3 {
+  width: 150px;
+  position: fixed;
+  bottom: 10px;
+  background-color: rgb(54, 196, 255);
+  right: 162px;
+  color: #fff;
 }

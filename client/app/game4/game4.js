@@ -2,10 +2,10 @@
 var levelOne = angular.module('nwmApp')
   .config(function($stateProvider) {
     $stateProvider
-      .state('game', {
-        url: '/game/:id',
-        templateUrl: 'app/level-one/level-one.html',
-        controller: 'LevelOneController'
+      .state('game4', {
+        url: '/game4/:id',
+        templateUrl: 'app/game4/game4.html',
+        controller: 'Game4Controller'
       });
   });
 

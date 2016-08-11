@@ -53,10 +53,13 @@
   </div>
 </div>
 
-<div id="tut-feedback" class="no-bucket text-center">
+<div id="no-buck" class="no-bucket text-center">
   Sorry, this action cannot be completed.<br>
-  You did not have a group selected.
+  You did not select a group.
 </div>
+
+
+
 
 
 <span id="feedback">{{feedback}}</span> <span id="small_feedback"></span>
@@ -115,12 +118,12 @@
     <div class='title-font score big'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="1"></span></div>
     <div class='title-font small'>(Best score so far: {{maxScore}})</div>
     <button id="end-button" class="btn" ng-click="endGame()">End game</button>
-    <!--<div id="current-group">-->
-      <!--<span class="title-font">Current group:</span>-->
-      <!--<div ng-click="goToGroup()" id="current-group-color" style="background:{{bucket.buckets[bucket.current_bucket].color}}">-->
-      <!--</div>-->
-      <!--&lt;!&ndash;<div class="title-font small">(Click to go to group)</div>&ndash;&gt;-->
-    <!--</div>-->
+    <div id="current-group">
+      <span class="title-font">Current group:</span>
+      <div ng-click="goToGroup()" id="current-group-color" style="background:{{bucket.buckets[bucket.current_bucket].color}}">
+      </div>
+      <!--<div class="title-font small">(Click to go to group)</div>-->
+    </div>
   </div>
 
 

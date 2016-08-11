@@ -1,7 +1,11 @@
 'use strict';
 
-angular.module('nwmApp').controller('LevelOneController',
+angular.module('nwmApp').controller('Game4Controller',
   function ($scope, Restangular, $stateParams, $state, $timeout, update, helper, database, style, bucket, history, aliens, $localStorage) {
+
+    // game version where alien seeded
+    $scope.scoreToBeat = 0;
+    var initAlien;
 
     $scope.numImagesLoaded = 0;
     $scope.loaded = false;
@@ -19,7 +23,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
       update.showSmallFeedback(old, $scope.score, 'd_d');
 
-    }
+    };
 
     $scope.currentBucket = function (curBucket) {
       // Currently we are using the FIRST highlighting algorithm. Second => 2, Third => 3.
@@ -44,6 +48,11 @@ angular.module('nwmApp').controller('LevelOneController',
 
       if ($scope.score > $scope.maxScore) {
         $scope.maxScore = $scope.score;
+      }
+
+      if ($scope.score - $scope.initalScore > $scope.highest_score - $scope.initialScore + 1) {
+        $("#target-reached").fadeIn();
+        setTimeout(function(){ $("#target-reached").fadeOut(); }, 2000);
       }
 
       //if ($scope.prev_score < $scope.score) {
@@ -171,14 +180,17 @@ angular.module('nwmApp').controller('LevelOneController',
       });
     };
 
-    var getRandomArbitrary = function (min, max) {
-      return Math.random() * (max - min) + min;
-    };
+    // var getRandomArbitrary = function (min, max) {
+    //   return Math.random() * (max - min) + min;
+    // };
 
     var getRandAlien = function () {
-      var randModel = getRandomArbitrary(0, 8);
-      var randAlien = getRandomArbitary(0, 221);
-
+        var result;
+        var count = 0;
+        for (var prop in $scope.aliens.alienArray)
+          if (Math.random() < 1/++count)
+            result = prop;
+        return result;
     };
 
     $scope.restoreBestGame = function () {
@@ -222,7 +234,14 @@ angular.module('nwmApp').controller('LevelOneController',
         }
         bucket.orderAlienArray();
 
-        $scope.showGroup(getRandAlien());
+        // game version: in which a random alien is seeded
+
+        $scope.createNewBucket();
+        initAlien = getRandAlien();
+        $scope.selectAlien(initAlien);
+        $scope.showGroup(initAlien);
+
+        $scope.maxScore = $scope.initialScore = $scope.score = update.getNewScore($scope.maxModels);
       });
     };
 
@@ -236,10 +255,11 @@ angular.module('nwmApp').controller('LevelOneController',
       }
 
       // No bucket is currently selected
-      if (bucket.current_bucket == -1) {
-        $("#no-buck").fadeIn();
-        setTimeout(function(){ $("#no-buck").fadeOut(); }, 2000);
-      }
+      // game version in which alien is seeded : comment out
+      // if (bucket.current_bucket == -1) {
+      //   $("#no-buck").fadeIn();
+      //   setTimeout(function(){ $("#no-buck").fadeOut(); }, 2000);
+      // }
 
       // Illegal Aliens
       if (aliens.alienArray[alien_id].illegal == 'illegal') {
@@ -679,6 +699,7 @@ angular.module('nwmApp').controller('LevelOneController',
         {
           score: $scope.score,
           initialScore: $scope.highest_score,
+          initialAlien: initAlien,
           duration: time,
           game: $scope.cur_game,
           level: parseInt($scope.cur_level),
