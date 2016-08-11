@@ -246,13 +246,13 @@ angular.module('nwmApp').controller('Game4Controller',
     };
 
     $scope.selectAlien = function (alien_id) {
-      if ($scope.tutState == 3) {
-        $scope.tutState = 4;
+
+      if (alien_id == initAlien) {
+          $("#cant-remove").fadeIn();
+          setTimeout(function(){ $("#cant-remove").fadeOut(); }, 2000);
       }
 
-      if ($scope.tutState == 5) {
-        $scope.tutState = 6;
-      }
+
 
       // No bucket is currently selected
       // game version in which alien is seeded : comment out

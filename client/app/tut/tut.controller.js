@@ -792,7 +792,7 @@ angular.module('nwmApp').controller('TutController',
     window.onresize = function (event) {
       $scope.topWindowHeight = window.innerWidth * 0.095 + 20;
     };
-    
+
     $scope.imageLoadedIncrementCount = function () {
       $scope.numImagesLoaded ++;
 
@@ -802,13 +802,13 @@ angular.module('nwmApp').controller('TutController',
     };
 
     ///set up game from best solution
-    $scope.setUpGame('best');
+    // $scope.setUpGame('best');
     //setUpTutorial();
     // Clear the undo storage
     $(document).ready(function () {
       delete $scope.$storage.buckets;
       delete $scope.$storage.aliens;
-      $scope.setUpGame('best');
+      $scope.setUpGame('scratch');
     });
 
 

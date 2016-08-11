@@ -119,7 +119,7 @@
     <!--<button id="done-button" class="btn" ng-click="doneBucket()">Calculate Score</button>-->
     <div class='title-font score big'>SCORE: <span count-to="{{score}}" value="{{prev_score}}" duration="1"></span></div>
     <div class='title-font small'>(Best score so far: {{maxScore}})</div>
-    <!--<button id="end-button2" class="btn" ng-click="endGame()" ng-disabled="true">End game</button>-->
+    <button id="end-button2" class="btn" ng-click="endGame()">End game</button>
     <div id="current-group">
     <span class="title-font">Current group:</span>
     <div ng-click="goToGroup()" id="current-group-color" style="background:{{bucket.buckets[bucket.current_bucket].color}}">
