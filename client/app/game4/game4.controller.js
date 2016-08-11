@@ -291,6 +291,10 @@ angular.module('nwmApp').controller('Game4Controller',
             }
           }
         }
+        $scope.disableRedo = true;
+        $scope.disableUndo = true;
+        delete $scope.$storage.buckets;
+        delete $scope.$storage.aliens;
       });
     };
 
@@ -648,7 +652,7 @@ angular.module('nwmApp').controller('Game4Controller',
       // feedback(diff_alien);
       feedback(diff_alien);
 
-      $scope.current_bucket = false;
+      $scope.disableRedo = false;
 
       if (!$scope.$storage.buckets[$scope.undo_key_pointer][2]) {
         $scope.disableUndo = true;
