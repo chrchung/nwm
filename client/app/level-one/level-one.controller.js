@@ -177,7 +177,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
     var getRandAlien = function () {
       var randModel = getRandomArbitrary(0, 8);
-      var randAlien = getRandomArbitary(0, 221);
+      var randAlien = getRandomArbitrary(0, 221);
 
     };
 
