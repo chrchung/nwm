@@ -20,6 +20,7 @@ exports.saveScore = function (req, res) {
     var solution = req.body.solution;
     var score = req.body.score;
     var actions = req.body.actions;
+    var seed = req.body.seed;
    // var game = req.body.game;
     var level = req.body.level;
     if (req.body.user) {
@@ -54,6 +55,7 @@ exports.saveScore = function (req, res) {
           bestSolution.set('initialScore', req.body.initialScore);
           bestSolution.set('targetScore', req.body.targetScore);
           bestSolution.set('duration', req.body.duration);
+          bestSolution.set('seed', seed);
 
 
           bestSolution.save(null, {
@@ -101,6 +103,7 @@ exports.saveScore = function (req, res) {
           sol.set('initialScore', req.body.initialScore);
           sol.set('targetScore', req.body.targetScore);
           sol.set('duration', req.body.duration);
+          sol.set('seed', seed);
 
           sol.save(null, {
             success: function (gameScore) {

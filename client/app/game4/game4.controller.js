@@ -270,6 +270,7 @@ angular.module('nwmApp').controller('Game4Controller',
             return;
           }
 
+          $scope.seed = initAlien;
           $scope.showGroup(initAlien);
           $scope.doneSeeding = true;
         }
@@ -284,6 +285,7 @@ angular.module('nwmApp').controller('Game4Controller',
               $scope.createNewBucket();
               $scope.selectAlien(curAlien);
               $scope.initialScore = $scope.score; // initial score
+              $scope.seed = curAlien;
               $scope.doneSeeding = true;
               break;
             }
@@ -310,9 +312,10 @@ angular.module('nwmApp').controller('Game4Controller',
 
     $scope.selectAlien = function (alien_id) {
 
-      if (alien_id == initAlien) {
+      if (alien_id == $scope.seed) {
           $("#cant-remove").fadeIn();
           setTimeout(function(){ $("#cant-remove").fadeOut(); }, 2000);
+          return;
       }
 
       // No bucket is currently selected
@@ -761,6 +764,7 @@ angular.module('nwmApp').controller('Game4Controller',
           score: $scope.score,
           initialScore: $scope.highest_score,
           targetScore: $scope.highest_score - $scope.initialScore + 1,
+          seed: $scope.seed,
           duration: time,
           game: $scope.cur_game,
           level: parseInt($scope.cur_level),
