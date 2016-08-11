@@ -309,12 +309,10 @@ angular.module('nwmApp').controller('Game4Controller',
     };
 
     $scope.selectAlien = function (alien_id) {
-      if ($scope.tutState == 3) {
-        $scope.tutState = 4;
-      }
 
-      if ($scope.tutState == 5) {
-        $scope.tutState = 6;
+      if (alien_id == initAlien) {
+          $("#cant-remove").fadeIn();
+          setTimeout(function(){ $("#cant-remove").fadeOut(); }, 2000);
       }
 
       // No bucket is currently selected

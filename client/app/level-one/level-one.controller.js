@@ -47,7 +47,7 @@ angular.module('nwmApp').controller('LevelOneController',
       }
 
       //if ($scope.prev_score < $scope.score) {
-        update.showSmallFeedback($scope.prev_score, $scope.score, alienId);
+      update.showSmallFeedback($scope.prev_score, $scope.score, alienId);
       //}
       update.showBigFeedback($scope.prev_score, $scope.score, $scope.beat, $scope.highest_score);
     };
@@ -177,7 +177,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
     var getRandAlien = function () {
       var randModel = getRandomArbitrary(0, 8);
-      var randAlien = getRandomArbitrary(0, 221);
+      var randAlien = getRandomArbitary(0, 221);
 
     };
 
@@ -222,7 +222,7 @@ angular.module('nwmApp').controller('LevelOneController',
         }
         bucket.orderAlienArray();
 
-        //$scope.showGroup(getRandAlien());
+        $scope.showGroup(getRandAlien());
       });
     };
 
@@ -239,7 +239,6 @@ angular.module('nwmApp').controller('LevelOneController',
       if (bucket.current_bucket == -1) {
         $("#no-buck").fadeIn();
         setTimeout(function(){ $("#no-buck").fadeOut(); }, 2000);
-        return;
       }
 
       // Illegal Aliens
@@ -532,8 +531,8 @@ angular.module('nwmApp').controller('LevelOneController',
       if (!newVal || !oldVal) {
         return;
       }
-       //console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal));
-       //console.log("newVal (buckets) is =>" + JSON.stringify(newVal));
+      //console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal));
+      //console.log("newVal (buckets) is =>" + JSON.stringify(newVal));
       if (!$scope.$storage.buckets) {
         $scope.$storage.buckets = {};
       }
@@ -638,7 +637,7 @@ angular.module('nwmApp').controller('LevelOneController',
       }
       //feedback(diff_alien);
       //bucket.orderAlienArray();
-       feedback(diff_alien);
+      feedback(diff_alien);
 
       $scope.disableUndo = false;
 

@@ -50,6 +50,22 @@
    display: none;
  }
 
+
+#cant-remove {
+  background-color: #FFFC8A;
+  border-radius: 5px;
+  padding: 30px;
+  font-size: 17px;
+  color: gray;
+  width: 40%;
+  margin-left: 30%;
+  margin-right: 30%;
+  position: absolute;
+  z-index: 50;
+  display: none;
+}
+
+
 #target-reached {
   background-color: rgb(249,133,141);
   border-radius: 10px;
@@ -693,7 +709,7 @@
 #buttons3 {
   z-index: 9;
   position: fixed;
-  bottom: 10px;
+  bottom: 45px;
   right: 10px;
   padding: 7px;
   border-radius: 5px;
@@ -761,7 +777,7 @@
   color: #fff;
   right: 157px;
   position: fixed;
-  bottom: 44px;
+  bottom: 4px;
   margin-right: 5px;
   z-index: 999;
 }
@@ -775,6 +791,6 @@
   position: fixed;
   bottom: 10px;
   background-color: rgb(54, 196, 255);
-  right: 162px;
+  right: 10px;
   color: #fff;
 }
