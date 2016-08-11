@@ -569,7 +569,7 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
     }
 
     sortedBucket.sort(function(a, b) {
-      return b.similarity - a.similarity;
+      return a.similarity - b.similarity;
     });
 
     for (i = 0; i < sortedBucket.length; i++) {
