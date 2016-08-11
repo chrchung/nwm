@@ -312,37 +312,64 @@ angular.module('nwmApp').controller('LevelOneController',
 
               history.historySelectFlag = 1;
 
-			  // Retrieve alien's last bucket.
-			  var cur_undo_index = $scope.undo_key_pointer;
-			  var cur_bucket_storage = JSON.parse($scope.$storage.buckets[cur_undo_index][0]);
-			  var cur_bucket_ind = $scope.$storage.buckets[cur_undo_index][1];
-			  var last_key = cur_undo_index;
-			  while (_.include(cur_bucket_storage[cur_bucket_ind].alien, alien_id)) {
-			    last_key = $scope.$storage.buckets[last_key][2];
-			    cur_bucket_storage = JSON.parse($scope.$storage.buckets[last_key][0]);
-			  }
-			  var last_bucket_ind = 0;
-			  _.each(cur_bucket_storage, function (b) {
-			    if (b.alien.indexOf(alien_id) != -1) {
-			      last_bucket_ind = cur_bucket_storage.indexOf(b);
-			    }
-			  });
-			  var last_bucket_color = cur_bucket_storage[last_bucket_ind].color;
+              // Retrieve alien's last bucket.
+              var cur_undo_index = $scope.undo_key_pointer;
+              var cur_bucket_storage = JSON.parse($scope.$storage.buckets[cur_undo_index][0]);
+              var cur_bucket_color = cur_bucket_storage[bucket.current_bucket].color;
+              var last_key = cur_undo_index;
 
-			  // Remove the alien from the bucket
-			  var ind = bucket.buckets[bucket.current_bucket].alien.indexOf(alien_id);
-			  //aliens.alienArray[alien_id].in = false;
-			  bucket.buckets[bucket.current_bucket].alien.splice(ind, 1);
-			  bucket.buckets[last_bucket_ind].alien.push(alien_id);
+              // Helper function to retrieve alien's current bucket color.
+              var getAlienCurColor = function (undo_snapshot, alien_id) {
+                var result_color = null;
+                _.each(undo_snapshot, function (b) {
+                  if (b.alien.indexOf(alien_id) != -1) {
+                    result_color = b.color;
+                  }
+                });
+                return result_color;
+              };
 
-			  if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
-			    $scope.checked = false;
-			  }
+              //console.log("COMPARE1", getAlienCurColor(cur_bucket_storage, alien_id));
+              //console.log("COMPARE2",cur_bucket_color);
+              //console.log("COMPARE3",getAlienCurColor(cur_bucket_storage, alien_id) == cur_bucket_color);
 
-			  aliens.alienArray[alien_id].color = last_bucket_color;
-			  $scope.currentBucket(bucket.current_bucket);
-			  feedback(alien_id);
-			  history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
+              while (getAlienCurColor(cur_bucket_storage, alien_id) == cur_bucket_color) {
+                last_key = $scope.$storage.buckets[last_key][2];
+                if (last_key == null) {
+                  break;
+                }
+                cur_bucket_storage = JSON.parse($scope.$storage.buckets[last_key][0]);
+              }
+              var last_bucket_ind = -1;
+              _.each(cur_bucket_storage, function (b) {
+                if (b.alien.indexOf(alien_id) != -1) {
+                  last_bucket_ind = cur_bucket_storage.indexOf(b);
+                }
+              });
+
+              var last_bucket_color = cur_bucket_storage[last_bucket_ind].color;
+
+              // Remove the alien from the bucket
+              var ind = bucket.buckets[bucket.current_bucket].alien.indexOf(alien_id);
+              //aliens.alienArray[alien_id].in = false;
+              bucket.buckets[bucket.current_bucket].alien.splice(ind, 1);
+
+              // If the selected alien has no previous bucket, just put it back as non-matched alien.
+              if (last_bucket_ind != bucket.current_bucket && last_bucket_ind != -1) {
+                bucket.buckets[last_bucket_ind].alien.push(alien_id);
+                aliens.alienArray[alien_id].color = last_bucket_color;
+              } else {
+                aliens.alienArray[alien_id].in = false;
+                aliens.alienArray[alien_id].color = "rgba(232, 250, 255, 0)";
+              }
+
+              if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
+                $scope.checked = false;
+              }
+
+              $scope.currentBucket(bucket.current_bucket);
+              feedback(alien_id);
+              history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
             }
 
             // Select aliens
@@ -414,6 +441,8 @@ angular.module('nwmApp').controller('LevelOneController',
       $scope.checked = false;
       bucket.addBucket();
       update.updateIllegalAlien();
+      $scope.disableUndo = false;
+      $scope.disableRedo = true;
     }
 
     $scope.showGroup = function (alien_id) {
@@ -474,10 +503,20 @@ angular.module('nwmApp').controller('LevelOneController',
     // User makes change => [NEW', OLD, OLD, OLD...] and update view to current pointer
     //                        ↑ moves pointer forward, 'NEW' gets overwritten
 
+    $scope.$watch(angular.bind(bucket, function (current_bucket) {
+      return bucket.current_bucket;
+    }), function (newVal, oldVal) {
+      if (newVal == -1) {
+        $scope.disableUndo = true;
+        $scope.disableRedo = true;
+        $scope.checked = true;
+      }
+    });
+
     $scope.$watch(angular.bind(bucket, function (buckets) {
       return bucket.buckets;
     }), function (newVal, oldVal) {
-      if (!newVal || !oldVal || oldVal == []) {
+      if (!newVal || !oldVal) {
         return;
       }
        //console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal));
@@ -547,12 +586,14 @@ angular.module('nwmApp').controller('LevelOneController',
       //console.log("current index =>" + $scope.undo_key_pointer);
 
       bucket.restoreBucketsHelper(last_buckets);
-      $scope.currentBucket(bucket.current_bucket);
+      if (bucket.current_bucket != -1) {
+        $scope.currentBucket(bucket.current_bucket);
+      }
       //bucket.orderAlienArray();
       // feedback(diff_alien);
       feedback(diff_alien);
 
-      $scope.current_bucket = false;
+      $scope.disableRedo = false;
 
       if (!$scope.$storage.buckets[$scope.undo_key_pointer][2]) {
         $scope.disableUndo = true;
@@ -579,7 +620,9 @@ angular.module('nwmApp').controller('LevelOneController',
       }
 
       bucket.restoreBucketsHelper(next_buckets);
-      $scope.currentBucket(bucket.current_bucket);
+      if (bucket.current_bucket != -1) {
+        $scope.currentBucket(bucket.current_bucket);
+      }
       //feedback(diff_alien);
       //bucket.orderAlienArray();
        feedback(diff_alien);
