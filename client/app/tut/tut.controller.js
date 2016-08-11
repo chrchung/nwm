@@ -808,7 +808,7 @@ angular.module('nwmApp').controller('TutController',
     $(document).ready(function () {
       delete $scope.$storage.buckets;
       delete $scope.$storage.aliens;
-      $scope.setUpGame('scratch');
+      $scope.setUpGame('best');
     });
 
 

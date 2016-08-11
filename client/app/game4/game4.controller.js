@@ -252,8 +252,6 @@ angular.module('nwmApp').controller('Game4Controller',
           setTimeout(function(){ $("#cant-remove").fadeOut(); }, 2000);
       }
 
-
-
       // No bucket is currently selected
       // game version in which alien is seeded : comment out
       // if (bucket.current_bucket == -1) {
