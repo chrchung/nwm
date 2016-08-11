@@ -22,12 +22,17 @@ exports.saveScore = function (req, res) {
     var actions = req.body.actions;
    // var game = req.body.game;
     var level = req.body.level;
-    var user = req.session.user;
+    if (req.body.user) {
+      var username = req.body.user;
+    }
+    else {
+      var username = req.session.user.username;
+    }
     var Scores = Parse.Object.extend('Scores');
     var newScore = new Scores();
    // newScore.set('game', game);
     newScore.set('level', level);
-    newScore.set('user', user.username);
+    newScore.set('user', username);
     newScore.set('score', score);
     newScore.set('initialScore', req.body.initialScore);
 
@@ -40,13 +45,14 @@ exports.saveScore = function (req, res) {
     solutionsQuery.first({
       success: function (bestSolution) {
         if (bestSolution && bestSolution.attributes.score < score) {
-          bestSolution.set('user', user.username);
+          bestSolution.set('user', username);
           bestSolution.set('solution', solution);
           bestSolution.set('score', score);
           bestSolution.set('level', level);
           bestSolution.set('actions', actions);
           bestSolution.set('partial', false);
           bestSolution.set('initialScore', req.body.initialScore);
+          bestSolution.set('targetScore', req.body.targetScore);
           bestSolution.set('duration', req.body.duration);
 
 
@@ -56,7 +62,7 @@ exports.saveScore = function (req, res) {
               if (req.body.initialScore < req.body.score) {
                 var UserData = Parse.Object.extend('UserData');
                 var userDataQuery = new Parse.Query(UserData);
-                userDataQuery.equalTo('user', req.session.user.username);
+                userDataQuery.equalTo('user', username);
                 userDataQuery.first({
                   success: function (user) {
                     user.set('overallScore', user.attributes.overallScore  + req.body.score - req.body.initialScore);
@@ -86,13 +92,14 @@ exports.saveScore = function (req, res) {
           });
         } else if (!bestSolution) {
           var sol = new Solutions();
-          sol.set('user', user.username);
+          sol.set('user', username);
           sol.set('solution', solution);
           sol.set('score', score);
           sol.set('level', level);
           sol.set('actions', actions);
           sol.set('partial', false);
           sol.set('initialScore', req.body.initialScore);
+          sol.set('targetScore', req.body.targetScore);
           sol.set('duration', req.body.duration);
 
           sol.save(null, {
@@ -100,7 +107,7 @@ exports.saveScore = function (req, res) {
               if (req.body.initialScore < req.body.score) {
                 var UserData = Parse.Object.extend('UserData');
                 var userDataQuery = new Parse.Query(UserData);
-                userDataQuery.equalTo('user', req.session.user.username);
+                userDataQuery.equalTo('user', username);
                 userDataQuery.first({
                   success: function (user) {
                     user.set('overallScore', user.attributes.overallScore  + req.body.score - req.body.initialScore);
@@ -400,6 +407,26 @@ exports.getCurUserOverall = function (req, res) {
     userQuery.first({
       success: function (user) {
         res.send(user);
+      },
+      error: function (error) {
+        res.status(400).end();
+      }
+    });
+  } else {
+    res.status(400).end();
+  };
+};
+
+exports.getCurUserGame4Solution = function (req, res) {
+  if (req.session.user) {
+    var Solution = Parse.Object.extend('Solutions');
+    var solQuery = new Parse.Query(Solution);
+    solQuery.equalTo('user', req.session.user.username);
+    solQuery.descending('createdAt');
+    solQuery.exists('targetScore');
+    solQuery.first({
+      success: function (sol) {
+        res.send(sol);
       },
       error: function (error) {
         res.status(400).end();

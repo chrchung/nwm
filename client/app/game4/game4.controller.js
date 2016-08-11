@@ -50,6 +50,11 @@ angular.module('nwmApp').controller('Game4Controller',
         $scope.maxScore = $scope.score;
       }
 
+      // Avoid score update when seeding
+      if (!$scope.doneSeeding) {
+        return;
+      }
+
       if ($scope.score - $scope.initalScore > $scope.highest_score - $scope.initialScore + 1) {
         $("#target-reached").fadeIn();
         setTimeout(function(){ $("#target-reached").fadeOut(); }, 2000);
@@ -233,15 +238,73 @@ angular.module('nwmApp').controller('Game4Controller',
           $scope.maxScore = $scope.score;
         }
         bucket.orderAlienArray();
-
-        // game version: in which a random alien is seeded
-
-        $scope.createNewBucket();
-        initAlien = getRandAlien();
-        $scope.selectAlien(initAlien);
-        $scope.showGroup(initAlien);
+        $scope.doneSeeding = false;
+        $scope.seeding();
 
         $scope.maxScore = $scope.initialScore = $scope.score = update.getNewScore($scope.maxModels);
+      });
+    };
+
+    $scope.seeding = function() {
+      Restangular.all('api/scores/').get("cur_user_recent_game4").then(function (serverJson) {
+
+        // Sort aliens by score
+        var sortedAlien = Object.keys(aliens.alienArray).sort(function(a,b){
+          return aliens.alienArray[a].score - aliens.alienArray[b].score;
+        });
+
+        // No game4 data found
+        if (!serverJson) {
+          initAlien = sortedAlien[0];
+          $scope.highest_score = $scope.score; // highest score
+          $scope.createNewBucket();
+          $scope.selectAlien(initAlien);
+          $scope.initialScore = $scope.score; // initial score
+
+          var targetScore = $scope.highest_score - $scope.initialScore + 1;
+
+          // Seeding improves the score: save solution to DB and seed again
+          if (targetScore < 1) {
+            $scope.saveSolutionAtSeeding();
+            $scope.seeding();
+            return;
+          }
+
+          $scope.showGroup(initAlien);
+          $scope.doneSeeding = true;
+        }
+        else {
+          var prevTargetScore = serverJson.targetScore;
+          $scope.createNewBucket();
+          for (var i = 0; i < sortedAlien.length; i++) {
+            var curAlien = sortedAlien[i];
+            var targetScore = aliens.alienArray[curAlien].score;
+            if (targetScore > prevTargetScore) {
+              $scope.highest_score = $scope.score; // highest score
+              $scope.createNewBucket();
+              $scope.selectAlien(curAlien);
+              $scope.initialScore = $scope.score; // initial score
+              $scope.doneSeeding = true;
+              break;
+            }
+          }
+        }
+      });
+    };
+
+    $scope.saveSolutionAtSeeding = function() {
+      Restangular.all('/api/scores/').post(
+        {
+          user: "nwm",
+          score: $scope.score,
+          initialScore: $scope.highest_score,
+          game: $scope.cur_game,
+          level: parseInt($scope.cur_level),
+          solution: bucket.buckets,
+          actions: history.userActions
+        }).then(
+        (function (data) {
+        }), function (err) {
       });
     };
 
@@ -699,7 +762,7 @@ angular.module('nwmApp').controller('Game4Controller',
         {
           score: $scope.score,
           initialScore: $scope.highest_score,
-          initialAlien: initAlien,
+          targetScore: $scope.highest_score - $scope.initialScore + 1,
           duration: time,
           game: $scope.cur_game,
           level: parseInt($scope.cur_level),
