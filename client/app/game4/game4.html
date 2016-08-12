@@ -161,7 +161,14 @@
   </div>
 </div> -->
 
-<div id='current-aliens' ng-show="doneSeeding">
+<div id='current-aliens'>
+  <button id="seed-button" class="btn" ng-show="!doneSeeding && loaded" ng-click="seedInitialAlien()">
+    <span id="seed-span">
+      Get your
+    FIRST alien!
+    </span>
+
+  </button>
   <div ng-repeat="id in bucket.currentAliens"
        class="current-alien {{id}}"
        ng-click="selectAlien(id)"

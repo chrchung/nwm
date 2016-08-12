@@ -239,9 +239,9 @@ angular.module('nwmApp').controller('Game4Controller',
         }
         bucket.orderAlienArray();
         $scope.doneSeeding = false;
-        $scope.seeding();
-
-        $scope.maxScore = $scope.initialScore = $scope.score = update.getNewScore($scope.maxModels);
+        //$scope.seeding();
+        //
+        //$scope.maxScore = $scope.initialScore = $scope.score = update.getNewScore($scope.maxModels);
       });
     };
 
@@ -313,6 +313,24 @@ angular.module('nwmApp').controller('Game4Controller',
         }), function (err) {
       });
     };
+
+    // Replace the seeding function with this for now.
+    $scope.seedInitialAlien = function() {
+
+      initAlien = getRandAlien();
+      $scope.createNewBucket();
+      $scope.selectAlien(initAlien);
+
+      $scope.seed = initAlien;
+      $scope.showGroup(initAlien);
+      $scope.doneSeeding = true;
+
+      $scope.maxScore = $scope.initialScore = $scope.score = update.getNewScore($scope.maxModels);
+      $scope.disableRedo = true;
+      $scope.disableUndo = true;
+      delete $scope.$storage.buckets;
+      delete $scope.$storage.aliens;
+    }
 
     $scope.selectAlien = function (alien_id) {
 
