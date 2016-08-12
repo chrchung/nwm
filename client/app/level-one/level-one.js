@@ -484,7 +484,7 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
     this.colorArray.push(color);
     history.userActions.push("Create bucket " + bucket_ind);
     this.currentBucket(bucket_ind);
-    this.orderAlienArray();
+    this.updateAlienArray();
   };
 
   this.getRandomColor = function() {

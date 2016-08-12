@@ -56,7 +56,7 @@ angular.module('nwmApp').controller('Game4Controller',
         return;
       }
 
-      if ($scope.score - $scope.initalScore > $scope.highest_score - $scope.initialScore + 1) {
+      if ($scope.score - $scope.highest_score > 0) {
         $("#target-reached").fadeIn();
         setTimeout(function(){ $("#target-reached").fadeOut(); }, 2000);
       }
@@ -235,77 +235,172 @@ angular.module('nwmApp').controller('Game4Controller',
             aliens.alienArray[alien_id].illegal = 'legal';
           }
         }
-
         $scope.score = update.getNewScore($scope.maxModels);
         if ($scope.score > $scope.maxScore) {
           $scope.maxScore = $scope.score;
         }
-        bucket.orderAlienArray();
-        $scope.doneSeeding = false;
 
-        $scope.seedInitialAlien();
-        //$scope.seeding();
-        //
-        //$scope.maxScore = $scope.initialScore = $scope.score = update.getNewScore($scope.maxModels);
+        $scope.doneSeeding = false;
+        bucket.orderAlienArray();
+        $scope.seedAliens = []; // Array of aliens that have already been picked as a seed
       });
     };
 
+    $scope.seedInitialAlien = function(tempSeed = null) {
 
-    ///////////
-    /// COMMENT: initAlien is a boolean, don't use it to
-    //// store the seeded alien id.
-    //////////
-    $scope.seeding = function() {
-      Restangular.all('api/scores/').get("cur_user_recent_game4").then(function (serverJson) {
+      if (Math.random() < 0.4) {
+        console.log('rand');
+        $scope.seed = $scope.seedRandomly(tempSeed);
+      }
+      else {
+        console.log('similar');
+        $scope.seed = $scope.seedBySimilarityScore(tempSeed);
+      }
 
-        // Sort aliens by score
-        var sortedAlien = Object.keys(aliens.alienArray).sort(function(a,b){
-          return aliens.alienArray[a].score - aliens.alienArray[b].score;
-        });
+      $scope.showGroup($scope.seed);
+      $scope.prev_score = $scope.score;
+      $scope.doneSeeding = true;
 
-        // No game4 data found
-        if (!serverJson) {
-          initAlien = sortedAlien[0];
-          $scope.highest_score = $scope.score; // highest score
-          $scope.createNewBucket();
-          $scope.selectAlien(initAlien);
-          $scope.initialScore = $scope.score; // initial score
+      $scope.disableRedo = true;
+      $scope.disableUndo = true;
+      // delete $scope.$storage.buckets;
+      // delete $scope.$storage.aliens;
+    }
 
-          var targetScore = $scope.highest_score - $scope.initialScore + 1;
+    $scope.getNextSeed = function() {
+      var tempSeed = $scope.seed;
+      $scope.seed = null;
+      $scope.doneSeeding = false;
 
-          // Seeding improves the score: save solution to DB and seed again
-          if (targetScore < 1) {
-            $scope.saveSolutionAtSeeding();
-            $scope.seeding();
-            return;
-          }
+      while (bucket.buckets[bucket.current_bucket].alien.length > 0) {
+        $scope.selectAlien(bucket.buckets[bucket.current_bucket].alien[0]);
+      }
+      $scope.seedInitialAlien(tempSeed);
+    }
 
-          $scope.seed = initAlien;
-          $scope.showGroup(initAlien);
-          $scope.doneSeeding = true;
-        }
-        else {
-          var prevTargetScore = serverJson.targetScore;
-          $scope.createNewBucket();
-          for (var i = 0; i < sortedAlien.length; i++) {
-            var curAlien = sortedAlien[i];
-            var targetScore = aliens.alienArray[curAlien].score;
-            if (targetScore > prevTargetScore) {
-              $scope.highest_score = $scope.score; // highest score
-              $scope.createNewBucket();
-              $scope.selectAlien(curAlien);
-              $scope.initialScore = $scope.score; // initial score
-              $scope.seed = curAlien;
-              $scope.doneSeeding = true;
-              break;
-            }
-          }
-        }
-        $scope.disableRedo = true;
-        $scope.disableUndo = true;
-        delete $scope.$storage.buckets;
-        delete $scope.$storage.aliens;
+    $scope.seedBySimilarityScore = function(tempSeed = null) {
+
+      // Sort aliens by score
+      var sortedAlien = Object.keys(aliens.alienArray).sort(function(a,b){
+        return aliens.alienArray[a].score - aliens.alienArray[b].score;
       });
+
+      $scope.highest_score = $scope.score; // highest score
+      $scope.createNewBucket();
+
+      for (var i = 0; i < sortedAlien.length; i++) {
+
+        seed = sortedAlien[i];
+
+        // This alien has already been picked: find another seed
+        if ($scope.seedAliens.indexOf(seed) >= 0) {
+          continue;
+        }
+
+        $scope.selectAlien(seed);
+        $scope.initialScore = $scope.score; // initial score
+
+        var targetScore = $scope.highest_score - $scope.initialScore + 1;
+
+        // Seeding improves the score: save solution to DB and seed again
+        if (targetScore < 1) {
+          $scope.saveSolutionAtSeeding();
+          $scope.seedBySimilarityScore();
+          return;
+        }
+
+        for (var aid in aliens.alienArray) {
+          // Similar alien exists: make this alien the seed
+          if (aid != seed && aliens.alienArray[aid].similar == "similar" && aliens.alienArray[aid].illegal != "illegal") {
+            $scope.seedAliens.push(seed);
+            return seed;
+          }
+        }
+
+        // Similar alien not found: undo and pick another alien
+        $scope.selectAlien(seed);
+      }
+
+      // No possible seed found
+      $scope.seedAliens = [];
+      $scope.seedBySimilarityScore();
+
+      //Restangular.all('api/scores/').get("cur_user_recent_game4").then(function (serverJson) {
+        // No game4 data found
+        // if (!serverJson) {
+        //   //initAlien = sortedAlien[0];
+        //   seed = sortedAlien[0];
+        //   $scope.highest_score = $scope.score; // highest score
+        //   $scope.createNewBucket();
+        //   $scope.selectAlien(seed);
+        //   $scope.initialScore = $scope.score; // initial score
+        //
+        //   var targetScore = $scope.highest_score - $scope.initialScore + 1;
+        //
+        //   // Seeding improves the score: save solution to DB and seed again
+        //   if (targetScore < 1) {
+        //     $scope.saveSolutionAtSeeding();
+        //     $scope.seeding();
+        //     return;
+        //   }
+        //
+        //   $scope.seed = seed;
+        //   $scope.showGroup(seed);
+        //   $scope.doneSeeding = true;
+        // }
+        // else {
+        //   var prevTargetScore = serverJson.targetScore;
+        //   $scope.createNewBucket();
+        //   for (var i = 0; i < sortedAlien.length; i++) {
+        //     var curAlien = sortedAlien[i];
+        //     var targetScore = aliens.alienArray[curAlien].score;
+        //     if (targetScore > prevTargetScore) {
+        //       $scope.highest_score = $scope.score; // highest score
+        //       $scope.createNewBucket();
+        //       $scope.selectAlien(curAlien);
+        //       $scope.initialScore = $scope.score; // initial score
+        //       $scope.seed = curAlien;
+        //       $scope.doneSeeding = true;
+        //       break;
+        //     }
+        //   }
+        // }
+        // $scope.disableRedo = true;
+        // $scope.disableUndo = true;
+        // delete $scope.$storage.buckets;
+        // delete $scope.$storage.aliens;
+      //});
+    };
+
+    // Seeding #4: random
+    $scope.seedRandomly = function() {
+      $scope.highest_score = $scope.score; // highest score
+      $scope.createNewBucket();
+
+      while (!$scope.seed) {
+        seed = getRandAlien();
+        $scope.selectAlien(seed);
+        $scope.initialScore = $scope.score; // initial score
+
+        var targetScore = $scope.highest_score - $scope.initialScore + 1;
+
+        // Seeding improves the score: save solution to DB and seed again
+        if (targetScore < 1) {
+          $scope.saveSolutionAtSeeding();
+          $scope.seedRandomly();
+          return;
+        }
+
+        for (var aid in aliens.alienArray) {
+          // Similar alien exists: make this alien the seed
+          if (aid != seed && aliens.alienArray[aid].similar == "similar" && aliens.alienArray[aid].illegal != "illegal") {
+            return seed;
+          }
+        }
+
+        // Similar alien not found: undo and pick another alien
+        $scope.selectAlien(seed);
+      }
     };
 
     $scope.saveSolutionAtSeeding = function() {
@@ -324,45 +419,23 @@ angular.module('nwmApp').controller('Game4Controller',
       });
     };
 
-    // Replace the seeding function with this for now.
-    $scope.seedInitialAlien = function() {
-      if (seed) {
-        $scope.initAlien = true;
-        $scope.selectAlien(seed);
-      }
-
-      $scope.initAlien = true;
-      seed = getRandAlien();
-      $scope.createNewBucket();
-      $scope.selectAlien(seed);
-
-      $scope.seed = seed;
-      $scope.showGroup(seed);
-      $scope.doneSeeding = true;
-
-      $scope.maxScore = $scope.initialScore = $scope.score = update.getNewScore($scope.maxModels);
-      $scope.disableRedo = true;
-      $scope.disableUndo = true;
-      delete $scope.$storage.buckets;
-      delete $scope.$storage.aliens;
-    };
-
     $scope.selectAlien = function (alien_id) {
 
-      if (alien_id == $scope.seed && initAlien) {
+      // No bucket is currently selected
+      // game version in which alien is seeded : comment out
+      if (bucket.current_bucket == -1) {
+        $("#no-buck").fadeIn();
+        setTimeout(function(){ $("#no-buck").fadeOut(); }, 2000);
+        return;
+      }
+
+      if (alien_id == $scope.seed) {
           $("#cant-remove").fadeIn();
           setTimeout(function(){ $("#cant-remove").fadeOut(); }, 2000);
           return;
       }
 
       initAlien = false;
-
-      // No bucket is currently selected
-      // game version in which alien is seeded : comment out
-      // if (bucket.current_bucket == -1) {
-      //   $("#no-buck").fadeIn();
-      //   setTimeout(function(){ $("#no-buck").fadeOut(); }, 2000);
-      // }
 
       // Illegal Aliens
       if (aliens.alienArray[alien_id].illegal == 'illegal') {
@@ -423,9 +496,7 @@ angular.module('nwmApp').controller('Game4Controller',
           aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
           $scope.currentBucket(bucket.current_bucket);
 
-          if (!initAlien) {
-            feedback(alien_id);
-          }
+          feedback(alien_id);
           history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
         }
 
@@ -506,9 +577,7 @@ angular.module('nwmApp').controller('Game4Controller',
               }
 
               $scope.currentBucket(bucket.current_bucket);
-              if (!initAlien) {
-                feedback(alien_id);
-              }
+              feedback(alien_id);
               history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
             }
 
@@ -529,9 +598,7 @@ angular.module('nwmApp').controller('Game4Controller',
               aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
               aliens.alienArray[alien_id].in = true;
               $scope.currentBucket(bucket.current_bucket);
-              if (!initAlien) {
-                feedback(alien_id);
-              }
+              feedback(alien_id);
               history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
             }
           }
@@ -545,6 +612,12 @@ angular.module('nwmApp').controller('Game4Controller',
       $scope.toggleIllegalAlert();
       if (!opt) {
         return;
+      }
+      // Show alert if the conflicting alien is the seed
+      if (aliens.oldId == $scope.seed) {
+          $("#cant-remove").fadeIn();
+          setTimeout(function(){ $("#cant-remove").fadeOut(); }, 2000);
+          return;
       }
       // Aliens in some other bucket, can be switched to current bucket when being clicked
       if (aliens.alienArray[aliens.newId].in) {
@@ -581,10 +654,12 @@ angular.module('nwmApp').controller('Game4Controller',
 
     $scope.newGroup = function (tut) {
       $scope.checked = false;
-      bucket.addBucket();
-      update.updateIllegalAlien();
-      $scope.disableUndo = false;
-      $scope.disableRedo = true;
+      if (bucket.current_bucket == -1 || bucket.buckets[bucket.current_bucket].alien.length > 0) {
+        bucket.addBucket();
+        update.updateIllegalAlien();
+        $scope.disableUndo = false;
+        $scope.disableRedo = true;
+      }
     }
 
     $scope.showGroup = function (alien_id) {
@@ -603,7 +678,7 @@ angular.module('nwmApp').controller('Game4Controller',
       //}
       var bid = bucket.getBucketByAlienId(alien_id);
       $scope.currentBucket(bid);
-      bucket.orderAlienArray();
+      //bucket.orderAlienArray();
       bucket.updateAlienArray();
     }
 

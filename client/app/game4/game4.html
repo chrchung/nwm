@@ -126,7 +126,7 @@
     <button id="dummy-redo-button" class="btn" ng-if="disableRedo">Redo</button>
     <button id="undo-button" class="btn" ng-click="undo()" ng-if="!disableUndo">Undo</button>
     <button id="dummy-undo-button" class="btn" ng-if="disableUndo">Undo</button>
-    <!--<button id="add-group-button" class="btn" ng-click="newGroup(true)" ng-disabled="!checked">Add new group</button>-->
+    <button id="add-group-button" class="btn" ng-click="getNextSeed()">Seed</button>
     <!--<button id="done-button" class="btn" ng-click="doneBucket()">Calculate Score</button>-->
     <div class='title-font score3 big'>SCORE: <span count-to="{{score - initialScore}}" value="{{prev_score - initialScore}}" duration="1" ng-show="doneSeeding"></span></div>
     <div class='title-font small'>(Best score so far: <span ng-show="doneSeeding">{{maxScore - initialScore}})</span></div>
