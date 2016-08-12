@@ -290,12 +290,12 @@ angular.module('nwmApp').controller('LevelOneController',
           history.historyColor = bucket.buckets[bucket_id].color;
           history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket_id);
 
-          if (bucket.buckets[bucket_id].alien.length == 0) {
-            bucket.removeBucket(bucket_id);
-            if (bucket_id < bucket.current_bucket) {
-              bucket.current_bucket--;
-            }
-          }
+          //if (bucket.buckets[bucket_id].alien.length == 0) {
+          //  bucket.removeBucket(bucket_id);
+          //  if (bucket_id < bucket.current_bucket) {
+          //    bucket.current_bucket--;
+          //  }
+          //}
 
           aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
           $scope.currentBucket(bucket.current_bucket);
@@ -424,12 +424,12 @@ angular.module('nwmApp').controller('LevelOneController',
         history.userActions.push("Remove alien " + aliens.newId + " from bucket " + bucket_id);
         history.userActions.push("Remove alien " + aliens.oldId + " from bucket " + bucket.current_bucket);
 
-        if (bucket.buckets[bucket_id].alien.length == 0) {
-          bucket.removeBucket(bucket_id);
-          if (bucket_id < bucket.current_bucket) {
-            bucket.current_bucket--;
-          }
-        }
+        //if (bucket.buckets[bucket_id].alien.length == 0) {
+        //  bucket.removeBucket(bucket_id);
+        //  if (bucket_id < bucket.current_bucket) {
+        //    bucket.current_bucket--;
+        //  }
+        //}
       }
       else {
         bucket.buckets[bucket.current_bucket].alien[bucket.buckets[bucket.current_bucket].alien.indexOf(aliens.oldId)] = aliens.newId;
@@ -468,9 +468,9 @@ angular.module('nwmApp').controller('LevelOneController',
       }
 
       // If no alien in the current bucket, remove it
-      if (bucket.current_bucket != -1 && bucket.buckets[bucket.current_bucket].alien.length == 0) {
-        bucket.removeBucket(bucket.current_bucket);
-      }
+      //if (bucket.current_bucket != -1 && bucket.buckets[bucket.current_bucket].alien.length == 0) {
+      //  bucket.removeBucket(bucket.current_bucket);
+      //}
       var bid = bucket.getBucketByAlienId(alien_id);
       $scope.currentBucket(bid);
       bucket.orderAlienArray();
@@ -715,9 +715,9 @@ angular.module('nwmApp').controller('LevelOneController',
     $scope.submitScore = function () {
       var time = (new Date()).getMinutes() - startTime;
 
-      if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
-        bucket.removeBucket(bucket.current_bucket);
-      }
+      //if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
+      //  bucket.removeBucket(bucket.current_bucket);
+      //}
       Restangular.all('/api/scores/').post(
         {
           score: $scope.score,
@@ -740,9 +740,9 @@ angular.module('nwmApp').controller('LevelOneController',
 
     // Save the score to the database
     $scope.saveScore = function () {
-      if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
-        bucket.removeBucket(bucket.current_bucket);
-      }
+      //if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
+      //  bucket.removeBucket(bucket.current_bucket);
+      //}
       Restangular.all('/api/scores/save_for_later').post(
         {level: parseInt($scope.cur_level), solution: bucket.buckets, actions: history.userActions}).then(
         (function (data) {
