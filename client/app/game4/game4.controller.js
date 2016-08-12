@@ -6,6 +6,7 @@ angular.module('nwmApp').controller('Game4Controller',
     // game version where alien seeded
     $scope.scoreToBeat = 0;
     var initAlien;
+    var seed;
 
     $scope.numImagesLoaded = 0;
     $scope.loaded = false;
@@ -139,6 +140,8 @@ angular.module('nwmApp').controller('Game4Controller',
       }), function (err) {
         alert("Unexpected error occured");
       });
+
+
     };
 
     $scope.createNewBucket = function () {
@@ -239,12 +242,19 @@ angular.module('nwmApp').controller('Game4Controller',
         }
         bucket.orderAlienArray();
         $scope.doneSeeding = false;
+
+        $scope.seedInitialAlien();
         //$scope.seeding();
         //
         //$scope.maxScore = $scope.initialScore = $scope.score = update.getNewScore($scope.maxModels);
       });
     };
 
+
+    ///////////
+    /// COMMENT: initAlien is a boolean, don't use it to
+    //// store the seeded alien id.
+    //////////
     $scope.seeding = function() {
       Restangular.all('api/scores/').get("cur_user_recent_game4").then(function (serverJson) {
 
@@ -316,13 +326,18 @@ angular.module('nwmApp').controller('Game4Controller',
 
     // Replace the seeding function with this for now.
     $scope.seedInitialAlien = function() {
+      if (seed) {
+        $scope.initAlien = true;
+        $scope.selectAlien(seed);
+      }
 
-      initAlien = getRandAlien();
+      $scope.initAlien = true;
+      seed = getRandAlien();
       $scope.createNewBucket();
-      $scope.selectAlien(initAlien);
+      $scope.selectAlien(seed);
 
-      $scope.seed = initAlien;
-      $scope.showGroup(initAlien);
+      $scope.seed = seed;
+      $scope.showGroup(seed);
       $scope.doneSeeding = true;
 
       $scope.maxScore = $scope.initialScore = $scope.score = update.getNewScore($scope.maxModels);
@@ -330,15 +345,17 @@ angular.module('nwmApp').controller('Game4Controller',
       $scope.disableUndo = true;
       delete $scope.$storage.buckets;
       delete $scope.$storage.aliens;
-    }
+    };
 
     $scope.selectAlien = function (alien_id) {
 
-      if (alien_id == $scope.seed) {
+      if (alien_id == $scope.seed && initAlien) {
           $("#cant-remove").fadeIn();
           setTimeout(function(){ $("#cant-remove").fadeOut(); }, 2000);
           return;
       }
+
+      initAlien = false;
 
       // No bucket is currently selected
       // game version in which alien is seeded : comment out
@@ -405,7 +422,10 @@ angular.module('nwmApp').controller('Game4Controller',
 
           aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
           $scope.currentBucket(bucket.current_bucket);
-          feedback(alien_id);
+
+          if (!initAlien) {
+            feedback(alien_id);
+          }
           history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
         }
 
@@ -486,7 +506,9 @@ angular.module('nwmApp').controller('Game4Controller',
               }
 
               $scope.currentBucket(bucket.current_bucket);
-              feedback(alien_id);
+              if (!initAlien) {
+                feedback(alien_id);
+              }
               history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
             }
 
@@ -507,7 +529,9 @@ angular.module('nwmApp').controller('Game4Controller',
               aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
               aliens.alienArray[alien_id].in = true;
               $scope.currentBucket(bucket.current_bucket);
-              feedback(alien_id);
+              if (!initAlien) {
+                feedback(alien_id);
+              }
               history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
             }
           }
