@@ -172,24 +172,6 @@
   </div>
 </div> -->
 
-<div id='current-aliens'>
-  <!--<button id="seed-button" class="btn" ng-show="!doneSeeding && loaded" ng-click="seedInitialAlien()">-->
-    <!--<span id="seed-span">-->
-      <!--Get your-->
-    <!--FIRST alien!-->
-    <!--</span>-->
-
-  <!--</button>-->
-  <div ng-repeat="id in bucket.currentAliens"
-       class="current-alien {{id}}"
-       ng-click="selectAlien(id)"
-       style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};">
-    <img src="{{aliens.alienArray[id].url}}"/>
-    <div class="simialrity-bar" ng-show='{{bucket.getBucketScore(id) != -1}}'>
-      <div class="similarity" style="width: {{bucket.getAlienScore(id)}}%;"></div>
-    </div>
-  </div>
-</div>
 
 <div id="aliens" style=''>
   <div ng-repeat="id in bucket.orderedIds">
@@ -209,3 +191,23 @@
 </div>
 
 <img class="loading" ng-show="!loaded" src="https://d13yacurqjgara.cloudfront.net/users/12755/screenshots/1037374/hex-loader2.gif"/>
+
+
+<div id='current-aliens'>
+  <!--<button id="seed-button" class="btn" ng-show="!doneSeeding && loaded" ng-click="seedInitialAlien()">-->
+  <!--<span id="seed-span">-->
+  <!--Get your-->
+  <!--FIRST alien!-->
+  <!--</span>-->
+
+  <!--</button>-->
+  <div ng-repeat="id in bucket.currentAliens"
+       class="current-alien {{id}}"
+       ng-click="selectAlien(id)"
+       style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};">
+    <img src="{{aliens.alienArray[id].url}}"/>
+    <div class="simialrity-bar" ng-show='{{bucket.getBucketScore(id) != -1}}'>
+      <div class="similarity" style="width: {{bucket.getAlienScore(id)}}%;"></div>
+    </div>
+  </div>
+</div>

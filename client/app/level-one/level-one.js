@@ -489,9 +489,9 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
 
     // Highlight aliens that are similar to aliens in current bucket
     var cur_alien_list = this.buckets[curBucket].alien;
-    for (var j = 0; j < cur_alien_list.length; j++) {
-      style.highLight(cur_alien_list[j], this.buckets[curBucket], method_flag);
-    }
+   // for (var j = 0; j < cur_alien_list.length; j++) {
+      style.highLight(cur_alien_list[0], this.buckets[curBucket], method_flag);
+    //}
   };
 
   /* Update the array of colours and returns. */
