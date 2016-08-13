@@ -243,7 +243,8 @@ angular.module('nwmApp').controller('Game4Controller',
         $scope.doneSeeding = false;
         bucket.orderAlienArray();
         $scope.seedAliens = {}; // Array of aliens that have already been picked as a seed
-        $scope.seedInitialAlien();
+
+        setTimeout(function(){ $scope.seedInitialAlien(); }, 2000);
       });
     };
 
@@ -272,6 +273,8 @@ angular.module('nwmApp').controller('Game4Controller',
     }
 
     $scope.getNextSeed = function() {
+      $scope.startOverHide();
+
       $scope.seed = null;
       $scope.doneSeeding = false;
 
@@ -1137,7 +1140,7 @@ angular.module('nwmApp').controller('Game4Controller',
     $scope.startOverHide = function () {
       $('#start-over').fadeOut();
     }
-    
+
     window.onresize = function (event) {
       $scope.topWindowHeight = window.innerWidth * 0.095 + 20;
     };

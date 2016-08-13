@@ -239,6 +239,7 @@ angular.module('nwmApp').controller('LevelOneController',
       if (bucket.current_bucket == -1) {
         $("#no-buck").fadeIn();
         setTimeout(function(){ $("#no-buck").fadeOut(); }, 2000);
+        return;
       }
 
       // Illegal Aliens
