@@ -488,7 +488,7 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
   };
 
   this.getRandomColor = function() {
-    if (this.predefinedColorCounter != this.predefinedColors.length) {
+    if (this.predefinedColorCounter != Object.keys(this.predefinedColors).length) {
       for (var color in this.predefinedColors) {
         // Colour available
         if (!this.predefinedColors[color]) {

@@ -243,9 +243,9 @@ angular.module('nwmApp').controller('Game4Controller',
         $scope.doneSeeding = false;
         bucket.orderAlienArray();
         $scope.seedAliens = {}; // Array of aliens that have already been picked as a seed
-        $scope.seedInitialAlien();
+        //$scope.seedInitialAlien();
 
-        // setTimeout(function(){ $scope.seedInitialAlien(); }, 2000);
+        setTimeout(function(){ $scope.seedInitialAlien(); }, 2000);
       });
     };
 
@@ -392,6 +392,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
       $scope.highest_score = $scope.score; // highest score
       $scope.createNewBucket();
+      $scope.$apply();
 
       for (var i = 0; i < sortedAlien.length; i++) {
 
@@ -480,6 +481,7 @@ angular.module('nwmApp').controller('Game4Controller',
     $scope.seedRandomly = function() {
       $scope.highest_score = $scope.score; // highest score
       $scope.createNewBucket();
+      $scope.$apply();
 
       while(Object.keys($scope.seedAliens).length < Object.keys(aliens.alienArray).length) {
         seed = getRandAlien();
@@ -847,8 +849,8 @@ angular.module('nwmApp').controller('Game4Controller',
       if (!newVal || !oldVal) {
         return;
       }
-      //console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal));
-      //console.log("newVal (buckets) is =>" + JSON.stringify(newVal));
+      console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal.length));
+      console.log("newVal (buckets) is =>" + JSON.stringify(newVal.length));
       if (!$scope.$storage.buckets) {
         $scope.$storage.buckets = {};
       }
