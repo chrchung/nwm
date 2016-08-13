@@ -249,14 +249,14 @@ angular.module('nwmApp').controller('Game4Controller',
     $scope.seedInitialAlien = function() {
 
       //$scope.seed = $scope.seedByTupleScore();
-      $scope.seed = $scope.seedBySimilarityScore();
+      //$scope.seed = $scope.seedBySimilarityScore();
 
-      // if (Math.random() < 0.4) {
-      //   $scope.seed = $scope.seedRandomly();
-      // }
-      // else {
-      //   $scope.seed = $scope.seedBySimilarityScore();
-      // }
+      if (Math.random() < 0.4) {
+        $scope.seed = $scope.seedRandomly();
+      }
+      else {
+        $scope.seed = $scope.seedBySimilarityScore();
+      }
 
       $scope.seedAliens[seed] = true;
 
