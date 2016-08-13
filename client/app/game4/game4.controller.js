@@ -242,6 +242,8 @@ angular.module('nwmApp').controller('Game4Controller',
 
         $scope.doneSeeding = false;
         bucket.orderAlienArray();
+
+        // $scope.seedInitialAlien();
         $scope.seedAliens = {}; // Array of aliens that have already been picked as a seed
         $scope.seedInitialAlien();
       });
