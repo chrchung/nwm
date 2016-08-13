@@ -297,14 +297,21 @@
   }
 }
 
+.hidden-alien {
+  opacity: 0.1;
+}
+
 .similar {
-  background-color: rgba(255, 248, 75, 1) !important;
+  background-color: #fff300 !important;
 }
 
 .dissimilar {
   background-color: #E8FAFF !important;
 }
 
+//div .dissimilar {
+//  position:relative; top:0px; width:320px; height:75px; background:#FF2400; opacity:0;
+//}
 
 
 #aliens {
