@@ -248,16 +248,15 @@ angular.module('nwmApp').controller('Game4Controller',
 
     $scope.seedInitialAlien = function() {
 
-      //$scope.seed = $scope.seedByTupleSize();
+      //$scope.seed = $scope.seedByTupleScore();
+      $scope.seed = $scope.seedBySimilarityScore();
 
-      if (Math.random() < 0.4) {
-        console.log('rand');
-        $scope.seed = $scope.seedRandomly();
-      }
-      else {
-        console.log('similar');
-        $scope.seed = $scope.seedBySimilarityScore();
-      }
+      // if (Math.random() < 0.4) {
+      //   $scope.seed = $scope.seedRandomly();
+      // }
+      // else {
+      //   $scope.seed = $scope.seedBySimilarityScore();
+      // }
 
       $scope.seedAliens[seed] = true;
 
@@ -309,8 +308,7 @@ angular.module('nwmApp').controller('Game4Controller',
           // Seeding improves the score: save solution to DB and seed again
           if (targetScore < 1) {
             $scope.saveSolutionAtSeeding();
-            $scope.seedByTupleScore();
-            return;
+            return $scope.seedByTupleScore();
           }
 
           for (var aid in aliens.alienArray) {
@@ -328,7 +326,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
       // No possible seed found
       $scope.seedAliens = {};
-      $scope.seedByTupleScore();
+      return $scope.seedByTupleScore();
     };
 
     $scope.seedByTupleSize = function() {
@@ -358,8 +356,7 @@ angular.module('nwmApp').controller('Game4Controller',
           // Seeding improves the score: save solution to DB and seed again
           if (targetScore < 1) {
             $scope.saveSolutionAtSeeding();
-            $scope.seedByTupleSize();
-            return;
+            return $scope.seedByTupleSize();
           }
 
           for (var aid in aliens.alienArray) {
@@ -378,7 +375,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
       // No possible seed found
       $scope.seedAliens = {};
-      $scope.seedByTupleSize();
+      return $scope.seedByTupleSize();
     };
 
     $scope.seedBySimilarityScore = function() {
@@ -408,8 +405,7 @@ angular.module('nwmApp').controller('Game4Controller',
         // Seeding improves the score: save solution to DB and seed again
         if (targetScore < 1) {
           $scope.saveSolutionAtSeeding();
-          $scope.seedBySimilarityScore();
-          return;
+          return $scope.seedBySimilarityScore();
         }
 
         for (var aid in aliens.alienArray) {
@@ -426,7 +422,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
       // No possible seed found
       $scope.seedAliens = {};
-      $scope.seedBySimilarityScore();
+      return $scope.seedBySimilarityScore();
 
       //Restangular.all('api/scores/').get("cur_user_recent_game4").then(function (serverJson) {
         // No game4 data found
@@ -496,8 +492,7 @@ angular.module('nwmApp').controller('Game4Controller',
         // Seeding improves the score: save solution to DB and seed again
         if (targetScore < 1) {
           $scope.saveSolutionAtSeeding();
-          $scope.seedRandomly();
-          return;
+          return $scope.seedRandomly();
         }
 
         for (var aid in aliens.alienArray) {
@@ -514,7 +509,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
       // Visited all aliens, clear seed history
       $scope.seedAliens = {};
-      $scope.seedRandomly();
+      return $scope.seedRandomly();
     };
 
     $scope.saveSolutionAtSeeding = function() {
@@ -548,8 +543,6 @@ angular.module('nwmApp').controller('Game4Controller',
           setTimeout(function(){ $("#cant-remove").fadeOut(); }, 2000);
           return;
       }
-
-      initAlien = false;
 
       // Illegal Aliens
       if (aliens.alienArray[alien_id].illegal == 'illegal') {
@@ -609,7 +602,6 @@ angular.module('nwmApp').controller('Game4Controller',
 
           aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
           $scope.currentBucket(bucket.current_bucket);
-
           feedback(alien_id);
           history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
         }
