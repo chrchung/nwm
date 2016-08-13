@@ -217,37 +217,6 @@ angular.module('nwmApp').controller('TutController',
 
     $scope.selectAlien = function (alien_id) {
 
-      if ($scope.tutState == 4) {
-        if (alien_id == '1_0') {
-          $scope.tutState = 5;
-        } else {
-          $("#tut-feedback").fadeIn();
-          setTimeout(function(){ $("#tut-feedback").fadeOut(); }, 3000);
-        }
-      } else if ($scope.tutState == 5) {
-        if (alien_id == '1_2') {
-          $scope.tutState = 6;
-        } else {
-          $("#tut-feedback").fadeIn();
-          setTimeout(function(){ $("#tut-feedback").fadeOut(); }, 3000);
-        }
-      } else if ($scope.tutState == 6) {
-        if (alien_id == '1_0' || alien_id == '1_2' || alien_id == '2_2') {
-          Restangular.all('/api/users/tut').post().then(
-            (function (data) {
-            }), function (err) {
-            });
-          $scope.tutState = 7;
-        } else {
-          $("#tut-feedback").fadeIn();
-          setTimeout(function(){ $("#tut-feedback").fadeOut(); }, 3000);
-        }
-      } else if ($scope.tutState == 3) {
-        $("#tut-feedback").fadeIn();
-        setTimeout(function(){ $("#tut-feedback").fadeOut(); }, 3000);
-      }
-
-
 
       // No bucket is currently selected
       if (bucket.current_bucket == -1) {
@@ -439,16 +408,6 @@ angular.module('nwmApp').controller('TutController',
 
     $scope.showGroup = function (alien_id) {
 
-      if ($scope.tutState == 3) {
-        if (alien_id == '0_1' || alien_id == '2_2') {
-          $scope.tutState = 4;
-        } else {
-          $("#tut-feedback").fadeIn();
-          setTimeout(function(){ $("#tut-feedback").fadeOut(); }, 3000);
-        }
-
-
-      }
 
       // If alien not in bucket
       if (!aliens.alienArray[alien_id].in) {
