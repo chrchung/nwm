@@ -138,7 +138,8 @@ angular.module('nwmApp').controller('Game4Controller',
         }
 
       }), function (err) {
-        alert("Unexpected error occured");
+        $('#log-in').fadeIn();
+        $scope.loaded = true;
       });
 
 

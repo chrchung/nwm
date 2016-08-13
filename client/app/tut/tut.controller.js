@@ -124,7 +124,8 @@ angular.module('nwmApp').controller('TutController',
         }
 
       }), function (err) {
-        alert("Unexpected error occured");
+        $('#log-in').fadeIn();
+        $scope.loaded = true;
       });
     };
 
