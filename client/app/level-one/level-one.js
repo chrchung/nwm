@@ -304,10 +304,11 @@ levelOne.service('style', function(aliens, helper) {
     for (var id in aliens.alienArray) {
       aliens.alienArray[id].similar = "dissimilar";
     }
-  }
+  };
 
   this.highLight = function(alien_id, bucket, method_flag) {
     // Get all aliens in current bucket.
+    var highlightedSet = [];
     var members = bucket.alien;
 
     for (var id in aliens.alienArray) {
@@ -357,6 +358,24 @@ levelOne.service('style', function(aliens, helper) {
       ) {
         aliens.alienArray[id].similar = 'similar';
         aliens.zoominAliens.push(id);
+        highlightedSet.push(aliens.alienArray[id].color);
+      }
+    }
+
+
+    for (var id in aliens.alienArray) {
+      var inHighlightedBucket = false;
+      var i;
+      for (i = 0; i < highlightedSet.length; i++) {
+        if (highlightedSet[i] == aliens.alienArray[id].color) {
+          inHighlightedBucket = true;
+        }
+      }
+
+      if (!inHighlightedBucket) {
+        aliens.alienArray[id].isHidden = "hidden-alien";
+      } else {
+        aliens.alienArray[id].isHidden = "shown-alien";
       }
     }
   };

@@ -35,6 +35,20 @@
   }
 }
 
+#log-in {
+  background-color: #FFFC8A;
+  border-radius: 5px;
+  padding: 30px;
+  font-size: 17px;
+  color: gray;
+  width: 40%;
+  margin-left: 30%;
+  margin-right: 30%;
+  position: fixed;
+  z-index: 50;
+  display: none;
+}
+
 
 #no-buck {
    background-color: #FFFC8A;
@@ -283,14 +297,21 @@
   }
 }
 
+.hidden-alien {
+  opacity: 0.1;
+}
+
 .similar {
-  background-color: rgba(255, 248, 75, 1) !important;
+  background-color: #fff300 !important;
 }
 
 .dissimilar {
   background-color: #E8FAFF !important;
 }
 
+//div .dissimilar {
+//  position:relative; top:0px; width:320px; height:75px; background:#FF2400; opacity:0;
+//}
 
 
 #aliens {
@@ -635,16 +656,33 @@
 }
 
 // for tutorial
-
-#add-group-button2 {
-  width: 150px;
-  background-color: rgb(249,133,141);
-  color: #fff;
-  right: 162px;
+#buttons2 {
+  z-index: 9;
   position: fixed;
-  bottom: 145px;
+  bottom: 127px;
+  right: 10px;
+  padding: 7px;
+  border-radius: 5px;
+  display: inline-block;
+  width: 150px;
+  height: 101px;
+  text-align: center;
+  background-color: #fac4ee;
+
+  img {
+    cursor: pointer;
+  }
+
+  background-color: rgb(250, 196, 238);
 }
 
+.score2 {
+  margin-top: 16px;
+}
+
+.target {
+  margin-top: 1px;
+}
 
 #undo-button2 {
   width: 73px;
@@ -653,10 +691,20 @@
   color: #fff;
   right: 234px;
   position: fixed;
-  bottom: 180px;
+  bottom: 198px;
   margin-right: 5px;
 
 }
+
+#add-group-button2 {
+  width: 150px;
+  background-color: rgb(249,133,141);
+  color: #fff;
+  right: 162px;
+  position: fixed;
+  bottom: 163px;
+}
+
 
 #dummy-undo-button2 {
   width: 73px;
@@ -666,7 +714,7 @@
   color: #fff;
   right: 234px;
   position: fixed;
-  bottom: 180px;
+  bottom: 198px;
   margin-right: 5px;
   z-index: 999;
 }
@@ -679,7 +727,7 @@
   color: #fff;
   right: 157px;
   position: fixed;
-  bottom: 180px;
+  bottom: 198px;
   margin-right: 5px;
 
 }
@@ -693,7 +741,7 @@
   color: #fff;
   right: 157px;
   position: fixed;
-  bottom: 180px;
+  bottom: 198px;
   margin-right: 5px;
   z-index: 999;
 }
@@ -702,25 +750,15 @@
   display: inline-block;
 }
 
-#buttons2 {
-  z-index: 9;
-  position: fixed;
-  bottom: 146px;
-  right: 10px;
-  padding: 7px;
-  border-radius: 5px;
-  display: inline-block;
+#end-button2 {
   width: 150px;
-  height: 100px;
-  text-align: center;
-  background-color: #fac4ee;
-
-  img {
-    cursor: pointer;
-  }
-
-  background-color: rgb(250, 196, 238);
+  position: fixed;
+  bottom: 128px;
+  background-color: rgb(54, 196, 255);
+  right: 161px;
+  color: #fff;
 }
+
 
 .simialrity-bar {
   background-color: #a7dcff;
