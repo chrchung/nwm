@@ -65,6 +65,21 @@
   display: none;
 }
 
+#start-over {
+  background-color: #FFFC8A;
+  border-radius: 5px;
+  padding: 30px;
+  font-size: 17px;
+  color: gray;
+  width: 40%;
+  margin-left: 30%;
+  margin-right: 30%;
+  position: fixed;
+  z-index: 50;
+  display: none;
+}
+
+
 
 #target-reached {
   background-color: rgb(249,133,141);
@@ -270,7 +285,6 @@
 
 .similar {
   background-color: rgba(255, 248, 75, 1) !important;
-
 }
 
 .dissimilar {
@@ -730,13 +744,13 @@
 #buttons3 {
   z-index: 9;
   position: fixed;
-  bottom: 45px;
+  bottom: 10px;
   right: 10px;
   padding: 7px;
   border-radius: 5px;
   display: inline-block;
   width: 150px;
-  height: 64px;
+  height: 101px;
   text-align: center;
   background-color: #fac4ee;
 
@@ -748,6 +762,10 @@
 }
 
 .score3 {
+  margin-top: 16px;
+}
+
+.target {
   margin-top: 1px;
 }
 
@@ -812,6 +830,6 @@
   position: fixed;
   bottom: 10px;
   background-color: rgb(54, 196, 255);
-  right: 10px;
+  right: 161px;
   color: #fff;
 }

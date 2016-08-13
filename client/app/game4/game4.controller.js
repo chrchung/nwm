@@ -243,12 +243,17 @@ angular.module('nwmApp').controller('Game4Controller',
         $scope.doneSeeding = false;
         bucket.orderAlienArray();
         $scope.seedAliens = []; // Array of aliens that have already been picked as a seed
+        // $scope.seedInitialAlien();
+
+        $scope.seedInitialAlien();
+
+
       });
     };
 
     $scope.seedInitialAlien = function(tempSeed = null) {
 
-      if (Math.random() < 0.4) {
+      if (Math.random() < 0.5) {
         console.log('rand');
         $scope.seed = $scope.seedRandomly(tempSeed);
       }
@@ -268,6 +273,8 @@ angular.module('nwmApp').controller('Game4Controller',
     }
 
     $scope.getNextSeed = function() {
+      $("#start-over").fadeOut();
+
       var tempSeed = $scope.seed;
       $scope.seed = null;
       $scope.doneSeeding = false;
@@ -1015,6 +1022,14 @@ angular.module('nwmApp').controller('Game4Controller',
       $("#clear-nobucket-alert-overlay").toggle();
       $("#nobucket-popup").toggle();
     };
+
+    $scope.startOver = function () {
+      $("#start-over").fadeIn();
+    }
+
+    $scope.startOverHide = function () {
+      $("#start-over").fadeOut();
+    }
 
     $scope.goToGroup = function () {
       var alien_id = bucket.buckets[bucket.current_bucket].alien[0];
