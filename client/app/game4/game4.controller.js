@@ -270,9 +270,24 @@ angular.module('nwmApp').controller('Game4Controller',
 
       $scope.disableRedo = true;
       $scope.disableUndo = true;
-       delete $scope.$storage.buckets;
-       delete $scope.$storage.aliens;
+
+      //delete $scope.$storage.buckets;
+      //delete $scope.$storage.aliens;
     }
+
+    $scope.$watch('doneSeeding', function (newVal, oldVal) {
+      if (newVal == true && oldVal == false) {
+        // Delete the garbage storage and only keep the record that saved the seed alien
+        var seed_alien_buckets_state = $scope.$storage.buckets[$scope.undo_key_pointer][2];
+        // Store the current key as the last possible undo checker
+        $scope.last_undo_possible_index = $scope.undo_key_pointer;
+        _.each(Object.keys($scope.$storage.buckets), function (key) {
+          if (key != seed_alien_buckets_state && key != $scope.undo_key_pointer) {
+            delete $scope.$storage.buckets[key];
+          }
+        });
+      }
+    });
 
     $scope.getNextSeed = function() {
       $scope.startOverHide();
@@ -405,6 +420,7 @@ angular.module('nwmApp').controller('Game4Controller',
         }
 
         $scope.selectAlien(seed);
+        $scope.$apply();
         $scope.initialScore = $scope.score; // initial score
 
         var targetScore = $scope.highest_score - $scope.initialScore + 1;
@@ -493,6 +509,7 @@ angular.module('nwmApp').controller('Game4Controller',
         }
 
         $scope.selectAlien(seed);
+        $scope.$apply();
         $scope.initialScore = $scope.score; // initial score
 
         var targetScore = $scope.highest_score - $scope.initialScore + 1;
@@ -822,10 +839,39 @@ angular.module('nwmApp').controller('Game4Controller',
       if (!newVal || !oldVal) {
         return;
       }
-      console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal.length));
-      console.log("newVal (buckets) is =>" + JSON.stringify(newVal.length));
+
+      //console.log("oldVal (buckets) is =>" + JSON.stringify(oldVal.length));
+      //console.log("newVal (buckets) is =>" + JSON.stringify(newVal));
+      //if ($scope.last_undo_possible_index != null) {
+      //  console.log("last_possible_undo (buckets) is =>" + newVal == $scope.$storage.buckets[$scope.last_undo_possible_index][0]);
+      //}
+
       if (!$scope.$storage.buckets) {
         $scope.$storage.buckets = {};
+      }
+
+      if ($scope.last_undo_possible_index != null) {
+        // do a full check
+        var compare_flag = true;
+
+        var target_bkt = JSON.parse($scope.$storage.buckets[$scope.last_undo_possible_index][0]);
+        _.each(newVal, function (bkt) {
+          if (bkt.alien.length > 0) {
+            var color_comparator = bkt.color;
+            var aliens_comparator = bkt.alien;
+            _.each(target_bkt, function (target) {
+              if (target.color == color_comparator && !_.isEqual(target.alien, aliens_comparator)) {
+                compare_flag = false;
+              }
+            });
+          }
+        });
+
+        if (compare_flag) {
+          $scope.disableUndo = true;
+          $scope.disableRedo = true;
+          $scope.checked = true;
+        }
       }
 
       // Iterate over storage to see if this newVal is from an UNDO (code 1) or from user's new action (code 0)
