@@ -56,6 +56,7 @@ exports.saveScore = function (req, res) {
           bestSolution.set('targetScore', req.body.targetScore);
           bestSolution.set('duration', req.body.duration);
           bestSolution.set('seed', seed);
+          bestSolution.set('type', req.body.type);
 
 
           bestSolution.save(null, {
@@ -104,6 +105,7 @@ exports.saveScore = function (req, res) {
           sol.set('targetScore', req.body.targetScore);
           sol.set('duration', req.body.duration);
           sol.set('seed', seed);
+          sol.set('type', req.body.type);
 
           sol.save(null, {
             success: function (gameScore) {

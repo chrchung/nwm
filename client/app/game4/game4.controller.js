@@ -7,6 +7,7 @@ angular.module('nwmApp').controller('Game4Controller',
     $scope.scoreToBeat = 0;
     var initAlien;
     var seed;
+    $scope.type = null;
 
     $scope.numImagesLoaded = 0;
     $scope.loaded = false;
@@ -257,9 +258,11 @@ angular.module('nwmApp').controller('Game4Controller',
 
       if (Math.random() < 0.4) {
         $scope.seed = $scope.seedRandomly();
+        $scope.type = 'random';
       }
       else {
         $scope.seed = $scope.seedBySimilarityScore();
+        $scope.type = 'lowest bar';
       }
 
       $scope.seedAliens[seed] = true;
@@ -272,7 +275,7 @@ angular.module('nwmApp').controller('Game4Controller',
       $scope.disableUndo = true;
        delete $scope.$storage.buckets;
        delete $scope.$storage.aliens;
-    }
+    };
 
     $scope.getNextSeed = function() {
       $scope.startOverHide();
@@ -284,7 +287,7 @@ angular.module('nwmApp').controller('Game4Controller',
         $scope.selectAlien(bucket.buckets[bucket.current_bucket].alien[0]);
       }
       $scope.seedInitialAlien();
-    }
+    };
 
     $scope.seedByTupleScore = function() {
 
@@ -1019,7 +1022,8 @@ angular.module('nwmApp').controller('Game4Controller',
           game: $scope.cur_game,
           level: parseInt($scope.cur_level),
           solution: bucket.buckets,
-          actions: history.userActions
+          actions: history.userActions,
+          type: $scope.type
         }).then(
         (function (data) {
           var finalScore = $scope.score - $scope.highest_score;

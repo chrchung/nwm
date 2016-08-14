@@ -823,7 +823,7 @@ angular.module('nwmApp').controller('LevelOneController',
     $scope.imageLoadedIncrementCount = function () {
       $scope.numImagesLoaded ++;
 
-      if ($scope.numImagesLoaded == 8) {
+      if ($scope.numImagesLoaded == 221) {
         $scope.loaded = true;
       }
     };
