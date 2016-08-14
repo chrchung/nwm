@@ -59,7 +59,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
       if ($scope.score - $scope.highest_score > 0) {
         $("#target-reached").fadeIn();
-        setTimeout(function(){ $("#target-reached").fadeOut(); }, 2000);
+        setTimeout(function(){ $("#target-reached").fadeOut(); }, 4000);
       }
 
       //if ($scope.prev_score < $scope.score) {
@@ -566,7 +566,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
       if (alien_id == $scope.seed) {
         $("#cant-remove").fadeIn();
-        setTimeout(function(){ $("#cant-remove").fadeOut(); }, 2000);
+        setTimeout(function(){ $("#cant-remove").fadeOut(); }, 4000);
         return;
       }
 

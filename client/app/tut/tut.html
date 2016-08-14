@@ -150,7 +150,7 @@
 <div class="tutorial text-center" ng-show="tutState==1">
   In the game, other aliens might've already formed their own cliques. Aliens in
   the same clique appear in boxes with the same colored border. For instance,
-  #5 and #7 both have a blue border color so they form a clique.
+  #8 and #9 both have a blue border color so they form a clique.
   <br>
   <button class="btn menu-button" ng-click="tutState=2">Next</button>
 </div>
@@ -160,28 +160,28 @@
   of its bond with its clique. A full bar means that it loves
   its clique and is less willing to leave, while an empty bar means that the alien dislikes its clique and
   is more willing to leave.
-  Sometimes, it may be beneficial for you to add physicially similar aliens with a weak
+  Sometimes, it may be beneficial for you to add similar aliens with a weak
   bond to your clique, since they have a high chance of forming a strong bond.
   <br>
   <button class="btn menu-button" ng-click="tutState=3">Next</button>
 </div>
 
 <div class="tutorial text-center" ng-show="tutState==3">
-  Aliens that are physically similar to your clique are
-  highlighted with a yellow background, like #1, #3, #4, and #6.
+  Aliens that are similar to your clique are
+  highlighted with a yellow background, like #2, #4, #5 and #9.
   On the other hand, Aliens that bear little similarity with your clique are slightly
-  faded, like #4, #8, #5, and #7. Adding highlighted aliens to your clique will have the
+  faded, like #3, #6, #7 and #8. Adding highlighted aliens to your clique will have the
   most potential to increase your score. You can left click on an
-  alien to add it to your clique. #4 is similar to #9,
-  and may increase your score, <b>add to your clique #4 now</b>.
+  alien to add it to your clique. #2 is similar to #1,
+  and may increase your score, <b>add to your clique #2 now</b>.
 </div>
 
 
 <div class="tutorial text-center" ng-show="tutState==4">
-  Good job, your clique's score increased!
+  Good job, you've beaten the target score!
   But it seems like we can improve the score even more.
-  #6 looks exactly the same as #2, so let's add it to our group.
-  Notice that #6
+  #1 looks exactly the same as #5, so let's add it to our group.
+  Notice that #5
   has a striped background. Aliens with a striped background
   are enemies with an alien in your clique. Enemies should not be placed
   into the same group and you will be prompted to remove enemies.
@@ -190,16 +190,16 @@
 
 
 <div class="tutorial text-center" ng-show="tutState==5">-->
-  You can add add aliens back to their previous clique, except the one you are helping (i.e. #9),
+  You can add aliens back to their previous clique, except the one you are helping (i.e. #1),
   by left clicking on the alien.
-  <b>Left click #6 now.</b>
+  <b>Left click #5 now.</b>
 </div>
 
 
 <div class="tutorial text-center" ng-show="tutState==6">
   You are now ready to play!
   <br>
-  <button class="btn menu-button" ui-sref="game({id: 10})">Play!</button>
+  <button class="btn menu-button" ui-sref="game4({id: 10})">Play!</button>
 </div>
 
 
