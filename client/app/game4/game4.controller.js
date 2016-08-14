@@ -270,8 +270,8 @@ angular.module('nwmApp').controller('Game4Controller',
 
       $scope.disableRedo = true;
       $scope.disableUndo = true;
-      // delete $scope.$storage.buckets;
-      // delete $scope.$storage.aliens;
+       delete $scope.$storage.buckets;
+       delete $scope.$storage.aliens;
     }
 
     $scope.getNextSeed = function() {
