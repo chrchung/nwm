@@ -214,13 +214,19 @@ angular.module('nwmApp').controller('Game4Controller',
 
         $scope.highest_score = serverJson[0].score;
 
-        bucket.buckets = serverJson[0].solution;
+        // Load buckets that have at least 2 aliens
+        for (var i = 0; i < serverJson[0].solution.length; i++) {
+          if (serverJson[0].solution[i].alien.length > 1) {
+            bucket.buckets.push(serverJson[0].solution[i]);
+          }
+        }
+
         if (serverJson[0].actions != null) {
           history.userActions = serverJson[0].actions;
         }
 
         // Restore data structures
-        for (var i = 0; i < bucket.buckets.length; i++) {
+        for (i = 0; i < bucket.buckets.length; i++) {
           bucket.colorArray.push(bucket.buckets[i].color);
           bucket.num_buckets++;
 
@@ -255,13 +261,16 @@ angular.module('nwmApp').controller('Game4Controller',
 
       //$scope.seed = $scope.seedByTupleScore();
       //$scope.seed = $scope.seedBySimilarityScore();
+      $scope.seed = $scope.seedBySimilarityScore();
 
-      if (Math.random() < 0.4) {
-        $scope.seed = $scope.seedRandomly();
-      }
-      else {
-        $scope.seed = $scope.seedBySimilarityScore();
-      }
+      // if (Math.random() < 0.4) {
+      //   console.log("rand");
+      //   $scope.seed = $scope.seedRandomly();
+      // }
+      // else {
+      //   console.log("sim score");
+      //   $scope.seed = $scope.seedBySimilarityScore();
+      // }
 
       $scope.seedAliens[seed] = true;
 
@@ -403,9 +412,21 @@ angular.module('nwmApp').controller('Game4Controller',
     $scope.seedBySimilarityScore = function() {
 
       // Sort aliens by score
-      var sortedAlien = Object.keys(aliens.alienArray).sort(function(a,b){
-        return aliens.alienArray[a].score - aliens.alienArray[b].score;
+      var freeAliens = [];
+      Object.keys(aliens.alienArray).forEach(function(aid) {
+        if (!aliens.alienArray[aid].in) {
+          freeAliens.push(aid);
+        }
       });
+
+      // var sortedAlien = freeAliens.concat(
+      //   Object.keys(aliens.alienArray).sort(function(a,b){
+      //     return aliens.alienArray[a].score - aliens.alienArray[b].score;
+      //   })
+      // );
+      var sortedAlien = Object.keys(aliens.alienArray).sort(function(a,b){
+          return aliens.alienArray[a].score - aliens.alienArray[b].score;
+        });
 
       $scope.highest_score = $scope.score; // highest score
       $scope.createNewBucket();
@@ -688,8 +709,6 @@ angular.module('nwmApp').controller('Game4Controller',
                 }
               });
 
-              var last_bucket_color = cur_bucket_storage[last_bucket_ind].color;
-
               // Remove the alien from the bucket
               var ind = bucket.buckets[bucket.current_bucket].alien.indexOf(alien_id);
               //aliens.alienArray[alien_id].in = false;
@@ -697,6 +716,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
               // If the selected alien has no previous bucket, just put it back as non-matched alien.
               if (last_bucket_ind != bucket.current_bucket && last_bucket_ind != -1) {
+                var last_bucket_color = cur_bucket_storage[last_bucket_ind].color;
                 bucket.buckets[last_bucket_ind].alien.push(alien_id);
                 aliens.alienArray[alien_id].color = last_bucket_color;
               } else {
