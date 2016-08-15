@@ -9,16 +9,38 @@ angular.module('nwmApp')
     var getScores = function (scores) {
       Restangular.all('api/scores/game_scoreboard/10')
         .getList().then(function (serverJson) {
-        //alert(serverJson);
         $scope.scores = serverJson;
       });
     };
-    getScores();
+
+    var getScoresAfterGame = function (scores) {
+      Restangular.all('api/users').get("current_user").then(function (user) {
+        Restangular.all('api/scores/game_scoreboard/10')
+          .getList().then(function (serverJson) {
+          $scope.result = $stateParams.score;
+          $scope.overallScore = parseInt($stateParams.prev_overall) + parseInt($scope.result);
+          $scope.scores = [];
+          serverJson.forEach(function(data) {
+            if (data.user == user.username) {
+              $scope.scores.push({user: data.user, overallScore: $scope.overallScore});
+            }
+            else {
+              $scope.scores.push(data);
+            }
+          });
+          $scope.scores.sort(function(a, b) {
+            return b.score - a.score;
+          });
+        });
+      });
+    };
 
     if ($scope.prevState == 'game') {
-      $scope.result = $stateParams.score;
-      Restangular.all('api/scores/').get('cur_user_overall').then(function (serverJson) {
-        $scope.overallScore = parseInt(serverJson.overallScore);
-      });
+      getScoresAfterGame();
     }
+    else {
+      getScores();
+    }
+
+
   });

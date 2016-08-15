@@ -30,7 +30,6 @@ angular.module('nwmApp').controller('Game4Controller',
     $scope.currentBucket = function (curBucket) {
       // Currently we are using the FIRST highlighting algorithm. Second => 2, Third => 3.
       bucket.currentBucket(curBucket, 3);
-      bucket.updateAlienArray();
       update.updateIllegalAlien();
       if (bucket.buckets[bucket.current_bucket].alien.length > 0) {
         $scope.checked = true;
@@ -119,7 +118,9 @@ angular.module('nwmApp').controller('Game4Controller',
               color: "rgba(232, 250, 255, 0)",
               illegal: "legal-alien",
               similar: "dissimilar",
-              in: false
+              in: false,
+              score: 0,
+              similarityBar: 0
             };
           }
         }
@@ -213,8 +214,16 @@ angular.module('nwmApp').controller('Game4Controller',
         }
 
         $scope.highest_score = serverJson[0].score;
-
         bucket.buckets = serverJson[0].solution;
+
+        // Load buckets that have at least 2 aliens
+        // for (var i = 0; i < serverJson[0].solution.length; i++) {
+        //   if (serverJson[0].solution[i].alien.length > 1) {
+        //     bucket.buckets.push(serverJson[0].solution[i]);
+        //   }
+        // }
+
+
         if (serverJson[0].actions != null) {
           history.userActions = serverJson[0].actions;
         }
@@ -237,6 +246,15 @@ angular.module('nwmApp').controller('Game4Controller',
             aliens.alienArray[alien_id].illegal = 'legal';
           }
         }
+
+        // Put homeless alien in a new bucket
+        Object.keys(aliens.alienArray).forEach(function(aid) {
+          if (!aliens.alienArray[aid].in) {
+            $scope.newGroup();
+            $scope.selectAlien(aid);
+          }
+        });
+
         $scope.score = update.getNewScore($scope.maxModels);
         if ($scope.score > $scope.maxScore) {
           $scope.maxScore = $scope.score;
@@ -257,9 +275,11 @@ angular.module('nwmApp').controller('Game4Controller',
       //$scope.seed = $scope.seedBySimilarityScore();
 
       if (Math.random() < 0.4) {
+        console.log("rand");
         $scope.seed = $scope.seedRandomly();
       }
       else {
+        console.log("sim score");
         $scope.seed = $scope.seedBySimilarityScore();
       }
 
@@ -403,9 +423,21 @@ angular.module('nwmApp').controller('Game4Controller',
     $scope.seedBySimilarityScore = function() {
 
       // Sort aliens by score
-      var sortedAlien = Object.keys(aliens.alienArray).sort(function(a,b){
-        return aliens.alienArray[a].score - aliens.alienArray[b].score;
+      var freeAliens = [];
+      Object.keys(aliens.alienArray).forEach(function(aid) {
+        if (!aliens.alienArray[aid].in) {
+          freeAliens.push(aid);
+        }
       });
+
+      var sortedAlien = freeAliens.concat(
+        Object.keys(aliens.alienArray).sort(function(a,b){
+          return aliens.alienArray[a].score - aliens.alienArray[b].score;
+        })
+      );
+      // var sortedAlien = Object.keys(aliens.alienArray).sort(function(a,b){
+      //     return aliens.alienArray[a].score - aliens.alienArray[b].score;
+      //   });
 
       $scope.highest_score = $scope.score; // highest score
       $scope.createNewBucket();
@@ -629,6 +661,7 @@ angular.module('nwmApp').controller('Game4Controller',
           aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
           $scope.currentBucket(bucket.current_bucket);
           feedback(alien_id);
+          bucket.updateAlienArray();
           history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
         }
 
@@ -688,8 +721,6 @@ angular.module('nwmApp').controller('Game4Controller',
                 }
               });
 
-              var last_bucket_color = cur_bucket_storage[last_bucket_ind].color;
-
               // Remove the alien from the bucket
               var ind = bucket.buckets[bucket.current_bucket].alien.indexOf(alien_id);
               //aliens.alienArray[alien_id].in = false;
@@ -697,6 +728,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
               // If the selected alien has no previous bucket, just put it back as non-matched alien.
               if (last_bucket_ind != bucket.current_bucket && last_bucket_ind != -1) {
+                var last_bucket_color = cur_bucket_storage[last_bucket_ind].color;
                 bucket.buckets[last_bucket_ind].alien.push(alien_id);
                 aliens.alienArray[alien_id].color = last_bucket_color;
               } else {
@@ -710,6 +742,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
               $scope.currentBucket(bucket.current_bucket);
               feedback(alien_id);
+              bucket.updateAlienArray();
               history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
             }
 
@@ -731,6 +764,7 @@ angular.module('nwmApp').controller('Game4Controller',
               aliens.alienArray[alien_id].in = true;
               $scope.currentBucket(bucket.current_bucket);
               feedback(alien_id);
+              bucket.updateAlienArray();
               history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
             }
           }
@@ -942,6 +976,7 @@ angular.module('nwmApp').controller('Game4Controller',
       //bucket.orderAlienArray();
       // feedback(diff_alien);
       feedback(diff_alien);
+      bucket.updateAlienArray();
 
       $scope.disableRedo = false;
 
@@ -976,6 +1011,7 @@ angular.module('nwmApp').controller('Game4Controller',
       //feedback(diff_alien);
       //bucket.orderAlienArray();
       feedback(diff_alien);
+      bucket.updateAlienArray();
 
       $scope.disableUndo = false;
 
@@ -1056,27 +1092,31 @@ angular.module('nwmApp').controller('Game4Controller',
       //if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
       //  bucket.removeBucket(bucket.current_bucket);
       //}
-      Restangular.all('/api/scores/').post(
-        {
-          score: $scope.score,
-          initialScore: $scope.highest_score,
-          targetScore: $scope.highest_score - $scope.initialScore + 1,
-          seed: $scope.seed,
-          duration: time,
-          game: $scope.cur_game,
-          level: parseInt($scope.cur_level),
-          solution: bucket.buckets,
-          actions: history.userActions,
-          type: $scope.type
-        }).then(
-        (function (data) {
-          var finalScore = $scope.score - $scope.highest_score;
-          if (finalScore < 0) {
-            finalScore = 0;
-          }
-          $state.go('leaderboard', {prevState: 'game', score: finalScore});
-        }), function (err) {
+
+      // Get current overall score
+      Restangular.all('api/scores/').get('cur_user_overall').then(function (serverJson) {
+        Restangular.all('/api/scores/').post(
+          {
+            score: $scope.score,
+            initialScore: $scope.highest_score,
+            targetScore: $scope.highest_score - $scope.initialScore + 1,
+            seed: $scope.seed,
+            duration: time,
+            game: $scope.cur_game,
+            level: parseInt($scope.cur_level),
+            solution: bucket.buckets,
+            actions: history.userActions,
+            type: $scope.type
+          }).then(
+          (function (data) {
+            var finalScore = $scope.score - $scope.highest_score;
+            if (finalScore < 0) {
+              finalScore = 0;
+            }
+            $state.go('leaderboard', {prevState: 'game', score: finalScore, prev_overall: parseInt(serverJson.overallScore)});
+          }), function (err) {
         });
+      });
     }
 
     // Save the score to the database
