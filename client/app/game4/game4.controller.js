@@ -30,7 +30,6 @@ angular.module('nwmApp').controller('Game4Controller',
     $scope.currentBucket = function (curBucket) {
       // Currently we are using the FIRST highlighting algorithm. Second => 2, Third => 3.
       bucket.currentBucket(curBucket, 3);
-      bucket.updateAlienArray();
       update.updateIllegalAlien();
       if (bucket.buckets[bucket.current_bucket].alien.length > 0) {
         $scope.checked = true;
@@ -662,6 +661,7 @@ angular.module('nwmApp').controller('Game4Controller',
           aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
           $scope.currentBucket(bucket.current_bucket);
           feedback(alien_id);
+          bucket.updateAlienArray();
           history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
         }
 
@@ -742,6 +742,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
               $scope.currentBucket(bucket.current_bucket);
               feedback(alien_id);
+              bucket.updateAlienArray();
               history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
             }
 
@@ -763,6 +764,7 @@ angular.module('nwmApp').controller('Game4Controller',
               aliens.alienArray[alien_id].in = true;
               $scope.currentBucket(bucket.current_bucket);
               feedback(alien_id);
+              bucket.updateAlienArray();
               history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
             }
           }
@@ -974,6 +976,7 @@ angular.module('nwmApp').controller('Game4Controller',
       //bucket.orderAlienArray();
       // feedback(diff_alien);
       feedback(diff_alien);
+      bucket.updateAlienArray();
 
       $scope.disableRedo = false;
 
@@ -1008,6 +1011,7 @@ angular.module('nwmApp').controller('Game4Controller',
       //feedback(diff_alien);
       //bucket.orderAlienArray();
       feedback(diff_alien);
+      bucket.updateAlienArray();
 
       $scope.disableUndo = false;
 
