@@ -261,16 +261,15 @@ angular.module('nwmApp').controller('Game4Controller',
 
       //$scope.seed = $scope.seedByTupleScore();
       //$scope.seed = $scope.seedBySimilarityScore();
-      $scope.seed = $scope.seedBySimilarityScore();
 
-      // if (Math.random() < 0.4) {
-      //   console.log("rand");
-      //   $scope.seed = $scope.seedRandomly();
-      // }
-      // else {
-      //   console.log("sim score");
-      //   $scope.seed = $scope.seedBySimilarityScore();
-      // }
+      if (Math.random() < 0.4) {
+        console.log("rand");
+        $scope.seed = $scope.seedRandomly();
+      }
+      else {
+        console.log("sim score");
+        $scope.seed = $scope.seedBySimilarityScore();
+      }
 
       $scope.seedAliens[seed] = true;
 
@@ -419,14 +418,14 @@ angular.module('nwmApp').controller('Game4Controller',
         }
       });
 
-      // var sortedAlien = freeAliens.concat(
-      //   Object.keys(aliens.alienArray).sort(function(a,b){
-      //     return aliens.alienArray[a].score - aliens.alienArray[b].score;
-      //   })
-      // );
-      var sortedAlien = Object.keys(aliens.alienArray).sort(function(a,b){
+      var sortedAlien = freeAliens.concat(
+        Object.keys(aliens.alienArray).sort(function(a,b){
           return aliens.alienArray[a].score - aliens.alienArray[b].score;
-        });
+        })
+      );
+      // var sortedAlien = Object.keys(aliens.alienArray).sort(function(a,b){
+      //     return aliens.alienArray[a].score - aliens.alienArray[b].score;
+      //   });
 
       $scope.highest_score = $scope.score; // highest score
       $scope.createNewBucket();
@@ -1076,27 +1075,31 @@ angular.module('nwmApp').controller('Game4Controller',
       //if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
       //  bucket.removeBucket(bucket.current_bucket);
       //}
-      Restangular.all('/api/scores/').post(
-        {
-          score: $scope.score,
-          initialScore: $scope.highest_score,
-          targetScore: $scope.highest_score - $scope.initialScore + 1,
-          seed: $scope.seed,
-          duration: time,
-          game: $scope.cur_game,
-          level: parseInt($scope.cur_level),
-          solution: bucket.buckets,
-          actions: history.userActions,
-          type: $scope.type
-        }).then(
-        (function (data) {
-          var finalScore = $scope.score - $scope.highest_score;
-          if (finalScore < 0) {
-            finalScore = 0;
-          }
-          $state.go('leaderboard', {prevState: 'game', score: finalScore});
-        }), function (err) {
+
+      // Get current overall score
+      Restangular.all('api/scores/').get('cur_user_overall').then(function (serverJson) {
+        Restangular.all('/api/scores/').post(
+          {
+            score: $scope.score,
+            initialScore: $scope.highest_score,
+            targetScore: $scope.highest_score - $scope.initialScore + 1,
+            seed: $scope.seed,
+            duration: time,
+            game: $scope.cur_game,
+            level: parseInt($scope.cur_level),
+            solution: bucket.buckets,
+            actions: history.userActions,
+            type: $scope.type
+          }).then(
+          (function (data) {
+            var finalScore = $scope.score - $scope.highest_score;
+            if (finalScore < 0) {
+              finalScore = 0;
+            }
+            $state.go('leaderboard', {prevState: 'game', score: finalScore, prev_overall: parseInt(serverJson.overallScore)});
+          }), function (err) {
         });
+      });
     }
 
     // Save the score to the database
