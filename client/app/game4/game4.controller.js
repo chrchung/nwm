@@ -213,20 +213,22 @@ angular.module('nwmApp').controller('Game4Controller',
         }
 
         $scope.highest_score = serverJson[0].score;
+        bucket.buckets = serverJson[0].solution;
 
         // Load buckets that have at least 2 aliens
-        for (var i = 0; i < serverJson[0].solution.length; i++) {
-          if (serverJson[0].solution[i].alien.length > 1) {
-            bucket.buckets.push(serverJson[0].solution[i]);
-          }
-        }
+        // for (var i = 0; i < serverJson[0].solution.length; i++) {
+        //   if (serverJson[0].solution[i].alien.length > 1) {
+        //     bucket.buckets.push(serverJson[0].solution[i]);
+        //   }
+        // }
+
 
         if (serverJson[0].actions != null) {
           history.userActions = serverJson[0].actions;
         }
 
         // Restore data structures
-        for (i = 0; i < bucket.buckets.length; i++) {
+        for (var i = 0; i < bucket.buckets.length; i++) {
           bucket.colorArray.push(bucket.buckets[i].color);
           bucket.num_buckets++;
 
@@ -243,6 +245,15 @@ angular.module('nwmApp').controller('Game4Controller',
             aliens.alienArray[alien_id].illegal = 'legal';
           }
         }
+
+        // Put homeless alien in a new bucket
+        Object.keys(aliens.alienArray).forEach(function(aid) {
+          if (!aliens.alienArray[aid].in) {
+            $scope.newGroup();
+            $scope.selectAlien(aid);
+          }
+        });
+
         $scope.score = update.getNewScore($scope.maxModels);
         if ($scope.score > $scope.maxScore) {
           $scope.maxScore = $scope.score;
