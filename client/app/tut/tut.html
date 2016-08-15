@@ -84,11 +84,10 @@
     <!--<button id="dummy-redo-button2" class="btn" ng-if="disableRedo">Redo</button>-->
     <!--<button id="undo-button2" class="btn" ng-click="undo()" ng-if="!disableUndo">Undo</button>-->
     <!--<button id="dummy-undo-button2" class="btn" ng-if="disableUndo">Undo</button>-->
-    <!--<button id="add-group-button2" class="btn" ng-click="startOver()">Start over</button>-->
+    <button id="add-group-button2" class="btn" ng-click="startOver()">Skip this client</button>
     <!--<button id="done-button" class="btn" ng-click="doneBucket()">Calculate Score</button>-->
-    <div class='title-font score2 big'>SCORE: <span count-to="{{score - initialScore}}" value="{{prev_score - initialScore}}" duration="1"></span></div>
-    <div class='title-font small'>(Best score so far: <span>{{maxScore - initialScore}})</span></div>
-    <div class='title-font target big'>TARGET: <span>{{highest_score - initialScore + 1}}</span></div>
+    <div class='title-font score2 big'>EARNED: $<span count-to="{{score - initialScore}}" value="{{prev_score - initialScore}}" duration="1"></span></div>
+    <div class='title-font target big'>TARGET: $<span>{{highest_score - initialScore + 1}}</span></div>
 
     <!--<button id="end-button2" class="btn" ng-click="endGame()">End game</button>-->
   </div>
@@ -135,12 +134,12 @@
 </div>
 
 <div class="tutorial text-center" id="objective" ng-show="tutState==0 && loaded">
-  In the game, your goal is to help the alien in the top panel (#9 in this case)
+  You are a matchmaker. Your goal is to help the alien client in the top panel (#2 in this case)
   form a clique of friends, by matching aliens that share identical features.
   Features include accessories, tattoos, facial features, hair, or apparel.
   There are a total of 162 features and you may view them all <a target="_blank" ui-sref="properties">here</a>.
-  The stronger the similarily between the members of your clique, the higher its score will be.
-  In order to win the game, your clique must reach the target score shown in the pink box
+  The stronger the similarity between the members of your clique, the more money you will earn.
+  In order to make a living, you must earn the target amount shown in the pink box
   in the bottom right corner of the screen.
   <br>
   <button class="btn menu-button" ng-click="tutState=1">Next</button>
@@ -168,36 +167,45 @@
 
 <div class="tutorial text-center" ng-show="tutState==3">
   Aliens that are similar to your clique are
-  highlighted with a yellow background, like #2, #4, #5 and #9.
+  highlighted with a yellow background, like #1, #3, #5, #6, #7.
   On the other hand, Aliens that bear little similarity with your clique are slightly
-  faded, like #3, #6, #7 and #8. Adding highlighted aliens to your clique will have the
-  most potential to increase your score. You can left click on an
-  alien to add it to your clique. #2 is similar to #1,
-  and may increase your score, <b>add to your clique #2 now</b>.
+  faded, like #4 and #8. Adding highlighted aliens to your clique will have the
+  most potential to increase your earnings. You can left click on an
+  alien to add it to your clique. #3 is similar to #2,
+  and may increase your score, <b>add to your clique #3 now</b>.
 </div>
 
 
 <div class="tutorial text-center" ng-show="tutState==4">
-  Good job, you've beaten the target score!
+  Good job, you've reached the target!
   But it seems like we can improve the score even more.
-  #1 looks exactly the same as #5, so let's add it to our group.
-  Notice that #5
+  #6 looks exactly the same as #2, so it is a better match for #2 than #3 is.
+  Notice that #6
   has a striped background. Aliens with a striped background
   are enemies with an alien in your clique. Enemies should not be placed
-  into the same group and you will be prompted to remove enemies.
+  into the same group and you will be prompted to remove enemies. If you remove
+  an enemy alien, it will return to its previous clique. Sometimes, like in this
+  case, adding an enemy alien can help improve your earnings because the
+  it is more to your clique than the replaced one.
   <b>Add #6 to your clique now by left-clicking on it.</b>
 </div>
 
 
-<div class="tutorial text-center" ng-show="tutState==5">-->
-  You can add aliens back to their previous clique, except the one you are helping (i.e. #1),
+<div class="tutorial text-center" ng-show="tutState==5">
+  You can add aliens back to their previous clique, except the one you are helping (i.e. #2),
   by left clicking on the alien.
-  <b>Left click #5 now.</b>
+  <b>Left click #6 now.</b>
 </div>
 
-
 <div class="tutorial text-center" ng-show="tutState==6">
-  You are now ready to play!
+  If you feel that you cannot reach the target, feel free to skip your current
+  client and move on to the next by clicking "Skip this client".
+  <br>
+  <button class="btn menu-button" ng-click="tutState=7">Next</button>
+</div>
+
+<div class="tutorial text-center" ng-show="tutState==7">
+  You've learned all the rules to the game and you are now ready to help some alien clients!
   <br>
   <button class="btn menu-button" ui-sref="game4({id: 10})">Play!</button>
 </div>

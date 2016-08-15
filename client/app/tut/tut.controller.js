@@ -239,7 +239,7 @@ angular.module('nwmApp').controller('TutController',
         // game version: in which a random alien is seeded
 
         $scope.createNewBucket();
-        initAlien = '2_2';
+        initAlien = '0_1';
         $scope.selectAlien(initAlien);
         $scope.showGroup(initAlien);
 
@@ -247,6 +247,7 @@ angular.module('nwmApp').controller('TutController',
       });
     };
 
+    var done = 0;
     $scope.selectAlien = function (alien_id) {
       if ($scope.tutState == 3) {
         if (alien_id == '1_0') {
@@ -257,22 +258,27 @@ angular.module('nwmApp').controller('TutController',
         }
       } else if ($scope.tutState == 4) {
         if (alien_id == '1_2') {
-          $scope.tutState = 5;
+          done ++;
+          $scope.tutState = 4.1;
         } else {
           $("#tut-feedback").fadeIn();
           setTimeout(function(){ $("#tut-feedback").fadeOut(); }, 3000);
         }
+      } else if ($scope.tutState == 4.1) {
+        $scope.tutState = 4.2;
+      } else if ($scope.tutState == 4.2) {
+        $scope.tutState = 5;
       } else if ($scope.tutState == 5) {
-        if (alien_id == '1_0' || alien_id == '1_2' || alien_id == '2_2') {
+
+        if (alien_id == '1_2') {
           Restangular.all('/api/users/tut').post().then(
             (function (data) {
             }), function (err) {
             });
           $scope.tutState = 6;
-        } else {
-          $("#tut-feedback").fadeIn();
         }
       }
+
 
       // No bucket is currently selected
       // game version in which alien is seeded : comment out
@@ -423,37 +429,15 @@ angular.module('nwmApp').controller('TutController',
       if (!opt) {
         return;
       }
-      // Aliens in some other bucket, can be switched to current bucket when being clicked
-      if (aliens.alienArray[aliens.newId].in) {
-        var bucket_id = bucket.getBucketByAlienId(aliens.newId);
-        bucket.buckets[bucket_id].alien.splice(bucket.buckets[bucket_id].alien.indexOf(aliens.newId), 1);
-        bucket.buckets[bucket.current_bucket].alien[bucket.buckets[bucket.current_bucket].alien.indexOf(aliens.oldId)] = aliens.newId;
-        history.userActions.push("Remove alien " + aliens.newId + " from bucket " + bucket_id);
-        history.userActions.push("Remove alien " + aliens.oldId + " from bucket " + bucket.current_bucket);
-
-        if (bucket.buckets[bucket_id].alien.length == 0) {
-          bucket.removeBucket(bucket_id);
-          if (bucket_id < bucket.current_bucket) {
-            bucket.current_bucket--;
-          }
-        }
-      }
-      else {
-        bucket.buckets[bucket.current_bucket].alien[bucket.buckets[bucket.current_bucket].alien.indexOf(aliens.oldId)] = aliens.newId;
-        history.userActions.push("Remove alien " + aliens.oldId + " from bucket " + bucket.current_bucket);
+      // Show alert if the conflicting alien is the seed
+      if (aliens.oldId == $scope.seed) {
+        $("#cant-remove").fadeIn();
+        setTimeout(function(){ $("#cant-remove").fadeOut(); }, 2000);
+        return;
       }
 
-      aliens.alienArray[aliens.oldId].color = "rgba(232, 250, 255, 0)";
-      aliens.alienArray[aliens.oldId].in = false;
-
-      aliens.alienArray[aliens.newId].color = bucket.buckets[bucket.current_bucket].color;
-      aliens.alienArray[aliens.newId].in = true;
-      $scope.currentBucket(bucket.current_bucket);
-      feedback(aliens.newId);
-
-      $scope.disableUndo = false;
-      $scope.disableRedo = true;
-      history.userActions.push("Add alien " + aliens.newId + " to bucket " + bucket.current_bucket);
+      $scope.selectAlien(aliens.oldId);
+      $scope.selectAlien(aliens.newId);
     };
 
     $scope.newGroup = function (tut) {
@@ -843,6 +827,15 @@ angular.module('nwmApp').controller('TutController',
 
 
     $scope.$broadcast('timer-start');
+
+    $scope.startOver = function () {
+      $scope.createNewBucket();
+      initAlien = getRandAlien();
+      $scope.selectAlien(initAlien);
+      $scope.showGroup(initAlien);
+
+      $scope.maxScore = $scope.initialScore = $scope.score = update.getNewScore($scope.maxModels);
+    }
 
 
   });
