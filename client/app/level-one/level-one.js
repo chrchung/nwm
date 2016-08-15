@@ -322,6 +322,12 @@ levelOne.service('style', function(aliens, helper) {
 
       var model_num = helper.get_model(id);
       var alien_num = helper.get_alien(id);
+
+      // Do not highlight if the alien is from the same model as the seeed
+      if (bucket.alien[0] && helper.get_model(bucket.alien[0]) == model_num) {
+        continue;
+      }
+
       // a list of properties of the current alien
       var cur_properties = aliens.properties[id];
 
