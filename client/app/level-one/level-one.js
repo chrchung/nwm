@@ -556,17 +556,33 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
     }
   };
 
+  this.getAlienScore = function(alienId) {
+    if (!aliens.alienArray[alienId].in) {
+      return -1;
+    }
+    if (aliens.alienArray[alienId].score < 0) {
+      return 0;
+    }
+    return aliens.alienArray[alienId].score/this.highestAlienScore * 100;
+  };
+
   this.updateAlienArray  = function() {
     for (var i = 0; i < this.orderedIds.length; i++) {
       var aid = this.orderedIds[i];
       var strippedAid = aid.substr(1);
       // Alien in current bucket: should display an empty space
-      if (aid[0] != "_" && aliens.alienArray[aid].color == this.buckets[this.current_bucket].color) {
-        this.orderedIds[i] = "_" + aid;
+      if (aid[0] != "_") {
+        if (aliens.alienArray[aid].color == this.buckets[this.current_bucket].color) {
+          this.orderedIds[i] = "_" + aid;
+        }
+        aliens.alienArray[aid].similarityBar = this.getAlienScore(aid);
       }
       // Alien not in current bucket: put it back to the list
-      else if (aid[0] == "_" && aliens.alienArray[strippedAid].color != this.buckets[this.current_bucket].color) {
-        this.orderedIds[i] = strippedAid;
+      else if (aid[0] == "_") {
+        if (aliens.alienArray[strippedAid].color != this.buckets[this.current_bucket].color) {
+          this.orderedIds[i] = strippedAid;
+        }
+        aliens.alienArray[strippedAid].similarityBar = this.getAlienScore(strippedAid);
       }
     }
 
@@ -623,16 +639,6 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
       return 0;
     }
     return this.buckets[bucketId].similarity/this.highestBucketScore * 100;
-  };
-
-  this.getAlienScore = function(alienId) {
-    if (!aliens.alienArray[alienId].in) {
-      return -1;
-    }
-    if (aliens.alienArray[alienId].score < 0) {
-      return 0;
-    }
-    return aliens.alienArray[alienId].score/this.highestAlienScore * 100;
   };
 });
 

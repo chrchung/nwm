@@ -119,7 +119,9 @@ angular.module('nwmApp').controller('Game4Controller',
               color: "rgba(232, 250, 255, 0)",
               illegal: "legal-alien",
               similar: "dissimilar",
-              in: false
+              in: false,
+              score: 0,
+              similarityBar: 0
             };
           }
         }

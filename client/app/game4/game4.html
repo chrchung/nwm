@@ -181,8 +181,8 @@
          ng-if="id[0] != '_'">
 
       <img src="{{aliens.alienArray[id].url}}" imageonload="imageLoadedIncrementCount()"/>
-      <div class="simialrity-bar" ng-show='{{bucket.getAlienScore(id) != -1}}'>
-        <div class="similarity" style="width: {{bucket.getAlienScore(id)}}%;"></div>
+      <div class="simialrity-bar" ng-show='{{aliens.alienArray[id].similarityBar != -1}}'>
+        <div class="similarity" style="width: {{aliens.alienArray[id].similarityBar}}%;"></div>
       </div>
     </div>
     <div class="empty-alien" ng-if="id[0] == '_'"></div>
@@ -204,8 +204,8 @@
        ng-click="selectAlien(id)"
        style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};">
     <img src="{{aliens.alienArray[id].url}}"/>
-    <div class="simialrity-bar" ng-show='{{bucket.getBucketScore(id) != -1}}'>
-      <div class="similarity" style="width: {{bucket.getAlienScore(id)}}%;"></div>
+    <div class="simialrity-bar" ng-show='{{aliens.alienArray[id].similarityBar != -1}}'>
+      <div class="similarity" style="width: {{aliens.alienArray[id].similarityBar}}%;"></div>
     </div>
   </div>
 </div>
