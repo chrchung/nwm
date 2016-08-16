@@ -5,6 +5,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
     // game version where alien seeded
     $scope.scoreToBeat = 0;
+    $scope.submittedScore = false;
     var initAlien;
     var seed;
     $scope.type = null;
@@ -1110,7 +1111,10 @@ angular.module('nwmApp').controller('Game4Controller',
             solution: bucket.buckets,
             actions: history.userActions,
             type: $scope.type
-          }).then();
+          }).then((function (data) {
+        }), function (err) {
+          $state.go('leaderboard', {prevState: 'game'});
+        });
       });
     };
 

@@ -35,12 +35,12 @@ angular.module('nwmApp')
       });
     };
 
-    if ($scope.prevState == 'game') {
+    // if ($scope.prevState == 'game') {
       getScoresAfterGame();
-    }
-    else {
+    // }
+    // else {
       getScores();
-    }
+    // }
 
 
   });
