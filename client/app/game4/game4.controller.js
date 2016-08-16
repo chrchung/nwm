@@ -271,6 +271,7 @@ angular.module('nwmApp').controller('Game4Controller',
     };
 
     $scope.seedInitialAlien = function() {
+      startTime = (new Date ()).getTime();
 
       //$scope.seed = $scope.seedByTupleScore();
       //$scope.seed = $scope.seedBySimilarityScore();
@@ -297,7 +298,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
       //delete $scope.$storage.buckets;
       //delete $scope.$storage.aliens;
-    }
+    };
 
     $scope.$watch('doneSeeding', function (newVal, oldVal) {
       if (newVal == true && oldVal == false) {
@@ -1091,7 +1092,6 @@ angular.module('nwmApp').controller('Game4Controller',
     // Submit the score to the database
     $scope.submitScore = function () {
       var time = (new Date ()).getTime() - startTime;
-
       //if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
       //  bucket.removeBucket(bucket.current_bucket);
       //}
@@ -1214,7 +1214,10 @@ angular.module('nwmApp').controller('Game4Controller',
 
     $scope.targetReachedGetNext = function () {
       $("#target-reached").fadeOut();
-      $scope.getNextSeed();
+      $scope.seed = null;
+      $scope.doneSeeding = false;
+
+      $scope.seedInitialAlien();
     };
 
     // var setUpTutorial = function () {
