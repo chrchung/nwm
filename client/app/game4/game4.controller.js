@@ -14,7 +14,7 @@ angular.module('nwmApp').controller('Game4Controller',
     $scope.maxScore = 0;
     $scope.$storage = $localStorage;
     $scope.undo_key_pointer = 0;
-    var startTime = getTime();
+    var startTime = (new Date()).getTime();
 
     $scope.doneBucket = function () {
       var old = $scope.score;
@@ -1090,7 +1090,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
     // Submit the score to the database
     $scope.submitScore = function () {
-      var time = startTime - getTime();
+      var time = (new Date ()).getTime() - startTime;
 
       //if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
       //  bucket.removeBucket(bucket.current_bucket);
