@@ -14,7 +14,7 @@ angular.module('nwmApp').controller('Game4Controller',
     $scope.maxScore = 0;
     $scope.$storage = $localStorage;
     $scope.undo_key_pointer = 0;
-    var startTime = (new Date()).getMinutes();
+    var startTime = getTime();
 
     $scope.doneBucket = function () {
       var old = $scope.score;
@@ -58,7 +58,8 @@ angular.module('nwmApp').controller('Game4Controller',
 
       if ($scope.score - $scope.highest_score > 0) {
         $("#target-reached").fadeIn();
-        setTimeout(function(){ $("#target-reached").fadeOut(); }, 4000);
+        // setTimeout(function(){ $("#target-reached").fadeOut(); }, 4000);
+        $scope.submitScore();
       }
 
       //if ($scope.prev_score < $scope.score) {
@@ -276,10 +277,12 @@ angular.module('nwmApp').controller('Game4Controller',
 
       if (Math.random() < 0.4) {
         console.log("rand");
+        $scope.type = 'random';
         $scope.seed = $scope.seedRandomly();
       }
       else {
         console.log("sim score");
+        $scope.type = 'lowest bar';
         $scope.seed = $scope.seedBySimilarityScore();
       }
 
@@ -1087,7 +1090,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
     // Submit the score to the database
     $scope.submitScore = function () {
-      var time = (new Date()).getMinutes() - startTime;
+      var time = startTime - getTime();
 
       //if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
       //  bucket.removeBucket(bucket.current_bucket);
@@ -1107,17 +1110,9 @@ angular.module('nwmApp').controller('Game4Controller',
             solution: bucket.buckets,
             actions: history.userActions,
             type: $scope.type
-          }).then(
-          (function (data) {
-            var finalScore = $scope.score - $scope.highest_score;
-            if (finalScore < 0) {
-              finalScore = 0;
-            }
-            $state.go('leaderboard', {prevState: 'game', score: finalScore, prev_overall: parseInt(serverJson.overallScore)});
-          }), function (err) {
-        });
+          }).then();
       });
-    }
+    };
 
     // Save the score to the database
     $scope.saveScore = function () {
@@ -1217,6 +1212,11 @@ angular.module('nwmApp').controller('Game4Controller',
       }
     };
 
+    $scope.targetReachedGetNext = function () {
+      $("#target-reached").fadeOut();
+      $scope.getNextSeed();
+    };
+
     // var setUpTutorial = function () {
     //   tutorial = true;
     //   $scope.tutState = 0;
@@ -1241,9 +1241,5 @@ angular.module('nwmApp').controller('Game4Controller',
       delete $scope.$storage.aliens;
       $scope.setUpGame('best');
     });
-
-
-    $scope.$broadcast('timer-start');
-
 
   });

@@ -30,11 +30,8 @@
 
 <div id="popup3">
   <div id='popup-content3'>
-    <button class="btn menu-button" ng-click="submitScore()">Submit score</button>
-    <br/>
-    <!--<button class="btn menu-button" ng-click="saveScore()">Save for later</button>-->
-    <!--<br/>-->
     <button class="btn menu-button" ng-click="quit()">Quit</button>
+    <button class="btn menu-button" ng-click="endGame()">Cancel</button>
     <br/>
   </div>
 </div>
@@ -59,9 +56,10 @@
 
 
 <div id="target-reached" class="text-center">
-  Congrats, you've beaten the target score!
-  <p>End the game now or continue playing to increase your score
-  even more.</p>
+  Congrats, you've reached your target earnings!
+  <br>
+  <button class="btn menu-button" ng-click="targetReachedNextClient()">Help next client</button>
+  <button class="btn menu-button" ng-click="quit()">Quit</button>
 </div>
 
 
@@ -142,7 +140,7 @@
     <div class='title-font score3 big'>EARNED: $<span count-to="{{score - initialScore}}" value="{{prev_score - initialScore}}" duration="1" ng-show="doneSeeding"></span></div>
     <div class='title-font target big'>TARGET: $<span ng-show="doneSeeding">{{highest_score - initialScore + 1}}</span></div>
 
-    <button id="end-button3" class="btn" ng-click="endGame()">Submit score</button>
+    <button id="end-button3" class="btn" ng-click="endGame()">End game</button>
     <!--<div id="current-group">-->
       <!--<span class="title-font">Current group:</span>-->
       <!--<div ng-click="goToGroup()" id="current-group-color" style="background:{{bucket.buckets[bucket.current_bucket].color}}">-->
