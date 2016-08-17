@@ -89,7 +89,20 @@ angular.module('nwmApp').controller('Game4Controller',
       $scope.topWindowHeight = window.innerWidth * 0.095 + 20;
 
       // modelsName is a string in the form of 'level4b6_9'
-      // Get level
+      // Randomly pick a level (model)
+      var randLev = Math.random();
+      if (randLev < 0.33) {
+        $scope.cur_level = 10;
+      }
+      else if (randLev < 0.66) {
+        $scope.cur_level = 12;
+      }
+      else {
+        $scope.cur_level = 13;
+      }
+      console.log($scope.cur_level);
+
+      // Remove this when DB is ready
       $scope.cur_level = $stateParams.id;
 
       // Request data from the server
@@ -107,6 +120,7 @@ angular.module('nwmApp').controller('Game4Controller',
           $scope.cur_game = 2;
         }
 
+        $scope.numAliens = 0;
         for (var i = 0; i < $scope.maxModels; i++) {
           var maxAliens = data[i][1].length;    // number of aliens in a model
           for (var j = 0; j < maxAliens; j++) {
@@ -124,6 +138,7 @@ angular.module('nwmApp').controller('Game4Controller',
               score: 0,
               similarityBar: 0
             };
+            $scope.numAliens++;
           }
         }
         database.shuffleProperties();
@@ -1223,7 +1238,7 @@ angular.module('nwmApp').controller('Game4Controller',
     $scope.imageLoadedIncrementCount = function () {
       $scope.numImagesLoaded ++;
 
-      if ($scope.numImagesLoaded == 220) {
+      if ($scope.numImagesLoaded == $scope.numAliens) {
         $scope.loaded = true;
       }
     };
