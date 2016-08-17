@@ -58,9 +58,11 @@ angular.module('nwmApp').controller('Game4Controller',
       }
 
       if ($scope.score - $scope.highest_score > 0) {
-        $("#target-reached").fadeIn();
-        // setTimeout(function(){ $("#target-reached").fadeOut(); }, 4000);
-        $scope.submitScore();
+        $("#leaderboard").show();
+        $scope.targetReachedGetNext();
+        // $("#target-reached").fadeIn();
+        // // setTimeout(function(){ $("#target-reached").fadeOut(); }, 4000);
+        // $scope.submitScore();
       }
 
       //if ($scope.prev_score < $scope.score) {
@@ -1250,11 +1252,54 @@ angular.module('nwmApp').controller('Game4Controller',
     };
 
     $scope.targetReachedGetNext = function () {
-      $("#target-reached").fadeOut();
-      $scope.seed = null;
-      $scope.doneSeeding = false;
+      var time = (new Date ()).getTime() - startTime;
+      Restangular.all('/api/scores/').post(
+        {
+          score: $scope.score,
+          initialScore: $scope.highest_score,
+          targetScore: $scope.highest_score - $scope.initialScore + 1,
+          seed: $scope.seed,
+          duration: time,
+          game: $scope.cur_game,
+          level: parseInt($scope.cur_level),
+          solution: bucket.buckets,
+          actions: history.userActions,
+          type: $scope.type
+        }).then(function (data) {
+          Restangular.all('api/scores/game_scoreboard/' + $scope.cur_level)
+            .getList().then(function (serverJson) {
+              Restangular.all('api/users/').get('current_user').then(function (user) {
+                $scope.scores = [];
+                for (var i = 0; i < serverJson.length; i++) {
+                  if (serverJson[i].user == user.username) {
+                    $scope.overallScore = serverJson[i].overallScore + $scope.score - $scope.highest_score;
+                    $scope.scores.push({user: serverJson[i].user, overallScore: $scope.overallScore});
+                  }
+                  else {
+                    $scope.scores.push(serverJson[i]);
+                  }
+                  if (i == serverJson.length-1) {
+                    $scope.scores.sort(function(a, b) {
+                      return b.score - a.score;
+                    });
+                    $scope.overallScoreRank = 0;
+                    for (var j = 0; j < $scope.scores.length; j++) {
+                      $scope.overallScoreRank++;
+                      if ($scope.scores[j].overallScore == $scope.overallScore) {
+                        break;
+                      }
+                    }
+                    $scope.submittedScore = true;
+                  }
+                }
+              });
+          });
+      });
+    };
 
-      $scope.seedInitialAlien();
+    $scope.getNextClient = function() {
+      location.reload();
+
     };
 
     // var setUpTutorial = function () {

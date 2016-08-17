@@ -10,7 +10,8 @@ angular.module('nwmApp', [
   'restangular',
   'countTo',
   'pageslide-directive',
-  'ngStorage'
+  'ngStorage',
+  'ordinal'
 ])
 
   .config(function($stateProvider, $urlRouterProvider, $locationProvider) {

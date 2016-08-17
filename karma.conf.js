@@ -29,6 +29,7 @@ module.exports = function(config) {
       'client/bower_components/ngstorage/ngStorage.js',
       'client/bower_components/moment/moment.js',
       'client/bower_components/randomcolor/randomColor.js',
+      'client/bower_components/angularjs-ordinal-filter/ordinal-browser.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'client/app/app.js',

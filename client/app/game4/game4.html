@@ -54,14 +54,46 @@
   You did not select a group.
 </div>
 
+<div id="leaderboard" class="text-center">
+  <div class="bg">
+    <div class="col-xs-12">
+      <div>
+        <div class="col-xs-3"></div>
+        <div class="col-xs-6">
 
-<div id="target-reached" class="text-center">
-  Congrats, you've reached your target earnings!
-  <br>
-  <!--<button class="btn menu-button" ng-click="targetReachedGetNext()">Help next client</button>-->
-  <button class="btn menu-button" ng-click="submittedScore=true;submitScore()">Save score</button>
-  <br>
-  <p ng-show="submittedScore==true">(Please wait while we save your score. It may take a while.)</p>
+          <div id="about">
+            <p>Congrats, you beat the target!</p>
+            <br/>
+            <p class='blink' ng-show="!submittedScore">Please wait while we save your score. It may take a while.</p>
+            <p ng-show="submittedScore">Your total earnings is now <span class="score">{{overallScore}}</span> and
+              you're the <span class="score">{{overallScoreRank | ordinal}}</span> wealthiest matchmaker.</p>
+            <br/>
+            <table class="table text-center" ng-show="submittedScore">
+              <thead>
+                <tr>
+                  <th class="text-center">Player</th>
+                  <th class="text-center">Earnings</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-show="score.overallScore > 0" ng-repeat="score in scores">
+                  <td>{{ score.user }}</td>
+                  <td>{{ score.overallScore }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="btn menu-button-small" ng-click="getNextClient()" ng-show="submittedScore">Get next client</button>
+            <button class="btn menu-button-small" ng-click="quit()" ng-show="submittedScore">Exit</button>
+          </div>
+        </div>
+
+        <div class="col-xs-3"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
   <!--<img ng-show="submittedScore==true" class="loading" ng-show="!loaded" src="https://d13yacurqjgara.cloudfront.net/users/12755/screenshots/1037374/hex-loader2.gif"/>-->
 </div>
 
@@ -173,7 +205,7 @@
 </div> -->
 
 
-<div id="aliens" style=''>
+<div id="aliens" style='' ng-show="loaded">
   <div ng-repeat="id in bucket.orderedIds">
     <div class="an-alien alien {{id}} {{aliens.alienArray[id].illegal}} {{aliens.alienArray[id].similar}} {{aliens.alienArray[id].isHidden}}"
          ng-click="selectAlien(id, false)"
@@ -202,7 +234,8 @@
   <div ng-repeat="id in bucket.currentAliens"
        class="current-alien {{id}}"
        ng-click="selectAlien(id, false)"
-       style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};">
+       style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};"
+       ng-show="loaded">
     <img src="{{aliens.alienArray[id].url}}"/>
     <div class="simialrity-bar" ng-show='{{aliens.alienArray[id].similarityBar != -1}}'>
       <div class="similarity" style="width: {{aliens.alienArray[id].similarityBar}}%;"></div>
