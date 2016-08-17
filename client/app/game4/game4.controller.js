@@ -117,7 +117,7 @@ angular.module('nwmApp').controller('Game4Controller',
               model: "model" + i,
               alien: j,
               url: parsed_data.URL,
-              color: "rgba(232, 250, 255, 0)",
+              color: "#E8FAFF",
               illegal: "legal-alien",
               similar: "dissimilar",
               in: false,
@@ -253,7 +253,7 @@ angular.module('nwmApp').controller('Game4Controller',
         Object.keys(aliens.alienArray).forEach(function(aid) {
           if (!aliens.alienArray[aid].in) {
             $scope.newGroup();
-            $scope.selectAlien(aid);
+            $scope.selectAlien(aid, false);
           }
         });
 
@@ -322,7 +322,7 @@ angular.module('nwmApp').controller('Game4Controller',
       $scope.doneSeeding = false;
 
       while (bucket.buckets[bucket.current_bucket].alien.length > 0) {
-        $scope.selectAlien(bucket.buckets[bucket.current_bucket].alien[0]);
+        $scope.selectAlien(bucket.buckets[bucket.current_bucket].alien[0], false);
       }
       $scope.seedInitialAlien();
     };
@@ -347,7 +347,7 @@ angular.module('nwmApp').controller('Game4Controller',
             continue;
           }
 
-          $scope.selectAlien(seed);
+          $scope.selectAlien(seed, false);
           $scope.initialScore = $scope.score; // initial score
 
           var targetScore = $scope.highest_score - $scope.initialScore + 1;
@@ -367,7 +367,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
           // Similar alien not found: undo and pick another alien
           $scope.seedAliens[seed] = true;
-          $scope.selectAlien(seed);
+          $scope.selectAlien(seed, false);
         }
       }
 
@@ -395,7 +395,7 @@ angular.module('nwmApp').controller('Game4Controller',
             continue;
           }
 
-          $scope.selectAlien(seed);
+          $scope.selectAlien(seed, false);
           $scope.initialScore = $scope.score; // initial score
 
           var targetScore = $scope.highest_score - $scope.initialScore + 1;
@@ -416,7 +416,7 @@ angular.module('nwmApp').controller('Game4Controller',
           // Similar alien not found: undo and pick another alien
           $scope.seedAliens[seed] = true;
           console.log(seed);
-          $scope.selectAlien(seed);
+          $scope.selectAlien(seed, false);
         }
       }
 
@@ -457,7 +457,7 @@ angular.module('nwmApp').controller('Game4Controller',
           continue;
         }
 
-        $scope.selectAlien(seed);
+        $scope.selectAlien(seed, false);
         $scope.$apply();
         $scope.initialScore = $scope.score; // initial score
 
@@ -478,7 +478,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
         // Similar alien not found: undo and pick another alien
         $scope.seedAliens[seed] = true;
-        $scope.selectAlien(seed);
+        $scope.selectAlien(seed, false);
       }
 
       // No possible seed found
@@ -546,7 +546,7 @@ angular.module('nwmApp').controller('Game4Controller',
           continue;
         }
 
-        $scope.selectAlien(seed);
+        $scope.selectAlien(seed, false);
         $scope.$apply();
         $scope.initialScore = $scope.score; // initial score
 
@@ -567,7 +567,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
         // Similar alien not found: undo and pick another alien
         $scope.seedAliens[seed] = true;
-        $scope.selectAlien(seed);
+        $scope.selectAlien(seed, false);
       }
 
       // Visited all aliens, clear seed history
@@ -591,7 +591,7 @@ angular.module('nwmApp').controller('Game4Controller',
         });
     };
 
-    $scope.selectAlien = function (alien_id) {
+    $scope.selectAlien = function (alien_id, illegal_swap) {
 
       // No bucket is currently selected
       // game version in which alien is seeded : comment out
@@ -665,7 +665,9 @@ angular.module('nwmApp').controller('Game4Controller',
 
           aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
           $scope.currentBucket(bucket.current_bucket);
-          feedback(alien_id);
+          if (!illegal_swap) {
+            feedback(alien_id);
+          }
           bucket.updateAlienArray();
           history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
         }
@@ -738,7 +740,7 @@ angular.module('nwmApp').controller('Game4Controller',
                 aliens.alienArray[alien_id].color = last_bucket_color;
               } else {
                 aliens.alienArray[alien_id].in = false;
-                aliens.alienArray[alien_id].color = "rgba(232, 250, 255, 0)";
+                aliens.alienArray[alien_id].color = "#E8FAFF";
               }
 
               if (bucket.buckets[bucket.current_bucket].alien.length == 0) {
@@ -746,7 +748,9 @@ angular.module('nwmApp').controller('Game4Controller',
               }
 
               $scope.currentBucket(bucket.current_bucket);
-              feedback(alien_id);
+              if (!illegal_swap) {
+                feedback(alien_id);
+              }
               bucket.updateAlienArray();
               history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
             }
@@ -768,7 +772,9 @@ angular.module('nwmApp').controller('Game4Controller',
               aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
               aliens.alienArray[alien_id].in = true;
               $scope.currentBucket(bucket.current_bucket);
-              feedback(alien_id);
+              if (!illegal_swap) {
+                feedback(alien_id);
+              }
               bucket.updateAlienArray();
               history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
             }
@@ -791,8 +797,9 @@ angular.module('nwmApp').controller('Game4Controller',
         return;
       }
 
-      $scope.selectAlien(aliens.oldId);
-      $scope.selectAlien(aliens.newId);
+      $scope.selectAlien(aliens.oldId, true);
+      $scope.selectAlien(aliens.newId, true);
+      feedback(aliens.newId);
     };
 
     $scope.newGroup = function (tut) {

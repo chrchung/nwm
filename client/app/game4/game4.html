@@ -176,7 +176,7 @@
 <div id="aliens" style=''>
   <div ng-repeat="id in bucket.orderedIds">
     <div class="an-alien alien {{id}} {{aliens.alienArray[id].illegal}} {{aliens.alienArray[id].similar}} {{aliens.alienArray[id].isHidden}}"
-         ng-click="selectAlien(id)"
+         ng-click="selectAlien(id, false)"
          style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};"
          ng-if="id[0] != '_'">
 
@@ -201,7 +201,7 @@
   <!--</button>-->
   <div ng-repeat="id in bucket.currentAliens"
        class="current-alien {{id}}"
-       ng-click="selectAlien(id)"
+       ng-click="selectAlien(id, false)"
        style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};">
     <img src="{{aliens.alienArray[id].url}}"/>
     <div class="simialrity-bar" ng-show='{{aliens.alienArray[id].similarityBar != -1}}'>
