@@ -62,6 +62,22 @@ exports.current = function (req, res) {
   };
 };
 
+exports.getSeedAliens = function (req, res) {
+  if (req.session.user) {
+    res.json(req.session["seedAliens" + req.params.level]);
+  } else {
+    res.status(400).end();
+  };
+};
+
+exports.setSeedAliens = function(req, res) {
+  if (req.session.user) {
+    req.session["seedAliens" + req.params.level] = req.body;
+    res.status(200).end();
+  } else {
+    res.status(400).end();
+  };
+}
 
 exports.getSeenTut = function(req, res) {
   if (req.session.user) {
