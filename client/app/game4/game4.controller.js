@@ -30,7 +30,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
     $scope.currentBucket = function (curBucket) {
       // Currently we are using the FIRST highlighting algorithm. Second => 2, Third => 3.
-      bucket.currentBucket(curBucket, 3);
+      bucket.currentBucket(curBucket, 1);
       update.updateIllegalAlien();
       if (bucket.buckets[bucket.current_bucket].alien.length > 0) {
         $scope.checked = true;
@@ -1119,8 +1119,8 @@ angular.module('nwmApp').controller('Game4Controller',
             actions: history.userActions,
             type: $scope.type
           }).then((function (data) {
-        }), function (err) {
           $state.go('leaderboard', {prevState: 'game'});
+        }), function (err) {
         });
       });
     };
