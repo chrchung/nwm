@@ -114,6 +114,25 @@ levelOne.service('helper', function() {
     return alienNum;
   };
 
+  // Source: http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
+  this.shuffleArray = function(arr) {
+    var retArray = [];
+
+    arr.forEach(function(aid) {
+      retArray.push(aid);
+    });
+
+    var j, x, i;
+    for (i = retArray.length; i; i--) {
+      j = Math.floor(Math.random() * i);
+      x = retArray[i - 1];
+      retArray[i - 1] = retArray[j];
+      retArray[j] = x;
+    }
+
+    return retArray;
+  };
+
 });
 
 

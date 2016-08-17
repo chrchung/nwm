@@ -277,15 +277,15 @@ angular.module('nwmApp').controller('Game4Controller',
       //$scope.seed = $scope.seedByTupleScore();
       //$scope.seed = $scope.seedBySimilarityScore();
 
-      if (Math.random() < 0.4) {
-        console.log("rand");
-        $scope.type = 'random';
-        $scope.seed = $scope.seedRandomly();
+      if (Math.random() < 0.5) {
+        console.log("tup score");
+        $scope.type = 'tuple score';
+        $scope.seed = $scope.seedByTupleScore();
       }
       else {
-        console.log("sim score");
-        $scope.type = 'lowest bar';
-        $scope.seed = $scope.seedBySimilarityScore();
+        console.log("tup size");
+        $scope.type = 'tuple size';
+        $scope.seed = $scope.seedByTupleSize();
       }
 
       $scope.seedAliens[seed] = true;
@@ -337,10 +337,12 @@ angular.module('nwmApp').controller('Game4Controller',
 
       $scope.highest_score = $scope.score; // highest score
       $scope.createNewBucket();
+      $scope.$apply();
 
       for (var i = 0; i < orderedBuckets.length; i++) {
-        for (var j = 0; j < bucket.buckets[orderedBuckets[i]].alien.length; j++) {
-          seed = bucket.buckets[orderedBuckets[i]].alien[j];
+        var shuffledIds = helper.shuffleArray(bucket.buckets[orderedBuckets[i]].alien);
+        for (var j = 0; j < shuffledIds.length; j++) {
+          seed = shuffledIds[j];
 
           // This alien has already been picked: find another seed
           if (Object.keys($scope.seedAliens).indexOf(seed) >= 0) {
@@ -348,6 +350,7 @@ angular.module('nwmApp').controller('Game4Controller',
           }
 
           $scope.selectAlien(seed, false);
+          $scope.$apply();
           $scope.initialScore = $scope.score; // initial score
 
           var targetScore = $scope.highest_score - $scope.initialScore + 1;
@@ -385,10 +388,12 @@ angular.module('nwmApp').controller('Game4Controller',
 
       $scope.highest_score = $scope.score; // highest score
       $scope.createNewBucket();
+      $scope.$apply();
 
       for (var i = 0; i < orderedBuckets.length; i++) {
-        for (var j = 0; j < bucket.buckets[orderedBuckets[i]].alien.length; j++) {
-          seed = bucket.buckets[orderedBuckets[i]].alien[j];
+        var shuffledIds = helper.shuffleArray(bucket.buckets[orderedBuckets[i]].alien);
+        for (var j = 0; j < shuffledIds.length; j++) {
+          seed = shuffledIds[j];
 
           // This alien has already been picked: find another seed
           if (Object.keys($scope.seedAliens).indexOf(seed) >= 0) {
@@ -396,6 +401,7 @@ angular.module('nwmApp').controller('Game4Controller',
           }
 
           $scope.selectAlien(seed, false);
+          $scope.$apply();
           $scope.initialScore = $scope.score; // initial score
 
           var targetScore = $scope.highest_score - $scope.initialScore + 1;
@@ -415,7 +421,6 @@ angular.module('nwmApp').controller('Game4Controller',
 
           // Similar alien not found: undo and pick another alien
           $scope.seedAliens[seed] = true;
-          console.log(seed);
           $scope.selectAlien(seed, false);
         }
       }
