@@ -14,11 +14,11 @@ angular.module('nwmApp')
     };
 
     var getScoresAfterGame = function (scores) {
-      Restangular.all('api/users').get("current_user").then(function (user) {
+      Restangular.all('api/users').get('has_seen_tut').then(function (user) {
         Restangular.all('api/scores/game_scoreboard/10')
           .getList().then(function (serverJson) {
           $scope.result = $stateParams.score;
-          $scope.overallScore = parseInt($stateParams.prev_overall) + parseInt($scope.result);
+          $scope.overallScore = user.overallScore;
           $scope.scores = [];
           serverJson.forEach(function(data) {
             if (data.user == user.username) {
