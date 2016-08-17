@@ -292,15 +292,21 @@ angular.module('nwmApp').controller('Game4Controller',
       //$scope.seed = $scope.seedByTupleScore();
       //$scope.seed = $scope.seedBySimilarityScore();
 
-      if (Math.random() < 0.5) {
+      var randSeeding = Math.random();
+      if (randSeeding < 0.4) {
         console.log("tup score");
         $scope.type = 'tuple score';
         $scope.seed = $scope.seedByTupleScore();
       }
-      else {
+      else if (randSeeding < 0.8){
         console.log("tup size");
         $scope.type = 'tuple size';
         $scope.seed = $scope.seedByTupleSize();
+      }
+      else {
+        console.log("random");
+        $scope.type = 'random';
+        $scope.seed = $scope.seedRandomly();
       }
 
       $scope.seedAliens[seed] = true;
