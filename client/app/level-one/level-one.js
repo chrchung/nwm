@@ -405,47 +405,28 @@ levelOne.service('style', function(aliens, helper) {
 levelOne.service('bucket', function(style, $timeout, aliens, history) {
 
   this.initColors = function() {
-    this.predefinedColors = {
-      'rgba(255, 230, 255, 1)': false,
-      'rgba(179, 224, 255, 1)': false,
-      'rgba(255, 224, 179, 1)': false,
-      'rgba(255, 204, 204, 1)': false,
-      'rgba(255, 255, 204, 1)': false,
-      'rgba(236, 255, 179, 1)': false,
-      'rgba(236, 217, 198, 1)': false,
-      'rgba(153, 255, 187, 1)': false,
-      'rgba(59, 148, 250, 1)': false,
-      'rgba(227, 196, 255, 1)': false,
-      'rgba(206, 255, 143, 1)': false,
-      'rgba(255, 75, 105, 1)': false,
-      'rgba(246, 165, 178, 1)': false,
-      'rgba(140, 154, 255, 108)': false,
-      'rgba(194, 221, 227, 1)': false,
-    'rgba(255, 179, 179, 1)': false,
-    'rgba(221, 223, 185, 1)': false,
-    'rgba(248, 255, 105, 1)': false,
-    'rgba(210, 210, 255, 1)': false,
-    'rgba(158, 209, 212, 1)': false,
-    'rgba(141, 150, 204, 1)': false,
-    'rgba(255, 209, 179, 1)': false,
-      'rgba(160, 163, 255, 1)': false,
-      'rgba(160, 185, 208, 1)': false,
-      'rgba(154, 251, 100, 1)': false,
-      'rgba(202, 202, 201, 1)': false,
-      'rgba(251, 255, 172, 1)': false,
-      'rgba(255, 134, 101, 1)': false,
-      'rgba(255, 199, 46, 1)': false,
-      'rgba(255, 79, 44, 1)': false,
-      'rgba(205, 255, 240, 1)': false,
-      'rgba(169, 131, 180, 1)': false,
-      'rgba(242, 221, 225, 1)': false,
-      'rgba(178, 255, 225, 108)': false,
-      'rgba(254, 91, 224, 108)': false,
-      'rgba(148, 26, 255, 108)': false,
-      'rgba(255, 111, 15, 108)': false,
-      'rgba(171, 158, 96, 108)': false,
-      'rgba(238, 160, 224, 108)': false,
-    };
+    this.predefinedColors = {};
+
+    var hue_list = ['red', 'green', 'orange', 'blue', 'purple', 'pink'];
+    for (var i = 0; i < 40; i++) {
+      var random_color = randomColor({
+        luminosity: 'bright',
+        format: 'hex',
+        hue: hue_list[Math.floor(Math.random() * 6)]
+      });
+
+      // Regenerate if already in the list.
+      while(Object.keys(this.predefinedColors).indexOf(random_color) != -1) {
+        random_color = randomColor({
+          luminosity: 'bright',
+          format: 'hex',
+          hue: hue_list[Math.floor(Math.random() * 6)]
+        });
+      }
+
+      this.predefinedColors[random_color.toString()] = false;
+    }
+
     this.predefinedColorCounter = 0;
     this.buckets = [];
     this.num_buckets = 0;
@@ -463,7 +444,7 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
 
     // Clear all the previous alien color background and in attributes
     _.each(aliens.alienArray, function (a) {
-      a.color = "rgba(255,255,255, 0)";
+      a.color = "#ffffff";
       a.in = false;
     });
 
@@ -523,11 +504,14 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
         }
       }
     }
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
+    var hue_list = ['red', 'green', 'orange', 'blue', 'purple', 'pink'];
+
+    color = randomColor({
+      luminosity: 'random',
+      format: 'hex',
+      hue: hue_list[Math.floor(Math.random() * 6)]
+    });
+
     return color;
   };
 
