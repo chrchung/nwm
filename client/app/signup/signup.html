@@ -12,6 +12,10 @@
             <input id="pass" type="password" placeholder="Password" ng-model="password" required="" class="form-control input-lg">
           </div>
           <div class="form-group">
+            <input id="email" type="email" placeholder="Email" ng-model="email" class="form-control input-lg">
+            Optional if you would like us to e-mail you if you are a prize winner.
+          </div>
+          <div class="form-group">
             <input id="btn-login" type="submit" value="Continue" class="btn btn-login btn-lg btn-block">
           </div>
           <alert type="danger" ng-show="taken">Sorry, this username is in use. Please pick another one.</alert>

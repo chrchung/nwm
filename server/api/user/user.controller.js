@@ -23,6 +23,7 @@ exports.create = function(req, res) {
         var user = new Parse.User();
         user.set('username', req.body.username);
         user.set('password', req.body.password);
+        user.set('email', req.body.email);
         user.signUp(null, {
           success: function(user) {
             req.session.user = user;
@@ -113,4 +114,3 @@ exports.seenTut = function(req, res) {
   ;
 
 };
-
