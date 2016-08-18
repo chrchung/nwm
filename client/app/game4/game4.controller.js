@@ -1279,33 +1279,11 @@ angular.module('nwmApp').controller('Game4Controller',
           actions: history.userActions,
           type: $scope.type
         }).then(function (data) {
-          Restangular.all('api/scores/game_scoreboard/' + $scope.cur_level)
-            .getList().then(function (serverJson) {
-              Restangular.all('api/users/').get('current_user').then(function (user) {
-                $scope.scores = [];
-                for (var i = 0; i < serverJson.length; i++) {
-                  if (serverJson[i].user == user.username) {
-                    $scope.overallScore = serverJson[i].overallScore + $scope.score - $scope.highest_score;
-                    $scope.scores.push({user: serverJson[i].user, overallScore: $scope.overallScore});
-                  }
-                  else {
-                    $scope.scores.push(serverJson[i]);
-                  }
-                  if (i == serverJson.length-1) {
-                    $scope.scores.sort(function(a, b) {
-                      return b.score - a.score;
-                    });
-                    $scope.overallScoreRank = 0;
-                    for (var j = 0; j < $scope.scores.length; j++) {
-                      $scope.overallScoreRank++;
-                      if ($scope.scores[j].overallScore == $scope.overallScore) {
-                        break;
-                      }
-                    }
-                    $scope.submittedScore = true;
-                  }
-                }
-              });
+          Restangular.all('api/scores').get('in_game_scoreboard/5/' + JSON.stringify($scope.score - $scope.highest_score)).then(function (serverJson) {
+              $scope.scores = serverJson.scores;
+              $scope.overallScore = serverJson.overallScore;
+              $scope.overallScoreRank = serverJson.rank;
+              $scope.submittedScore = true;
           });
       });
     };

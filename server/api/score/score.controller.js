@@ -320,15 +320,90 @@ exports.getAllOverall = function (req, res) {
   });
 };
 
+exports.getInGameScoreboard = function (req, res) {
+  var score = req.params.score;
+  var UserData = Parse.Object.extend('UserData');
+  var userDataQuery = new Parse.Query(UserData);
+  userDataQuery.descending('overallScore');
+
+  userDataQuery.find({
+    success: function (scores) {
+
+      // Get data
+      scores = scores.map(function(each) {
+        return each.toJSON();
+      });
+
+      // Update
+      var newScores = [];
+      var overallScore = 0;
+      scores.forEach(function(user) {
+        if (user.user == req.session.user.username) {
+          overallScore = parseInt(user.overallScore) + parseInt(score);
+          user.overallScore = overallScore;
+          newScores.push(user);
+
+        }
+        else {
+          newScores.push(user);
+        }
+      });
+
+      // Sort
+      newScores.sort(function(a, b) {
+        return b.overallScore - a.overallScore;
+      });
+
+      // Get rank
+      var rank = 1;
+      for (var i = 0; i < newScores.length; i++) {
+        if (parseInt(newScores[i].overallScore) == overallScore) {
+          break;
+        }
+        rank++;
+      }
+      res.json({scores: newScores.slice(0, parseInt(req.params.array_size)),
+                overallScore: overallScore,
+                rank: rank});
+    },
+    error: function (error) {
+      res.status(400).end();
+    }
+  });
+};
+
 exports.getGameScoreboard = function (req, res) {
   var UserData = Parse.Object.extend('UserData');
   var userDataQuery = new Parse.Query(UserData);
   userDataQuery.descending('overallScore');
-  userDataQuery.limit(20);
 
   userDataQuery.find({
     success: function (scores) {
-      res.json(scores);
+      // Get data
+      scores = scores.map(function(score) {
+          return score.toJSON();
+      });
+
+      // Get overall score
+      var overallScore = 0
+      for (var i = 0; i < scores.length; i++) {
+        if (req.session.user.username == scores[i].user) {
+          overallScore = scores[i].overallScore;
+          break;
+        }
+      }
+
+      // Get rank
+      var rank = 0;
+      for (i = 0; i < scores.length; i++) {
+        rank++;
+        if (scores[i].overallScore == overallScore) {
+          break;
+        }
+      }
+      res.json({scores: scores.slice(0, parseInt(req.params.array_size)),
+                overallScore: overallScore,
+                rank: rank});
     },
     error: function (error) {
       res.status(400).end();
