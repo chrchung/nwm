@@ -61,8 +61,7 @@ angular.module('nwmApp').controller('TutController',
       if ($scope.score - $scope.highest_score > 0) {
         $("#target-reached").fadeIn();
         $scope.targetReachedGetNext();
-        // $("#target-reached").fadeIn();
-        // // setTimeout(function(){ $("#target-reached").fadeOut(); }, 4000);
+        setTimeout(function(){ $("#target-reached").fadeOut(); }, 4000);
         // $scope.submitScore();
       }
 
@@ -758,7 +757,7 @@ angular.module('nwmApp').controller('TutController',
 
             // Alien already in bucket, Deselect aliens
             if (aliens.alienArray[alien_id].color == bucket.buckets[bucket.current_bucket].color) {
-       
+
 
               // Show tutorial if removing alien tut not done
               // if (!history.tutorials[4]) {
@@ -1307,52 +1306,52 @@ angular.module('nwmApp').controller('TutController',
 
     $scope.targetReachedGetNext = function () {
 
-      Restangular.all('/api/users/seed_aliens/' + $scope.cur_level).post(
-        $scope.seedAliens
-      );
-      var time = (new Date()).getTime() - startTime;
-      Restangular.all('/api/scores/').post(
-        {
-          score: $scope.score,
-          initialScore: $scope.highest_score,
-          targetScore: $scope.highest_score - $scope.initialScore + 1,
-          seed: $scope.seed,
-          duration: time,
-          game: $scope.cur_game,
-          level: parseInt($scope.cur_level),
-          solution: bucket.buckets,
-          actions: history.userActions,
-          type: $scope.type
-        }).then(function (data) {
-        Restangular.all('api/scores/game_scoreboard/' + $scope.cur_level)
-          .getList().then(function (serverJson) {
-          Restangular.all('api/users/').get('current_user').then(function (user) {
-            $scope.scores = [];
-            for (var i = 0; i < serverJson.length; i++) {
-              if (serverJson[i].user == user.username) {
-                $scope.overallScore = serverJson[i].overallScore + $scope.score - $scope.highest_score;
-                $scope.scores.push({user: serverJson[i].user, overallScore: $scope.overallScore});
-              }
-              else {
-                $scope.scores.push(serverJson[i]);
-              }
-              if (i == serverJson.length - 1) {
-                $scope.scores.sort(function (a, b) {
-                  return b.score - a.score;
-                });
-                $scope.overallScoreRank = 0;
-                for (var j = 0; j < $scope.scores.length; j++) {
-                  $scope.overallScoreRank++;
-                  if ($scope.scores[j].overallScore == $scope.overallScore) {
-                    break;
-                  }
-                }
-                $scope.submittedScore = true;
-              }
-            }
-          });
-        });
-      });
+      // Restangular.all('/api/users/seed_aliens/' + $scope.cur_level).post(
+      //   $scope.seedAliens
+      // );
+      // var time = (new Date()).getTime() - startTime;
+      // Restangular.all('/api/scores/').post(
+      //   {
+      //     score: $scope.score,
+      //     initialScore: $scope.highest_score,
+      //     targetScore: $scope.highest_score - $scope.initialScore + 1,
+      //     seed: $scope.seed,
+      //     duration: time,
+      //     game: $scope.cur_game,
+      //     level: parseInt($scope.cur_level),
+      //     solution: bucket.buckets,
+      //     actions: history.userActions,
+      //     type: $scope.type
+      //   }).then(function (data) {
+      //   Restangular.all('api/scores/game_scoreboard/' + $scope.cur_level)
+      //     .getList().then(function (serverJson) {
+      //     Restangular.all('api/users/').get('current_user').then(function (user) {
+      //       $scope.scores = [];
+      //       for (var i = 0; i < serverJson.length; i++) {
+      //         if (serverJson[i].user == user.username) {
+      //           $scope.overallScore = serverJson[i].overallScore + $scope.score - $scope.highest_score;
+      //           $scope.scores.push({user: serverJson[i].user, overallScore: $scope.overallScore});
+      //         }
+      //         else {
+      //           $scope.scores.push(serverJson[i]);
+      //         }
+      //         if (i == serverJson.length - 1) {
+      //           $scope.scores.sort(function (a, b) {
+      //             return b.score - a.score;
+      //           });
+      //           $scope.overallScoreRank = 0;
+      //           for (var j = 0; j < $scope.scores.length; j++) {
+      //             $scope.overallScoreRank++;
+      //             if ($scope.scores[j].overallScore == $scope.overallScore) {
+      //               break;
+      //             }
+      //           }
+      //           $scope.submittedScore = true;
+      //         }
+      //       }
+      //     });
+      //   // });
+      // });
     };
 
     $scope.getNextClient = function () {

@@ -17,22 +17,40 @@ angular.module('nwmApp')
       Restangular.all('api/users').get('has_seen_tut').then(function (user) {
         Restangular.all('api/scores/game_scoreboard/10')
           .getList().then(function (serverJson) {
-          $scope.result = $stateParams.score;
           $scope.overallScore = user.overallScore;
-          $scope.scores = [];
-          serverJson.forEach(function(data) {
-            if (data.user == user.username) {
-              $scope.scores.push({user: data.user, overallScore: $scope.overallScore});
+
+
+
+          Restangular.all('api/users/').get('current_user').then(function (user) {
+            $scope.scores = [];
+            for (var i = 0; i < serverJson.length; i++) {
+              if (serverJson[i].user == user.username) {
+                //$scope.overallScore = serverJson[i].overallScore + $scope.score - $scope.highest_score;
+                $scope.scores.push({user: serverJson[i].user, overallScore: $scope.overallScore});
+              }
+              else {
+                $scope.scores.push(serverJson[i]);
+              }
+              if (i == serverJson.length-1) {
+                $scope.scores.sort(function(a, b) {
+                  return b.score - a.score;
+                });
+                $scope.overallScoreRank = 0;
+                for (var j = 0; j < $scope.scores.length; j++) {
+                  $scope.overallScoreRank++;
+                  if ($scope.scores[j].overallScore == $scope.overallScore) {
+                    break;
+                  }
+                }
+                $scope.submittedScore = true;
+              }
             }
-            else {
-              $scope.scores.push(data);
-            }
-          });
-          $scope.scores.sort(function(a, b) {
-            return b.score - a.score;
           });
         });
       });
+
+
+
     };
 
     // if ($scope.prevState == 'game') {

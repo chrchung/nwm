@@ -64,15 +64,15 @@
           <div id="ingame-leaderboard-content">
             <p>Congrats, you beat the target!</p>
             <br/>
-            <p class='blink' ng-show="!submittedScore">Please wait while we save your score. It may take a while.</p>
-            <p ng-show="submittedScore">Your total score is now <span class="score">{{overallScore}}</span> and
-              you're the <span class="score">{{overallScoreRank | ordinal}}</span> wealthiest matchmaker.</p>
+            <p class='blink' ng-show="!submittedScore">Please wait while we save your earnings. It may take a while.</p>
+            <p ng-show="submittedScore">Your total earnings is now <span class="score">{{overallScore}}</span> and
+              your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
             <br/>
             <table class="table text-center" ng-show="submittedScore">
               <thead>
                 <tr>
                   <th class="text-center">Player</th>
-                  <th class="text-center">Score</th>
+                  <th class="text-center">Earnings</th>
                 </tr>
               </thead>
               <tbody>
