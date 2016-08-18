@@ -48,14 +48,6 @@
   You did not select a group.
 </div>
 
-
-<div id="target-reached" class="text-center">
-  Congrats, you've beaten the target score!
-  <p>End the game now or continue playing to increase your score
-    even more.</p>
-</div>
-
-
 <div id="cant-remove" class="text-center">
   Sorry, you cannot remove this alien. <br>
   You must include it in a grouping that beats
@@ -134,11 +126,11 @@
 </div>
 
 <div class="tutorial text-center" id="objective" ng-show="tutState==0 && loaded">
-  You are a matchmaker. Your goal is to help the alien client in the top panel (#2 in this case)
-  form a clique of friends, by matching aliens that share identical features.
+  You are a matchmaker. Your goal is to help the alien in the top panel (#2 in this case)
+  find a group of friends. Aliens are more likely to get along if they share many features.
   Features include accessories, tattoos, facial features, hair, or apparel.
   There are a total of 162 features and you may view them all <a target="_blank" ui-sref="properties">here</a>.
-  The stronger the similarity between the members of your clique, the more money you will earn.
+  The stronger the similarity between the group your, the more money you will earn.
   In order to make a living, you must earn the target amount shown in the pink box
   in the bottom right corner of the screen.
   <br>
@@ -147,52 +139,52 @@
 
 
 <div class="tutorial text-center" ng-show="tutState==1">
-  In the game, other aliens might've already formed their own cliques. Aliens in
-  the same clique appear in boxes with the same colored border. For instance,
-  #8 and #9 both have a blue border color so they form a clique.
+  In the game, other aliens might've already formed their own groups. Aliens in
+  the same groups appear in boxes with the same colored border. For instance,
+  #8 and #9 both form a group since they have the same blue border.
   <br>
   <button class="btn menu-button" ng-click="tutState=2">Next</button>
 </div>
 
 <div class="tutorial text-center" ng-show="tutState==2">
   The red bar below each alien indicates the strength
-  of its bond with its clique. A full bar means that it loves
-  its clique and is less willing to leave, while an empty bar means that the alien dislikes its clique and
+  of its bond with its group. A full bar means that it loves
+  its group and is less willing to leave, while an empty bar means that the alien dislikes its group and
   is more willing to leave.
   Sometimes, it may be beneficial for you to add similar aliens with a weak
-  bond to your clique, since they have a high chance of forming a strong bond.
+  bond to your group, since they have a high chance of forming a strong bond.
   <br>
   <button class="btn menu-button" ng-click="tutState=3">Next</button>
 </div>
 
 <div class="tutorial text-center" ng-show="tutState==3">
-  Aliens that are similar to your clique are
-  highlighted with a yellow background, like #1, #3, #6.
-  On the other hand, aliens that bear little similarity with your clique are slightly
-  faded, like #4, #5, #7, #8, and #9. Adding highlighted aliens to your clique will have the
+  Aliens that are similar to your group are
+  highlighted yellow, like #1, #3, #6.
+  On the other hand, aliens that bear little similarity with your group appear slightly
+  faded, like #4, #5, #7, #8, and #9. Adding highlighted aliens to your group have the
   most potential to increase your earnings. You can left click on an
-  alien to add it to your clique. #3 is similar to #2,
+  alien to add it to your group. #3 is similar to #2,
   and may increase your score, <b>add to your clique #3 now</b>.
 </div>
 
 
 <div class="tutorial text-center" ng-show="tutState==4">
   Good job, you've reached the target!
-  But it seems like we can improve the score even more.
+  But it seems like we can increase your earnings even more.
   #6 looks exactly the same as #2, so it is a better match for #2 than #3 is.
   Notice that #6
   has a striped background. Aliens with a striped background
-  are enemies with an alien in your clique. Enemies should not be placed
+  are enemies with an alien in your group. Enemies should not be placed
   into the same group and you will be prompted to remove enemies. If you remove
-  an enemy alien, it will return to its previous clique. Sometimes, like in this
+  an enemy alien, it will return to its previous group. Sometimes, like in this
   case, adding an enemy alien can help improve your earnings because the
-  it is more to your clique than the replaced one.
-  <b>Add #6 to your clique now by left-clicking on it.</b>
+  it is more similar to your group than the replaced one.
+  <b>Add #6 to your group now by left-clicking on it.</b>
 </div>
 
 
 <div class="tutorial text-center" ng-show="tutState==5">
-  You can add aliens back to their previous clique, except the one you are helping (i.e. #2),
+  You can add aliens back to their previous group, except the one you are helping (i.e. #2),
   by left clicking on the alien.
   <b>Left click #6 now.</b>
 </div>

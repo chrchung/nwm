@@ -58,7 +58,7 @@ angular.module('nwmApp').controller('Game4Controller',
       }
 
       if ($scope.score - $scope.highest_score > 0) {
-        $("#leaderboard").show();
+        // $("#target-reached").fadeIn();
         $scope.targetReachedGetNext();
         // $("#target-reached").fadeIn();
         // // setTimeout(function(){ $("#target-reached").fadeOut(); }, 4000);
@@ -1265,6 +1265,7 @@ angular.module('nwmApp').controller('Game4Controller',
     };
 
     $scope.targetReachedGetNext = function () {
+
       Restangular.all('/api/users/seed_aliens/'+ $scope.cur_level).post(
         $scope.seedAliens
       );
