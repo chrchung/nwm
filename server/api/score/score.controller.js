@@ -324,7 +324,7 @@ exports.getGameScoreboard = function (req, res) {
   var UserData = Parse.Object.extend('UserData');
   var userDataQuery = new Parse.Query(UserData);
   userDataQuery.descending('overallScore');
-  userDataQuery.limit(10);
+  userDataQuery.limit(20);
 
   userDataQuery.find({
     success: function (scores) {
