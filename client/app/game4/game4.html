@@ -65,7 +65,10 @@
             <p>Congrats, you beat the target!</p>
             <br/>
             <p class='blink' ng-show="!submittedScore">Please wait while we save your earnings. It may take a while.</p>
-            <p ng-show="submittedScore">Your total earnings is now <span class="score">{{overallScore}}</span> and
+            <p ng-click="targetReachedGetNext()" style="pointer:cursor">(If nothing happens after a couple of minutes, please here click).</p>
+
+
+            <p ng-show="submittedScore">Your total earnings are now <span class="score">{{overallScore}}</span> and
               your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
             <br/>
             <table class="table text-center" ng-show="submittedScore">
