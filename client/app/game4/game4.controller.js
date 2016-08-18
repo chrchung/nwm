@@ -6,6 +6,7 @@ angular.module('nwmApp').controller('Game4Controller',
     // game version where alien seeded
     $scope.scoreToBeat = 0;
     $scope.submittedScore = false;
+    $scope.gotLeaderBoard = false;
     var initAlien;
     var seed;
     $scope.type = null;
@@ -1279,11 +1280,12 @@ angular.module('nwmApp').controller('Game4Controller',
           actions: history.userActions,
           type: $scope.type
         }).then(function (data) {
+          $scope.submittedScore = true;
           Restangular.all('api/scores').get('in_game_scoreboard/5/' + JSON.stringify($scope.score - $scope.highest_score)).then(function (serverJson) {
               $scope.scores = serverJson.scores;
               $scope.overallScore = serverJson.overallScore;
               $scope.overallScoreRank = serverJson.rank;
-              $scope.submittedScore = true;
+              $scope.gotLeaderBoard = true;
           });
       });
     };
