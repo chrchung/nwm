@@ -102,7 +102,6 @@ angular.module('nwmApp').controller('Game4Controller',
       else {
         $scope.cur_level = 13;
       }
-      console.log($scope.cur_level);
 
       // Remove this when DB is ready
       $scope.cur_level = $stateParams.id;
@@ -290,7 +289,6 @@ angular.module('nwmApp').controller('Game4Controller',
           else {
             $scope.seedAliens = {};
           }
-          console.log($scope.seedAliens);
         });
 
         setTimeout(function(){ $scope.seedInitialAlien(); }, 2000);
@@ -305,17 +303,14 @@ angular.module('nwmApp').controller('Game4Controller',
 
       var randSeeding = Math.random();
       if (randSeeding < 0.4) {
-        console.log("tup score");
         $scope.type = 'tuple score';
         $scope.seed = $scope.seedByTupleScore();
       }
       else if (randSeeding < 0.8){
-        console.log("tup size");
         $scope.type = 'tuple size';
         $scope.seed = $scope.seedByTupleSize();
       }
       else {
-        console.log("random");
         $scope.type = 'random';
         $scope.seed = $scope.seedRandomly();
       }
