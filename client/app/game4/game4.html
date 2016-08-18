@@ -54,25 +54,25 @@
   You did not select a group.
 </div>
 
-<div id="leaderboard" class="ingame-leaderboard text-center">
+<div id="ingame-leaderboard" class="text-center">
   <div class="bg">
     <div class="col-xs-12">
       <div>
         <div class="col-xs-3"></div>
         <div class="col-xs-6">
 
-          <div id="about">
+          <div id="ingame-leaderboard-content">
             <p>Congrats, you beat the target!</p>
             <br/>
             <p class='blink' ng-show="!submittedScore">Please wait while we save your score. It may take a while.</p>
-            <p ng-show="submittedScore">Your total earnings is now <span class="score">{{overallScore}}</span> and
+            <p ng-show="submittedScore">Your total score is now <span class="score">{{overallScore}}</span> and
               you're the <span class="score">{{overallScoreRank | ordinal}}</span> wealthiest matchmaker.</p>
             <br/>
             <table class="table text-center" ng-show="submittedScore">
               <thead>
                 <tr>
                   <th class="text-center">Player</th>
-                  <th class="text-center">Earnings</th>
+                  <th class="text-center">Score</th>
                 </tr>
               </thead>
               <tbody>

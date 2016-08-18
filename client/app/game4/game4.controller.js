@@ -58,7 +58,7 @@ angular.module('nwmApp').controller('Game4Controller',
       }
 
       if ($scope.score - $scope.highest_score > 0) {
-        $("#leaderboard").show();
+        $("#ingame-leaderboard").show();
         $scope.targetReachedGetNext();
         // $("#target-reached").fadeIn();
         // // setTimeout(function(){ $("#target-reached").fadeOut(); }, 4000);

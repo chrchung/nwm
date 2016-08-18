@@ -111,7 +111,7 @@
    }
 }
 
-#leaderboard .ingame-leaderboard {
+#ingame-leaderboard {
   border-radius: 10px;
   left:0;
   top:10%;
@@ -119,7 +119,21 @@
   height: 100%;
   position: fixed;
   z-index: 900;
+  color: grey;
+  font-size: 17px;
   display: none;
+
+  .score {
+    color: rgb(252, 61, 93);
+    font-family: 'Lovelo Black';
+  }
+
+  #ingame-leaderboard-content {
+    background-color: #E8FAFF;
+    border-radius: 5px;
+    padding: 30px;
+    margin-bottom: 50px;
+  }
 }
 
 .blink {
