@@ -76,7 +76,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-show="score.overallScore > 0" ng-repeat="score in scores">
+                <tr ng-show="score.overallScore > 0" ng-repeat="score in scores | limitTo:5">
                   <td>{{ score.user }}</td>
                   <td>{{ score.overallScore }}</td>
                 </tr>
