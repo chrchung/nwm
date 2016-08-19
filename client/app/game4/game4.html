@@ -68,7 +68,7 @@
             <p ng-show="!submittedScore">(If nothing happens after a couple of minutes, please click <span ng-click="targetReachedGetNext()" style="pointer:cursor; color:rgb(102,167,227)">here</span>.)</p>
 
 
-            <p ng-show="gotLeaderBoard">Your total earnings are now <span class="score">{{overallScore}}</span> and
+            <p ng-show="gotLeaderBoard">Your total earnings are now <span class="score">${{overallScore}}</span> and
               your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
             <br/>
             <table class="table text-center" ng-show="gotLeaderBoard">

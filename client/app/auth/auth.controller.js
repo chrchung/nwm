@@ -14,6 +14,7 @@ angular.module('nwmApp')
       }).then((function (data) {
         $state.go('scoreboard');
       }), function (err) {
+        $scope.badLogin = true;
         $scope.message = "Invalid email or password";
       });
 

@@ -61,7 +61,7 @@ angular.module('nwmApp').controller('TutController',
       if ($scope.score - $scope.highest_score > 0) {
         $("#target-reached").fadeIn();
         $scope.targetReachedGetNext();
-        setTimeout(function(){ $("#target-reached").fadeOut(); }, 4000);
+        setTimeout(function(){ $("#target-reached").fadeOut(); }, 1000);
         // $scope.submitScore();
       }
 
@@ -1182,24 +1182,24 @@ angular.module('nwmApp').controller('TutController',
       //}
 
       // Get current overall score
-      Restangular.all('api/scores/').get('cur_user_overall').then(function (serverJson) {
-        Restangular.all('/api/scores/').post(
-          {
-            score: $scope.score,
-            initialScore: $scope.highest_score,
-            targetScore: $scope.highest_score - $scope.initialScore + 1,
-            seed: $scope.seed,
-            duration: time,
-            game: $scope.cur_game,
-            level: parseInt($scope.cur_level),
-            solution: bucket.buckets,
-            actions: history.userActions,
-            type: $scope.type
-          }).then((function (data) {
-          $state.go('leaderboard', {prevState: 'game'});
-        }), function (err) {
-        });
-      });
+      // Restangular.all('api/scores/').get('cur_user_overall').then(function (serverJson) {
+      //   Restangular.all('/api/scores/').post(
+      //     {
+      //       score: $scope.score,
+      //       initialScore: $scope.highest_score,
+      //       targetScore: $scope.highest_score - $scope.initialScore + 1,
+      //       seed: $scope.seed,
+      //       duration: time,
+      //       game: $scope.cur_game,
+      //       level: parseInt($scope.cur_level),
+      //       solution: bucket.buckets,
+      //       actions: history.userActions,
+      //       type: $scope.type
+      //     }).then((function (data) {
+      //     $state.go('leaderboard', {prevState: 'game'});
+      //   }), function (err) {
+      //   });
+      // });
     };
 
     // Save the score to the database
