@@ -42,9 +42,12 @@ var getLevel = function(req, res) {
     function (game, callback) {
       var models = game.relation('models');
       var modelsQuery = models.query();
-      modelsQuery.ascending("name");
+      //modelsQuery.ascending("name");
       modelsQuery.find({
         success: function(models) {
+          models.sort(function(a, b) {
+            return parseInt(a.get("name").split(/a|b/)[1]) - parseInt(b.get("name").split(/a|b/)[1]);
+          });
           callback(null, models);
         },
         error: function(error) {
@@ -55,6 +58,7 @@ var getLevel = function(req, res) {
     function (models, callback) {
       var arr = [];
       async.each(models, function(model, callback) {
+        //console.log(model);
         var cur_model = model.get("name");
 
         var keyExist = _.find(arr, function (element) {
@@ -67,9 +71,13 @@ var getLevel = function(req, res) {
         var Model = Parse.Object.extend("Model");
         var aliensQuery = new Parse.Query(Model);
         aliensQuery.equalTo("model", model);
-        aliensQuery.ascending("modelsName");
+        //aliensQuery.ascending("modelsName");
         aliensQuery.find({
           success: function(aliens) {
+            aliens.sort(function(a, b) {
+              return parseInt(a.get("modelsName").split(/a|b/)[1].split("_")[1]) - parseInt(b.get("modelsName").split(/a|b/)[1].split("_")[1]);
+            });
+
             var mod = _.find(arr, function (element) {
               if (element[0] == cur_model) {
                 return element;
@@ -139,4 +147,3 @@ exports.lastUnlockedLevels = function (req, res) {
     res.status(400).end();
   };
 };
-
