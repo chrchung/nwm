@@ -3,7 +3,9 @@
 angular.module('nwmApp').controller('Game4Controller',
   function ($scope, Restangular, $stateParams, $state, $timeout, update, helper, database, style, bucket, history, aliens, $localStorage) {
 
+
     // game version where alien seeded
+    $scope.playerSelectedSeed = null;
     $scope.scoreToBeat = 0;
     $scope.submittedScore = false;
     $scope.gotLeaderBoard = false;
@@ -17,6 +19,17 @@ angular.module('nwmApp').controller('Game4Controller',
     $scope.$storage = $localStorage;
     $scope.undo_key_pointer = 0;
     var startTime = (new Date()).getTime();
+
+
+    $scope.pickSeed = function (id) {
+      $scope.playerSelectedSeed = id;
+
+      $("#player-selected-seed").fadeIn();
+    };
+
+    $scope.playerSelectedFadeOut = function (id) {
+      $("#player-selected-seed").fadeOut();
+    }
 
     $scope.doneBucket = function () {
       var old = $scope.score;
