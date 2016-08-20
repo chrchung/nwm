@@ -29,6 +29,25 @@ angular.module('nwmApp').controller('Game4Controller',
 
     };
 
+    $scope.saveOverallOnly = function () {
+      $scope.endGame();
+      $("#ingame-leaderboard2").show();
+      Restangular.all('/api/scores/save_overall_only').post(
+        {
+          score: $scope.score,
+          initialScore: $scope.initialScore
+        }).then(function (data) {
+        $scope.submittedScore = true;
+        Restangular.all('api/scores').get('in_game_scoreboard/5/' + '0').then(function (serverJson) {
+          $scope.scores = serverJson.scores;
+          $scope.overallScore = serverJson.overallScore;
+          $scope.overallScoreRank = serverJson.rank;
+          $scope.gotLeaderBoard = true;
+        });
+      });
+
+    };
+
     $scope.currentBucket = function (curBucket) {
       // Currently we are using the FIRST highlighting algorithm. Second => 2, Third => 3.
       bucket.currentBucket(curBucket, 1);
@@ -789,7 +808,7 @@ angular.module('nwmApp').controller('Game4Controller',
                 feedback(alien_id);
               }
               bucket.updateAlienArray();
-              history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
+              // history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
             }
 
             // Select aliens
@@ -813,7 +832,7 @@ angular.module('nwmApp').controller('Game4Controller',
                 feedback(alien_id);
               }
               bucket.updateAlienArray();
-              history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
+              // history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
             }
           }
         }
@@ -1272,16 +1291,15 @@ angular.module('nwmApp').controller('Game4Controller',
           game: $scope.cur_game,
           level: parseInt($scope.cur_level),
           solution: bucket.buckets,
-          actions: history.userActions,
           type: $scope.type
         }).then(function (data) {
-          $scope.submittedScore = true;
-          Restangular.all('api/scores').get('in_game_scoreboard/5/' + JSON.stringify($scope.score - $scope.highest_score)).then(function (serverJson) {
-              $scope.scores = serverJson.scores;
-              $scope.overallScore = serverJson.overallScore;
-              $scope.overallScoreRank = serverJson.rank;
-              $scope.gotLeaderBoard = true;
-          });
+        $scope.submittedScore = true;
+        Restangular.all('api/scores').get('in_game_scoreboard/5/' + '0').then(function (serverJson) {
+          $scope.scores = serverJson.scores;
+          $scope.overallScore = serverJson.overallScore;
+          $scope.overallScoreRank = serverJson.rank;
+          $scope.gotLeaderBoard = true;
+        });
       });
     };
 

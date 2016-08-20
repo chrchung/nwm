@@ -30,7 +30,7 @@
 
 <div id="popup3">
   <div id='popup-content3'>
-    <button class="btn menu-button" ng-click="quit()">Quit</button>
+    <button class="btn menu-button" ng-click="quit()">Yes</button>
     <button class="btn menu-button" ng-click="endGame()">Cancel</button>
     <br/>
   </div>
@@ -53,6 +53,43 @@
   Sorry, this action cannot be completed.<br>
   You did not select a group.
 </div>
+
+
+
+<div id="ingame-leaderboard2" class="text-center">
+<div class="bg">
+<div class="col-xs-3"></div>
+<div class="col-xs-6">
+
+<div id="ingame-leaderboard-content2">
+<p class='blink' ng-show="!gotLeaderBoard">Please wait while we save your earnings. It may take a while.</p>
+<p ng-show="!submittedScore">(If nothing happens after a couple of minutes, please click <span ng-click="targetReachedGetNext()" style="pointer:cursor; color:rgb(102,167,227)">here</span>.)</p>
+
+
+<p ng-show="gotLeaderBoard">Your total earnings are now <span class="score">${{overallScore}}</span> and
+your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
+<br/>
+<table class="table text-center" ng-show="gotLeaderBoard">
+<thead>
+<tr>
+<th class="text-center">Player</th>
+<th class="text-center">Earnings</th>
+</tr>
+</thead>
+<tbody>
+<tr ng-show="score.overallScore > 0" ng-repeat="score in scores">
+<td>{{ score.user }}</td>
+<td>{{ score.overallScore }}</td>
+</tr>
+</tbody>
+</table>
+<button class="btn menu-button-small" ng-click="getNextClient()" ng-show="gotLeaderBoard">Get next client</button>
+<button class="btn menu-button-small" ng-click="quit()" ng-show="gotLeaderBoard">Exit</button>
+</div>
+  </div>
+  </div>
+</div>
+
 
 <div id="ingame-leaderboard" class="text-center">
   <div class="bg">

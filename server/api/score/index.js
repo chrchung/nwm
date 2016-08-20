@@ -17,5 +17,6 @@ router.get('/cur_user_overall', controller.getCurUserOverall);
 router.get('/best_solution/:level', controller.getBestSolution);
 router.get('/cur_user_solution/:level', controller.getCurUserSolution);
 router.get('/cur_user_recent_game4', controller.getCurUserGame4Solution);
+router.post('/save_overall_only', controller.saveOverallOnly);
 
 module.exports = router;

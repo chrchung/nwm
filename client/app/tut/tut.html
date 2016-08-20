@@ -138,12 +138,22 @@
   find a group of friends. Aliens are more likely to get along if they share many features.
   Features include accessories, tattoos, facial features, hair, or apparel.
   There are a total of 162 features and you may view them all <a target="_blank" ui-sref="properties">here</a>.
-  The stronger the similarity between the your group, the more money you will earn.
-  In order to make a living, you must earn the target amount shown in the pink box
+  The stronger the similarity between the your group, the more money you will earn. You must earn the target amount shown in the pink box-->
   in the bottom right corner of the screen.
+
   <br>
   <button class="btn menu-button" ng-click="tutState=1">Next</button>
 </div>
+
+
+<!--<div class="tutorial text-center" id="objective" ng-show="tutState==0 && loaded">-->
+  <!--In order to make a living, you must earn the target amount shown in the pink box-->
+  <!--in the bottom right corner of the screen. You make still-->
+  <!--submit your score before reaching the target, but you will only-->
+  <!--receive 10% of your earnings.-->
+  <!--<br>-->
+  <!--<button class="btn menu-button" ng-click="tutState=1">Next</button>-->
+<!--</div>-->
 
 
 <div class="tutorial text-center" ng-show="tutState==1">
