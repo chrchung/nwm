@@ -105,8 +105,6 @@ angular.module('nwmApp').controller('Game4Controller',
         $scope.cur_level = 13;
       }
 
-      console.log($scope.cur_level);
-
       // Request data from the server
       Restangular.all('api/levels/level/' + $scope.cur_level).getList().then((function (data) {
         // $(window).on("load", function() {
@@ -273,8 +271,6 @@ angular.module('nwmApp').controller('Game4Controller',
             $scope.selectAlien(aid, false);
           }
         });
-
-        console.log(aliens.alienArray);
 
         $scope.score = update.getNewScore($scope.maxModels);
         if ($scope.score > $scope.maxScore) {
