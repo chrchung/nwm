@@ -124,9 +124,6 @@ angular.module('nwmApp').controller('Game4Controller',
         $scope.cur_level = 13;
       }
 
-      // Remove this when DB is ready
-      $scope.cur_level = $stateParams.id;
-
       // Request data from the server
       Restangular.all('api/levels/level/' + $scope.cur_level).getList().then((function (data) {
         // $(window).on("load", function() {
@@ -312,34 +309,39 @@ angular.module('nwmApp').controller('Game4Controller',
           }
         });
 
-        setTimeout(function(){ $scope.seedInitialAlien(); }, 2000);
+        setTimeout(function(){ $scope.seedInitialAlien(false); }, 2000);
       });
     };
 
-    $scope.seedInitialAlien = function() {
+    $scope.seedInitialAlien = function(sd) {
       startTime = (new Date ()).getTime();
 
       //$scope.seed = $scope.seedByTupleScore();
       //$scope.seed = $scope.seedBySimilarityScore();
+      if (!sd) {
+        var randSeeding = Math.random();
+        if (randSeeding < 0.2) {
+          $scope.type = 'tuple score';
+          $scope.seed = $scope.seedByTupleScore();
+        }
+        else if (randSeeding < 0.4){
+          $scope.type = 'tuple size';
+          $scope.seed = $scope.seedByTupleSize();
+        }
+        else {
+          $scope.type = 'random';
+          $scope.seed = $scope.seedRandomly();
+        }
 
-      var randSeeding = Math.random();
-      if (randSeeding < 0.2) {
-        $scope.type = 'tuple score';
-        $scope.seed = $scope.seedByTupleScore();
-      }
-      else if (randSeeding < 0.4){
-        $scope.type = 'tuple size';
-        $scope.seed = $scope.seedByTupleSize();
+        $scope.seedAliens[seed] = true;
+        Restangular.all('/api/users/seed_aliens/'+ $scope.cur_level).post(
+          $scope.seedAliens
+        );
       }
       else {
-        $scope.type = 'random';
-        $scope.seed = $scope.seedRandomly();
+        $scope.type = 'user input';
+        $scope.seed = $scope.seedManually(sd);
       }
-
-      $scope.seedAliens[seed] = true;
-      Restangular.all('/api/users/seed_aliens/'+ $scope.cur_level).post(
-        $scope.seedAliens
-      );
 
       $scope.showGroup($scope.seed);
       $scope.prev_score = $scope.score;
@@ -366,8 +368,10 @@ angular.module('nwmApp').controller('Game4Controller',
       }
     });
 
-    $scope.getNextSeed = function() {
-      $scope.startOverHide();
+    $scope.getNextSeed = function(opt) {
+      if (!opt) {
+        $scope.startOverHide();
+      }
 
       $scope.seed = null;
       $scope.doneSeeding = false;
@@ -375,11 +379,26 @@ angular.module('nwmApp').controller('Game4Controller',
       while (bucket.buckets[bucket.current_bucket].alien.length > 0) {
         $scope.selectAlien(bucket.buckets[bucket.current_bucket].alien[0], false);
       }
-      $scope.seedInitialAlien();
+
+      if (!opt) {
+        $scope.seedInitialAlien(false);
+      }
+      else {
+        $scope.seedInitialAlien(opt);
+      }
+    };
+
+    $scope.seedManually = function(id) {
+      $scope.highest_score = $scope.score;
+      $scope.createNewBucket();
+      $scope.$apply();
+      $scope.selectAlien(id, false);
+      $scope.$apply();
+      $scope.initialScore = $scope.score;
+      return id;
     };
 
     $scope.seedByTupleScore = function() {
-
       // Array of bucket ids sorted by similarity score
       var orderedBuckets = _.range(bucket.buckets.length);
       orderedBuckets.sort(function(a,b){
@@ -482,7 +501,6 @@ angular.module('nwmApp').controller('Game4Controller',
     };
 
     $scope.seedBySimilarityScore = function() {
-
       // Sort aliens by score
       var freeAliens = [];
       Object.keys(aliens.alienArray).forEach(function(aid) {

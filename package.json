@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "main": "server/app.js",
   "dependencies": {
+    "angular-right-click": "^0.1.0",
     "async": "1.5.0",
     "babel-runtime": "^5.8.20",
     "body-parser": "^1.13.3",

@@ -245,6 +245,7 @@ your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
   <div ng-repeat="id in bucket.orderedIds">
     <div class="an-alien alien {{id}} {{aliens.alienArray[id].illegal}} {{aliens.alienArray[id].similar}} {{aliens.alienArray[id].isHidden}}"
          ng-click="selectAlien(id, false)"
+         ng-right-click="getNextSeed(id)"
          style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};"
          ng-if="id[0] != '_'">
 
@@ -270,6 +271,7 @@ your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
   <div ng-repeat="id in bucket.currentAliens"
        class="current-alien {{id}}"
        ng-click="selectAlien(id, false)"
+       ng-right-click="getNextSeed(id)"
        style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};"
        ng-show="loaded">
     <img src="{{aliens.alienArray[id].url}}"/>
