@@ -360,7 +360,6 @@ angular.module('nwmApp').controller('Game4Controller',
     };
 
     $scope.seedByTupleScore = function() {
-
       // Array of bucket ids sorted by similarity score
       var orderedBuckets = _.range(bucket.buckets.length);
       orderedBuckets.sort(function(a,b){
@@ -463,7 +462,6 @@ angular.module('nwmApp').controller('Game4Controller',
     };
 
     $scope.seedBySimilarityScore = function() {
-
       // Sort aliens by score
       var freeAliens = [];
       Object.keys(aliens.alienArray).forEach(function(aid) {

@@ -62,21 +62,73 @@ exports.current = function (req, res) {
   };
 };
 
+//exports.getSeedAliens = function (req, res) {
+//  if (req.session.user) {
+//    res.json(req.session["seedAliens" + req.params.level]);
+//  } else {
+//    res.status(400).end();
+//  };
+//};
+
 exports.getSeedAliens = function (req, res) {
   if (req.session.user) {
-    res.json(req.session["seedAliens" + req.params.level]);
+    var Games = Parse.Object.extend("Games");
+    var game_query = new Parse.Query(Games);
+    game_query.equalTo("level", parseInt(req.params.level));
+    game_query.first({
+      success: function(game) {
+        res.json(game.get("seeds"));
+      },
+      error: function(error) {
+        res.status(500).end();
+      }});
   } else {
     res.status(400).end();
-  };
+  }
 };
+
+//exports.setSeedAliens = function(req, res) {
+//  if (req.session.user) {
+//    req.session["seedAliens" + req.params.level] = req.body;
+//    res.status(200).end();
+//  } else {
+//    res.status(400).end();
+//  };
+//}
+
 
 exports.setSeedAliens = function(req, res) {
   if (req.session.user) {
-    req.session["seedAliens" + req.params.level] = req.body;
-    res.status(200).end();
+    var Games = Parse.Object.extend("Games");
+    var game_query = new Parse.Query(Games);
+    game_query.equalTo("level", parseInt(req.params.level));
+    game_query.first({
+      success: function(game) {
+        var cur_seeds = game.get('seeds');
+        console.log("BODY " + JSON.stringify(req.body));
+        console.log("BEFORE " + JSON.stringify(cur_seeds));
+        _.each(Object.keys(req.body), function(seed) {
+          if (cur_seeds[seed] == null) {
+            cur_seeds[seed] = req.body[seed];
+          }
+        });
+        console.log("AFTER " + JSON.stringify(cur_seeds));
+        game.set('seeds', cur_seeds);
+        game.save(null, {
+          success: function (result) {
+            res.status(200).end();
+          },
+          error: function (result, error) {
+            res.status(400).end();
+          }
+        });
+      },
+      error: function(error) {
+        res.status(500).end();
+      }});
   } else {
     res.status(400).end();
-  };
+  }
 }
 
 exports.getSeenTut = function(req, res) {
