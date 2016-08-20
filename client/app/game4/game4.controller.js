@@ -92,6 +92,28 @@ angular.module('nwmApp').controller('Game4Controller',
       update.showBigFeedback($scope.prev_score, $scope.score, $scope.beat, $scope.highest_score);
     };
 
+    /* Skip current level*/
+    $scope.skipLevel = function() {
+      $('#skip-level').fadeIn();
+    };
+
+    $scope.skipLevelHide = function() {
+      $('#skip-level').fadeOut();
+    };
+
+    $scope.getNextGalaxy = function() {
+      switch($scope.cur_level) {
+        case "13":
+          $state.go('game4', {id: 10});
+          break;
+        case "10":
+          $state.go('game4', {id: 12});
+          break;
+        case "12":
+          $state.go('game4', {id: 13});
+      }
+    }
+
     /* Start a new game */
     $scope.setUpGame = function (mode) {
       $scope.bucket = bucket;
@@ -111,18 +133,20 @@ angular.module('nwmApp').controller('Game4Controller',
       // Get top window's height
       $scope.topWindowHeight = window.innerWidth * 0.095 + 20;
 
-      // modelsName is a string in the form of 'level4b6_9'
-      // Randomly pick a level (model)
-      var randLev = Math.random();
-      if (randLev < 0.33) {
-        $scope.cur_level = 10;
-      }
-      else if (randLev < 0.66) {
-        $scope.cur_level = 12;
-      }
-      else {
-        $scope.cur_level = 13;
-      }
+      //// modelsName is a string in the form of 'level4b6_9'
+      //// Randomly pick a level (model)
+      //var randLev = Math.random();
+      //if (randLev < 0.33) {
+      //  $scope.cur_level = 10;
+      //}
+      //else if (randLev < 0.66) {
+      //  $scope.cur_level = 12;
+      //}
+      //else {
+      //  $scope.cur_level = 13;
+      //}
+
+      $scope.cur_level = $stateParams.id;
 
       // Request data from the server
       Restangular.all('api/levels/level/' + $scope.cur_level).getList().then((function (data) {

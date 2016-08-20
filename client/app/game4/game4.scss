@@ -79,7 +79,7 @@
   display: none;
 }
 
-#start-over {
+#start-over, #skip-level {
   background-color: #FFFC8A;
   border-radius: 5px;
   padding: 30px;
@@ -839,13 +839,13 @@
 #buttons3 {
   z-index: 9;
   position: fixed;
-  bottom: 10px;
+  bottom: 45px;
   right: 10px;
   padding: 7px;
   border-radius: 5px;
   display: inline-block;
   width: 150px;
-  height: 101px;
+  height: 65px;
   text-align: center;
   background-color: #fac4ee;
 
@@ -857,7 +857,7 @@
 }
 
 .score3 {
-  margin-top: 20px;
+  margin-top: 6px;
 }
 
 .target {
@@ -924,7 +924,16 @@
   width: 150px;
   position: fixed;
   bottom: 10px;
-  background-color: rgb(54, 196, 255);
+  background-color: rgb(181, 60, 255);
   right: 161px;
+  color: #fff;
+}
+
+#end-button {
+  width: 150px;
+  position: fixed;
+  bottom: 10px;
+  background-color: rgb(54, 196, 255);
+  right: 10px;
   color: #fff;
 }

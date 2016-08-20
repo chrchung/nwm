@@ -89,7 +89,7 @@ angular.module('nwmApp')
         if (serverJson.seenTut == false) {
           $state.go('tut', {id: 11});
         } else {
-          $state.go('game4', {id: 10});
+          $state.go('game4', {id: 13});
         };
       });
     };
