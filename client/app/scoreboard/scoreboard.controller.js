@@ -89,8 +89,18 @@ angular.module('nwmApp')
         if (serverJson.seenTut == false) {
           $state.go('tut', {id: 11});
         } else {
-          $state.go('game4', {id: 13});
-        };
+          // Randomly pick a level (model)
+          var randLev = Math.random();
+          if (randLev < 0.33) {
+            $state.go('game4', {id: 10});
+          }
+          else if (randLev < 0.66) {
+            $state.go('game4', {id: 12});
+          }
+          else {
+            $state.go('game4', {id: 13});
+          }
+        }
       });
     };
 
