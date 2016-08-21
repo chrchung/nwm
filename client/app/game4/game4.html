@@ -159,7 +159,7 @@ your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
 
 <div id="skip-level" class="text-center">
   Are you sure you would like to skip this galaxy?<br>
-  The alien family from the other galaxy will be displayed instead.
+  You will receive match clients from other galaxies instead.
   <br>
   <button class="btn menu-button-small" ng-click="getNextGalaxy()">Yes</button>
   <button class="btn menu-button-small" ng-click="skipLevelHide();">Cancel</button>
@@ -227,7 +227,7 @@ your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
     <!--<button id="done-button" class="btn" ng-click="doneBucket()">Calculate Score</button>-->
     <div class='title-font score3 big'>EARNED: $<span count-to="{{score - initialScore}}" value="{{prev_score - initialScore}}" duration="1" ng-show="doneSeeding"></span></div>
     <div class='title-font target big'>TARGET: $<span ng-show="doneSeeding">{{highest_score - initialScore + 1}}</span></div>
-    <button id="end-button3" class="btn" ng-click="skipLevel()">Skip this Galaxy</button>
+    <button id="end-button3" class="btn" ng-click="skipLevel()">Skip this family</button>
     <button id="end-button" class="btn" ng-click="endGame()">End game</button>
 
     <!--<div id="current-group">-->

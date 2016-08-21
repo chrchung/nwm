@@ -733,13 +733,13 @@
 #buttons2 {
   z-index: 9;
   position: fixed;
-  bottom: 127px;
+  bottom: 163px;
   right: 10px;
   padding: 7px;
   border-radius: 5px;
   display: inline-block;
   width: 150px;
-  height: 101px;
+  height: 65px;
   text-align: center;
   background-color: #fac4ee;
 
@@ -941,8 +941,17 @@
   width: 150px;
   position: fixed;
   bottom: 10px;
-  background-color: rgb(181, 60, 255);
+  background-color: #E5CDFF;
   right: 161px;
+  color: #fff;
+}
+
+#skip-family2 {
+  width: 150px;
+  position: fixed;
+  bottom: 127px;
+  right: 10px;
+  background-color: #E5CDFF;
   color: #fff;
 }
 
