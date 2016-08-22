@@ -41,7 +41,7 @@
 </div>
 
 
-<div id="player-selected-seed">
+<div id="player-selected-seed"  class="text-center">
   Are you sure you want to change your current match client?
   <button class="btn menu-button" ng-click="playerSelectedFadeOut();getNextSeed(playerSelectedSeed)">Yes</button>
   <button class="btn menu-button" ng-click="playerSelectedFadeOut()">Cancel</button>
@@ -231,7 +231,7 @@
     <!--<button id="done-button" class="btn" ng-click="doneBucket()">Calculate Score</button>-->
     <div class='title-font score3 big'>EARNED: $<span count-to="{{score - initialScore}}" value="{{prev_score - initialScore}}" duration="1" ng-show="doneSeeding"></span></div>
     <div class='title-font target big'>TARGET: $<span ng-show="doneSeeding">{{highest_score - initialScore + 1}}</span></div>
-    <button id="skip-family2" class="btn" ng-click="skipLevel()">Skip this family</button>
+    <button id="skip-family2" class="btn" ng-click="skipLevel()">Skip this galaxy</button>
     <button id="end-button2" class="btn" ng-click="endGame()">End game</button>
 
     <!--<div id="current-group">-->
@@ -396,7 +396,8 @@
 
 
 <div class="tutorial text-center" ng-show="tutState==8">
-  You may help a new client from another family of aliens by clicking on "Skip this family".
+  If you do not like this set of aliens, you can skip to a new galaxy by clicking on
+  "Skip this galaxy".
   <br>
   <button class="btn menu-button" ng-click="tutState=9">Next</button>
 </div>

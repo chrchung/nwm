@@ -3,6 +3,9 @@
 angular.module('nwmApp').controller('Game4Controller',
   function ($scope, Restangular, $stateParams, $state, $timeout, update, helper, database, style, bucket, history, aliens, $localStorage) {
 
+    if ($stateParams.id == '11') {
+      $state.go('scoreboard');
+    }
 
     // game version where alien seeded
     $scope.playerSelectedSeed = null;
@@ -357,11 +360,11 @@ angular.module('nwmApp').controller('Game4Controller',
       //$scope.seed = $scope.seedBySimilarityScore();
       if (!sd) {
         var randSeeding = Math.random();
-        if (randSeeding < 0.2) {
+        if (randSeeding < 0.33) {
           $scope.type = 'tuple score';
           $scope.seed = $scope.seedByTupleScore();
         }
-        else if (randSeeding < 0.4){
+        else if (randSeeding < 0.66){
           $scope.type = 'tuple size';
           $scope.seed = $scope.seedByTupleSize();
         }
