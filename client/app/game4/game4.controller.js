@@ -3,6 +3,19 @@
 angular.module('nwmApp').controller('Game4Controller',
   function ($scope, Restangular, $stateParams, $state, $timeout, update, helper, database, style, bucket, history, aliens, $localStorage) {
 
+    function apply(scope) {
+      if (!scope.$$phase && !scope.$root.$$phase) {
+        scope.$apply();
+        console.log("Scope Apply Done !!");
+      }
+      else {
+        console.log("Scheduling Apply after 200ms digest cycle already in progress");
+        setTimeout(function() {
+          apply(scope)
+        }, 200);
+      }
+    }
+
     if ($stateParams.id == '11') {
       $state.go('scoreboard');
     }
@@ -431,9 +444,9 @@ angular.module('nwmApp').controller('Game4Controller',
     $scope.seedManually = function(id) {
       $scope.highest_score = $scope.score;
       $scope.createNewBucket();
-      $scope.$apply();
+      apply($scope);
       $scope.selectAlien(id, false);
-      $scope.$apply();
+      apply($scope);
       $scope.initialScore = $scope.score;
       return id;
     };
@@ -447,7 +460,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
       $scope.highest_score = $scope.score; // highest score
       $scope.createNewBucket();
-      $scope.$apply();
+      apply($scope);
 
       for (var i = 0; i < orderedBuckets.length; i++) {
         var shuffledIds = helper.shuffleArray(bucket.buckets[orderedBuckets[i]].alien);
@@ -460,7 +473,7 @@ angular.module('nwmApp').controller('Game4Controller',
           }
 
           $scope.selectAlien(seed, false);
-          $scope.$apply();
+          apply($scope);
           $scope.initialScore = $scope.score; // initial score
 
           var targetScore = $scope.highest_score - $scope.initialScore + 1;
@@ -498,7 +511,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
       $scope.highest_score = $scope.score; // highest score
       $scope.createNewBucket();
-      $scope.$apply();
+      apply($scope);
 
       for (var i = 0; i < orderedBuckets.length; i++) {
         var shuffledIds = helper.shuffleArray(bucket.buckets[orderedBuckets[i]].alien);
@@ -511,7 +524,7 @@ angular.module('nwmApp').controller('Game4Controller',
           }
 
           $scope.selectAlien(seed, false);
-          $scope.$apply();
+          apply($scope);
           $scope.initialScore = $scope.score; // initial score
 
           var targetScore = $scope.highest_score - $scope.initialScore + 1;
@@ -560,7 +573,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
       $scope.highest_score = $scope.score; // highest score
       $scope.createNewBucket();
-      $scope.$apply();
+      apply($scope);
 
       for (var i = 0; i < sortedAlien.length; i++) {
 
@@ -572,7 +585,7 @@ angular.module('nwmApp').controller('Game4Controller',
         }
 
         $scope.selectAlien(seed, false);
-        $scope.$apply();
+        apply($scope);
         $scope.initialScore = $scope.score; // initial score
 
         var targetScore = $scope.highest_score - $scope.initialScore + 1;
@@ -650,7 +663,7 @@ angular.module('nwmApp').controller('Game4Controller',
     $scope.seedRandomly = function() {
       $scope.highest_score = $scope.score; // highest score
       $scope.createNewBucket();
-      $scope.$apply();
+      apply($scope);
 
       while(Object.keys($scope.seedAliens).length < Object.keys(aliens.alienArray).length) {
         seed = getRandAlien();
@@ -661,7 +674,7 @@ angular.module('nwmApp').controller('Game4Controller',
         }
 
         $scope.selectAlien(seed, false);
-        $scope.$apply();
+        apply($scope);
         $scope.initialScore = $scope.score; // initial score
 
         var targetScore = $scope.highest_score - $scope.initialScore + 1;
