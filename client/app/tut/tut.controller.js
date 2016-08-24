@@ -1423,13 +1423,9 @@ angular.module('nwmApp').controller('TutController',
 
     $scope.playGame = function () {
       var randLev = Math.random();
-                if (randLev < 0.33) {
+                if (randLev < 0.20) {
                     $state.go('game4', {id: 10});
-                  }
-                else if (randLev < 0.66) {
-                    $state.go('game4', {id: 12});
-                  }
-                else {
+                  } else {
                     $state.go('game4', {id: 13});
                   }
     };

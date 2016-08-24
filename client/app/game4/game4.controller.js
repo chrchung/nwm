@@ -136,9 +136,6 @@ angular.module('nwmApp').controller('Game4Controller',
           $state.go('game4', {id: 10});
           break;
         case "10":
-          $state.go('game4', {id: 12});
-          break;
-        case "12":
           $state.go('game4', {id: 13});
       }
     }
@@ -362,7 +359,8 @@ angular.module('nwmApp').controller('Game4Controller',
           }
         });
 
-        setTimeout(function(){ $scope.seedInitialAlien(false); }, 2000);
+        setTimeout(function(){ $scope.seedInitialAlien(false);
+          $scope.targetReachedGetNext()}, 2000);
       });
     };
 
