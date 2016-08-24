@@ -93,10 +93,6 @@ your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
 </tr>
 </tbody>
 </table>
-<<<<<<< HEAD
-
-=======
->>>>>>> fe306ddf22498e8cbb640645199d101c742173e7
 <button class="btn menu-button-small" ng-click="getNextClient()" ng-show="gotLeaderBoard">Get next client</button>
 <button class="btn menu-button-small" ng-click="quit()" ng-show="gotLeaderBoard">Exit</button>
 </div>
@@ -136,11 +132,7 @@ your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
                 </tr>
               </tbody>
             </table>
-<<<<<<< HEAD
-
             <!--<button class="btn menu-button-small" ng-click="hideLeaderboard()" ng-show="gotLeaderBoard">Continuing improving this group</button>-->
-=======
->>>>>>> fe306ddf22498e8cbb640645199d101c742173e7
             <button class="btn menu-button-small" ng-click="getNextClient()" ng-show="gotLeaderBoard">Get next client</button>
             <button class="btn menu-button-small" ng-click="quit()" ng-show="gotLeaderBoard">Exit</button>
           </div>
@@ -300,7 +292,7 @@ your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
        class="current-alien {{id}}"
        ng-click="selectAlien(id, false)"
        ng-right-click="pickSeed(id)"
-       style="border-style:solid; border-width: 2vw; border-color: {{aliens.alienArray[id].color}};"
+       style="border-style:solid; border-width: 1.5vw; border-color: {{aliens.alienArray[id].color}};"
        ng-show="loaded">
     <img src="{{aliens.alienArray[id].url}}"/>
     <div class="simialrity-bar" ng-show='{{aliens.alienArray[id].similarityBar != -1}}'>

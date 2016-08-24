@@ -10,20 +10,25 @@ var app = express();
 app.get('/', function (req, res) {
   // this code executes when you go to http://localhost:9000
   var result = [];
-  var Users = Parse.Object.extend('User');
-  var query = new Parse.Query(query);
-  // query.equalTo('email', 'hi@hmail.com');
+  var Users = Parse.Object.extend('Solutions');
+  var query = new Parse.Query(Users);
   query.limit(1000);
+  query.ascending('updatedAt');
 
   query.find({
     success: function (data) {
-      console.log(data.length);
+      var result = [];
+      // console.log(data.length);
       var i;
       for (i = 0; i < data.length; i ++) {
-        if (data[i].attributes.email) {
-          result.push(data[i].attributes.email);
-        }
+          result.push({level: data[i].attributes.level, date: data[i].attributes.updatedAt, user: data[i].attributes.user, score: data[i].attributes.score, init: data[i].attributes.initialScore});
       }
+
+      // var i =0;
+      // for (i=0; i < result.length; i ++) {
+      //   console.log(result[i] + '\n');
+      // }
+
       res.json(result);
     },
     error: function (error) {

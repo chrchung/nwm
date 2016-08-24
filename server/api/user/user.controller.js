@@ -105,14 +105,14 @@ exports.setSeedAliens = function(req, res) {
     game_query.first({
       success: function(game) {
         var cur_seeds = game.get('seeds');
-        console.log("BODY " + JSON.stringify(req.body));
-        console.log("BEFORE " + JSON.stringify(cur_seeds));
+        // console.log("BODY " + JSON.stringify(req.body));
+        // console.log("BEFORE " + JSON.stringify(cur_seeds));
         _.each(Object.keys(req.body), function(seed) {
           if (cur_seeds[seed] == null) {
             cur_seeds[seed] = req.body[seed];
           }
         });
-        console.log("AFTER " + JSON.stringify(cur_seeds));
+        // console.log("AFTER " + JSON.stringify(cur_seeds));
         game.set('seeds', cur_seeds);
         game.save(null, {
           success: function (result) {
