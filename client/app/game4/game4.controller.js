@@ -361,6 +361,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
         setTimeout(function(){ $scope.seedInitialAlien(false);
           $scope.targetReachedGetNext()}, 2000);
+
       });
     };
 

@@ -6,4 +6,6 @@ public
 client/bower_components
 dist
 /server/config/local.env.js
+/server/config/environment/development.js
+/server/config/environment/production.js
 npm-debug.log
