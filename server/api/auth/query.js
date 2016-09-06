@@ -21,7 +21,7 @@ app.get('/', function (req, res) {
       // console.log(data.length);
       var i;
       for (i = 0; i < data.length; i ++) {
-          result.push({level: data[i].attributes.level, date: data[i].attributes.updatedAt, user: data[i].attributes.user, score: data[i].attributes.score, init: data[i].attributes.initialScore});
+          result.push({duration: data[i].attributes.duration, level: data[i].attributes.level, date: data[i].attributes.updatedAt, user: data[i].attributes.user, score: data[i].attributes.score, init: data[i].attributes.initialScore});
       }
 
       // var i =0;

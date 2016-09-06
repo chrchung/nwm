@@ -25,6 +25,7 @@ angular.module('nwmApp').controller('Game4Controller',
     $scope.scoreToBeat = 0;
     $scope.submittedScore = false;
     $scope.gotLeaderBoard = false;
+    $scope.beatedBefore = false;
     var initAlien;
     var seed;
     $scope.type = null;
@@ -372,11 +373,7 @@ angular.module('nwmApp').controller('Game4Controller',
       //$scope.seed = $scope.seedBySimilarityScore();
       if (!sd) {
         var randSeeding = Math.random();
-        if (randSeeding < 0.33) {
-          $scope.type = 'tuple score';
-          $scope.seed = $scope.seedByTupleScore();
-        }
-        else if (randSeeding < 0.66){
+        if (randSeeding < 0.5s){
           $scope.type = 'tuple size';
           $scope.seed = $scope.seedByTupleSize();
         }
@@ -1371,6 +1368,12 @@ angular.module('nwmApp').controller('Game4Controller',
           $scope.gotLeaderBoard = true;
         });
       });
+    };
+
+    $scope.hideLeaderBoard = function () {
+      $scope.gotLeaderBoard = false;
+      $scope.beatedBefore = true;
+      $scope.startTime = (new Date ()).getTime();
     };
 
     $scope.getNextClient = function() {
