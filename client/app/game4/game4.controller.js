@@ -373,7 +373,7 @@ angular.module('nwmApp').controller('Game4Controller',
       //$scope.seed = $scope.seedBySimilarityScore();
       if (!sd) {
         var randSeeding = Math.random();
-        if (randSeeding < 0.5s){
+        if (randSeeding < 0.5){
           $scope.type = 'tuple size';
           $scope.seed = $scope.seedByTupleSize();
         }
