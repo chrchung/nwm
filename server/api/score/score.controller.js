@@ -323,6 +323,10 @@ exports.saveScore = function (req, res) {
       solutionsQuery.equalTo('partial', false);
       solutionsQuery.descending('score');
 
+      // Parse solutions after a particular date
+      var day = new Date("2016-10-26T06:11:42.110Z");
+      solutionsQuery.greaterThanOrEqualTo('createdAt', day);
+
       solutionsQuery.find({
         success: function (sol) {
           res.send(sol);
