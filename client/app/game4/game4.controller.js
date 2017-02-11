@@ -300,19 +300,24 @@ angular.module('nwmApp').controller('Game4Controller',
           return;
         }
 
-        $scope.highest_score = serverJson[0].score;
-        bucket.buckets = serverJson[0].solution;
+        if (Math.random <= 0.5) {
+          var game = 0;
+        } else {
+          var game = 1;
+        }
 
         // Load buckets that have at least 2 aliens
         // for (var i = 0; i < serverJson[0].solution.length; i++) {
         //   if (serverJson[0].solution[i].alien.length > 1) {
         //     bucket.buckets.push(serverJson[0].solution[i]);
         //   }
-        // }
+
+        $scope.highest_score = serverJson[game].score;
+        bucket.buckets = serverJson[game].solution;
 
 
-        if (serverJson[0].actions != null) {
-          history.userActions = serverJson[0].actions;
+        if (serverJson[game].actions != null) {
+          history.userActions = serverJson[game].actions;
         }
 
         // Restore data structures
