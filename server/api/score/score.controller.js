@@ -47,10 +47,10 @@ exports.isFake = function(req, res) {
 
             solutionsQuery.find({
               success: function (fail) {
-                if (suc.length / fail.length >= 0.5) {
-                  res.json({fake: true, suc: suc.length, fail: fail.length});
+                if (suc.length / fail.length >= 0.9) {
+                  res.json({fake: 0.7, suc: suc.length, fail: fail.length});
                 } else {
-                  res.json({fake: false, suc: suc.length, fail: fail.length});
+                  res.json({fake: 1.0, suc: suc.length, fail: fail.length});
                 }
 
               },
@@ -63,8 +63,12 @@ exports.isFake = function(req, res) {
             res.status(400).end();
           }
         });
-      } else {
-        res.send({fake: true});
+      } else if (numSucGames.length == 2) {
+        res.send({fake: 0.7});
+      } else if (numSucGames.length == 1) {
+        res.send({fake: 0.5});
+      } else if (numSucGames.length == 0) {
+        res.send({fake: 0.3});
       }
     },
     error: function (error) {

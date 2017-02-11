@@ -1413,7 +1413,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
       Restangular.all('api/scores').get('fake_level/' + '7_15').then(function (serverJson) {
         console.log(serverJson);
-        // {fake: true/false, suc: number of success. attempts, fail: number of failed attempts}
+        // {target: some value x between 0-1 (ie set target at x * original_target_value ), suc: number of success. attempts, fail: number of failed attempts}
       });
     });
 
