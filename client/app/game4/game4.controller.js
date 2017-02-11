@@ -1404,6 +1404,14 @@ angular.module('nwmApp').controller('Game4Controller',
       delete $scope.$storage.buckets;
       delete $scope.$storage.aliens;
       $scope.setUpGame('best');
+
+
+      Restangular.all('api/scores').get('fake_level/' + '7_15').then(function (serverJson) {
+        console.log(serverJson);
+        // {fake: true/false, suc: number of success. attempts, fail: number of failed attempts}
+      });
     });
+
+
 
   });

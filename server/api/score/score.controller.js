@@ -15,6 +15,64 @@ exports.index = function (req, res) {
   res.json([]);
 };
 
+exports.isFake = function(req, res) {
+  var seed = req.params.seed;
+
+  var Solutions = Parse.Object.extend('Solutions');
+  var solutionsQuery = new Parse.Query(Solutions);
+
+  solutionsQuery.limit(1000);
+  solutionsQuery.equalTo('user', req.session.user.username);
+  solutionsQuery.exists('score');
+
+  solutionsQuery.find({
+    success: function (numSucGames) {
+
+      if (numSucGames.length >= 3) {
+        var solutionsQuery = new Parse.Query(Solutions);
+        solutionsQuery.limit(1000);
+        solutionsQuery.equalTo('seed', seed);
+        solutionsQuery.greaterThan('duration', 1000);
+        solutionsQuery.notEqualTo('fake', true);
+
+        solutionsQuery.find({
+          success: function (suc) {
+
+            var solutionsQuery = new Parse.Query(Solutions);
+
+            solutionsQuery.limit(1000);
+            solutionsQuery.equalTo('seed', seed);
+            solutionsQuery.notEqualTo('fake', true);
+            solutionsQuery.lessThan('duration', 1000);
+
+            solutionsQuery.find({
+              success: function (fail) {
+                if (suc.length / fail.length >= 0.5) {
+                  res.json({fake: true, suc: suc.length, fail: fail.length});
+                } else {
+                  res.json({fake: false, suc: suc.length, fail: fail.length});
+                }
+
+              },
+              error: function (error) {
+                res.status(400).end();
+              }
+            });
+          },
+          error: function (error) {
+            res.status(400).end();
+          }
+        });
+      } else {
+        res.send({fake: true});
+      }
+    },
+    error: function (error) {
+      res.status(400).end();
+    }
+  });
+};
+
 exports.saveOverallOnly = function (req, res) {
   var UserData = Parse.Object.extend('UserData');
   var userDataQuery = new Parse.Query(UserData);
@@ -329,7 +387,7 @@ exports.saveScore = function (req, res) {
 
       solutionsQuery.find({
         success: function (sol) {
-          res.send(sol);
+          res.send(sol.slice(0, 2));
         },
         error: function (error) {
           res.status(400).end();

@@ -148,11 +148,7 @@ exports.getSeenTut = function(req, res) {
     res.status(400).end();
   }
   ;
-
 };
-
-
-
 
 exports.seenTut = function(req, res) {
   if (req.session.user) {
