@@ -1419,7 +1419,7 @@ angular.module('nwmApp').controller('Game4Controller',
       // {target: some value x between 0-1 (ie set target at x * original_target_value ),
       // suc: number of success attempts,
       // fail: number of failed attempts}
-      Restangular.all('api/scores').get('fake_level/' + seed).then(function (serverJson) {
+      Restangular.all('api/scores').get('fake_level/' + $scope.cur_level + '/' + seed).then(function (serverJson) {
         $scope.fakeRate = serverJson.fake;
         $scope.targetScore = ($scope.highest_score - $scope.initialScore + 1) * $scope.fakeRate;
         $scope.doneGetFakeLevel = true;
