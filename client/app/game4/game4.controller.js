@@ -103,11 +103,17 @@ angular.module('nwmApp').controller('Game4Controller',
       }
 
       // Avoid score update when seeding
-      if (!$scope.doneSeeding) {
+      if (!$scope.doneSeeding || !$scope.doneGetFakeLevel) {
         return;
       }
 
-      if ($scope.score - $scope.highest_score > 0) {
+      var fakeHighestScore = $scope.initialScore + $scope.targetScore - 1;
+      if ($scope.score - fakeHighestScore > 0) {
+        if (bucket.buckets == $scope.bestSolutionBeforeGame) {
+          $("#no-buck").show();
+          return;
+        }
+
         // $("#target-reached").fadeIn();
         $("#ingame-leaderboard").show();
         $scope.targetReachedGetNext();
@@ -313,6 +319,8 @@ angular.module('nwmApp').controller('Game4Controller',
         //   }
 
         $scope.highest_score = serverJson[game].score;
+        // Store the best solution before player starts the game for later comparison
+        $scope.bestSolutionBeforeGame = JSON.parse(JSON.stringify(serverJson[game].solution));
         bucket.buckets = serverJson[game].solution;
 
 
@@ -353,6 +361,7 @@ angular.module('nwmApp').controller('Game4Controller',
         }
 
         $scope.doneSeeding = false;
+        $scope.doneGetFakeLevel = false;
         bucket.orderAlienArray();
 
         // Array of aliens that have already been picked as a seed
@@ -400,6 +409,7 @@ angular.module('nwmApp').controller('Game4Controller',
       $scope.showGroup($scope.seed);
       $scope.prev_score = $scope.score;
       $scope.doneSeeding = true;
+      $scope.$broadcast('doneSeeding', $scope.seed);
 
       $scope.disableRedo = true;
       $scope.disableUndo = true;
@@ -429,6 +439,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
       $scope.seed = null;
       $scope.doneSeeding = false;
+      $scope.doneGetFakeLevel = false;
 
       while (bucket.buckets[bucket.current_bucket].alien.length > 0) {
         $scope.selectAlien(bucket.buckets[bucket.current_bucket].alien[0], false);
@@ -1232,13 +1243,15 @@ angular.module('nwmApp').controller('Game4Controller',
       //  bucket.removeBucket(bucket.current_bucket);
       //}
 
+      console.log('submit ' + $scope.bestSolutionBeforeGame);
+
       // Get current overall score
       Restangular.all('api/scores/').get('cur_user_overall').then(function (serverJson) {
         Restangular.all('/api/scores/').post(
           {
             score: $scope.score,
             initialScore: $scope.highest_score,
-            targetScore: $scope.highest_score - $scope.initialScore + 1,
+            targetScore: $scope.targetScore,
             seed: $scope.seed,
             duration: time,
             game: $scope.cur_game,
@@ -1357,7 +1370,7 @@ angular.module('nwmApp').controller('Game4Controller',
         {
           score: $scope.score,
           initialScore: $scope.highest_score,
-          targetScore: $scope.highest_score - $scope.initialScore + 1,
+          targetScore: $scope.targetScore,
           seed: $scope.seed,
           duration: time,
           game: $scope.cur_game,
@@ -1404,19 +1417,23 @@ angular.module('nwmApp').controller('Game4Controller',
     ///set up game from best solution
     // setUpTutorial();
 
+    var getFakeLevel = function (event, seed) {
+      // {target: some value x between 0-1 (ie set target at x * original_target_value ),
+      // suc: number of success attempts,
+      // fail: number of failed attempts}
+      Restangular.all('api/scores').get('fake_level/' + seed).then(function (serverJson) {
+        $scope.fakeRate = serverJson.fake;
+        $scope.targetScore = ($scope.highest_score - $scope.initialScore + 1) * $scope.fakeRate;
+        $scope.doneGetFakeLevel = true;
+      });
+    };
+
     // Clear the undo storage
     $(document).ready(function () {
       delete $scope.$storage.buckets;
       delete $scope.$storage.aliens;
       $scope.setUpGame('best');
 
-
-      Restangular.all('api/scores').get('fake_level/' + '7_15').then(function (serverJson) {
-        console.log(serverJson);
-        // {target: some value x between 0-1 (ie set target at x * original_target_value ), suc: number of success. attempts, fail: number of failed attempts}
-      });
+      $scope.$on('doneSeeding', angular.bind(this, getFakeLevel));
     });
-
-
-
   });

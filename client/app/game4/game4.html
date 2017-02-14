@@ -228,7 +228,7 @@ your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
     <button id="add-group-button" class="btn" ng-click="startOver()">Skip this client</button>
     <!--<button id="done-button" class="btn" ng-click="doneBucket()">Calculate Score</button>-->
     <div class='title-font score3 big'>EARNED: $<span count-to="{{score - initialScore}}" value="{{prev_score - initialScore}}" duration="1" ng-show="doneSeeding"></span></div>
-    <div class='title-font target big'>TARGET: $<span ng-show="doneSeeding">{{highest_score - initialScore + 1}}</span></div>
+    <div class='title-font target big'>TARGET: $<span ng-show="doneSeeding && doneGetFakeLevel">{{targetScore}}</span></div>
     <button id="end-button3" class="btn" ng-click="skipLevel()">Skip this galaxy</button>
     <button id="end-button" class="btn" ng-click="endGame()">End game</button>
 
