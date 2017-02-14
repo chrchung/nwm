@@ -49,7 +49,7 @@ exports.isFake = function(req, res) {
 
             solutionsQuery.find({
               success: function (fail) {
-                if (suc.length + fail.length != 0 && suc.length / (fail.length + 0.001) <= 0.3) {
+                if (suc.length + fail.length != 0 && fail.length / (suc.length + 0.001) >= 0.90) {
                   res.json({fake: 0.7, suc: suc.length, fail: fail.length});
                 } else {
                   res.json({fake: 1.0, suc: suc.length, fail: fail.length});
