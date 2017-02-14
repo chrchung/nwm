@@ -49,7 +49,7 @@ exports.isFake = function(req, res) {
 
             solutionsQuery.find({
               success: function (fail) {
-                if (suc.length / (fail.length + 0.001) >= 0.9) {
+                if (suc.length + fail.length != 0 && suc.length / (fail.length + 0.001) <= 0.3) {
                   res.json({fake: 0.7, suc: suc.length, fail: fail.length});
                 } else {
                   res.json({fake: 1.0, suc: suc.length, fail: fail.length});
@@ -388,8 +388,8 @@ exports.saveScore = function (req, res) {
       solutionsQuery.descending('score');
 
       // Parse solutions after a particular date
-      var day = new Date("2016-10-26T06:11:42.110Z");
-      solutionsQuery.greaterThanOrEqualTo('createdAt', day);
+      // var day = new Date("2016-10-26T06:11:42.110Z");
+      // solutionsQuery.greaterThanOrEqualTo('createdAt', day);
 
       solutionsQuery.find({
         success: function (sol) {
