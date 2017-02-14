@@ -9,7 +9,7 @@ router.get('/', controller.index);
 router.post('/', controller.saveScore);
 router.post('/save_for_later', controller.saveForLater);
 router.get('/all_overall', controller.getAllOverall);
-router.get('/fake_level/:id', controller.isFake);
+router.get('/fake_level/:level/:seed', controller.isFake);
 router.get('/cur_user_game_score/:level/:game', controller.getCurUserGameScore);
 router.get('/in_game_scoreboard/:array_size/:score', controller.getInGameScoreboard);
 router.get('/game_scoreboard/:array_size', controller.getGameScoreboard);

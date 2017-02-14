@@ -32,6 +32,7 @@ exports.isFake = function(req, res) {
         var solutionsQuery = new Parse.Query(Solutions);
         solutionsQuery.limit(1000);
         solutionsQuery.equalTo('seed', seed);
+        solutionsQuery.equalTo('level', parseInt(req.params.level));
         solutionsQuery.greaterThan('duration', 1000);
         solutionsQuery.notEqualTo('fake', true);
 
@@ -42,12 +43,13 @@ exports.isFake = function(req, res) {
 
             solutionsQuery.limit(1000);
             solutionsQuery.equalTo('seed', seed);
+            solutionsQuery.equalTo('level', parseInt(req.params.level));
             solutionsQuery.notEqualTo('fake', true);
             solutionsQuery.lessThan('duration', 1000);
 
             solutionsQuery.find({
               success: function (fail) {
-                if (suc.length / fail.length >= 0.9) {
+                if (suc.length / (fail.length + 0.001) >= 0.9) {
                   res.json({fake: 0.7, suc: suc.length, fail: fail.length});
                 } else {
                   res.json({fake: 1.0, suc: suc.length, fail: fail.length});
