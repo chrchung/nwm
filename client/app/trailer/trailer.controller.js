@@ -7,7 +7,7 @@ angular.module('nwmApp')
     $scope.startGame = function () {
       Restangular.all('api/users').get('has_seen_tut').then(function (serverJson) {
         if (serverJson.seenTut == false) {
-          $state.go('tut');
+          $state.go('tut', {id: 11});
         } else {
           // Randomly pick a level (model)
           var randLev = Math.random();

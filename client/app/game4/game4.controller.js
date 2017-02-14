@@ -1243,8 +1243,6 @@ angular.module('nwmApp').controller('Game4Controller',
       //  bucket.removeBucket(bucket.current_bucket);
       //}
 
-      console.log('submit ' + $scope.bestSolutionBeforeGame);
-
       // Get current overall score
       Restangular.all('api/scores/').get('cur_user_overall').then(function (serverJson) {
         Restangular.all('/api/scores/').post(
@@ -1436,4 +1434,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
       $scope.$on('doneSeeding', angular.bind(this, getFakeLevel));
     });
+
+
+
   });
