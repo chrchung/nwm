@@ -109,8 +109,8 @@ angular.module('nwmApp').controller('Game4Controller',
 
       var fakeHighestScore = $scope.initialScore + $scope.targetScore - 1;
       if ($scope.score - fakeHighestScore > 0) {
-        if (bucket.buckets == $scope.bestSolutionBeforeGame) {
-          $("#no-buck").show();
+        if (JSON.stringify(bucket.currentAliens.sort()) === JSON.stringify($scope.seedTuple.sort())){
+          $scope.score = fakeHighestScore;
           return;
         }
 
@@ -1427,8 +1427,13 @@ angular.module('nwmApp').controller('Game4Controller',
       // suc: number of success attempts,
       // fail: number of failed attempts}
       Restangular.all('api/scores').get('fake_level/' + $scope.cur_level + '/' + seed).then(function (serverJson) {
+        _.each($scope.bestSolutionBeforeGame, function(tuple) {
+          if (tuple.alien.indexOf(seed) !== -1) {
+            $scope.seedTuple = tuple.alien;
+          }
+        });
         $scope.fakeRate = serverJson.fake;
-        $scope.targetScore = ($scope.highest_score - $scope.initialScore + 1) * $scope.fakeRate;
+        $scope.targetScore = Math.round(($scope.highest_score - $scope.initialScore + 1) * $scope.fakeRate);
         $scope.doneGetFakeLevel = true;
       });
     };
