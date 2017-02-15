@@ -139,13 +139,20 @@ angular.module('nwmApp').controller('Game4Controller',
 
     $scope.getNextGalaxy = function() {
       switch($scope.cur_level) {
-        case "13":
-          $state.go('game4', {id: 10});
-          break;
         case "10":
           $state.go('game4', {id: 13});
+          break;
+        case "13":
+          $state.go('game4', {id: 14});
+          break;
+        case "14":
+          $state.go('game4', {id: 15});
+          break;
+        case "15":
+          $state.go('game4', {id: 10});
+          break;
       }
-    }
+    };
 
     /* Start a new game */
     $scope.setUpGame = function (mode) {
