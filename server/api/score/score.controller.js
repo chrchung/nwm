@@ -49,7 +49,7 @@ exports.isFake = function(req, res) {
 
             solutionsQuery.find({
               success: function (fail) {
-                if (suc.length + fail.length != 0 && fail.length / (suc.length + 0.001) >= 0.90) {
+                if (suc.length + fail.length > 3 && fail.length / (suc.length + 0.001) >= 0.90) {
                   res.json({fake: 0.7, suc: suc.length, fail: fail.length});
                 } else {
                   res.json({fake: 1.0, suc: suc.length, fail: fail.length});
@@ -138,6 +138,7 @@ exports.saveScore = function (req, res) {
     sol.set('duration', req.body.duration);
     sol.set('seed', seed);
     sol.set('type', req.body.type);
+    sol.set('fake', req.body.fake);
 
     sol.save(null, {
       success: function (gameScore) {

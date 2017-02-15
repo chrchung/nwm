@@ -21,6 +21,7 @@ angular.module('nwmApp').controller('Game4Controller',
     }
 
     // game version where alien seeded
+    $scope.fake = false;
     $scope.playerSelectedSeed = null;
     $scope.scoreToBeat = 0;
     $scope.submittedScore = false;
@@ -1263,7 +1264,8 @@ angular.module('nwmApp').controller('Game4Controller',
             level: parseInt($scope.cur_level),
             solution: bucket.buckets,
             actions: history.userActions,
-            type: $scope.type
+            type: $scope.type,
+            fake: $scope.fake,
           }).then((function (data) {
           $state.go('leaderboard', {prevState: 'game'});
         }), function (err) {
@@ -1433,6 +1435,11 @@ angular.module('nwmApp').controller('Game4Controller',
           }
         });
         $scope.fakeRate = serverJson.fake;
+
+        if ($scope.fakeRate != 1.0) {
+          $scope.fake = true;
+        }
+
         $scope.targetScore = Math.round(($scope.highest_score - $scope.initialScore + 1) * $scope.fakeRate);
         $scope.doneGetFakeLevel = true;
       });

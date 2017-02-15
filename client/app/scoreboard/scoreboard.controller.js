@@ -91,10 +91,14 @@ angular.module('nwmApp')
         } else {
           // Randomly pick a level (model)
           var randLev = Math.random();
-          if (randLev < 0.20) {
+          if (randLev <= 0.20) {
             $state.go('game4', {id: 10});
-          } else {
+          } else if (randLev > 0.20 && randLev <= 0.4) {
             $state.go('game4', {id: 13});
+          } else if (randLev > 0.40 && randLev <= 0.6) {
+            $state.go('game4', {id: 14});
+          } else  {
+            $state.go('game4', {id: 15});
           }
         }
       });
