@@ -7,15 +7,14 @@ angular.module('nwmApp')
       Restangular.all('api/users').post({
         username: $scope.username,
         password: $scope.password,
-        email: $scope.email
+        turk: $scope.turk
       }).then((function (data) {
         $scope.taken =  false;
         if (data == 'taken') {
           $scope.taken = true;
         } else {
           $state.go('scoreboard');
-        };
-
+        }
       }), function (err) {
 
       });

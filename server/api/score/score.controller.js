@@ -16,6 +16,9 @@ exports.index = function (req, res) {
 };
 
 exports.isFake = function(req, res) {
+
+  // res.send({fake: 1.0});
+
   var seed = req.params.seed;
 
   var Solutions = Parse.Object.extend('Solutions');
@@ -23,54 +26,64 @@ exports.isFake = function(req, res) {
 
   solutionsQuery.limit(1000);
   solutionsQuery.equalTo('user', req.session.user.username);
-  solutionsQuery.exists('score');
+  solutionsQuery.exists('targetScore');
 
   solutionsQuery.find({
     success: function (numSucGames) {
 
       if (numSucGames.length >= 3) {
-        var solutionsQuery = new Parse.Query(Solutions);
-        solutionsQuery.limit(1000);
-        solutionsQuery.equalTo('seed', seed);
-        solutionsQuery.equalTo('level', parseInt(req.params.level));
-        solutionsQuery.greaterThan('duration', 1000);
-        solutionsQuery.notEqualTo('fake', true);
 
-        solutionsQuery.find({
-          success: function (suc) {
+        var ranInt = Math.random();
 
-            var solutionsQuery = new Parse.Query(Solutions);
+        if (ranInt < 1 / numSucGames.length) {
+          res.send({fake: 1.0});
+        } else {
+          res.send({fake: 1.0});
+        }
 
-            solutionsQuery.limit(1000);
-            solutionsQuery.equalTo('seed', seed);
-            solutionsQuery.equalTo('level', parseInt(req.params.level));
-            solutionsQuery.notEqualTo('fake', true);
-            solutionsQuery.lessThan('duration', 1000);
 
-            solutionsQuery.find({
-              success: function (fail) {
-                if (suc.length + fail.length > 3 && fail.length / (suc.length + 0.001) >= 0.90) {
-                  res.json({fake: 0.7, suc: suc.length, fail: fail.length});
-                } else {
-                  res.json({fake: 1.0, suc: suc.length, fail: fail.length});
-                }
-
-              },
-              error: function (error) {
-                res.status(400).end();
-              }
-            });
-          },
-          error: function (error) {
-            res.status(400).end();
-          }
-        });
+        // var solutionsQuery = new Parse.Query(Solutions);
+        // solutionsQuery.limit(1000);
+        // solutionsQuery.equalTo('seed', seed);
+        // solutionsQuery.equalTo('level', parseInt(req.params.level));
+        // solutionsQuery.doesNotExist('targetScore');
+        // solutionsQuery.notEqualTo('fake', true);
+        //
+        // solutionsQuery.find({
+        //   success: function (suc) {
+        //
+        //     var solutionsQuery = new Parse.Query(Solutions);
+        //
+        //     solutionsQuery.limit(1000);
+        //     solutionsQuery.equalTo('seed', seed);
+        //     solutionsQuery.equalTo('level', parseInt(req.params.level));
+        //     solutionsQuery.notEqualTo('fake', true);
+        //     solutionsQuery.lessThan('duration', 1000);
+        //
+        //     solutionsQuery.find({
+        //       success: function (fail) {
+        //         if (suc.length + fail.length > 3 && fail.length / (suc.length + 0.001) >= 0.90) {
+        //           res.json({fake: 0.7, suc: suc.length, fail: fail.length});
+        //         } else {
+        //           res.json({fake: 1.0, suc: suc.length, fail: fail.length});
+        //         }
+        //
+        //       },
+        //       error: function (error) {
+        //         res.status(400).end();
+        //       }
+        //     });
+        //   },
+        //   error: function (error) {
+        //     res.status(400).end();
+        //   }
+        // });
       } else if (numSucGames.length == 2) {
-        res.send({fake: 0.7});
-      } else if (numSucGames.length == 1) {
-        res.send({fake: 0.5});
-      } else if (numSucGames.length == 0) {
         res.send({fake: 0.3});
+      } else if (numSucGames.length == 1) {
+        res.send({fake: 0.2});
+      } else if (numSucGames.length == 0) {
+        res.send({fake: 0.1});
       }
     },
     error: function (error) {
@@ -148,7 +161,10 @@ exports.saveScore = function (req, res) {
           userDataQuery.equalTo('user', username);
           userDataQuery.first({
             success: function (user) {
-              user.set('overallScore', user.attributes.overallScore + req.body.score - req.body.initialScore);
+
+              if (req.body.score - req.body.initialScore > 0) {
+                user.set('overallScore', user.attributes.overallScore + req.body.score - req.body.initialScore);
+              }
               user.save(null, {
                 success: function (result) {
                   res.status(200).end();
@@ -387,10 +403,11 @@ exports.saveScore = function (req, res) {
       solutionsQuery.equalTo('level', parseInt(req.params.level));
       solutionsQuery.equalTo('partial', false);
       solutionsQuery.descending('score');
+      solutionsQuery.exists('targetScore');
 
       // Parse solutions after a particular date
-      // var day = new Date("2016-10-26T06:11:42.110Z");
-      // solutionsQuery.greaterThanOrEqualTo('createdAt', day);
+      var day = new Date("2017-02-27T13:23:31.370Z");
+      solutionsQuery.greaterThanOrEqualTo('createdAt', day);
 
       solutionsQuery.find({
         success: function (sol) {
@@ -408,7 +425,22 @@ exports.saveScore = function (req, res) {
     if (req.session.user) {
       var Solutions = Parse.Object.extend('Solutions');
       var solutionsQuery = new Parse.Query(Solutions);
-      solutionsQuery.equalTo('level', parseInt(req.params.level));
+
+      var level = parseInt(req.params.level);
+
+      if (req.session.user.turk != null) {
+        if (level == 10) {
+          level = 20;
+        } else if (level == 12) {
+          level = 21;
+        } else if (level == 13) {
+          level = 22;
+        } else {
+          level = 23;
+        }
+      }
+
+      solutionsQuery.equalTo('level', level);
       solutionsQuery.equalTo('user', req.session.user.username);
       solutionsQuery.equalTo('partial', true);
       solutionsQuery.descending("createdAt");

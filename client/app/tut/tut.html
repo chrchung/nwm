@@ -340,15 +340,12 @@
 </div>
 
 <div class="tutorial text-center" ng-show="tutState==2">
-  The red bar below each alien indicates its similarity with other members of its group. A full
+  The red bar below each alien indicates its happiness. A full
 
-  bar means that it is very similar, while an empty bar means that the alien shares few
+  bar means that it is very happy, while an empty bar means that it is not happy.
 
-  characteristics with its group members. It may be beneficial for you to remove aliens with weak
-
-  bonds from their groups since that would not decrease the similarity score of their groups too
-
-  much, and add them to your group if they are similar.
+  It may be beneficial for you to remove aliens low happiness from their groups,
+  and add them to your group if they are similar.
   <br>
   <button class="btn menu-button" ng-click="tutState=3">Next</button>
 </div>
@@ -396,14 +393,14 @@
 </div>
 
 
-<div class="tutorial text-center" ng-show="tutState==8">
-  If you do not like this set of aliens, you can skip to a new galaxy by clicking on
-  "Skip this galaxy".
-  <br>
-  <button class="btn menu-button" ng-click="tutState=9">Next</button>
-</div>
+<!--<div class="tutorial text-center" ng-show="tutState==8">-->
+  <!--If you do not like this set of aliens, you can skip to a new galaxy by clicking on-->
+  <!--"Skip this galaxy".-->
+  <!--<br>-->
+  <!--<button class="btn menu-button" ng-click="tutState=9">Next</button>-->
+<!--</div>-->
 
-<div class="tutorial text-center" ng-show="tutState==9">
+<div class="tutorial text-center" ng-show="tutState==8">
   You've learned all the rules to the game and you are now ready to help some alien clients!
   <br>
   <button class="btn menu-button" ng-click="playGame()">Play!</button>

@@ -115,8 +115,7 @@ your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
             <p ng-show="!submittedScore">(If nothing happens after a couple of minutes, please click <span ng-click="targetReachedGetNext()" style="pointer:cursor; color:rgb(102,167,227)">here</span>.)</p>
 
 
-            <p ng-show="gotLeaderBoard">Your total earnings are now <span class="score">${{overallScore}}</span> and
-              your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
+            <p ng-show="gotLeaderBoard">You've added {{score - initialScore}} to your total earnings.</p>
             <br/>
             <table class="table text-center" ng-show="gotLeaderBoard">
               <thead>
@@ -132,8 +131,8 @@ your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
                 </tr>
               </tbody>
             </table>
-            <button class="btn menu-button-small" ng-click="hideLeaderboard()" ng-show="gotLeaderBoard">Continuing improving this group</button>
-            <button class="btn menu-button-small" ng-click="getNextClient()" ng-show="gotLeaderBoard">Get next client</button>
+            <!--<button class="btn menu-button-small" ng-click="hideLeaderboard()" ng-show="gotLeaderBoard">Continuing improving this group</button>-->
+            <button class="btn menu-button-small" ng-click="getNextGalaxy()" ng-show="gotLeaderBoard">Get next client</button>
             <button class="btn menu-button-small" ng-click="quit()" ng-show="gotLeaderBoard">Exit</button>
           </div>
         </div>
@@ -225,11 +224,11 @@ your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
     <button id="dummy-redo-button" class="btn" ng-if="disableRedo">Redo</button>
     <button id="undo-button" class="btn" ng-click="undo()" ng-if="!disableUndo">Undo</button>
     <button id="dummy-undo-button" class="btn" ng-if="disableUndo">Undo</button>
-    <button id="add-group-button" class="btn" ng-click="startOver()">Skip this client</button>
+    <button id="add-group-button" class="btn" ng-click="getNextGalaxy()">Skip this client</button>
     <!--<button id="done-button" class="btn" ng-click="doneBucket()">Calculate Score</button>-->
-    <div class='title-font score3 big'>EARNED: $<span count-to="{{score - initialScore}}" value="{{prev_score - initialScore}}" duration="1" ng-show="doneSeeding"></span></div>
+    <div class='title-font score3 big'>SCORE: $<span count-to="{{score - initialScore}}" value="{{prev_score - initialScore}}" duration="1" ng-show="doneSeeding"></span></div>
     <div class='title-font target big'>TARGET: $<span ng-show="doneSeeding && doneGetFakeLevel">{{targetScore}}</span></div>
-    <button id="end-button3" class="btn" ng-click="skipLevel()">Skip this galaxy</button>
+    <!--<button id="end-button3" class="btn" ng-click="skipLevel()">Skip this galaxy</button>-->
     <button id="end-button" class="btn" ng-click="endGame()">End game</button>
 
     <!--<div id="current-group">-->
@@ -301,4 +300,7 @@ your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
   </div>
 </div>
 
-<img class="loading" ng-show="!loaded" src="https://d13yacurqjgara.cloudfront.net/users/12755/screenshots/1037374/hex-loader2.gif"/>
+<div ng-show="!loaded" class="loading text-center">
+  <img   src="https://d13yacurqjgara.cloudfront.net/users/12755/screenshots/1037374/hex-loader2.gif"/>
+  <div>(Due to the large number of images, the game might not load immediately. If you do not see any images after 5 seconds, please refresh the page. You might need to refresh multiple times. Sorry for the inconvenience, we will fix it soon!)</div>
+</div>

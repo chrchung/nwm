@@ -47,7 +47,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
     $scope.playerSelectedFadeOut = function (id) {
       $("#player-selected-seed").fadeOut();
-    }
+    };
 
     $scope.doneBucket = function () {
       var old = $scope.score;
@@ -110,7 +110,7 @@ angular.module('nwmApp').controller('Game4Controller',
 
       var fakeHighestScore = $scope.initialScore + $scope.targetScore - 1;
       if ($scope.score - fakeHighestScore > 0) {
-        if (JSON.stringify(bucket.currentAliens.sort()) === JSON.stringify($scope.seedTuple.sort())){
+        if (JSON.stringify(bucket.currentAliens.sort()) === JSON.stringify($scope.seedTuple.sort())) {
           $scope.score = fakeHighestScore;
           return;
         }
@@ -139,20 +139,36 @@ angular.module('nwmApp').controller('Game4Controller',
     };
 
     $scope.getNextGalaxy = function() {
-      switch($scope.cur_level) {
-        case "10":
-          $state.go('game4', {id: 13});
-          break;
-        case "13":
-          $state.go('game4', {id: 14});
-          break;
-        case "14":
-          $state.go('game4', {id: 15});
-          break;
-        case "15":
-          $state.go('game4', {id: 10});
-          break;
+
+      // Randomly pick a level (model)
+      var randLev = Math.random();
+      if (randLev <= 0.20) {
+        $state.go('game4', {id: 10});
+        location.reload();
+      } else if (randLev > 0.20 && randLev <= 0.40) {
+        $state.go('game4', {id: 13});
+        location.reload();
+      } else {
+        $state.go('game4', {id: 10});
+        location.reload();
       }
+
+
+
+      // switch($scope.cur_level) {
+      //   case "10":
+      //     $state.go('game4', {id: 13});
+      //     break;
+      //   case "13":
+      //     $state.go('game4', {id: 14});
+      //     break;
+      //   case "14":
+      //     $state.go('game4', {id: 15});
+      //     break;
+      //   case "15":
+      //     $state.go('game4', {id: 10});
+      //     break;
+      // }
     };
 
     /* Start a new game */
@@ -314,10 +330,12 @@ angular.module('nwmApp').controller('Game4Controller',
           return;
         }
 
-        if (Math.random <= 0.5) {
+        if (serverJson.length == 1)  {
+          var game = 0;
+        } else if (Math.random() <= 0.5) {
           var game = 0;
         } else {
-          var game = 1;
+          var game = 0;
         }
 
         // Load buckets that have at least 2 aliens
@@ -731,7 +749,8 @@ angular.module('nwmApp').controller('Game4Controller',
           game: $scope.cur_game,
           level: parseInt($scope.cur_level),
           solution: bucket.buckets,
-          actions: history.userActions
+          actions: history.userActions,
+          fake: $scope.fake
         }).then(
         (function (data) {
         }), function (err) {
@@ -920,8 +939,8 @@ angular.module('nwmApp').controller('Game4Controller',
               aliens.alienArray[alien_id].in = true;
               $scope.currentBucket(bucket.current_bucket);
               if (!illegal_swap) {
-                feedback(alien_id);
               }
+              feedback(alien_id);
               bucket.updateAlienArray();
               // history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
             }
@@ -1376,14 +1395,15 @@ angular.module('nwmApp').controller('Game4Controller',
       Restangular.all('/api/scores/').post(
         {
           score: $scope.score,
-          initialScore: $scope.highest_score,
+          initialScore: $scope.initialScore,
           targetScore: $scope.targetScore,
           seed: $scope.seed,
           duration: time,
           game: $scope.cur_game,
           level: parseInt($scope.cur_level),
           solution: bucket.buckets,
-          type: $scope.type
+          type: $scope.type,
+          fake: $scope.fake
         }).then(function (data) {
         $scope.submittedScore = true;
         Restangular.all('api/scores').get('in_game_scoreboard/5/' + '0').then(function (serverJson) {
