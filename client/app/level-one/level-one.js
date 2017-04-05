@@ -166,11 +166,14 @@ levelOne.service('update',function(helper, bucket, aliens, style) {
 
   /* Return the new score and gives feedback. */
   this.getNewScore = function(maxModels) {
+    var buckets={};
     // Calculate points for each bucket
     var total_score = 0;
     bucket.highestAlienScore = 0;
     for (var i = 0; i < bucket.buckets.length; i++) {
       var bucket_score  = calculateScoreByBucket(bucket.buckets[i].alien, maxModels);
+      buckets[bucket.buckets[i].alien] = bucket_score;
+
       var ceil_bucket_score = Math.ceil(bucket_score);
       for (var j = 0; j < bucket.buckets[i].alien.length; j++) {
         var curAlien = bucket.buckets[i].alien.splice(j, 1)[0];
@@ -187,7 +190,8 @@ levelOne.service('update',function(helper, bucket, aliens, style) {
         bucket.highestBucketScore = ceil_bucket_score;
       }
     }
-    return Math.ceil(total_score);
+    return {score: Math.ceil(total_score), breakdown: buckets};
+
   };
 
   /* Calculate the score of the bucket that contains the

@@ -51,7 +51,9 @@ angular.module('nwmApp').controller('Game4Controller',
 
     $scope.doneBucket = function () {
       var old = $scope.score;
-      $scope.score = update.getNewScore($scope.maxModels);
+      var score = update.getNewScore($scope.maxModels);
+      console.log(score.breakdown);
+      $scope.score = score.score;
       if ($scope.score > $scope.maxScore) {
         $scope.maxScore = $scope.score;
       }
@@ -97,7 +99,9 @@ angular.module('nwmApp').controller('Game4Controller',
 
     var feedback = function (alienId) {
       $scope.prev_score = $scope.score;
-      $scope.score = update.getNewScore($scope.maxModels);
+      var score = update.getNewScore($scope.maxModels);
+      console.log(score.breakdown);
+      $scope.score = score.score;
 
       if ($scope.score > $scope.maxScore) {
         $scope.maxScore = $scope.score;
@@ -381,7 +385,9 @@ angular.module('nwmApp').controller('Game4Controller',
           }
         });
 
-        $scope.score = update.getNewScore($scope.maxModels);
+        var score = update.getNewScore($scope.maxModels);
+        console.log(score.breakdown);
+        $scope.score = score.score;
         if ($scope.score > $scope.maxScore) {
           $scope.maxScore = $scope.score;
         }

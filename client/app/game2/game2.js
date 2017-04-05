@@ -146,12 +146,15 @@ game2.service('update2',function(helper, bucket2, aliens, style) {
 
   /* Return the new score and gives feedback. */
   this.getNewScore = function(maxModels) {
+    var buckets = {};
     // Calculate points for each bucket
     var total_score = 0;
     for (var i = 0; i < bucket2.buckets.length; i++) {
       total_score += calculateScoreByBucket(bucket2.buckets[i].alien, maxModels);
+      buckets[bucket2.buckets[i].alien] = calculateScoreByBucket(bucket2.buckets[i].alien, maxModels);
+
     }
-    return total_score;
+    return {score: total_score, breakdown: buckets};
   };
 
   /* Calculate the score of the bucket that contains the
