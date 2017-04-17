@@ -114,4 +114,11 @@ angular.module('nwmApp')
 
     };
 
+    Restangular.all('api/users').get('has_seen_tut').then(function (serverJson) {
+      $scope.cond = serverJson.condition;
+      Restangular.all('api/users').get('get_performance').then(function (serverJson) {
+        $scope.performance = serverJson;
+      });
+    });
+
   });

@@ -76,6 +76,14 @@ angular.module('nwmApp').controller('Game4Controller',
           $scope.overallScore = serverJson.overallScore;
           $scope.overallScoreRank = serverJson.rank;
           $scope.gotLeaderBoard = true;
+
+          Restangular.one('api/users/seenTut').get().then(function (serverJson) {
+            $scope.cond = serverJson.condition;
+            Restangular.one('api/users/get_performance').get().then(function (serverJson) {
+              $scope.performance = serverJson;
+            });
+          });
+          
         });
       });
 

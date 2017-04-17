@@ -11,4 +11,7 @@ router.post('/seed_aliens/:level', controller.setSeedAliens);
 router.post('/', controller.create);
 router.post('/tut', controller.seenTut);
 router.get('/has_seen_tut', controller.getSeenTut);
+router.get('/get_performance', controller.perf);
+
+
 module.exports = router;

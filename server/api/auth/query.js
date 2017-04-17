@@ -8,35 +8,52 @@ var app = express();
 
 // get user e-mails
 app.get('/', function (req, res) {
-  // this code executes when you go to http://localhost:9000
-  var result = [];
-  var Users = Parse.Object.extend('Solutions');
-  var query = new Parse.Query(Users);
-  query.limit(1000);
-  query.ascending('updatedAt');
+  var nwm = 45952 + 136286 + 9582 + 9940;
+  var levels = [10, 12, 13, 15];
+  var result = {player: 0, hsim: 8360 - 13247 + 9940, allP: -nwm};
 
-  query.find({
-    success: function (data) {
-      var result = [];
-      // console.log(data.length);
-      var i;
-      for (i = 0; i < data.length; i ++) {
-          result.push({duration: data[i].attributes.duration, level: data[i].attributes.level, date: data[i].attributes.updatedAt, user: data[i].attributes.user, score: data[i].attributes.score, init: data[i].attributes.initialScore});
-      }
+  var UserData = Parse.Object.extend('UserData');
+  var userDataQuery = new Parse.Query(UserData);
+  userDataQuery.equalTo('user', 'coco');
 
-      // var i =0;
-      // for (i=0; i < result.length; i ++) {
-      //   console.log(result[i] + '\n');
-      // }
+  userDataQuery.first({
+    success: function (user) {
+      result.player = user.attributes.overallScore;
 
-      res.json(result);
+      async.each(levels, function(level, callback) {
+
+        res.json(result);
+
+        var Solutions = Parse.Object.extend('Solutions');
+        var solutionsQuery = new Parse.Query(Solutions);
+        solutionsQuery.equalTo('level', level);
+        solutionsQuery.descending('score');
+
+        solutionsQuery.first({
+          success: function (sol) {
+            res.json(result);
+            result.allP = result.allP + sol.attributes.score;
+            callback();
+          },
+          error: function (error) {
+            res.status(400).end();
+          }
+        });
+
+      }, function(err) {
+        // if any of the file processing produced an error, err would equal that error
+        if( err ) {
+          res.status(400).end();
+
+        } else {
+          res.json(result);
+        }
+      });
     },
     error: function (error) {
-      console.log('err');
-      res.status('400').end();
+      res.status(400).end();
     }
   });
-
 
 });
 

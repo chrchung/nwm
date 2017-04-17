@@ -8,8 +8,13 @@ var _ = require('lodash');
 var config = require('../../config/environment');
 var Parse = require('parse/node').Parse;
 Parse.initialize(config.PARSE_APPID, config.PARSE_JSKEY);
-Parse.serverURL = 'https://parseapi.back4app.com'
+Parse.serverURL = 'https://parseapi.back4app.com';
+var async = require('async');
 
+// helper
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 exports.create = function(req, res) {
   var User = Parse.Object.extend('User');
@@ -32,6 +37,27 @@ exports.create = function(req, res) {
             data.set('overallScore', 0);
             data.set('seenTut', false);
             data.set('user', req.body.username);
+
+            var ran = getRandomInt(1, 7);
+
+            if (ran == 1){
+              data.set('condition', 'd');
+            } else if (ran == 2) {
+              data.set('condition', 'ds');
+            } else if (ran == 3) {
+              data.set('condition', 'ks');
+            } else if (ran == 4) {
+              data.set('condition', 'ko');
+            } else if (ran == 5) {
+              data.set('condition', 'kso');
+            } else if (ran == 6) {
+              data.set('condition', 'dso');
+            } else if (ran == 7){
+              data.set('condition', 'k');
+            } else {
+              data.set('condition', 'do');
+            }
+
             data.save(null, {
               success: function (result) {
                 res.status(200).end();
@@ -177,4 +203,50 @@ exports.seenTut = function(req, res) {
   }
   ;
 
+};
+
+exports.perf = function (req, res) {
+  var nwm = 45952 + 136286 + 9582 + 9940;
+  var levels = [10, 12, 13, 15];
+  var result = {player: 0, hsim: 8360 - 13247 + 9940, allP: -nwm};
+
+  var UserData = Parse.Object.extend('UserData');
+  var userDataQuery = new Parse.Query(UserData);
+  userDataQuery.equalTo('user', req.session.user.username);
+
+  userDataQuery.first({
+    success: function (user) {
+      result.player = user.attributes.overallScore;
+
+      async.each(levels, function(level, callback) {
+
+        var Solutions = Parse.Object.extend('Solutions');
+        var solutionsQuery = new Parse.Query(Solutions);
+        solutionsQuery.equalTo('level', level);
+        solutionsQuery.descending('score');
+
+        solutionsQuery.first({
+          success: function (sol) {
+            result.allP = result.allP + sol.attributes.score;
+            callback();
+          },
+          error: function (error) {
+            res.status(400).end();
+          }
+        });
+
+      }, function(err) {
+        // if any of the file processing produced an error, err would equal that error
+        if( err ) {
+          res.status(400).end();
+
+        } else {
+          res.json(result);
+        }
+      });
+    },
+    error: function (error) {
+      res.status(400).end();
+    }
+  });
 };

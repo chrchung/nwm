@@ -4,14 +4,75 @@
   <br><br><br><br><br><br><br>
   <div class="text-center">
 
-    <div class="inline a-one animated bounceInDown">
+    <div class="text-center" id="player-results" style="width: 50%;margin-left:25%;margin-right:25%">
+      <div ng-show="cond == 'k'">
+        Thanks for helping software designers solve an important problem!
+      </div>
+
+      <div ng-show="cond == 'ds'">
+        <div class="text-center">Your total score:  <span class="score">{{overallScore}}</span>.<br>
+          Your rank amongst other players:
+          <span class="score">{{overallScoreRank || 'unranked'}}.</span>
+        </div>
+      </div>
+
+      <div class="text-center" ng-show="cond == 'ko'">
+        Thanks helping software designers
+        solve an important problem!<br>
+
+        Players collective score: {{performance.allP}}.<br>
+
+        To be the computer, players must score another {{performance.hsim - performance.allP}} points.
+      </div>
+
+      <div ng-show="cond == 'so'">
+        <div class="text-center">
+          Players collective score: {{performance.allP}} (Your contribution: {{performance.player}}).<br>
+          Your rank amongst other players: <span class="score">{{overallScoreRank || 'unranked'}}</span>.<br>
+          To beat the computer, players must score another {{performance.hsim - performance.allP}} points.
+        </div>
+      </div>
+
+      <div ng-show="cond == 'kso'">
+        <div class="text-center">
+          Thanks for helping software designers solve a difficult problem! <br>
+
+          Players collective score: {{performance.allP}} (Your contribution: {{performance.player}}).<br>
+          Your rank amongst other players: <span class="score">{{overallScoreRank || 'unranked'}}</span>.<br>
+          To beat the computer, players must score another {{performance.hsim - performance.allP}} points.</div>
+      </div>
+
+
+      <div ng-show="cond == 'dso'">
+        <div class="text-center">
+          Thanks for helping software designers solve a difficult problem! <br>
+
+          Players collective score: {{performance.allP}} (Your contribution: {{performance.player}}).<br>
+          Your rank amongst other players: <span class="score">{{overallScoreRank || 'unranked'}}</span>.<br>
+          To beat the computer, players must score another {{performance.hsim - performance.allP}} points.</div>
+      </div>
+
+      <div ng-show="cond == 'do'">
+        <div class="text-center">
+          Thanks for helping software designers solve a difficult problem! <br>
+
+          Players collective score: {{performance.allP}} (Your contribution: {{performance.player}}).<br>
+          Your rank amongst other players: <span class="score">{{overallScoreRank || 'unranked'}}</span>.<br>
+          To beat the computer, players must score another {{performance.hsim - performance.allP}} points.</div>
+      </div>
+
+    </div>
+
+    <br>
+
+    <div class="a-one animated bounceInDown">
       <div class="hvr-grow-rotate">
         <div ng-click="startGame()" class="heading">START GAME</div>
       </div>
       </div>
 
 
-    <div class="inline a-one animated bounceInDown">
+    <div class="a-one animated bounceInDown">
     <div class="hvr-grow-rotate">
       <div class="heading" ui-sref="tut({id:11})">HOW TO PLAY</div>
     </div>
@@ -23,10 +84,16 @@
       <!--</div>-->
     <!--</div>-->
 
-
-    <div class="a-one animated bounceInDown">
+    <div ng-show="cond != 'd' || cond != 'ds' || cond != 'dso' || cond != 'do'" class="a-one animated bounceInDown">
       <div class="hvr-grow-rotate">
         <div class="heading" ui-sref="leaderboard({prevState: 'landing'})">HALL OF FAME</div>
+      </div>
+    </div>
+
+
+    <div ng-show="cond != 'd' || cond != 'ds' || cond != 'dso' || cond != 'do'" class="a-one animated bounceInDown">
+      <div class="hvr-grow-rotate">
+        <div class="heading" ui-sref="about">ABOUT</div>
       </div>
     </div>
 
