@@ -511,7 +511,7 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
     this.num_buckets++;
     var bucket_ind  = this.num_buckets - 1;
     this.colorArray.push(color);
-    history.userActions.push("Create bucket " + bucket_ind);
+    history.userActions += "Create bucket " + bucket_ind + "|";
     this.currentBucket(bucket_ind);
     this.updateAlienArray();
   };
@@ -547,7 +547,7 @@ levelOne.service('bucket', function(style, $timeout, aliens, history) {
   };
 
   this.removeBucket = function(bid) {
-    history.userActions.push("Remove bucket " + bid);
+    history.userActions += "Remove bucket " + bid;
     this.updatePredefinedColor(bid);
     this.buckets.splice(bid, 1);
     this.colorArray.splice(bid, 1);
@@ -660,7 +660,7 @@ levelOne.service('history', function(aliens) {
     this.historyColor = '';
     this.historySwappedBucketId = '';
     this.historyColorArray = [];
-    this.userActions = [];
+    this.userActions = " ";
     // 0:'add-alien'
     // 1:'illegal-alien'
     // 2:'create-group'

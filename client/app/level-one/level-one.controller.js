@@ -289,7 +289,7 @@ angular.module('nwmApp').controller('LevelOneController',
           history.historySwappedBucketId = bucket_id;
           history.historySelectFlag = 2;
           history.historyColor = bucket.buckets[bucket_id].color;
-          history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket_id);
+          history.userActions += "4-" + alien_id + "," + bucket_id +"|";
 
           //if (bucket.buckets[bucket_id].alien.length == 0) {
           //  bucket.removeBucket(bucket_id);
@@ -301,7 +301,7 @@ angular.module('nwmApp').controller('LevelOneController',
           aliens.alienArray[alien_id].color = bucket.buckets[bucket.current_bucket].color;
           $scope.currentBucket(bucket.current_bucket);
           feedback(alien_id);
-          history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
+          history.userActions += "0-" + alien_id + "," + bucket.current_bucket + "|";
         }
 
         // Normal aliens
@@ -382,7 +382,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
               $scope.currentBucket(bucket.current_bucket);
               feedback(alien_id);
-              history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
+              history.userActions += "4-" + alien_id + "," + bucket.current_bucket +"|";
             }
 
             // Select aliens
@@ -403,7 +403,7 @@ angular.module('nwmApp').controller('LevelOneController',
               aliens.alienArray[alien_id].in = true;
               $scope.currentBucket(bucket.current_bucket);
               feedback(alien_id);
-              history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
+              history.userActions += "0-" + alien_id + "," + bucket.current_bucket + "|";
             }
           }
         }
@@ -422,8 +422,8 @@ angular.module('nwmApp').controller('LevelOneController',
         var bucket_id = bucket.getBucketByAlienId(aliens.newId);
         bucket.buckets[bucket_id].alien.splice(bucket.buckets[bucket_id].alien.indexOf(aliens.newId), 1);
         bucket.buckets[bucket.current_bucket].alien[bucket.buckets[bucket.current_bucket].alien.indexOf(aliens.oldId)] = aliens.newId;
-        history.userActions.push("Remove alien " + aliens.newId + " from bucket " + bucket_id);
-        history.userActions.push("Remove alien " + aliens.oldId + " from bucket " + bucket.current_bucket);
+        history.userActions += "4-" + aliens.newId + "," + bucket_id + "|";
+        history.userActions += "4-" + aliens.oldId + "," + bucket.current_bucket + "|";
 
         //if (bucket.buckets[bucket_id].alien.length == 0) {
         //  bucket.removeBucket(bucket_id);
@@ -434,7 +434,7 @@ angular.module('nwmApp').controller('LevelOneController',
       }
       else {
         bucket.buckets[bucket.current_bucket].alien[bucket.buckets[bucket.current_bucket].alien.indexOf(aliens.oldId)] = aliens.newId;
-        history.userActions.push("Remove alien " + aliens.oldId + " from bucket " + bucket.current_bucket);
+        history.userActions += "4-" + aliens.oldId + "," + bucket.current_bucket + "|";
       }
 
       aliens.alienArray[aliens.oldId].color = "rgba(232, 250, 255, 0)";
@@ -447,7 +447,7 @@ angular.module('nwmApp').controller('LevelOneController',
 
       $scope.disableUndo = false;
       $scope.disableRedo = true;
-      history.userActions.push("Add alien " + aliens.newId + " to bucket " + bucket.current_bucket);
+      history.userActions += "0-" + aliens.newId + "," + bucket.current_bucket + "|";
     };
 
     $scope.newGroup = function (tut) {

@@ -83,7 +83,7 @@ angular.module('nwmApp').controller('Game4Controller',
               $scope.performance = serverJson;
             });
           });
-          
+
         });
       });
 
@@ -834,8 +834,7 @@ angular.module('nwmApp').controller('Game4Controller',
           history.historySwappedBucketId = bucket_id;
           history.historySelectFlag = 2;
           history.historyColor = bucket.buckets[bucket_id].color;
-          history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket_id);
-
+          history.userActions += "4-" + alien_id + "," + bucket_id + "|";
           //if (bucket.buckets[bucket_id].alien.length == 0) {
           //  bucket.removeBucket(bucket_id);
           //  if (bucket_id < bucket.current_bucket) {
@@ -849,7 +848,7 @@ angular.module('nwmApp').controller('Game4Controller',
             feedback(alien_id);
           }
           bucket.updateAlienArray();
-          history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
+          history.userActions += "0-" + alien_id + "," + bucket.current_bucket + "|";
         }
 
         // Normal aliens
@@ -932,7 +931,7 @@ angular.module('nwmApp').controller('Game4Controller',
                 feedback(alien_id);
               }
               bucket.updateAlienArray();
-              // history.userActions.push("Remove alien " + alien_id + " from bucket " + bucket.current_bucket);
+              history.userActions += "4-" + alien_id + "," + bucket.current_bucket + "|";
             }
 
             // Select aliens
@@ -956,7 +955,13 @@ angular.module('nwmApp').controller('Game4Controller',
               }
               feedback(alien_id);
               bucket.updateAlienArray();
-              // history.userActions.push("Add alien " + alien_id + " to bucket " + bucket.current_bucket);
+              // 0:'add-alien'
+              // 1:'illegal-alien'
+              // 2:'create-group'
+              // 3:'switch-aliens'
+              // 4:'removing alien'
+              // 5:'highlight'
+              history.userActions += "0-" + alien_id + "," + bucket.current_bucket + "|";
             }
           }
         }
