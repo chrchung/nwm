@@ -83,7 +83,7 @@ angular.module('nwmApp').controller('Game4Controller',
               $scope.performance = serverJson;
             });
           });
-          
+
         });
       });
 

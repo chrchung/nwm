@@ -8,7 +8,7 @@ angular.module('nwmApp', [
   'ui.bootstrap',
   'ngDragDrop',
   'restangular',
-  'countTo',
+  'ngCountTo',
   'pageslide-directive',
   'ngStorage',
   'ordinal'

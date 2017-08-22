@@ -329,7 +329,7 @@ your rank is now <span class="score">{{overallScoreRank||unranked}}</span>.</p>
     <button id="dummy-undo-button" class="btn" ng-if="disableUndo">Undo</button>
     <button id="add-group-button" class="btn" ng-click="getNextGalaxy()">Skip this client</button>
     <!--<button id="done-button" class="btn" ng-click="doneBucket()">Calculate Score</button>-->
-    <div class='title-font score3 big'>SCORE: $<span count-to="{{score - initialScore}}" value="{{prev_score - initialScore}}" duration="1" ng-show="doneSeeding"></span></div>
+    <div class='title-font score3 big'>SCORE: $<span ng-count-to="{{score - initialScore}}" value="{{prev_score - initialScore}}" duration="1" ng-show="doneSeeding"></span></div>
     <div class='title-font target big'>TARGET: $<span ng-show="doneSeeding && doneGetFakeLevel">{{targetScore}}</span></div>
     <!--<button id="end-button3" class="btn" ng-click="skipLevel()">Skip this galaxy</button>-->
     <button id="end-button" class="btn" ng-click="endGame()">End game</button>
