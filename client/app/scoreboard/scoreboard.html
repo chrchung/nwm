@@ -11,10 +11,15 @@
       </div>
 
       <div ng-show="cond == 'ds'">
-        <div class="text-center">Your total score:  <span class="score">{{overallScore}}</span>.<br>
-          You currently rank <span class="score">{{overallScoreRank || 'unranked'}}</span>. Can you improve your rank?
-        </div>
+          Your score is <span class="score">{{performance.player}} (Rank: {{overallScoreRank || 'unranked'}})</span>. Can you improve your score?
       </div>
+
+    <div ng-show="cond == 'ks'">
+      Welcome to MATCHMAKERS, a game for solving the n-way matching problem. You efforts will
+      help improve software engineering practices.<br><br>
+
+      Your score is <span class="score">{{performance.player}} (Rank: {{overallScoreRank || 'unranked'}})</span>. Can you improve your score?
+    </div>
 
       <div class="text-center" ng-show="cond == 'ko'">
         Welcome to MATCHMAKERS, a game for solving the n-way matching problem. You efforts will
@@ -23,13 +28,13 @@
         Players collectively scored {{performance.allP}}. Can you help improve this score?
       </div>
 
-      <div ng-show="cond == 'so'">
-        <div class="text-center">
-          Players collectively scored {{performance.allP}}. Can you help improve this score?<br><br>
+      <!--<div ng-show="cond == 'so'">-->
+        <!--<div class="text-center">-->
+          <!--Players collectively scored {{performance.allP}}. Can you help improve this score?<br><br>-->
 
-          You currently rank <span class="score">{{overallScoreRank || 'unranked'}}</span>. Can you improve your rank?
-        </div>
-      </div>
+          <!--Your score is <span class="score">{{performance.player}} (Rank: {{overallScoreRank || 'unranked'}})</span>. Can you improve your score?-->
+        <!--</div>-->
+      <!--</div>-->
 
       <div ng-show="cond == 'kso'">
         <div class="text-center">
@@ -38,7 +43,7 @@
 
           Players collectively scored {{performance.allP}}. Can you help improve this score?<br><br>
 
-          You currently rank <span class="score">{{overallScoreRank || 'unranked'}}</span>. Can you improve your rank?
+          Your score is <span class="score">{{performance.player}} (Rank: {{overallScoreRank || 'unranked'}})</span>. Can you improve your score?
       </div>
 
 
@@ -46,7 +51,7 @@
         <div class="text-center">
           Players collectively scored {{performance.allP}}. Can you help improve this score?<br><br>
 
-          You currently rank <span class="score">{{overallScoreRank || 'unranked'}}</span>. Can you improve your rank?
+          Your score is <span class="score">{{performance.player}} (Rank: {{overallScoreRank || 'unranked'}})</span>. Can you improve your score?
       </div>
 
       <div ng-show="cond == 'do'">
