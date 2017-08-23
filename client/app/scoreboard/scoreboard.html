@@ -6,60 +6,53 @@
 
     <div class="text-center" id="player-results" style="width: 50%;margin-left:25%;margin-right:25%">
       <div ng-show="cond == 'k'">
-        Thanks for helping software designers solve an important problem!
+        Welcome to MATCHMAKERS, a game for solving the n-way matching problem. You efforts will
+        help improve software engineering practices.
       </div>
 
       <div ng-show="cond == 'ds'">
         <div class="text-center">Your total score:  <span class="score">{{overallScore}}</span>.<br>
-          Your rank amongst other players:
-          <span class="score">{{overallScoreRank || 'unranked'}}.</span>
+          You currently rank <span class="score">{{overallScoreRank || 'unranked'}}</span>. Can you improve your rank?
         </div>
       </div>
 
       <div class="text-center" ng-show="cond == 'ko'">
-        Thanks helping software designers
-        solve an important problem!<br>
+        Welcome to MATCHMAKERS, a game for solving the n-way matching problem. You efforts will
+        help improve software engineering practices.<br><br>
 
-        Players collective score: {{performance.allP}}.<br>
-
-        To be the computer, players must score another {{performance.hsim - performance.allP}} points.
+        Players collectively scored {{performance.allP}}. Can you help improve this score?
       </div>
 
       <div ng-show="cond == 'so'">
         <div class="text-center">
-          Players collective score: {{performance.allP}} (Your contribution: {{performance.player}}).<br>
-          Your rank amongst other players: <span class="score">{{overallScoreRank || 'unranked'}}</span>.<br>
-          To beat the computer, players must score another {{performance.hsim - performance.allP}} points.
+          Players collectively scored {{performance.allP}}. Can you help improve this score?<br><br>
+
+          You currently rank <span class="score">{{overallScoreRank || 'unranked'}}</span>. Can you improve your rank?
         </div>
       </div>
 
       <div ng-show="cond == 'kso'">
         <div class="text-center">
-          Thanks for helping software designers solve a difficult problem! <br>
+          Welcome to MATCHMAKERS, a game for solving the n-way matching problem. You efforts will
+          help improve software engineering practices.<br><br>
 
-          Players collective score: {{performance.allP}} (Your contribution: {{performance.player}}).<br>
-          Your rank amongst other players: <span class="score">{{overallScoreRank || 'unranked'}}</span>.<br>
-          To beat the computer, players must score another {{performance.hsim - performance.allP}} points.</div>
+          Players collectively scored {{performance.allP}}. Can you help improve this score?<br><br>
+
+          You currently rank <span class="score">{{overallScoreRank || 'unranked'}}</span>. Can you improve your rank?
       </div>
 
 
       <div ng-show="cond == 'dso'">
         <div class="text-center">
-          Thanks for helping software designers solve a difficult problem! <br>
+          Players collectively scored {{performance.allP}}. Can you help improve this score?<br><br>
 
-          Players collective score: {{performance.allP}} (Your contribution: {{performance.player}}).<br>
-          Your rank amongst other players: <span class="score">{{overallScoreRank || 'unranked'}}</span>.<br>
-          To beat the computer, players must score another {{performance.hsim - performance.allP}} points.</div>
+          You currently rank <span class="score">{{overallScoreRank || 'unranked'}}</span>. Can you improve your rank?
       </div>
 
       <div ng-show="cond == 'do'">
         <div class="text-center">
-          Thanks for helping software designers solve a difficult problem! <br>
-
-          Players collective score: {{performance.allP}} (Your contribution: {{performance.player}}).<br>
-          Your rank amongst other players: <span class="score">{{overallScoreRank || 'unranked'}}</span>.<br>
-          To beat the computer, players must score another {{performance.hsim - performance.allP}} points.</div>
-      </div>
+          Players collectively scored {{performance.allP}}. Can you help improve this score?<br><br>
+        </div>
 
     </div>
 
@@ -84,16 +77,16 @@
       <!--</div>-->
     <!--</div>-->
 
-    <div ng-show="cond != 'd' || cond != 'ds' || cond != 'dso' || cond != 'do'" class="a-one animated bounceInDown">
+    <div ng-show="cond != 'd' && cond != 'ko' && cond != 'k' && cond != 'do'" class="a-one animated bounceInDown">
       <div class="hvr-grow-rotate">
         <div class="heading" ui-sref="leaderboard({prevState: 'landing'})">HALL OF FAME</div>
       </div>
     </div>
 
 
-    <div ng-show="cond != 'd' || cond != 'ds' || cond != 'dso' || cond != 'do'" class="a-one animated bounceInDown">
+    <div ng-show="cond != 'd' && cond != 'ds' && cond != 'dso' && cond != 'do'" class="a-one animated bounceInDown">
       <div class="hvr-grow-rotate">
-        <div class="heading" ui-sref="about">ABOUT</div>
+        <div class="heading" ui-sref="about">ABOUT THE GAME</div>
       </div>
     </div>
 

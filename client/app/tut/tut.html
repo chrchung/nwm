@@ -309,7 +309,11 @@
 <div class="tutorial text-center" id="objective" ng-show="tutState==0 && loaded">
 
 
-  <div ng-show="cond != '000'"></div>
+  <div ng-show="cond != 'do' && cond != 'dso' && cond != 'd' && cond != 'ds'">
+    Welcome to MATCHMAKERS, a game for solving the n-way matching problem. You efforts will
+    help improve software engineering practices. To learn more about the game's underlying purpose
+    click <a ui-sref="about">here</a>.
+  </div>
 
   You are a matchmaker, and you get paid based on the quality of the matches you make.
 
