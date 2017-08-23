@@ -7,6 +7,8 @@ var router = express.Router();
 
 router.get('/', controller.index);
 router.post('/', controller.saveScore);
+router.post('/actions', controller.saveActions);
+
 router.post('/save_for_later', controller.saveForLater);
 router.get('/all_overall', controller.getAllOverall);
 router.get('/fake_level/:level/:seed', controller.isFake);

@@ -21,7 +21,7 @@ exports.isFake = function(req, res) {
 
   var seed = req.params.seed;
 
-  var Solutions = Parse.Object.extend('Solutions');
+  var Solutions = Parse.Object.extend('Solutions2');
   var solutionsQuery = new Parse.Query(Solutions);
 
   solutionsQuery.limit(1000);
@@ -138,7 +138,7 @@ exports.saveScore = function (req, res) {
       var username = req.session.user.username;
     }
 
-    var Solutions = Parse.Object.extend('Solutions');
+    var Solutions = Parse.Object.extend('Solutions2');
     var sol = new Solutions();
     sol.set('user', username);
     sol.set('solution', solution);
@@ -152,6 +152,7 @@ exports.saveScore = function (req, res) {
     sol.set('seed', seed);
     sol.set('type', req.body.type);
     sol.set('fake', req.body.fake);
+    //sol.set('actions', req.body.actions);
 
     sol.save(null, {
       success: function (gameScore) {
@@ -183,6 +184,46 @@ exports.saveScore = function (req, res) {
           res.status(200).end();
         }
 
+
+      },
+      error: function (gameScore, error) {
+        res.status(400).end();
+      }
+    });
+
+  }
+
+
+};
+
+
+exports.saveActions = function (req, res) {
+  if (req.session.user) {
+    var solution = req.body.solution;
+    var score = req.body.score;
+    var actions = req.body.actions;
+    var seed = req.body.seed;
+    // var game = req.body.game;
+    var level = req.body.level;
+    if (req.body.user) {
+      var username = req.body.user;
+    }
+    else {
+      var username = req.session.user.username;
+    }
+
+    var Solutions = Parse.Object.extend('Actions');
+    var sol = new Solutions();
+    sol.set('user', username);
+    sol.set('score', score);
+    sol.set('level', level);
+    sol.set('duration', req.body.duration);
+    sol.set('seed', seed);
+    sol.set('actions', req.body.actions);
+
+    sol.save(null, {
+      success: function (gameScore) {
+        res.status(200).end();
 
       },
       error: function (gameScore, error) {
@@ -349,7 +390,7 @@ exports.saveScore = function (req, res) {
       var user = req.session.user;
 
       //delete last save if found
-      var Solutions = Parse.Object.extend('Solutions');
+      var Solutions = Parse.Object.extend('Solutions2');
       var solutionsQuery = new Parse.Query(Solutions);
       solutionsQuery.equalTo('level', parseInt(req.params.id));
       solutionsQuery.equalTo('partial', false);
@@ -357,7 +398,7 @@ exports.saveScore = function (req, res) {
 
       solutionsQuery.first({
         success: function (sol) {
-          if (sol) {
+          if (sol) {y
             sol.destroy({
               success: function (myObject) {
                 // The object was deleted from the Parse Cloud.
@@ -374,7 +415,7 @@ exports.saveScore = function (req, res) {
         }
       });
 
-      var Solution = Parse.Object.extend('Solutions');
+      var Solution = Parse.Object.extend('Solutions2');
       var newSolution = new Solution();
       newSolution.set('solution', solution);
       newSolution.set('level', level);
@@ -398,7 +439,7 @@ exports.saveScore = function (req, res) {
 
   exports.getBestSolution = function (req, res) {
     if (req.session.user) {
-      var Solutions = Parse.Object.extend('Solutions');
+      var Solutions = Parse.Object.extend('Solutions2');
       var solutionsQuery = new Parse.Query(Solutions);
       solutionsQuery.equalTo('level', parseInt(req.params.level));
       solutionsQuery.equalTo('partial', false);
@@ -423,7 +464,7 @@ exports.saveScore = function (req, res) {
 // not used
   exports.getCurUserSolution = function (req, res) {
     if (req.session.user) {
-      var Solutions = Parse.Object.extend('Solutions');
+      var Solutions = Parse.Object.extend('Solutions2');
       var solutionsQuery = new Parse.Query(Solutions);
 
       var level = parseInt(req.params.level);
@@ -665,7 +706,7 @@ exports.saveScore = function (req, res) {
 
   exports.getCurUserRecentScores = function (req, res) {
     if (req.session.user) {
-      var Solution = Parse.Object.extend('Solutions');
+      var Solution = Parse.Object.extend('Solutions2');
       var solQuery = new Parse.Query(Solution);
       solQuery.equalTo('user', req.session.user.username);
       solQuery.descending('createdAt');
@@ -704,7 +745,7 @@ exports.saveScore = function (req, res) {
 
   exports.getCurUserGame4Solution = function (req, res) {
     if (req.session.user) {
-      var Solution = Parse.Object.extend('Solutions');
+      var Solution = Parse.Object.extend('Solutions2');
       var solQuery = new Parse.Query(Solution);
       solQuery.equalTo('user', req.session.user.username);
       solQuery.descending('createdAt');

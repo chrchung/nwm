@@ -121,7 +121,7 @@ angular.module('nwmApp').controller('Game4Controller',
       }
 
       var fakeHighestScore = $scope.initialScore + $scope.targetScore - 1;
-      if ($scope.score - fakeHighestScore > 0) {
+      if ($scope.score - fakeHighestScore > 1) {
         if (JSON.stringify(bucket.currentAliens.sort()) === JSON.stringify($scope.seedTuple.sort())) {
           $scope.score = fakeHighestScore;
           return;
@@ -1015,7 +1015,7 @@ angular.module('nwmApp').controller('Game4Controller',
       $scope.currentBucket(bid);
       //bucket.orderAlienArray();
       bucket.updateAlienArray();
-    }
+    };
 
     // $scope.get_highest_score = function () {
     //   Restangular.all('api/scores/')
@@ -1430,6 +1430,21 @@ angular.module('nwmApp').controller('Game4Controller',
           $scope.overallScore = serverJson.overallScore;
           $scope.overallScoreRank = serverJson.rank;
           $scope.gotLeaderBoard = true;
+
+
+            Restangular.all('/api/scores/actions').post(
+              {
+                score: $scope.score,
+                seed: $scope.seed,
+                duration: time,
+                level: parseInt($scope.cur_level),
+                actions: history.userActions
+              }).then(function (data) {
+
+            });
+
+
+
         });
       });
     };
