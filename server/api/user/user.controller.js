@@ -17,6 +17,7 @@ function getRandomInt(min, max) {
 }
 
 exports.create = function(req, res) {
+  var UserData = Parse.Object.extend('UserData');
   var User = Parse.Object.extend('User');
   var userQuery = new Parse.Query(User);
   userQuery.equalTo('username', req.body.username);
@@ -31,42 +32,53 @@ exports.create = function(req, res) {
         user.set('turk', req.body.turk);
         user.signUp(null, {
           success: function(user) {
-            req.session.user = user;
-            var UserData = Parse.Object.extend('UserData');
-            var data = new UserData();
-            data.set('overallScore', 0);
-            data.set('seenTut', false);
-            data.set('user', req.body.username);
 
-            var ran = getRandomInt(1, 7);
 
-            if (ran == 1){
-              data.set('condition', 'd');
-            } else if (ran == 2) {
-              data.set('condition', 'ds');
-            } else if (ran == 3) {
-              data.set('condition', 'ks');
-            } else if (ran == 4) {
-              data.set('condition', 'ko');
-            } else if (ran == 5) {
-              data.set('condition', 'kso');
-            } else if (ran == 6) {
-              data.set('condition', 'dso');
-            } else if (ran == 7){
-              data.set('condition', 'k');
-            } else {
-              data.set('condition', 'do');
-            }
+            var userDataQuery = new Parse.Query(UserData);
+            userDataQuery.descending("createdAt");
+            userDataQuery.first({
+              success: function(prevUser) {
 
-            data.save(null, {
-              success: function (result) {
-                res.status(200).end();
+                req.session.user = user;
+                var data = new UserData();
+                data.set('overallScore', 0);
+                data.set('seenTut', false);
+                data.set('user', req.body.username);
+
+
+                if (prevUser.attributes.condition  == 'do'){
+                  data.set('condition', 'd');
+                } else if (prevUser.attributes.condition  == 'd') {
+                  data.set('condition', 'ds');
+                } else if (prevUser.attributes.condition  == 'ds') {
+                  data.set('condition', 'ks');
+                } else if (prevUser.attributes.condition  == 'ks') {
+                  data.set('condition', 'ko');
+                } else if (prevUser.attributes.condition  == 'ko') {
+                  data.set('condition', 'kso');
+                } else if (prevUser.attributes.condition  == 'kso') {
+                  data.set('condition', 'dso');
+                } else if (prevUser.attributes.condition  == 'dso'){
+                  data.set('condition', 'k');
+                } else {
+                  data.set('condition', 'do');
+                }
+
+                data.save(null, {
+                  success: function (result) {
+                    res.status(200).end();
+                  },
+                  error: function (result, error) {
+                    res.status(400).end();
+                  }
+                });
+
+
               },
-              error: function (result, error) {
-                res.status(400).end();
-              }
-            });
-            res.status(200).end();
+              error: function(error) {
+                res.status(500).end();
+              }});
+
           },
           error: function(user, error) {
             res.sendStatus(400);
@@ -155,7 +167,7 @@ exports.setSeedAliens = function(req, res) {
   } else {
     res.status(400).end();
   }
-}
+};
 
 exports.getSeenTut = function(req, res) {
   if (req.session.user) {
@@ -206,9 +218,10 @@ exports.seenTut = function(req, res) {
 };
 
 exports.perf = function (req, res) {
-  var nwm = 45952 + 136286 + 9582 + 9940;
+  var nwm = 45952;
+
   var levels = [10, 12, 13, 15];
-  var result = {player: 0, hsim: 8360 - 13247 + 9940, allP: -nwm};
+  var result = {player: 0, hsim: 8360, allP: -nwm};
 
   var UserData = Parse.Object.extend('UserData');
   var userDataQuery = new Parse.Query(UserData);
