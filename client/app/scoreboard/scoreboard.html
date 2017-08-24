@@ -1,8 +1,12 @@
 <div class="scoreboard-div">
   <br>
   <br>
-  <br><br><br><br><br><br><br>
+  <br>
   <div class="text-center">
+    <div class="text-center" id="player-results" style="width: 50%;margin-left:25%;margin-right:25%">
+      Please complete the following survey in order to complete your HIT: <a href="https://goo.gl/forms/HqdUzP33cYPRCSAp1">https://goo.gl/forms/HqdUzP33cYPRCSAp1</a>.
+    </div>
+    <br>
 
     <div class="text-center" id="player-results" style="width: 50%;margin-left:25%;margin-right:25%">
       <div ng-show="cond == 'k'">
@@ -45,6 +49,7 @@
 
           Your score is <span class="score">{{performance.player}} (Rank: {{overallScoreRank || 'unranked'}})</span>. Can you improve your score?
       </div>
+      </div>
 
 
       <div ng-show="cond == 'dso'">
@@ -53,13 +58,15 @@
 
           Your score is <span class="score">{{performance.player}} (Rank: {{overallScoreRank || 'unranked'}})</span>. Can you improve your score?
       </div>
+      </div>
 
       <div ng-show="cond == 'do'">
         <div class="text-center">
           Players collectively scored {{performance.allP}}. Can you help improve this score?<br><br>
         </div>
+      </div></div>
 
-    </div>
+
 
     <br>
 
